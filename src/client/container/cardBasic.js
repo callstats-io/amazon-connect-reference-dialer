@@ -3,13 +3,9 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import SVG from 'react-inlinesvg';
 
-import statusChangeIcon from './../res/images/change-status-icon.svg';
-import networkStrengthIcon from './../res/images/network-strength-icon.svg';
-import dialerSettingIcon from './../res/images/dialer-setting-icon.svg';
+import {getStateColor} from './../utils/states'
 import voiceFreqIcon from './../res/images/agent-voice-freq-icon.svg';
 import agentMicMutedIcon from './../res/images/muted-icon.svg';
-import dialNumberIcon from './../res/images/fa-dial-number.svg';
-import quickConnectIcon from './../res/images/fa-quick-connect.svg';
 
 
 /*
@@ -22,6 +18,7 @@ import quickConnectIcon from './../res/images/fa-quick-connect.svg';
 	5.
 
 */
+
 class CardBasic extends Component {
 	constructor(props) {
 		super(props);
@@ -30,11 +27,15 @@ class CardBasic extends Component {
 	render() {
 		const agentState = this.props.agentState;
 		const duration = this.props.duration;
+
+		//todo should come from API
+		const muted = this.props.muted;
+
 		return (
 			<div className={`card-body`}
 				 style={{paddingLeft: '0.91em', paddingRight: '0.91em', paddingTop: '0'}}>
 				<div className={`row`}
-					 style={{height: '182px', backgroundColor: '#3885de', paddingTop: '5%'}}>
+					 style={{height: '182px', backgroundColor: getStateColor(agentState), paddingTop: '5%'}}>
 					<div className={`col-md-8`}>
 						<p className={`m-0`} style={{
 							fontFamily: 'AmazonEmber',
@@ -50,10 +51,10 @@ class CardBasic extends Component {
 					<div className={`col-md-12`}>
 						<div className={`row`}>
 							<div className={`col-md-2`}>
-								<SVG src={agentMicMutedIcon}/>
+								{ muted && <SVG src={agentMicMutedIcon}/> }
 							</div>
 							<div className={`col-md-6 pl-0`}>
-								<p style={{fontFamily: 'AmazonEmber', color: '#ffffff'}}> MUTED</p>
+								{ muted && <p style={{fontFamily: 'AmazonEmber', color: '#ffffff'}}> MUTED</p> }
 							</div>
 							<div className={`col-md-4 text-center`}>
 								<p style={{fontFamily: 'AmazonEmber', color: '#ffffff', marginLeft: '30%'}}> You</p>
@@ -64,7 +65,7 @@ class CardBasic extends Component {
 					<div className={`col-md-12`}>
 						<div className={`row`}>
 							<div className={`col-md-6`}>
-								<p className={`m-0`} style={{fontFamily: 'AmazonEmber', color: '#ffffff'}}> With</p>
+								{ agentState === 'Connected' && <p className={`m-0`} style={{fontFamily: 'AmazonEmber', color: '#ffffff'}}> With</p> }
 							</div>
 							<div className={`col-md-6 text-right`}>
 								<p className={`m-0`} style={{fontFamily: 'AmazonEmber', color: '#ffffff'}}> Time
@@ -76,10 +77,10 @@ class CardBasic extends Component {
 					<div className={`col-md-12`}>
 						<div className={`row`}>
 							<div className={`col-md-6`}>
-								<p className={`m-0`} style={{fontFamily: 'AmazonEmber', color: '#ffffff'}} > +1 617-401-8889</p>
+								{ agentState === 'Connected' && <p className={`m-0`} style={{fontFamily: 'AmazonEmber', color: '#ffffff'}} > +1 617-401-8889</p> }
 							</div>
 							<div className={`col-md-2 pl-0`}>
-								<SVG src={voiceFreqIcon}/>
+								{ agentState === 'Connected' && <SVG src={voiceFreqIcon}/> }
 							</div>
 							<div className={`col-md-4 text-right`}>
 								<p className={`m-0`} style={{fontFamily: 'AmazonEmber', color: '#ffffff'}}>{duration}</p>
@@ -96,10 +97,12 @@ class CardBasic extends Component {
 CardBasic.propTypes = {
 	agentState: PropTypes.string.isRequired,
 	duration: PropTypes.string.isRequired,
+	muted: PropTypes.bool.isRequired,
 };
 const mapStateToProps = state => ({
 	agentState: state.acReducer.agentState || 'unknown',
 	duration: state.acReducer.duration || '00:00:00',
+	muted: state.acReducer.muted || false,
 });
 const mapDispatchToProps = dispatch => ({});
 

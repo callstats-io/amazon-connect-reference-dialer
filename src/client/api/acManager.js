@@ -3,7 +3,7 @@ import * as amazonConnect from './amazon-connect';
 import * as connectRTC from './connect-rtc';
 import lo from 'lodash';
 import {onInitializationStateChange, onAgentStateChange, onDurationChange} from '../reducers/acReducer'
-import {isAgentStateChanage} from './agenetevents';
+import {isAgentStateChanage, getCSIOAgentState} from './agenetevents';
 import {toHMS} from './../utils/time';
 
 
@@ -88,7 +88,8 @@ class ACManager {
 		connect.core.getEventBus().subscribe('<<all>>', e => {
 			console.info("--------------->", 'all ', e);
 			if (isAgentStateChanage(e)) {
-				this.dispatch(onAgentStateChange(e.newState));
+				const agentState = getCSIOAgentState(e);
+				this.dispatch(onAgentStateChange(agentState));
 			}
 		});
 	}
