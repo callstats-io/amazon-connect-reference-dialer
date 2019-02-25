@@ -14,6 +14,7 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "express": "^4.16.3",
+    "google-libphonenumber": "^3.2.2",
     "helmet": "^3.15.1",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",

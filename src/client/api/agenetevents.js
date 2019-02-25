@@ -1,14 +1,13 @@
-export const isAgentStateChanage = (e) => {
+export const isAgentStateChange = (e) => {
 	return e && e.agent && e.newState && e.oldState;
 };
 
-export const getCSIOAgentState = (e) => {
-	const curState = e.newState.toLowerCase();
-	if (curState.includes("busy")) {
-		return 'Connected';
-	}
-	if(curState.includes("callingcustomer")){
-		return 'Outbound call'
-	}
+
+export const getAgentState = (e) => {
+	console.warn('->',e.newState, e.oldState);
+	/*	const curState = e.newState.toLowerCase();
+		if (curState.includes("callingcustomer")) {
+			return 'Outbound call'
+		}*/
 	return e.newState;
 };

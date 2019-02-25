@@ -1,10 +1,27 @@
 'use strict';
 import * as amazonConnect from './amazon-connect';
 import * as connectRTC from './connect-rtc';
-import lo from 'lodash';
-import {onInitializationStateChange, onAgentStateChange, onDurationChange} from '../reducers/acReducer'
-import {isAgentStateChanage, getCSIOAgentState} from './agenetevents';
-import {toHMS} from './../utils/time';
+
+// const PNF = require('google-libphonenumber').PhoneNumberFormat;
+// const PhoneNumberUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+
+import libphonenumber from 'google-libphonenumber';
+
+import {
+	onInitializationStateChange,
+	onAgentStateChange,
+	onDurationChange,
+	onPhoneNumber
+} from '../reducers/acReducer'
+import {
+	isAgentStateChange,
+	getAgentState
+} from './agenetevents';
+
+import {
+	toHMS,
+	parsePhoneNumber,
+} from './../utils/acutils';
 
 
 let localId;
@@ -16,6 +33,9 @@ const ccpUrl = "https://callstatsio.awsapps.com/connect/ccp#/";
 class ACManager {
 	constructor() {
 		console.log('ACManager initialized!');
+		this.phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
+		this.PNF = libphonenumber.PhoneNumberFormat;
+
 		this.isInitialized = false;
 		this.dispatch = undefined;
 		this.currentStateDuration = {
@@ -25,10 +45,15 @@ class ACManager {
 		};
 		// start timer on initialize, end timer on logout
 		this.intervalID = undefined;
+		this.currentAgent = undefined;
+		this.currentContact = undefined;
+		this.currentConnection = undefined;
 
 	}
 
-	mayBeUpdate(agent = undefined, contact = undefined, connection = undefined) {
+
+	mayBeUpdate() {
+		const agent = this.currentAgent;
 		if (agent && typeof agent.getStateDuration === 'function') {
 			this.currentStateDuration.agent = agent && agent.getStateDuration();
 			this.dispatch(onDurationChange('agent', toHMS(this.currentStateDuration.agent)));
@@ -41,10 +66,6 @@ class ACManager {
 	}
 
 	mayBeInitializeAC() {
-		let currentAgent = undefined;
-		let currentContact = undefined;
-		let currentConnection = undefined;
-
 		if (this.isInitialized) {
 			return;
 		}
@@ -59,40 +80,103 @@ class ACManager {
 		});
 
 
-		connect.agent(agent => {
-			currentAgent = agent;
-			this.dispatch(onInitializationStateChange(true));
-			if (this.intervalID) {
-				clearImmediate(this.intervalID);
-				this.intervalID = undefined;
-			}
-			this.intervalID = setInterval(() => {
-				this.mayBeUpdate(currentAgent, currentContact);
-			}, timeInMs);
-
-			agent.onRefresh(e => {
-				console.warn('-> onRefresh');
-			})
-
+		connect.agent((agent) => {
+			this.currentAgent = agent;
+			this.setIntervalMonitor();
+			this.agentHandler(agent);
 		});
 
 		connect.contact(contact => {
+			this.currentContact = contact;
 			contact.destroy(() => {
-				currentContact = undefined;
+				console.warn('->', 'contact destroyed');
+				this.currentContact = undefined;
 			});
-			currentContact = contact;
-			console.warn('->', 'contact', contact);
+			this.contactHandler(contact);
 		});
 
+		this.eventBusHandler(connect);
+	}
 
-		connect.core.getEventBus().subscribe('<<all>>', e => {
-			console.info("--------------->", 'all ', e);
-			if (isAgentStateChanage(e)) {
-				const agentState = getCSIOAgentState(e);
-				this.dispatch(onAgentStateChange(agentState));
-			}
+	agentHandler(agent) {
+		this.dispatch(onInitializationStateChange(true));
+		agent.onOffline(() => {
+			console.warn('->', 'agentHandler', 'onOffline');
+		});
+		agent.onError(() => {
+			console.warn('->', 'agentHandler', 'onError');
+		});
+		agent.onRefresh((e) => {
+			//todo
 		});
 	}
+
+	contactHandler(contact) {
+		contact.onIncoming((incomingContact) => {
+			console.warn('->', 'contactHandler', 'onIncoming', incomingContact);
+		});
+		contact.onAccepted((incomingContact) => {
+			console.warn('->', 'contactHandler', 'onAccepted', incomingContact);
+		});
+		contact.onEnded(() => {
+			console.warn('->', 'contactHandler', 'onEnded');
+			this.currentConnection = undefined;
+		});
+		contact.onConnected(() => {
+			const e = Object.assign({}, {newState: 'Connected'});
+			const agentState = getAgentState(e);
+			this.dispatch(onAgentStateChange(agentState));
+		});
+		contact.onConnecting(() => {
+			const e = Object.assign({}, {newState: contact.isInbound() ? 'Inbound Call' : 'Outbound Call'});
+			const agentState = getAgentState(e);
+			this.dispatch(onAgentStateChange(agentState));
+		});
+		contact.onRefresh((e) => {
+			//todo
+		});
+		const currentConnection = contact.getActiveInitialConnection();
+		if (!currentConnection) {
+			return;
+		}
+		this.currentConnection = currentConnection;
+		this.connectionHandler(currentConnection);
+	}
+
+	connectionHandler(connection) {
+		const address = connection.getAddress();
+		const phoneNumber = address && address.stripPhoneNumber();
+		if (phoneNumber) {
+			const temp = this.phoneUtil.parse(phoneNumber, "");
+			const formatPhoneNumber = this.phoneUtil.format(temp, this.PNF.INTERNATIONAL);
+			this.dispatch(onPhoneNumber(formatPhoneNumber));
+		}
+	}
+
+	eventBusHandler(connect = undefined) {
+		if (connect && connect.core) {
+			connect.core.getEventBus().subscribe('<<all>>', e => {
+				console.info("--------------->", 'all ', e);
+				if (isAgentStateChange(e)) {
+					const agentState = getAgentState(e);
+					this.dispatch(onAgentStateChange(agentState));
+				}
+			});
+		}
+	}
+
+
+	setIntervalMonitor() {
+		if (this.intervalID) {
+			clearImmediate(this.intervalID);
+			this.intervalID = undefined;
+		}
+		this.intervalID = setInterval(() => {
+			this.mayBeUpdate();
+		}, timeInMs);
+
+	}
+
 
 }
 

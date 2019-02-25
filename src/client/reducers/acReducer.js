@@ -1,5 +1,4 @@
 import INITIAL_STATE from '../utils/initialStateManager';
-import acManager from './../api/acManager';
 
 export const onInitializationStateChange = (initialized = false) => {
 	console.warn('-> ', 'onInitializationStateChange', initialized);
@@ -10,8 +9,7 @@ export const onInitializationStateChange = (initialized = false) => {
 
 };
 
-export const onAgentStateChange = (agentState = 'offline', duration = '00:00:00') => {
-	console.warn('-> ', 'onAgentStateChange', agentState, duration);
+export const onAgentStateChange = (agentState = 'unknown', duration = '00:00:00') => {
 	return {
 		type: 'onAgentStateChange',
 		agentState,
@@ -20,10 +18,18 @@ export const onAgentStateChange = (agentState = 'offline', duration = '00:00:00'
 };
 
 export const onDurationChange = (who = undefined, duration = 0) => {
-	console.warn('-> ', 'onDurationChange', who, duration);
+	// console.warn('-> ', 'onDurationChange', who, duration);
 	return {
 		type: 'onDurationChange',
 		duration
+	};
+};
+
+export const onPhoneNumber = (phoneNumber = null) => {
+	// console.warn('-> ', 'onPhoneNumber', who, duration);
+	return {
+		type: 'onPhoneNumber',
+		phoneNumber: phoneNumber
 	};
 };
 
@@ -44,6 +50,11 @@ const acReducer = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				duration: action.duration,
+			};
+		case 'onPhoneNumber':
+			return {
+				...state,
+				phoneNumber: action.phoneNumber,
 			};
 		default:
 			return state;
