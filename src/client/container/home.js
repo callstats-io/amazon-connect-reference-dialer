@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import SVG from 'react-inlinesvg';
-import CardBasic from './cardBasic';
+import CardBody from './CardBody';
 import CardFooter from './cardFooter';
 
 import statusChangeIcon from './../res/images/change-status-icon.svg';
@@ -48,7 +48,7 @@ class Home extends Component {
 									</div>
 								</div>
 							</div>
-							<CardBasic/>
+							<CardBody/>
 							<CardFooter/>
 						</div>
 					</div>

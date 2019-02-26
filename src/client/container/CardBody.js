@@ -4,7 +4,7 @@ import CardUpperBody from './cardUpperBody'
 import CardLowerBody from './cardLowerBody'
 
 
-class CardBasic extends Component {
+class CardBody extends Component {
 	constructor(props) {
 		super(props);
 	}
@@ -19,7 +19,7 @@ class CardBasic extends Component {
 	}
 }
 
-CardBasic.propTypes = {
+CardBody.propTypes = {
 
 };
 const mapStateToProps = state => ({
@@ -31,4 +31,4 @@ const mapDispatchToProps = dispatch => ({});
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(CardBasic);
+)(CardBody);
