@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import SVG from 'react-inlinesvg';
 import CardBasic from './cardBasic';
+import CardFooter from './cardFooter';
 
 import statusChangeIcon from './../res/images/change-status-icon.svg';
 import networkStrengthIcon from './../res/images/network-strength-icon.svg';
@@ -48,19 +49,7 @@ class Home extends Component {
 								</div>
 							</div>
 							<CardBasic/>
-							<div className={`card-footer`} style={{backgroundColor: 'inherit', borderTop: '0'}}>
-								<div className={`row`}>
-									<div className={`col-md-12`}><a className={`btn w-100`} style={{
-										height: '36px',
-										boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
-										backgroundColor: '#3885de',
-										color: '#ffffff',
-										fontFamily: 'AmazonEmber',
-										fontSize: '14px'
-									}} href="#"> Set to Available </a>
-									</div>
-								</div>
-							</div>
+							<CardFooter/>
 						</div>
 					</div>
 				</div>

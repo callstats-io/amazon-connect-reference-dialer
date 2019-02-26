@@ -38,9 +38,9 @@ class CardBasic extends Component {
 
 		return (
 			<div className={`card-body`}
-				 style={{paddingLeft: '0.91em', paddingRight: '0.91em', paddingTop: '0'}}>
+				 style={{paddingLeft: '0.95em', paddingRight: '0.95em', paddingTop: '0'}}>
 				<div className={`row`}
-					 style={{height: '182px', backgroundColor: getStateColor(agentState), paddingTop: '5%'}}>
+					 style={{height: '182px', backgroundColor:'#3885de', paddingTop: '5%'}}>
 					<div className={`col-md-8`}>
 						<p className={`m-0`} style={{
 							fontFamily: 'AmazonEmber',
