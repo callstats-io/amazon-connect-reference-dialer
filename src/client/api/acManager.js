@@ -11,11 +11,13 @@ import {
 	onInitializationStateChange,
 	onAgentStateChange,
 	onDurationChange,
-	onPhoneNumber
+	onPhoneNumber,
+	onMuteToggle
 } from '../reducers/acReducer'
 import {
 	isAgentStateChange,
-	getAgentState
+	isCallOnHoldUnhold,
+	getAgentState, getAgentStateForHoldUnhold
 } from './agenetevents';
 
 import {
@@ -106,6 +108,9 @@ class ACManager {
 		agent.onError(() => {
 			console.warn('->', 'agentHandler', 'onError');
 		});
+		agent.onMuteToggle((e) => {
+			this.dispatch(onMuteToggle(e && e.muted))
+		});
 		agent.onRefresh((e) => {
 			//todo
 		});
@@ -144,6 +149,8 @@ class ACManager {
 	}
 
 	connectionHandler(connection) {
+
+
 		const address = connection.getAddress();
 		const phoneNumber = address && address.stripPhoneNumber();
 		if (phoneNumber) {
@@ -159,6 +166,10 @@ class ACManager {
 				console.info("--------------->", 'all ', e);
 				if (isAgentStateChange(e)) {
 					const agentState = getAgentState(e);
+					this.dispatch(onAgentStateChange(agentState));
+				} else if (isCallOnHoldUnhold(e)) {
+					const tempAgentState = getAgentStateForHoldUnhold(e, this.currentContact);
+					const agentState = getAgentState(tempAgentState);
 					this.dispatch(onAgentStateChange(agentState));
 				}
 			});

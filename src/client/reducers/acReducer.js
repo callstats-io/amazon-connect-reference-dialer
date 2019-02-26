@@ -29,8 +29,15 @@ export const onPhoneNumber = (phoneNumber = null) => {
 	// console.warn('-> ', 'onPhoneNumber', who, duration);
 	return {
 		type: 'onPhoneNumber',
-		phoneNumber: phoneNumber
+		phoneNumber
 	};
+};
+
+export const onMuteToggle = (muted = false) => {
+	return {
+		type: 'onMuteToggle',
+		muted
+	}
 };
 
 const acReducer = (state = INITIAL_STATE, action) => {
@@ -55,6 +62,11 @@ const acReducer = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				phoneNumber: action.phoneNumber,
+			};
+		case 'onMuteToggle':
+			return {
+				...state,
+				muted: action.muted,
 			};
 		default:
 			return state;

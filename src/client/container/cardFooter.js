@@ -17,7 +17,7 @@ class CardFooter extends Component {
 	}
 
 	_endCall(agentState = null) {
-		return ['Connected', 'Outbound Call'].includes(agentState);
+		return ['Connected', 'Outbound Call', 'On hold'].includes(agentState);
 	}
 
 	_acceptRejectCall(agentState = null) {

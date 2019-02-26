@@ -5,7 +5,7 @@ import SVG from 'react-inlinesvg';
 
 import holdIcon from './../res/images/fa-hold.svg';
 import muteIcon from './../res/images/fa-mute.svg';
-import micIcon from './../res/images/fa-mic.svg';
+import unMuteIcon from './../res/images/fa-mic.svg';
 import dialNumberIcon from './../res/images/fa-dial-number.svg';
 import quickConnect from './../res/images/fa-quick-connect.svg';
 import transferIcon from './../res/images/fa-transfer.svg';
@@ -25,19 +25,15 @@ class CardLowerBody extends Component {
 		super(props);
 	}
 
-	_holdOrMute(agentState = null) {
-		return ['Connected'].includes(agentState);
+	_showHoldOrMute(agentState = null) {
+		return ['Connected', 'On hold'].includes(agentState);
 	}
 
 	_transferCall(agentState = null) {
-		return ['Connected'].includes(agentState);
+		return ['Connected', 'On hold'].includes(agentState);
 	}
 
-	_quickConnect(agentState = null) {
-		return ['Connected'].includes(agentState) === false;
-	}
-
-	_dialOrQuickConnect(agentState = null) {
+	_dialOrQuickConnectOrTransfer(agentState = null) {
 		return ['Inbound Call', 'Outbound Call'].includes(agentState) === false;
 	}
 
@@ -51,7 +47,7 @@ class CardLowerBody extends Component {
 			<div className="row">
 				<div className="col-md-12">
 					{
-						this._holdOrMute(agentState) &&
+						this._showHoldOrMute(agentState) &&
 						<div className="row mt-3">
 							<div className="col-md-6"><a className="btn" style={{
 								width: '132px',
@@ -64,21 +60,37 @@ class CardLowerBody extends Component {
 							}} href="#">
 								<SVG src={holdIcon}/> &nbsp;Hold </a>
 							</div>
-							<div className="col-md-6"><a className="btn pl-0 pr-0" href="#" style={{
-								width: '132px',
-								height: '36px',
-								boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
-								backgroundColor: '#ffffff',
-								color: '#000000',
-								fontFamily: 'AmazonEmber',
-								fontSize: '14px'
-							}}>
-								<img src={micIcon}/> &nbsp;Mute </a>
+
+							<div className="col-md-6">
+
+								{
+									muted ?
+										<a className="btn pl-0 pr-0" href="#" style={{
+											width: '132px',
+											height: '36px',
+											boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
+											backgroundColor: '#ffffff',
+											color: '#000000',
+											fontFamily: 'AmazonEmber',
+											fontSize: '14px'
+										}}>
+											<img src={unMuteIcon}/> &nbsp; Unmute </a> :
+										<a className="btn pl-0 pr-0" href="#" style={{
+											width: '132px',
+											height: '36px',
+											boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
+											backgroundColor: '#ffffff',
+											color: '#000000',
+											fontFamily: 'AmazonEmber',
+											fontSize: '14px'
+										}}>
+											<img src={muteIcon}/> &nbsp; Mute </a>
+								}
 							</div>
 						</div>
 					}
 					{
-						this._dialOrQuickConnect(agentState) &&
+						this._dialOrQuickConnectOrTransfer(agentState) &&
 						<div className="row mt-3">
 							<div className="col-md-6"><a className="btn" style={{
 								width: '132px',
@@ -92,34 +104,32 @@ class CardLowerBody extends Component {
 								<img src={dialNumberIcon}/> &nbsp;Dial number </a>
 							</div>
 
-							{
-								this._transferCall(agentState) &&
-								<div className="col-md-6"><a className="btn pl-0 pr-0" href="#" style={{
-									width: '132px',
-									height: '36px',
-									boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
-									backgroundColor: '#ffffff',
-									color: '#000000',
-									fontFamily: 'AmazonEmber',
-									fontSize: '14px'
-								}}>
-									<img src={transferIcon}/> &nbsp;Transfer </a>
-								</div>
-							}
-							{
-								this._quickConnect(agentState) &&
-								<div className="col-md-6"><a className="btn pl-0 pr-0" href="#" style={{
-									width: '132px',
-									height: '36px',
-									boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
-									backgroundColor: '#ffffff',
-									color: '#000000',
-									fontFamily: 'AmazonEmber',
-									fontSize: '14px'
-								}}>
-									<img src={quickConnect}/> &nbsp;Quick connect </a>
-								</div>
-							}
+							<div className="col-md-6">
+								{
+									this._transferCall(agentState) ?
+										<a className="btn pl-0 pr-0" href="#" style={{
+											width: '132px',
+											height: '36px',
+											boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
+											backgroundColor: '#ffffff',
+											color: '#000000',
+											fontFamily: 'AmazonEmber',
+											fontSize: '14px'
+										}}>
+											<img src={transferIcon}/> &nbsp;Transfer </a> :
+										<a className="btn pl-0 pr-0" href="#" style={{
+											width: '132px',
+											height: '36px',
+											boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
+											backgroundColor: '#ffffff',
+											color: '#000000',
+											fontFamily: 'AmazonEmber',
+											fontSize: '14px'
+										}}>
+											<img src={quickConnect}/> &nbsp;Quick connect </a>
+
+								}
+							</div>
 
 						</div>
 					}

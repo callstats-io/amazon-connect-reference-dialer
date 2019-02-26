@@ -24,7 +24,11 @@ class CardUpperBody extends Component {
 	}
 
 	_showPhoneNumber(agentState = null) {
-		return ['Connected', 'Inbound Call', 'Outbound Call'].includes(agentState);
+		return ['Connected', 'Inbound Call', 'Outbound Call', 'On hold'].includes(agentState);
+	}
+
+	_isConnected(agentState = null) {
+		return ['Connected', 'On hold'].includes(agentState);
 	}
 
 	render() {
@@ -57,14 +61,20 @@ class CardUpperBody extends Component {
 						</div>
 						<div className={`col-md-6 pl-0`}>
 							{muted &&
-							<p style={{fontFamily: 'AmazonEmber', color: '#ffffff', fontSize: '14px'}}> MUTED</p>}
+							<p style={{
+								fontFamily: 'AmazonEmber',
+								color: '#ffffff',
+								fontSize: '14px',
+								marginTop: '2%'
+							}}> MUTED</p>}
 						</div>
 						<div className={`col-md-4 text-center`}>
 							<p style={{
 								fontFamily: 'AmazonEmber',
 								color: '#ffffff',
 								marginLeft: '30%',
-								fontSize: '14px'
+								fontSize: '14px',
+								marginTop: '2%'
 							}}> You</p>
 						</div>
 					</div>
@@ -78,7 +88,7 @@ class CardUpperBody extends Component {
 								fontFamily: 'AmazonEmber',
 								color: '#ffffff',
 								fontSize: '14px'
-							}}> {agentState === 'Connected' ? 'With' : 'To'} </p>}
+							}}> {this._isConnected(agentState) ? 'With' : 'To'} </p>}
 						</div>
 						<div className={`col-md-6 text-right`}>
 							<p className={`m-0`}
