@@ -4,7 +4,7 @@ export const isAgentStateChange = (e) => {
 
 
 export const getAgentState = (e) => {
-	console.warn('->',e.newState, e.oldState);
+	console.warn('->', {newState: e.newState, oldState: e.oldState});
 	/*	const curState = e.newState.toLowerCase();
 		if (curState.includes("callingcustomer")) {
 			return 'Outbound call'

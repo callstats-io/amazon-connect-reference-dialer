@@ -29,7 +29,7 @@ class Home extends Component {
 			<div className={`container`} style={{width: '320px', height: '480px'}}>
 				<div className={`row h-100`}>
 					<div className={`col-md-12`} style={{padding: '0'}}>
-						<div className={`card h-100`}>
+						<div className={`card h-100`} style={{backgroundColor: '#f2f2f2'}}>
 							<div className={`card-header`} style={{backgroundColor: '#2c6cb4', height: '48px'}}>
 								<div className={`row h-100`}>
 									<div className={`col-md-5 h-100`} style={{paddingRight: '0px', cursor: 'pointer'}}
