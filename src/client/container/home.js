@@ -8,9 +8,6 @@ import CardFooter from './cardFooter';
 import statusChangeIcon from './../res/images/change-status-icon.svg';
 import networkStrengthIcon from './../res/images/network-strength-icon.svg';
 import dialerSettingIcon from './../res/images/dialer-setting-icon.svg';
-import agentVoiceFreqIcon from './../res/images/agent-voice-freq-icon.svg';
-import dialNumberIcon from './../res/images/fa-dial-number.svg';
-import quickConnectIcon from './../res/images/fa-quick-connect.svg';
 
 
 class Home extends Component {
