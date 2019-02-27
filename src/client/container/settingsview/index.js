@@ -5,7 +5,7 @@ import Header from '../common/header';
 import Body from './body';
 import Footer from './footer';
 
-class AgentView extends Component {
+class SettingPageView extends Component {
 	constructor(props) {
 		super(props);
 	}
@@ -28,7 +28,7 @@ class AgentView extends Component {
 	}
 }
 
-AgentView.propTypes = {
+SettingPageView.propTypes = {
 	initialized: PropTypes.bool.isRequired,
 };
 const mapStateToProps = state => ({
@@ -39,4 +39,4 @@ const mapDispatchToProps = dispatch => ({});
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(AgentView);
+)(SettingPageView);

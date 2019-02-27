@@ -8,6 +8,7 @@ import networkStrengthIcon from '../../res/images/network-strength-icon.svg';
 import dialerSettingIcon from '../../res/images/dialer-setting-icon.svg';
 
 import {
+	onRequestAgentSettingsChange,
 	onRequestAgentStateChange
 } from '../../reducers/acReducer'
 
@@ -27,6 +28,10 @@ class Header extends Component {
 		this.props.requestAgentStateChange();
 	}
 
+	requestAgentSettingsChange() {
+		this.props.requestAgentSettingsChange();
+	}
+
 	render() {
 		const agentState = this.props.agentState;
 		return (
@@ -43,7 +48,8 @@ class Header extends Component {
 					<div className={`col-md-2 h-100`}>
 						<SVG src={networkStrengthIcon}/>
 					</div>
-					<div className={`col-md-2 border-left`}>
+					<div className={`col-md-2 border-left`} style={{cursor: 'pointer'}}
+						 onClick={() => this.requestAgentSettingsChange()}>
 						<SVG src={dialerSettingIcon}/>
 					</div>
 				</div>
@@ -55,6 +61,7 @@ class Header extends Component {
 Header.propTypes = {
 	agentState: PropTypes.string.isRequired,
 	requestAgentStateChange: PropTypes.func.isRequired,
+	requestAgentSettingsChange: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
 	agentState: state.acReducer.agentState || 'unknown',
@@ -63,6 +70,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 	requestAgentStateChange: () => {
 		dispatch(onRequestAgentStateChange('pending'));
+	},
+	requestAgentSettingsChange: () => {
+		dispatch(onRequestAgentSettingsChange('pending'));
 	}
 });
 

@@ -24,7 +24,6 @@ class Body extends Component {
 
 	requestAgentStateChange(currentAgentState) {
 		//todo change agent state by calling acManager.js
-
 		this.props.requestAgentStateChange();
 	}
 
@@ -52,7 +51,6 @@ class Body extends Component {
 Body.propTypes = {
 	agentState: PropTypes.string.isRequired,
 	requestAgentStateChange: PropTypes.func.isRequired,
-	changeAgentState: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
 	agentState: state.acReducer.agentState || 'unknown',
@@ -60,7 +58,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 	requestAgentStateChange: () => {
 		dispatch(onRequestAgentStateChange('completed'));
-
 	}
 });
 

@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import StateChangeView from './statechange/index'
+import StateChangeView from './statechangeview/index'
 import AgentView from './agentview/index'
+
 
 class Home extends Component {
 	constructor(props) {

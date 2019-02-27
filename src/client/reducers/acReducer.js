@@ -48,6 +48,13 @@ export const onRequestAgentStateChange = (requestAgentStateChange = 'complete') 
 	}
 };
 
+export const onRequestAgentSettingsChange = (requestAgentSettingsChange = 'complete') => {
+	return {
+		type: 'onRequestAgentSettingsChange',
+		requestAgentSettingsChange
+	}
+};
+
 const acReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case 'onInitializationStateChange':
@@ -80,6 +87,11 @@ const acReducer = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				requestAgentStateChange: action.requestAgentStateChange,
+			};
+		case 'onRequestAgentSettingsChange':
+			return {
+				...state,
+				requestAgentSettingsChange: action.requestAgentSettingsChange,
 			};
 		default:
 			return state;
