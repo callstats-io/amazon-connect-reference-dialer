@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import SVG from 'react-inlinesvg';
 
-import voiceFreqIcon from './../res/images/agent-voice-freq-icon.svg';
-import agentMicMutedIcon from './../res/images/muted-icon.svg';
+import voiceFreqIcon from '../../res/images/agent-voice-freq-icon.svg';
+import agentMicMutedIcon from '../../res/images/muted-icon.svg';
 
 
 /*
@@ -18,7 +18,7 @@ import agentMicMutedIcon from './../res/images/muted-icon.svg';
 
 */
 
-class CardUpperBody extends Component {
+class UpperBody extends Component {
 	constructor(props) {
 		super(props);
 	}
@@ -122,7 +122,7 @@ class CardUpperBody extends Component {
 	}
 }
 
-CardUpperBody.propTypes = {
+UpperBody.propTypes = {
 	agentState: PropTypes.string.isRequired,
 	duration: PropTypes.string.isRequired,
 	phoneNumber: PropTypes.string.isRequired,
@@ -139,4 +139,4 @@ const mapDispatchToProps = dispatch => ({});
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(CardUpperBody);
+)(UpperBody);

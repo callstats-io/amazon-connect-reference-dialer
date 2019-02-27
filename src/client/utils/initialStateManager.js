@@ -1,6 +1,6 @@
 const initialStateManager = {
 	initialized: false,
-	requestAgentStateChange: 'completed',
+	requestAgentStateChange: 'unknown',
 };
 
 const INITIAL_STATE = initialStateManager;

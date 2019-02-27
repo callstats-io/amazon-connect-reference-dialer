@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import SVG from 'react-inlinesvg';
 
-import dialButton from './../res/images/fa-dial-button.svg';
+import dialButton from '../../res/images/fa-dial-button.svg';
 
-class CardFooter extends Component {
+class Footer extends Component {
 	constructor(props) {
 		super(props);
 	}
@@ -92,7 +92,7 @@ class CardFooter extends Component {
 	}
 }
 
-CardFooter.propTypes = {
+Footer.propTypes = {
 	agentState: PropTypes.string.isRequired,
 };
 const mapStateToProps = state => ({
@@ -103,4 +103,4 @@ const mapDispatchToProps = dispatch => ({});
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(CardFooter);
+)(Footer);

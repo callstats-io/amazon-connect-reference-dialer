@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import CardUpperBody from './cardUpperBody'
-import CardLowerBody from './cardLowerBody'
+import UpperBody from './upperBody'
+import LowerBody from './lowerBody'
 
 
-class CardBody extends Component {
+class Body extends Component {
 	constructor(props) {
 		super(props);
 	}
@@ -12,14 +12,14 @@ class CardBody extends Component {
 		return (
 			<div className={`card-body`}
 				 style={{paddingLeft: '0.95em', paddingRight: '0.95em', paddingTop: '0'}}>
-				<CardUpperBody/>
-				<CardLowerBody/>
+				<UpperBody/>
+				<LowerBody/>
 			</div>
 		);
 	}
 }
 
-CardBody.propTypes = {
+Body.propTypes = {
 
 };
 const mapStateToProps = state => ({
@@ -31,4 +31,4 @@ const mapDispatchToProps = dispatch => ({});
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(CardBody);
+)(Body);

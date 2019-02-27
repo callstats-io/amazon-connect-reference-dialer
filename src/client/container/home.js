@@ -1,9 +1,8 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import CardBody from './cardBody';
-import CardFooter from './cardFooter';
-import CardHeader from './cardHeader';
+import StateChangeView from './statechange/index'
+import AgentView from './agentview/index'
 
 class Home extends Component {
 	constructor(props) {
@@ -12,17 +11,12 @@ class Home extends Component {
 
 	render() {
 		const initialized = this.props.initialized;
+		const requestAgentStateChange = this.props.requestAgentStateChange;
 		return (
+			initialized &&
 			<div className={`container`} style={{width: '320px', height: '480px'}}>
-				<div className={`row h-100`}>
-					<div className={`col-md-12`} style={{padding: '0'}}>
-						<div className={`card h-100`} style={{backgroundColor: '#f2f2f2'}}>
-							<CardHeader/>
-							<CardBody/>
-							<CardFooter/>
-						</div>
-					</div>
-				</div>
+				{requestAgentStateChange !== 'pending' && <AgentView/>}
+				{requestAgentStateChange === 'pending' && <StateChangeView/>}
 			</div>
 		);
 	}
@@ -30,9 +24,11 @@ class Home extends Component {
 
 Home.propTypes = {
 	initialized: PropTypes.bool.isRequired,
+	requestAgentStateChange: PropTypes.string.isRequired,
 };
 const mapStateToProps = state => ({
 	initialized: state.acReducer.initialized,
+	requestAgentStateChange: state.acReducer.requestAgentStateChange || 'completed',
 });
 const mapDispatchToProps = dispatch => ({});
 

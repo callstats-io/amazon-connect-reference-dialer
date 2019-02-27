@@ -3,13 +3,13 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import SVG from 'react-inlinesvg';
 
-import statusChangeIcon from './../res/images/change-status-icon.svg';
-import networkStrengthIcon from './../res/images/network-strength-icon.svg';
-import dialerSettingIcon from './../res/images/dialer-setting-icon.svg';
+import statusChangeIcon from '../../res/images/change-status-icon.svg';
+import networkStrengthIcon from '../../res/images/network-strength-icon.svg';
+import dialerSettingIcon from '../../res/images/dialer-setting-icon.svg';
 
 import {
 	onRequestAgentStateChange
-} from '../reducers/acReducer'
+} from '../../reducers/acReducer'
 
 // todo will come from file or API later on
 const availableStatus = [
@@ -18,7 +18,7 @@ const availableStatus = [
 	{name: 'Quality Issue', active: false},
 ];
 
-class CardHeader extends Component {
+class Header extends Component {
 	constructor(props) {
 		super(props);
 	}
@@ -33,11 +33,11 @@ class CardHeader extends Component {
 			<div className={`card-header`} style={{backgroundColor: '#2c6cb4', height: '48px'}}>
 				<div className={`row h-100`}>
 					<div className={`col-md-5 h-100`} style={{paddingRight: '0px', cursor: 'pointer'}}
-						 onClick={this.requestAgentStateChange()}>
+						 onClick={() => this.requestAgentStateChange()}>
 						<p style={{fontFamily: 'AmazonEmber', color: '#ffffff'}}>Change status</p>
 					</div>
 					<div className={`col-md-3 h-100 pl-0`} style={{cursor: 'pointer'}}
-						 onClick={this.requestAgentStateChange()}>
+						 onClick={() => this.requestAgentStateChange()}>
 						<SVG src={statusChangeIcon}/>
 					</div>
 					<div className={`col-md-2 h-100`}>
@@ -52,7 +52,7 @@ class CardHeader extends Component {
 	}
 }
 
-CardHeader.propTypes = {
+Header.propTypes = {
 	agentState: PropTypes.string.isRequired,
 	requestAgentStateChange: PropTypes.func.isRequired,
 };
@@ -61,7 +61,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	changeAgentStatusProp: () => {
+	requestAgentStateChange: () => {
 		dispatch(onRequestAgentStateChange('pending'));
 	}
 });
@@ -69,4 +69,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(CardHeader);
+)(Header);
