@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import StateChangeView from './statechangeview/index'
 import AgentView from './agentview/index'
+import SettingPageView from './settingsview/index'
 
 
 class Home extends Component {
@@ -13,11 +14,22 @@ class Home extends Component {
 	render() {
 		const initialized = this.props.initialized;
 		const requestAgentStateChange = this.props.requestAgentStateChange;
+		const requestAgentSettingsChange = this.props.requestAgentSettingsChange;
 		return (
 			initialized &&
 			<div className={`container`} style={{width: '320px', height: '480px'}}>
-				{requestAgentStateChange !== 'pending' && <AgentView/>}
-				{requestAgentStateChange === 'pending' && <StateChangeView/>}
+				{
+					requestAgentStateChange !== 'pending' &&
+					requestAgentSettingsChange !== 'pending' &&
+					<AgentView/>}
+				{
+					requestAgentStateChange === 'pending' &&
+					requestAgentSettingsChange !== 'pending' &&
+					<StateChangeView/>}
+				{
+					requestAgentStateChange !== 'pending' &&
+					requestAgentSettingsChange === 'pending' &&
+					<SettingPageView/>}
 			</div>
 		);
 	}
@@ -26,10 +38,12 @@ class Home extends Component {
 Home.propTypes = {
 	initialized: PropTypes.bool.isRequired,
 	requestAgentStateChange: PropTypes.string.isRequired,
+	requestAgentSettingsChange: PropTypes.string.isRequired,
 };
 const mapStateToProps = state => ({
 	initialized: state.acReducer.initialized,
 	requestAgentStateChange: state.acReducer.requestAgentStateChange || 'completed',
+	requestAgentSettingsChange: state.acReducer.requestAgentSettingsChange || 'completed',
 });
 const mapDispatchToProps = dispatch => ({});
 
