@@ -11,6 +11,18 @@ class Home extends Component {
 		super(props);
 	}
 
+	showAgentView(agentStateChange, agentSetting) {
+		return [agentStateChange, agentSetting].includes('pending') === false;
+	}
+
+	showStateChangeView(agentStateChange, agentSetting) {
+		return agentStateChange === 'pending' && [agentSetting].includes('pending') === false;
+	}
+
+	showSettingPageView(agentStateChange, agentSetting) {
+		return agentSetting === 'pending' && [agentStateChange].includes('pending') === false;
+	}
+
 	render() {
 		const initialized = this.props.initialized;
 		const requestAgentStateChange = this.props.requestAgentStateChange;
@@ -19,16 +31,13 @@ class Home extends Component {
 			initialized &&
 			<div className={`container`} style={{width: '320px', height: '480px'}}>
 				{
-					requestAgentStateChange !== 'pending' &&
-					requestAgentSettingsChange !== 'pending' &&
+					this.showAgentView(requestAgentStateChange, requestAgentSettingsChange) &&
 					<AgentView/>}
 				{
-					requestAgentStateChange === 'pending' &&
-					requestAgentSettingsChange !== 'pending' &&
+					this.showStateChangeView(requestAgentStateChange, requestAgentSettingsChange) &&
 					<StateChangeView/>}
 				{
-					requestAgentStateChange !== 'pending' &&
-					requestAgentSettingsChange === 'pending' &&
+					this.showSettingPageView(requestAgentStateChange, requestAgentSettingsChange) &&
 					<SettingPageView/>}
 			</div>
 		);
