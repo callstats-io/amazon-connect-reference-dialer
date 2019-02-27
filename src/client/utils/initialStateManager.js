@@ -1,5 +1,6 @@
 const initialStateManager = {
 	initialized: false,
+	requestAgentStateChange: 'completed',
 };
 
 const INITIAL_STATE = initialStateManager;
