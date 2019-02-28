@@ -1,6 +1,6 @@
 'use strict';
-import * as amazonConnect from './thirdparty/amazon-connect';
 import * as connectRTC from './thirdparty/connect-rtc';
+import * as connectStream from './thirdparty/connect-streams';
 
 import libphonenumber from 'google-libphonenumber';
 
@@ -47,9 +47,44 @@ class ACManager {
 		this.currentAgent = undefined;
 		this.currentContact = undefined;
 		this.currentConnection = undefined;
+		this.callstats = undefined;
 
 	}
 
+	onCSIOInitialize(err, msg) {
+		console.warn('->', 'onCSIOInitialize', err, msg);
+	}
+
+	onCSIOStats(stats) {
+		console.warn('->', 'onCSIOStats', stats);
+	}
+
+	onCSIORecommendedConfigCallback(config) {
+		console.warn('->', 'onCSIORecommendedConfigCallback', config);
+	}
+
+	onCSIOPrecalltestCallback(status, result) {
+		console.warn('->', 'onCSIOPrecalltestCallback', status, result);
+	}
+
+	setupCallstats(connect, agent) {
+		if (!connect) {
+			console.error('connect object cannot be empty');
+			return;
+		}
+		if (!agent) {
+			console.error('agent object cannot be empty');
+			return;
+		}
+		const localUserId = agent.getName();
+		const configParams = {};
+		const csInitCallback = this.onCSIOInitialize;
+		const csStatsCallback = this.onCSIOStats;
+
+		this.callstats = window.CallstatsAmazonShim.initialize(connect, appId, appSecret, localUserId, configParams, csInitCallback, csStatsCallback);
+		this.callstats.on('recommendedConfig', this.onCSIORecommendedConfigCallback.bind(this));
+		this.callstats.on('preCallTestResults', this.onCSIOPrecalltestCallback.bind(this));
+	}
 
 	mayBeUpdate() {
 		const agent = this.currentAgent;
@@ -78,9 +113,9 @@ class ACManager {
 			}
 		});
 
-
 		connect.agent((agent) => {
 			this.currentAgent = agent;
+			this.setupCallstats(connect, agent);
 			this.setIntervalMonitor();
 			this.agentHandler(agent);
 		});
@@ -95,6 +130,7 @@ class ACManager {
 		});
 
 		this.eventBusHandler(connect);
+
 	}
 
 	agentHandler(agent) {
