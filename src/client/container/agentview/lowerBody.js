@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import SVG from 'react-inlinesvg';
 
-import holdIcon from './../res/images/fa-hold.svg';
-import muteIcon from './../res/images/fa-mute.svg';
-import unMuteIcon from './../res/images/fa-mic.svg';
-import dialNumberIcon from './../res/images/fa-dial-number.svg';
-import quickConnect from './../res/images/fa-quick-connect.svg';
-import transferIcon from './../res/images/fa-transfer.svg';
+import holdIcon from '../../res/images/fa-hold.svg';
+import muteIcon from '../../res/images/fa-mute.svg';
+import unMuteIcon from '../../res/images/fa-mic.svg';
+import dialNumberIcon from '../../res/images/fa-dial-number.svg';
+import quickConnect from '../../res/images/fa-quick-connect.svg';
+import transferIcon from '../../res/images/fa-transfer.svg';
 
 
 /*
@@ -20,7 +20,7 @@ import transferIcon from './../res/images/fa-transfer.svg';
 	4. quick connect
 */
 
-class CardLowerBody extends Component {
+class LowerBody extends Component {
 	constructor(props) {
 		super(props);
 	}
@@ -139,7 +139,7 @@ class CardLowerBody extends Component {
 	}
 }
 
-CardLowerBody.propTypes = {
+LowerBody.propTypes = {
 	agentState: PropTypes.string.isRequired,
 	muted: PropTypes.bool.isRequired,
 };
@@ -152,4 +152,4 @@ const mapDispatchToProps = dispatch => ({});
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(CardLowerBody);
+)(LowerBody);

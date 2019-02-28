@@ -40,6 +40,21 @@ export const onMuteToggle = (muted = false) => {
 	}
 };
 
+// from UI events
+export const onRequestAgentStateChange = (requestAgentStateChange = 'complete') => {
+	return {
+		type: 'onRequestAgentStateChange',
+		requestAgentStateChange
+	}
+};
+
+export const onRequestAgentSettingsChange = (requestAgentSettingsChange = 'complete') => {
+	return {
+		type: 'onRequestAgentSettingsChange',
+		requestAgentSettingsChange
+	}
+};
+
 const acReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case 'onInitializationStateChange':
@@ -67,6 +82,18 @@ const acReducer = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				muted: action.muted,
+			};
+		case 'onRequestAgentStateChange':
+			return {
+				...state,
+				requestAgentStateChange: action.requestAgentStateChange,
+				requestAgentSettingsChange: 'completed'
+			};
+		case 'onRequestAgentSettingsChange':
+			return {
+				...state,
+				requestAgentStateChange: 'completed',
+				requestAgentSettingsChange: action.requestAgentSettingsChange,
 			};
 		default:
 			return state;

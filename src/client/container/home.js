@@ -1,13 +1,9 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import SVG from 'react-inlinesvg';
-import CardBody from './CardBody';
-import CardFooter from './cardFooter';
-
-import statusChangeIcon from './../res/images/change-status-icon.svg';
-import networkStrengthIcon from './../res/images/network-strength-icon.svg';
-import dialerSettingIcon from './../res/images/dialer-setting-icon.svg';
+import StateChangeView from './statechangeview/index'
+import AgentView from './agentview/index'
+import SettingPageView from './settingsview/index'
 
 
 class Home extends Component {
@@ -15,41 +11,34 @@ class Home extends Component {
 		super(props);
 	}
 
-	changeAgentStatus() {
+	showAgentView(agentStateChange, agentSetting) {
+		return [agentStateChange, agentSetting].includes('pending') === false;
+	}
 
+	showStateChangeView(agentStateChange, agentSetting) {
+		return agentStateChange === 'pending' && [agentSetting].includes('pending') === false;
+	}
+
+	showSettingPageView(agentStateChange, agentSetting) {
+		return agentSetting === 'pending' && [agentStateChange].includes('pending') === false;
 	}
 
 	render() {
 		const initialized = this.props.initialized;
+		const requestAgentStateChange = this.props.requestAgentStateChange;
+		const requestAgentSettingsChange = this.props.requestAgentSettingsChange;
 		return (
 			initialized &&
 			<div className={`container`} style={{width: '320px', height: '480px'}}>
-				<div className={`row h-100`}>
-					<div className={`col-md-12`} style={{padding: '0'}}>
-						<div className={`card h-100`} style={{backgroundColor: '#f2f2f2'}}>
-							<div className={`card-header`} style={{backgroundColor: '#2c6cb4', height: '48px'}}>
-								<div className={`row h-100`}>
-									<div className={`col-md-5 h-100`} style={{paddingRight: '0px', cursor: 'pointer'}}
-										 onClick={this.changeAgentStatus()}>
-										<p style={{fontFamily: 'AmazonEmber', color: '#ffffff'}}>Change status</p>
-									</div>
-									<div className={`col-md-3 h-100`} style={{cursor: 'pointer'}}
-										 onClick={this.changeAgentStatus()}>
-										<SVG src={statusChangeIcon}/>
-									</div>
-									<div className={`col-md-2 h-100`}>
-										<SVG src={networkStrengthIcon}/>
-									</div>
-									<div className={`col-md-2 border-left`}>
-										<SVG src={dialerSettingIcon}/>
-									</div>
-								</div>
-							</div>
-							<CardBody/>
-							<CardFooter/>
-						</div>
-					</div>
-				</div>
+				{
+					this.showAgentView(requestAgentStateChange, requestAgentSettingsChange) &&
+					<AgentView/>}
+				{
+					this.showStateChangeView(requestAgentStateChange, requestAgentSettingsChange) &&
+					<StateChangeView/>}
+				{
+					this.showSettingPageView(requestAgentStateChange, requestAgentSettingsChange) &&
+					<SettingPageView/>}
 			</div>
 		);
 	}
@@ -57,9 +46,13 @@ class Home extends Component {
 
 Home.propTypes = {
 	initialized: PropTypes.bool.isRequired,
+	requestAgentStateChange: PropTypes.string.isRequired,
+	requestAgentSettingsChange: PropTypes.string.isRequired,
 };
 const mapStateToProps = state => ({
 	initialized: state.acReducer.initialized,
+	requestAgentStateChange: state.acReducer.requestAgentStateChange || 'completed',
+	requestAgentSettingsChange: state.acReducer.requestAgentSettingsChange || 'completed',
 });
 const mapDispatchToProps = dispatch => ({});
 

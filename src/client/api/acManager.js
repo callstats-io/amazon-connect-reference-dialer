@@ -2,9 +2,6 @@
 import * as amazonConnect from './amazon-connect';
 import * as connectRTC from './connect-rtc';
 
-// const PNF = require('google-libphonenumber').PhoneNumberFormat;
-// const PhoneNumberUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-
 import libphonenumber from 'google-libphonenumber';
 
 import {
