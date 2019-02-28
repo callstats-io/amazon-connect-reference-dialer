@@ -87,10 +87,12 @@ const acReducer = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				requestAgentStateChange: action.requestAgentStateChange,
+				requestAgentSettingsChange: 'completed'
 			};
 		case 'onRequestAgentSettingsChange':
 			return {
 				...state,
+				requestAgentStateChange: 'completed',
 				requestAgentSettingsChange: action.requestAgentSettingsChange,
 			};
 		default:
