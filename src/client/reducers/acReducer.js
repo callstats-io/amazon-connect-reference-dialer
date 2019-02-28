@@ -62,6 +62,13 @@ export const onFeedbackChange = (feedback = 4) => {
 	}
 };
 
+export const onRequestReportCallIssue = (requestReportCallIssue = 'complete') => {
+	return {
+		type: 'onRequestReportCallIssue',
+		requestReportCallIssue
+	}
+};
+
 
 const acReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
@@ -95,18 +102,27 @@ const acReducer = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				requestAgentStateChange: action.requestAgentStateChange,
-				requestAgentSettingsChange: 'completed'
+				requestAgentSettingsChange: 'complete',
+				requestReportCallIssue: 'complete',
 			};
 		case 'onRequestAgentSettingsChange':
 			return {
 				...state,
-				requestAgentStateChange: 'completed',
+				requestAgentStateChange: 'complete',
 				requestAgentSettingsChange: action.requestAgentSettingsChange,
+				requestReportCallIssue: 'complete',
 			};
 		case 'onFeedbackChange':
 			return {
 				...state,
 				feedback: action.feedback,
+			};
+		case 'onRequestReportCallIssue':
+			return {
+				...state,
+				requestAgentStateChange: 'complete',
+				requestAgentSettingsChange: 'complete',
+				requestReportCallIssue: action.requestReportCallIssue,
 			};
 		default:
 			return state;

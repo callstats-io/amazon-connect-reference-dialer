@@ -9,7 +9,7 @@ import circleUnmarkIcon from '../../res/images/fa-circle-unmark.svg';
 
 
 import {
-	onRequestAgentSettingsChange
+	onRequestReportCallIssue
 } from "../../reducers/acReducer";
 
 class Body extends Component {
@@ -17,12 +17,12 @@ class Body extends Component {
 		super(props);
 	}
 
-	requestAgentSettingsChange(phoneType) {
-		this.props.requestAgentSettingsChange();
+	requestReportACallIssue(issueObject) {
+		this.props.requestReportACallIssue();
 	}
 
 	closeSetting() {
-		this.props.closeSetting();
+		this.props.closeReportCallIssue();
 	}
 
 	render() {
@@ -30,7 +30,8 @@ class Body extends Component {
 			<div className="card-body" style={{backgroundColor: '#ffffff'}}>
 				<div className="row ">
 					<div className="col-md-10">
-						<p style={{color: '#000000', fontSize: '18px', fontFamily: 'AmazonEmber'}}>Settings</p>
+						<p style={{color: '#000000', fontSize: '18px', fontFamily: 'AmazonEmber'}}>Report a call
+							issue</p>
 					</div>
 					<div className="col-md-2"
 						 onClick={() => this.closeSetting('')}>
@@ -43,7 +44,7 @@ class Body extends Component {
 					</div>
 				</div>
 				<div className="row" style={{cursor: 'pointer'}}
-					 onClick={() => this.requestAgentSettingsChange('softphone')}>
+					 onClick={() => this.onRequestReportCallIssue('softphone')}>
 					<div className="col-md-2">
 						<SVG src={circleMarkIcon}/></div>
 					<div className="col-md-10">
@@ -56,7 +57,7 @@ class Body extends Component {
 					</div>
 				</div>
 				<div className="row" style={{cursor: 'pointer'}}
-					 onClick={() => this.requestAgentSettingsChange('deskphone')}>
+					 onClick={() => this.onRequestReportCallIssue('deskphone')}>
 					<div className="col-md-2">
 						<SVG src={circleUnmarkIcon}/></div>
 					<div className="col-md-10">
@@ -71,17 +72,17 @@ class Body extends Component {
 }
 
 Body.propTypes = {
-	closeSetting: PropTypes.func.isRequired,
-	requestAgentSettingsChange: PropTypes.func.isRequired,
+	closeReportCallIssue: PropTypes.func.isRequired,
+	requestReportACallIssue: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-	closeSetting: () => {
-		dispatch(onRequestAgentSettingsChange('close'));
+	closeReportCallIssue: () => {
+		dispatch(onRequestReportCallIssue('close'));
 	},
-	requestAgentSettingsChange: () => {
-		dispatch(onRequestAgentSettingsChange('complete'))
+	requestReportACallIssue: () => {
+		dispatch(onRequestReportCallIssue('complete'))
 	}
 });
 

@@ -57,7 +57,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
 	requestAgentStateChange: () => {
-		dispatch(onRequestAgentStateChange('completed'));
+		dispatch(onRequestAgentStateChange('complete'));
 	}
 });
 
