@@ -14,25 +14,8 @@ class Footer extends Component {
 		return (
 			<div className="card-footer" style={{backgroundColor: '#ffffff', borderTop: 0}}>
 				<div className="row">
-					<div className="col-md-6 p-0">
-						<a className="btn align-self-left text-left" href="#"
-						   style={{color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px'}}> Report a call
-							issue </a>
-					</div>
-					<div className="col-md-6 p-0">
-						<a className="btn text-left" href="#"
-						   style={{color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px'}}>
-							<SVG  src={downloadIcon}/> Download logs </a>
-					</div>
-					<div className="col-md-6 p-0">
-						<a className="btn text-left" href="#"
-						   style={{color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px'}}> Connectivity
-							check </a>
-					</div>
-					<div className="col-md-6 p-0">
-						<a className="btn text-left" href="#"
-						   style={{color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px'}}>
-							<SVG  src={languageIcon}/> English </a>
+					<div className="col-md-12">
+						<a className="btn w-100" style={{height: '36px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)', backgroundColor: '#3885de', color: '#ffffff', fontFamily: 'AmazonEmber', fontSize: '14px'}} href="#"> Submit</a>
 					</div>
 				</div>
 			</div>
