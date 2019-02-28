@@ -2063,9 +2063,9 @@ module.exports = AWS.apiLoader;
 var util = require('./util');
 
 util.crypto.lib = require('crypto-browserify');
-util.Buffer = require('buffer/').Buffer;
-util.url = require('url/');
-util.querystring = require('querystring/');
+util.Buffer = require('src/client/api/thirdparty/amazon-connect').Buffer;
+util.url = require('src/client/api/thirdparty/amazon-connect');
+util.querystring = require('src/client/api/thirdparty/amazon-connect');
 
 var AWS = require('./core');
 
@@ -18911,18 +18911,15 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
    AWSClient.prototype._translateParams = function(method, params) {
       switch (method) {
          case connect.ClientMethods.UPDATE_AGENT_CONFIGURATION:
-            console.warn('->',params);
             params.configuration = this._translateAgentConfiguration(params.configuration);
             break;
 
          case connect.ClientMethods.SEND_SOFTPHONE_CALL_METRICS:
-            console.warn('->',params);
             params.softphoneStreamStatistics = this._translateSoftphoneStreamStatistics(
                   params.softphoneStreamStatistics);
             break;
 
          case connect.ClientMethods.SEND_SOFTPHONE_CALL_REPORT:
-			 console.warn('->',params);
             params.report = this._translateSoftphoneCallReport(params.report);
             break;
 
@@ -19488,7 +19485,6 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
 
    Agent.prototype.setConfiguration = function(configuration, callbacks) {
       var client = connect.core.getClient();
-      console.warn('->',configuration);
       client.call(connect.ClientMethods.UPDATE_AGENT_CONFIGURATION, {
          configuration: connect.assertNotNull(configuration, 'configuration')
       }, {
@@ -20522,6 +20518,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
          connect.core.client = new connect.UpstreamConduitClient(conduit);
          connect.core.masterClient = new connect.UpstreamConduitMasterClient(conduit);
          connect.core.initialized = true;
+
          if (softphoneParams) {
             // Send configuration up to the CCP.
             conduit.sendUpstream(connect.EventType.CONFIGURE, {
@@ -21694,8 +21691,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
     };
 
     connect.SoftphoneManager = SoftphoneManager;
-})();
-/*
+})();/*
  * Copyright 2014-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
  * Licensed under the Amazon Software License (the "License"). You may not use
@@ -21888,7 +21884,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
          self.portConduitMap[stream.getId()] = portConduit;
 
          if (self.agent !== null) {
-            portConduit.sendDownstream(connect.AgentEvents.UPDATE, self.agent);
+            self.updateAgent();
          }
 
          portConduit.onDownstream(connect.EventType.API_REQUEST,
@@ -21915,14 +21911,19 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
          timeout:       GET_AGENT_TIMEOUT_MS
       }, {
          success: function(data) {
-            self.agent = self.agent || {};
-            self.agent.snapshot = data.snapshot;
-            self.agent.snapshot.localTimestamp = connect.now();
-            self.agent.snapshot.skew = self.agent.snapshot.snapshotTimestamp - self.agent.snapshot.localTimestamp;
-            self.nextToken = data.nextToken;
-            connect.getLog().trace("GET_AGENT_SNAPSHOT succeeded.").withObject(data);
-            self.updateAgent();
-            global.setTimeout(connect.hitch(self, self.pollForAgent), GET_AGENT_SUCCESS_TIMEOUT_MS);
+             try {
+                 self.agent = self.agent || {};
+                 self.agent.snapshot = data.snapshot;
+                 self.agent.snapshot.localTimestamp = connect.now();
+                 self.agent.snapshot.skew = self.agent.snapshot.snapshotTimestamp - self.agent.snapshot.localTimestamp;
+                 self.nextToken = data.nextToken;
+                 connect.getLog().trace("GET_AGENT_SNAPSHOT succeeded.").withObject(data);
+                 self.updateAgent();
+             } catch(e) {
+                 connect.getLog().error("Long poll failed to update agent.").withObject(data).withException(e);
+             } finally {
+                 global.setTimeout(connect.hitch(self, self.pollForAgent), GET_AGENT_SUCCESS_TIMEOUT_MS);
+             }
          },
          failure: function(err, data) {
             try {

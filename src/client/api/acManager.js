@@ -1,6 +1,6 @@
 'use strict';
-import * as amazonConnect from './amazon-connect';
-import * as connectRTC from './connect-rtc';
+import * as amazonConnect from './thirdparty/amazon-connect';
+import * as connectRTC from './thirdparty/connect-rtc';
 
 import libphonenumber from 'google-libphonenumber';
 
