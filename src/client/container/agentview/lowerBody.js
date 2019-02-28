@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import SVG from 'react-inlinesvg';
+import QuickFeedback from './quickFeedback';
 
 import holdIcon from '../../res/images/fa-hold.svg';
 import muteIcon from '../../res/images/fa-mute.svg';
@@ -35,6 +36,10 @@ class LowerBody extends Component {
 
 	_dialOrQuickConnectOrTransfer(agentState = null) {
 		return ['Inbound Call', 'Outbound Call'].includes(agentState) === false;
+	}
+
+	_isAfterCallWork(agentState = null) {
+		return ['AfterCallWork'].includes(agentState);
 	}
 
 	render() {
@@ -133,6 +138,10 @@ class LowerBody extends Component {
 
 						</div>
 					}
+					{
+						this._isAfterCallWork(agentState) && <QuickFeedback/>
+					}
+
 				</div>
 			</div>
 		);

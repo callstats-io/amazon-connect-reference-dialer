@@ -55,6 +55,14 @@ export const onRequestAgentSettingsChange = (requestAgentSettingsChange = 'compl
 	}
 };
 
+export const onFeedbackChange = (feedback = 4) => {
+	return {
+		type: 'onFeedbackChange',
+		feedback
+	}
+};
+
+
 const acReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case 'onInitializationStateChange':
@@ -94,6 +102,11 @@ const acReducer = (state = INITIAL_STATE, action) => {
 				...state,
 				requestAgentStateChange: 'completed',
 				requestAgentSettingsChange: action.requestAgentSettingsChange,
+			};
+		case 'onFeedbackChange':
+			return {
+				...state,
+				feedback: action.feedback,
 			};
 		default:
 			return state;
