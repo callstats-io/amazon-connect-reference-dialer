@@ -1,10 +1,8 @@
 import {combineReducers} from "redux";
-import loginReducer from './login'
-import callReducer from './call'
+import acReducer from './acReducer'
 
 const rootReducer = combineReducers({
-	login: loginReducer,
-	call: callReducer,
+	acReducer: acReducer,
 });
 
 export default rootReducer;

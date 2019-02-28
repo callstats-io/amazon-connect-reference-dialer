@@ -5,15 +5,16 @@
   "main": "src/server/index.js",
   "scripts": {
     "build": "webpack --mode production",
-    "start": "npm run build && node src/server/index.js",
+    "start": "yarn run build && node src/server/index.js",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "nodemon src/server/index.js",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"yarn run server\" \"yarn run client\""
   },
   "license": "MIT",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "express": "^4.16.3",
+    "google-libphonenumber": "^3.2.2",
     "helmet": "^3.15.1",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
