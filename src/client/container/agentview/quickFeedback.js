@@ -7,7 +7,7 @@ import starYellowIcon from '../../res/images/star-yellow.svg';
 import starWhiteIcon from '../../res/images/star-white.svg';
 import PropTypes from "prop-types";
 import {
-	onFeedbackChange
+	onRequestReportCallIssue
 } from "../../reducers/acReducer";
 
 
@@ -29,8 +29,11 @@ class QuickFeedback extends Component {
 		});
 	}
 
+	requestReportACallIssue() {
+		this.props.requestReportACallIssue();
+	}
+
 	render() {
-		const feedback = this.props.feedback;
 		return (
 			<div className="row mt-3">
 				<div className="col-md-7">
@@ -48,7 +51,9 @@ class QuickFeedback extends Component {
 					color: '#000000'
 				}}>
 				</a><a className="text-left" style={{fontFamily: 'AmazonEmber', fontSize: '12px', color: '#3885de'}}
-					   href="#">Report a call issue</a>
+					   href="#"
+					   onClick={() => this.requestReportACallIssue()}
+				>Report a call issue</a>
 				</div>
 				<div className="col-md-12 mt-1">
 					{
@@ -76,12 +81,16 @@ class QuickFeedback extends Component {
 
 QuickFeedback.propTypes = {
 	feedback: PropTypes.number.isRequired,
+	requestReportACallIssue: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
 	feedback: state.acReducer.feedback || defaultFeedback,
 });
 
 const mapDispatchToProps = dispatch => ({
+	requestReportACallIssue: () => {
+		dispatch(onRequestReportCallIssue('pending'))
+	}
 });
 
 export default connect(

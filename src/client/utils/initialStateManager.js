@@ -2,7 +2,7 @@ const initialStateManager = {
 	initialized: false,
 	requestAgentStateChange: 'unknown',
 	requestAgentSettingsChange: 'unknown',
-	requestReportCallIssue: 'pending',
+	requestReportCallIssue: 'unknown',
 };
 
 const INITIAL_STATE = initialStateManager;

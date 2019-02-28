@@ -39,6 +39,7 @@ class LowerBody extends Component {
 	}
 
 	_isAfterCallWork(agentState = null) {
+		return true;
 		return ['AfterCallWork'].includes(agentState);
 	}
 
