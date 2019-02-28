@@ -18,10 +18,15 @@ const defaultFeedback = 3;
 class QuickFeedback extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			feedback: props.feedback,
+		};
 	}
 
 	feedbackChange(currentFeedback) {
-		this.props.feedbackChange(currentFeedback);
+		this.setState({
+			feedback: currentFeedback
+		});
 	}
 
 	render() {
@@ -51,7 +56,7 @@ class QuickFeedback extends Component {
 							<a key={`feedback-rating-${currentFeedback}`}
 							   style={{cursor: 'pointer'}}
 							   onClick={() => this.feedbackChange(currentFeedback)}>
-								<SVG src={currentFeedback <= feedback ? starYellowIcon : starWhiteIcon}/>
+								<SVG src={currentFeedback <= this.state.feedback ? starYellowIcon : starWhiteIcon}/>
 							</a>
 						))
 					}
@@ -62,7 +67,7 @@ class QuickFeedback extends Component {
 					fontSize: '12px',
 					letterSpacing: 'normal',
 					color: '#000000'
-				}}>{lo.get(feedbackRatingsText, feedback - 1)}
+				}}>{lo.get(feedbackRatingsText, this.state.feedback - 1)}
 				</div>
 			</div>
 		);
@@ -71,16 +76,12 @@ class QuickFeedback extends Component {
 
 QuickFeedback.propTypes = {
 	feedback: PropTypes.number.isRequired,
-	feedbackChange: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
 	feedback: state.acReducer.feedback || defaultFeedback,
 });
 
 const mapDispatchToProps = dispatch => ({
-	feedbackChange: (feedback) => {
-		dispatch(onFeedbackChange(feedback));
-	},
 });
 
 export default connect(
