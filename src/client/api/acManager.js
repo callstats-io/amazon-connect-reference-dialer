@@ -1,8 +1,10 @@
 'use strict';
 import * as connectRTC from './thirdparty/connect-rtc';
 import * as connectStream from './thirdparty/connect-streams';
+import connectivityTest from './connectivityTest';
 
 import libphonenumber from 'google-libphonenumber';
+
 
 import {
 	onInitializationStateChange,
@@ -23,7 +25,6 @@ import {
 } from './../utils/acutils';
 
 
-let localId;
 const timeInMs = 1 * 1000;
 const appId = "821179284";
 const appSecret = "IgR4qo4cNUrP:qxkQFJYb0ITsgJHv5DZYG+Bih7tCPfmb9XlixwvlVcE=";
@@ -32,6 +33,7 @@ const ccpUrl = "https://callstatsio.awsapps.com/connect/ccp#/";
 class ACManager {
 	constructor() {
 		console.log('ACManager initialized!');
+
 		this.phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
 		this.PNF = libphonenumber.PhoneNumberFormat;
 
@@ -65,9 +67,15 @@ class ACManager {
 
 	onCSIOPrecalltestCallback(status, result) {
 		console.warn('->', 'onCSIOPrecalltestCallback', status, result);
+		connectivityTest.savePrecalltest(result).then(success => {
+			console.warn('->', 'savePrecalltest', success);
+		});
+		connectivityTest.getRecords().then(success=>{
+			console.warn('->','getRecords',success);
+		})
 	}
 
-	setupCallstats(connect, agent) {
+	setupCallstats(agent) {
 		if (!connect) {
 			console.error('connect object cannot be empty');
 			return;
@@ -76,12 +84,17 @@ class ACManager {
 			console.error('agent object cannot be empty');
 			return;
 		}
+		if (!CallstatsAmazonShim) {
+			console.error('CallstatsAmazonShim object cannot be empty');
+			return;
+		}
 		const localUserId = agent.getName();
 		const configParams = {};
 		const csInitCallback = this.onCSIOInitialize;
 		const csStatsCallback = this.onCSIOStats;
 
-		this.callstats = window.CallstatsAmazonShim.initialize(connect, appId, appSecret, localUserId, configParams, csInitCallback, csStatsCallback);
+		console.warn(localUserId, configParams, csInitCallback, csStatsCallback);
+		this.callstats = CallstatsAmazonShim.initialize(connect, appId, appSecret, localUserId, configParams, csInitCallback, csStatsCallback);
 		this.callstats.on('recommendedConfig', this.onCSIORecommendedConfigCallback.bind(this));
 		this.callstats.on('preCallTestResults', this.onCSIOPrecalltestCallback.bind(this));
 	}
@@ -109,13 +122,13 @@ class ACManager {
 			ccpUrl: ccpUrl,
 			loginPopup: true,
 			softphone: {
-				allowFramedSoftphone: true,
+				allowFramedSoftphone: false,
 			}
 		});
-
+		connect.core.initSoftphoneManager({allowFramedSoftphone: true});
 		connect.agent((agent) => {
 			this.currentAgent = agent;
-			this.setupCallstats(connect, agent);
+			this.setupCallstats(agent);
 			this.setIntervalMonitor();
 			this.agentHandler(agent);
 		});
