@@ -3,6 +3,7 @@ const initialStateManager = {
 	requestAgentStateChange: 'unknown',
 	requestAgentSettingsChange: 'unknown',
 	requestReportCallIssue: 'unknown',
+	requestConnectivityCheck: 'unknown',
 };
 
 const INITIAL_STATE = initialStateManager;

@@ -4,10 +4,16 @@ import SVG from 'react-inlinesvg';
 
 import downloadIcon from '../../res/images/fa-download.svg';
 import languageIcon from '../../res/images/fa-language.svg';
+import PropTypes from "prop-types";
+import {onRequestConnectivityCheck} from "../../reducers/acReducer";
 
 class Footer extends Component {
 	constructor(props) {
 		super(props);
+	}
+
+	requestConnectivityCheck() {
+		this.props.requestConnectivityCheck();
 	}
 
 	render() {
@@ -26,6 +32,7 @@ class Footer extends Component {
 					</div>
 					<div className="col-md-6 p-0">
 						<a className="btn text-left" href="#"
+						   onClick={()=> this.requestConnectivityCheck() }
 						   style={{color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px'}}> Connectivity
 							check </a>
 					</div>
@@ -40,9 +47,15 @@ class Footer extends Component {
 	}
 }
 
-Footer.propTypes = {};
+Footer.propTypes = {
+	requestConnectivityCheck: PropTypes.func.isRequired,
+};
 const mapStateToProps = state => ({});
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+	requestConnectivityCheck: () => {
+		dispatch(onRequestConnectivityCheck('pending'))
+	}
+});
 
 export default connect(
 	mapStateToProps,

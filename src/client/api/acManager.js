@@ -2,6 +2,7 @@
 import * as connectRTC from './thirdparty/connect-rtc';
 import * as connectStream from './thirdparty/connect-streams';
 import connectivityTest from './connectivityTest';
+import lo from 'lodash';
 
 import libphonenumber from 'google-libphonenumber';
 
@@ -50,7 +51,8 @@ class ACManager {
 		this.currentContact = undefined;
 		this.currentConnection = undefined;
 		this.callstats = undefined;
-
+		this.rttRecords = [];
+		this.lastPCTRecord = undefined;
 	}
 
 	onCSIOInitialize(err, msg) {
@@ -67,11 +69,13 @@ class ACManager {
 
 	onCSIOPrecalltestCallback(status, result) {
 		console.warn('->', 'onCSIOPrecalltestCallback', status, result);
+		this.lastPCTRecord = result;
 		connectivityTest.savePrecalltest(result).then(success => {
 			console.warn('->', 'savePrecalltest', success);
 		});
-		connectivityTest.getRecords().then(success=>{
-			console.warn('->','getRecords',success);
+		connectivityTest.getRecords().then(success => {
+			// console.warn('->','getRecords',success);
+			this.rttRecords = lo.takeRight(success, 30);
 		})
 	}
 
@@ -222,6 +226,13 @@ class ACManager {
 		}
 	}
 
+	getRTTRecords() {
+		return this.rttRecords;
+	}
+
+	getLastPCTRecord() {
+		return this.lastPCTRecord;
+	}
 
 	setIntervalMonitor() {
 		if (this.intervalID) {

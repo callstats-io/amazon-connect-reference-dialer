@@ -69,6 +69,13 @@ export const onRequestReportCallIssue = (requestReportCallIssue = 'complete') =>
 	}
 };
 
+export const onRequestConnectivityCheck = (requestConnectivityCheck = 'complete') => {
+	return {
+		type: 'onRequestConnectivityCheck',
+		requestConnectivityCheck
+	}
+};
+
 
 const acReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
@@ -104,6 +111,7 @@ const acReducer = (state = INITIAL_STATE, action) => {
 				requestAgentStateChange: action.requestAgentStateChange,
 				requestAgentSettingsChange: 'complete',
 				requestReportCallIssue: 'complete',
+				requestConnectivityCheck: 'complete',
 			};
 		case 'onRequestAgentSettingsChange':
 			return {
@@ -111,6 +119,7 @@ const acReducer = (state = INITIAL_STATE, action) => {
 				requestAgentStateChange: 'complete',
 				requestAgentSettingsChange: action.requestAgentSettingsChange,
 				requestReportCallIssue: 'complete',
+				requestConnectivityCheck: 'complete',
 			};
 		case 'onFeedbackChange':
 			return {
@@ -123,6 +132,15 @@ const acReducer = (state = INITIAL_STATE, action) => {
 				requestAgentStateChange: 'complete',
 				requestAgentSettingsChange: 'complete',
 				requestReportCallIssue: action.requestReportCallIssue,
+				requestConnectivityCheck: 'complete',
+			};
+		case 'onRequestConnectivityCheck':
+			return {
+				...state,
+				requestAgentStateChange: 'complete',
+				requestAgentSettingsChange: 'complete',
+				requestReportCallIssue: 'complete',
+				requestConnectivityCheck: action.requestConnectivityCheck,
 			};
 		default:
 			return state;
