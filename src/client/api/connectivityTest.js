@@ -2,8 +2,8 @@
 
 import pouchdb from 'pouchdb';
 import lo from 'lodash';
-
 const dbName = 'smart_connectivity_tests';
+import moment from 'moment';
 
 class ConnectivityTest {
 	constructor() {
@@ -31,10 +31,10 @@ class ConnectivityTest {
 	async getRecords() {
 		try {
 			const records = await this.db.allDocs({include_docs: true, descending: true});
-			const chartData = records.total_rows > 0 && records.rows.map((item, indx)=>{
-				return { rtt : item.doc.rtt, tm: item.doc._id, itr: indx };
+			const chartData = records.total_rows > 0 && records.rows.map((item)=>{
+				return { rtt : item.doc.rtt, timeStamps: (item.doc._id) };
 			});
-			return chartData || [];
+			return lo.take(chartData, 500) || [];
 		} catch (err) {
 			console.error('->', 'error fetching records', err);
 		}

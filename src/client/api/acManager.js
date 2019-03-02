@@ -53,6 +53,10 @@ class ACManager {
 		this.callstats = undefined;
 		this.rttRecords = [];
 		this.lastPCTRecord = undefined;
+		connectivityTest.getRecords().then(success => {
+			// console.warn('->','getRecords',success);
+			this.rttRecords = success;
+		})
 	}
 
 	onCSIOInitialize(err, msg) {
@@ -70,13 +74,9 @@ class ACManager {
 	onCSIOPrecalltestCallback(status, result) {
 		console.warn('->', 'onCSIOPrecalltestCallback', status, result);
 		this.lastPCTRecord = result;
-		connectivityTest.savePrecalltest(result).then(success => {
-			console.warn('->', 'savePrecalltest', success);
-		});
-		connectivityTest.getRecords().then(success => {
-			// console.warn('->','getRecords',success);
-			this.rttRecords = lo.takeRight(success, 30);
-		})
+		// connectivityTest.savePrecalltest(result).then(success => {
+		// 	console.warn('->', 'savePrecalltest', success);
+		// });
 	}
 
 	setupCallstats(agent) {

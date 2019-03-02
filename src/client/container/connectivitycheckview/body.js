@@ -35,13 +35,15 @@ class Body extends Component {
 		const chartOptions = {};
 		const chartData = {
 			labels: rttRecords.map((item) => {
-				return '';
+				return item.timeStamps;
 			}),
 			datasets: [{
 				label: 'RTT timeline',
-				backgroundColor: '#ffffff',
-				borderColor: 'rgba(255,99,132,1)',
-				borderWidth: 1,
+				backgroundColor: '#ccc',
+				borderColor: '#ccc',
+				borderWidth: 3,
+				pointRadius: 0,
+				lineTension: 0,
 				hoverBackgroundColor: 'rgba(255,99,132,0.4)',
 				hoverBorderColor: 'rgba(255,99,132,1)',
 				data: rttRecords.map((item) => {
@@ -130,7 +132,7 @@ class Body extends Component {
 				</div>
 				<div className="row mt-1">
 					<div className="col-md-12" style={{height: '90px'}}>
-						<Line data={chartData}/>
+						<Line data={chartData} options={chartOptions}/>
 					</div>
 				</div>
 			</div>
