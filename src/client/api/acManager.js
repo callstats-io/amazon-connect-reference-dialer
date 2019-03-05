@@ -5,19 +5,22 @@ import connectivityTest from './connectivityTest';
 import lo from 'lodash';
 
 import libphonenumber from 'google-libphonenumber';
-
+import networkStrengthMonitor from './networkStrengthMonitor';
+import audioFrequencyMonitor from './audioFrequencyMonitor';
 
 import {
 	onInitializationStateChange,
 	onAgentStateChange,
 	onDurationChange,
 	onPhoneNumber,
-	onMuteToggle
+	onMuteToggle,
+	onChangeNetworkStrength, onAudioLevelChange
 } from '../reducers/acReducer'
 import {
 	isAgentStateChange,
 	isCallOnHoldUnhold,
-	getAgentState, getAgentStateForHoldUnhold
+	getAgentState,
+	getAgentStateForHoldUnhold
 } from './agenetevents';
 
 import {
@@ -65,6 +68,19 @@ class ACManager {
 
 	onCSIOStats(stats) {
 		console.warn('->', 'onCSIOStats', stats);
+		if (stats && stats.mediaStreamTracks) {
+			let track1 = lo.first(stats.mediaStreamTracks);
+			let track2 = lo.last(stats.mediaStreamTracks);
+			console.warn('->', {track1: track1.bitrate, track2: track2.bitrate});
+			networkStrengthMonitor.addThroughput(track1.bitrate || 0, track2.bitrate || 0)
+
+			let audioIntputLevel = parseInt(track1.statsType === 'outbound-rtp' ? track1.audioIntputLevel : track2.audioIntputLevel);
+			let audioOutputLevel = parseInt(track1.statsType === 'inbound-rtp' ? track1.audioOutputLevel : track2.audioOutputLevel);
+
+			audioFrequencyMonitor.addAudioLevel(audioIntputLevel, false);
+			audioFrequencyMonitor.addAudioLevel(audioOutputLevel, true);
+
+		}
 	}
 
 	onCSIORecommendedConfigCallback(config) {
@@ -77,6 +93,8 @@ class ACManager {
 		// connectivityTest.savePrecalltest(result).then(success => {
 		// 	console.warn('->', 'savePrecalltest', success);
 		// });
+		let throughput = lo.get(result, 'throughput', 0);
+		networkStrengthMonitor.addThroughput(throughput, throughput);
 	}
 
 	setupCallstats(agent) {
@@ -101,14 +119,6 @@ class ACManager {
 		this.callstats = CallstatsAmazonShim.initialize(connect, appId, appSecret, localUserId, configParams, csInitCallback, csStatsCallback);
 		this.callstats.on('recommendedConfig', this.onCSIORecommendedConfigCallback.bind(this));
 		this.callstats.on('preCallTestResults', this.onCSIOPrecalltestCallback.bind(this));
-	}
-
-	mayBeUpdate() {
-		const agent = this.currentAgent;
-		if (agent && typeof agent.getStateDuration === 'function') {
-			this.currentStateDuration.agent = agent && agent.getStateDuration();
-			this.dispatch(onDurationChange('agent', toHMS(this.currentStateDuration.agent)));
-		}
 	}
 
 	register(dispatch = undefined) {
@@ -199,8 +209,6 @@ class ACManager {
 	}
 
 	connectionHandler(connection) {
-
-
 		const address = connection.getAddress();
 		const phoneNumber = address && address.stripPhoneNumber();
 		if (phoneNumber) {
@@ -243,6 +251,24 @@ class ACManager {
 			this.mayBeUpdate();
 		}, timeInMs);
 
+	}
+
+
+	mayBeUpdate() {
+		const agent = this.currentAgent;
+		if (agent && typeof agent.getStateDuration === 'function') {
+			this.currentStateDuration.agent = agent && agent.getStateDuration();
+			this.dispatch(onDurationChange('agent', toHMS(this.currentStateDuration.agent)));
+		}
+		let networkStrength = networkStrengthMonitor.getNetworkStrength();
+		console.warn('->', networkStrength);
+		this.dispatch(onChangeNetworkStrength(networkStrength));
+
+		let audioIntputLevel = audioFrequencyMonitor.getAudioLevel(false);
+		let audioOutputLevel = audioFrequencyMonitor.getAudioLevel(true);
+
+		console.warn('->', audioIntputLevel, audioOutputLevel);
+		this.dispatch(onAudioLevelChange(audioIntputLevel, audioOutputLevel))
 	}
 
 

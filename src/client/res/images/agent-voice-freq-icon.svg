@@ -1,26 +1,61 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="48px" height="33px" viewBox="0 0 48 33" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: sketchtool 53 (72520) - https://sketchapp.com -->
-    <title>A2BA7EBA-4CBD-45A8-93D9-2717AEF4F0D6</title>
-    <desc>Created with sketchtool.</desc>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Afterworkcall4" transform="translate(-252.000000, -64.000000)" fill="#FFFFFF" fill-rule="nonzero">
-            <g id="Group-2" transform="translate(252.000000, 64.000000)">
-                <g id="sound" transform="translate(0.000000, 1.000000)">
-                    <polygon id="Rectangle-path" points="0 13.7434909 2.8125 13.7434909 2.8125 17.2583994 0 17.2583994"></polygon>
-                    <polygon id="Rectangle-path" points="4.10803125 13.7434909 6.92053125 13.7434909 6.92053125 17.2583994 4.10803125 17.2583994"></polygon>
-                    <polygon id="Rectangle-path" points="8.21625 12.2558689 11.02875 12.2558689 11.02875 18.7441311 8.21625 18.7441311"></polygon>
-                    <polygon id="Rectangle-path" points="12.324375 10.4988872 15.136875 10.4988872 15.136875 20.5020579 12.324375 20.5020579"></polygon>
-                    <rect id="Rectangle-path" x="16.4315625" y="7.3903811" width="2.8125" height="16.221128"></rect>
-                    <rect id="Rectangle-path" x="20.5396875" y="0.0222103659" width="2.8125" height="30.9555793"></rect>
-                    <rect id="Rectangle-path" x="24.6478125" y="2.65815549" width="2.8125" height="25.683689"></rect>
-                    <rect id="Rectangle-path" x="28.7559375" y="7.93099085" width="2.8125" height="15.1399085"></rect>
-                    <polygon id="Rectangle-path" points="32.8640625 11.1066006 35.6765625 11.1066006 35.6765625 19.8933994 32.8640625 19.8933994"></polygon>
-                    <rect id="Rectangle-path" x="36.9721875" y="12.4590701" width="2.8125" height="6.08280488"></rect>
-                    <polygon id="Rectangle-path" points="41.079375 13.7434909 43.891875 13.7434909 43.891875 17.2583994 41.079375 17.2583994"></polygon>
-                    <polygon id="Rectangle-path" points="45.1875 13.7434909 48 13.7434909 48 17.2583994 45.1875 17.2583994"></polygon>
-                </g>
-            </g>
-        </g>
+<svg class="lds-equalizer" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+    <g transform="rotate(180 50 50)">
+        <rect ng-attr-x="{{11.11111111111111 - config.width/2}}" y="15" ng-attr-width="{{config.width}}"
+              height="10.1273" fill="#ffffff" x="7.111111111111111" width="8">
+            <animate attributeName="height" calcMode="spline" values="50;75;10;50" times="0;0.33;0.66;1"
+                     ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1"
+                     repeatCount="indefinite" begin="0s" dur="1">
+            </animate>
+        </rect>
+        <rect ng-attr-x="{{22.22222222222222 - config.width/2}}" y="15" ng-attr-width="{{config.width}}"
+              height="22.5548" fill="#ffffff" x="18.22222222222222" width="8">
+            <animate attributeName="height" calcMode="spline" values="50;75;10;50" times="0;0.33;0.66;1"
+                     ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1"
+                     repeatCount="indefinite" begin="-0.875s" dur="1">
+            </animate>
+        </rect>
+        <rect ng-attr-x="{{33.333333333333336 - config.width/2}}" y="15" ng-attr-width="{{config.width}}"
+              height="64.8664" fill="#ffffff" x="29.333333333333336" width="8">
+            <animate attributeName="height" calcMode="spline" values="50;75;10;50" times="0;0.33;0.66;1"
+                     ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1"
+                     repeatCount="indefinite" begin="-0.75s" dur="1">
+            </animate>
+        </rect>
+        <rect ng-attr-x="{{44.44444444444444 - config.width/2}}" y="15" ng-attr-width="{{config.width}}"
+              height="74.7926" fill="#ffffff" x="40.44444444444444" width="8">
+            <animate attributeName="height" calcMode="spline" values="50;75;10;50" times="0;0.33;0.66;1"
+                     ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1"
+                     repeatCount="indefinite" begin="-0.625s" dur="1">
+            </animate>
+        </rect>
+        <rect ng-attr-x="{{55.55555555555556 - config.width/2}}" y="15" ng-attr-width="{{config.width}}"
+              height="47.4264" fill="#ffffff" x="51.55555555555556" width="8">
+            <animate attributeName="height" calcMode="spline" values="50;75;10;50" times="0;0.33;0.66;1"
+                     ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1"
+                     repeatCount="indefinite" begin="-0.25s" dur="1">
+            </animate>
+        </rect>
+        <rect ng-attr-x="{{66.66666666666667 - config.width/2}}" y="15" ng-attr-width="{{config.width}}"
+              height="64.8818" fill="#ffffff" x="62.66666666666667" width="8">
+            <animate attributeName="height" calcMode="spline" values="50;75;10;50" times="0;0.33;0.66;1"
+                     ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1"
+                     repeatCount="indefinite" begin="-0.5s" dur="1">
+            </animate>
+        </rect>
+        <rect ng-attr-x="{{77.77777777777777 - config.width/2}}" y="15" ng-attr-width="{{config.width}}"
+              height="51.1476" fill="#ffffff" x="73.77777777777777" width="8">
+            <animate attributeName="height" calcMode="spline" values="50;75;10;50" times="0;0.33;0.66;1"
+                     ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1"
+                     repeatCount="indefinite" begin="-0.375s" dur="1">
+            </animate>
+        </rect>
+        <rect ng-attr-x="{{88.88888888888889 - config.width/2}}" y="15" ng-attr-width="{{config.width}}"
+              height="24.0037" fill="#ffffff" x="84.88888888888889" width="8">
+            <animate attributeName="height" calcMode="spline" values="50;75;10;50" times="0;0.33;0.66;1"
+                     ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1"
+                     repeatCount="indefinite" begin="-0.125s" dur="1">
+            </animate>
+        </rect>
     </g>
 </svg>

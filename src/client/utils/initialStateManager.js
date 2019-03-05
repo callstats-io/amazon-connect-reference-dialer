@@ -4,6 +4,9 @@ const initialStateManager = {
 	requestAgentSettingsChange: 'unknown',
 	requestReportCallIssue: 'unknown',
 	requestConnectivityCheck: 'unknown',
+	networkStrength: 0,
+	agentAudioLevel: 0,
+	peerAudioLevel: 0,
 };
 
 const INITIAL_STATE = initialStateManager;

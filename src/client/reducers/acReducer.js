@@ -76,6 +76,20 @@ export const onRequestConnectivityCheck = (requestConnectivityCheck = 'complete'
 	}
 };
 
+export const onChangeNetworkStrength = (networkStrength = 0) => {
+	return {
+		type: 'onChangeNetworkStrength',
+		networkStrength
+	}
+};
+
+export const onAudioLevelChange = (agentAudioLevel = 0, peerAudioLevel = 0) => {
+	return {
+		type: 'onAudioLevelChange',
+		agentAudioLevel,
+		peerAudioLevel,
+	}
+};
 
 const acReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
@@ -141,6 +155,17 @@ const acReducer = (state = INITIAL_STATE, action) => {
 				requestAgentSettingsChange: 'complete',
 				requestReportCallIssue: 'complete',
 				requestConnectivityCheck: action.requestConnectivityCheck,
+			};
+		case 'onChangeNetworkStrength':
+			return {
+				...state,
+				networkStrength: action.networkStrength,
+			};
+		case 'onAudioLevelChange':
+			return {
+				...state,
+				agentAudioLevel: action.agentAudioLevel,
+				peerAudioLevel: action.peerAudioLevel,
 			};
 		default:
 			return state;

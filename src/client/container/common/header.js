@@ -4,13 +4,14 @@ import PropTypes from "prop-types";
 import SVG from 'react-inlinesvg';
 
 import statusChangeIcon from '../../res/images/change-status-icon.svg';
-import networkStrengthIcon from '../../res/images/network-strength-icon.svg';
 import dialerSettingIcon from '../../res/images/dialer-setting-icon.svg';
 
 import {
 	onRequestAgentSettingsChange,
 	onRequestAgentStateChange
 } from '../../reducers/acReducer'
+
+import NetworkStrength from "./../networkstrengthview/index"
 
 // todo will come from file or API later on
 const availableStatus = [
@@ -45,9 +46,7 @@ class Header extends Component {
 						 onClick={() => this.requestAgentStateChange()}>
 						<SVG src={statusChangeIcon}/>
 					</div>
-					<div className={`col-md-2 h-100`}>
-						<SVG src={networkStrengthIcon}/>
-					</div>
+					<NetworkStrength/>
 					<div className={`col-md-2 border-left`} style={{cursor: 'pointer'}}
 						 onClick={() => this.requestAgentSettingsChange()}>
 						<SVG src={dialerSettingIcon}/>
