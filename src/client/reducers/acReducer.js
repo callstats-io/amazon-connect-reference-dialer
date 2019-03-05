@@ -42,6 +42,7 @@ export const onMuteToggle = (muted = false) => {
 
 // from UI events
 export const onRequestAgentStateChange = (requestAgentStateChange = 'complete') => {
+	console.warn('--> ', requestAgentStateChange);
 	return {
 		type: 'onRequestAgentStateChange',
 		requestAgentStateChange

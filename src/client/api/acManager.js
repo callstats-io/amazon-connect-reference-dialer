@@ -7,6 +7,7 @@ import lo from 'lodash';
 import libphonenumber from 'google-libphonenumber';
 import networkStrengthMonitor from './networkStrengthMonitor';
 import audioFrequencyMonitor from './audioFrequencyMonitor';
+import agentStateManager from './agentStateManager';
 
 import {
 	onInitializationStateChange,
@@ -174,6 +175,8 @@ class ACManager {
 		agent.onRefresh((e) => {
 			//todo
 		});
+		console.warn('->', agent.getAgentStates());
+		agentStateManager.setAgentStates(agent.getAgentStates());
 	}
 
 	contactHandler(contact) {
@@ -271,6 +274,15 @@ class ACManager {
 		this.dispatch(onAudioLevelChange(audioIntputLevel, audioOutputLevel))
 	}
 
+
+	// actions
+	setAgentState(agentState = undefined) {
+		agentState && this.currentAgent && this.currentAgent.setState(agentState, success => {
+			console.warn('->', success);
+		}, err => {
+			console.error('->', err);
+		})
+	}
 
 }
 

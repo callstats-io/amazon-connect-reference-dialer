@@ -10,20 +10,18 @@ import {
 	onRequestAgentStateChange
 } from "../../reducers/acReducer";
 
-// todo will come from file or API later on
-const availableAgentState = [
-	{name: 'Available'},
-	{name: 'Offline'},
-	{name: 'Quality Issue'},
-];
+import agentStateManager  from './../../api/agentStateManager';
+import acManager  from './../../api/acManager';
 
 class Body extends Component {
 	constructor(props) {
 		super(props);
+		this.agentStates = agentStateManager.getAgentStates();
 	}
 
-	requestAgentStateChange(currentAgentState) {
+	requestAgentStateChange(currentState=undefined) {
 		//todo change agent state by calling acManager.js
+		acManager.setAgentState(currentState);
 		this.props.requestAgentStateChange();
 	}
 
@@ -32,9 +30,9 @@ class Body extends Component {
 
 		return (
 			<div className="card-body" style={{}}>
-				{availableAgentState.map((currentState, _) => (
+				{this.agentStates.map((currentState, _) => (
 					<div key={`agent-state-${currentState.name}`} className="row" style={{cursor: 'pointer'}}
-						 onClick={() => this.requestAgentStateChange(currentState.name)}>
+						 onClick={() => this.requestAgentStateChange(currentState)}>
 						<div className="col-md-2">
 							{currentState.name === agentState && <SVG src={activeIcon}/>}
 						</div>
