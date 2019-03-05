@@ -60,7 +60,16 @@ class ACManager {
 		connectivityTest.getRecords().then(success => {
 			// console.warn('->','getRecords',success);
 			this.rttRecords = success;
-		})
+		});
+
+		document.addEventListener('ON_INITIALIZE', this.onInitialize.bind(this), false);
+	}
+
+	onInitialize() {
+		console.warn('initialized');
+		this.setupCallstats(this.currentAgent);
+		this.agentHandler(this.currentAgent);
+		this.setIntervalMonitor();
 	}
 
 	onCSIOInitialize(err, msg) {
@@ -73,7 +82,7 @@ class ACManager {
 			let track1 = lo.first(stats.mediaStreamTracks);
 			let track2 = lo.last(stats.mediaStreamTracks);
 			console.warn('->', {track1: track1.bitrate, track2: track2.bitrate});
-			networkStrengthMonitor.addThroughput(track1.bitrate || 0, track2.bitrate || 0)
+			networkStrengthMonitor.addThroughput(track1.bitrate || 0, track2.bitrate || 0);
 
 			let audioIntputLevel = parseInt(track1.statsType === 'outbound-rtp' ? track1.audioIntputLevel : track2.audioIntputLevel);
 			let audioOutputLevel = parseInt(track1.statsType === 'inbound-rtp' ? track1.audioOutputLevel : track2.audioOutputLevel);
@@ -113,11 +122,9 @@ class ACManager {
 		}
 		const localUserId = agent.getName();
 		const configParams = {};
-		const csInitCallback = this.onCSIOInitialize;
-		const csStatsCallback = this.onCSIOStats;
 
-		console.warn(localUserId, configParams, csInitCallback, csStatsCallback);
-		this.callstats = CallstatsAmazonShim.initialize(connect, appId, appSecret, localUserId, configParams, csInitCallback, csStatsCallback);
+		console.warn(localUserId, configParams);
+		this.callstats = CallstatsAmazonShim.initialize(connect, appId, appSecret, localUserId, configParams, this.onCSIOInitialize, this.onCSIOStats);
 		this.callstats.on('recommendedConfig', this.onCSIORecommendedConfigCallback.bind(this));
 		this.callstats.on('preCallTestResults', this.onCSIOPrecalltestCallback.bind(this));
 	}
@@ -143,9 +150,8 @@ class ACManager {
 		connect.core.initSoftphoneManager({allowFramedSoftphone: true});
 		connect.agent((agent) => {
 			this.currentAgent = agent;
-			this.setupCallstats(agent);
-			this.setIntervalMonitor();
-			this.agentHandler(agent);
+			const newEvent = new CustomEvent('ON_INITIALIZE', {});
+			document.dispatchEvent(newEvent);
 		});
 
 		connect.contact(contact => {
@@ -285,7 +291,7 @@ class ACManager {
 	}
 
 	downloadACLog() {
-		if(connect){
+		if (connect) {
 			connect.getLog().download();
 		}
 	}
