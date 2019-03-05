@@ -7,17 +7,23 @@ import languageIcon from '../../res/images/fa-language.svg';
 import PropTypes from "prop-types";
 import {onRequestConnectivityCheck, onRequestReportCallIssue} from "../../reducers/acReducer";
 
+import acManager from './../../api/acManager';
+
 class Footer extends Component {
 	constructor(props) {
 		super(props);
 	}
 
-	requestConnectivityCheck() {
-		this.props.requestConnectivityCheck();
-	}
-
 	requestReportACallIssue() {
 		this.props.requestReportACallIssue();
+	}
+
+	downloadACLog() {
+		acManager.downloadACLog();
+	}
+
+	requestConnectivityCheck() {
+		this.props.requestConnectivityCheck();
 	}
 
 	render() {
@@ -32,19 +38,20 @@ class Footer extends Component {
 					</div>
 					<div className="col-md-6 p-0">
 						<a className="btn text-left" href="#"
-						   style={{color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px'}}>
-							<SVG  src={downloadIcon}/> Download logs </a>
+						   style={{color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px'}}
+						   onClick={() => this.downloadACLog()}>
+							<SVG src={downloadIcon}/> Download logs </a>
 					</div>
 					<div className="col-md-6 p-0">
 						<a className="btn text-left" href="#"
-						   onClick={()=> this.requestConnectivityCheck() }
+						   onClick={() => this.requestConnectivityCheck()}
 						   style={{color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px'}}> Connectivity
 							check </a>
 					</div>
 					<div className="col-md-6 p-0">
-						<a className="btn text-left" href="#"
+						<a className="btn text-left disabled" href="#"
 						   style={{color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px'}}>
-							<SVG  src={languageIcon}/> English </a>
+							<SVG src={languageIcon}/> English </a>
 					</div>
 				</div>
 			</div>

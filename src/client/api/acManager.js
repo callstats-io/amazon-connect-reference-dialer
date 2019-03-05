@@ -284,6 +284,12 @@ class ACManager {
 		})
 	}
 
+	downloadACLog() {
+		if(connect){
+			connect.getLog().download();
+		}
+	}
+
 }
 
 const acManager = new ACManager();
