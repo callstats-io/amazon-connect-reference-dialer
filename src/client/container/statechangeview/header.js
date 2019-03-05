@@ -1,18 +1,9 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 
-class Header extends Component {
-	constructor(props) {
-		super(props);
-	}
-
-	render() {
-		return (
-			<div className="card-header" style={{borderBottom: '0px', backgroundColor: 'inherit'}}>
-			</div>
-		);
-	}
-}
+const Header = ({}) => (
+	<div className="card-header" style={{borderBottom: '0px', backgroundColor: 'inherit'}}/>
+);
 
 Header.propTypes = {
 };

@@ -20,7 +20,6 @@ class Body extends Component {
 	}
 
 	requestAgentStateChange(currentState=undefined) {
-		//todo change agent state by calling acManager.js
 		acManager.setAgentState(currentState);
 		this.props.requestAgentStateChange();
 	}
