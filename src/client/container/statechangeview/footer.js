@@ -29,7 +29,7 @@ class Footer extends Component {
 					</div>
 				</div>
 				<div style={{display: 'none'}}>
-					{this.state.loggedOut && <iframe src={logoutURL}></iframe>}
+					{this.state.loggedOut && <iframe src={logoutURL}/>}
 				</div>
 			</div>
 		);
