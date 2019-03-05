@@ -5,7 +5,7 @@ import SVG from 'react-inlinesvg';
 import downloadIcon from '../../res/images/fa-download.svg';
 import languageIcon from '../../res/images/fa-language.svg';
 import PropTypes from "prop-types";
-import {onRequestConnectivityCheck} from "../../reducers/acReducer";
+import {onRequestConnectivityCheck, onRequestReportCallIssue} from "../../reducers/acReducer";
 
 class Footer extends Component {
 	constructor(props) {
@@ -16,12 +16,17 @@ class Footer extends Component {
 		this.props.requestConnectivityCheck();
 	}
 
+	requestReportACallIssue() {
+		this.props.requestReportACallIssue();
+	}
+
 	render() {
 		return (
 			<div className="card-footer" style={{backgroundColor: '#ffffff', borderTop: 0}}>
 				<div className="row">
 					<div className="col-md-6 p-0">
 						<a className="btn align-self-left text-left" href="#"
+						   onClick={() => this.requestReportACallIssue()}
 						   style={{color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px'}}> Report a call
 							issue </a>
 					</div>
@@ -49,11 +54,15 @@ class Footer extends Component {
 
 Footer.propTypes = {
 	requestConnectivityCheck: PropTypes.func.isRequired,
+	requestReportACallIssue: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({
 	requestConnectivityCheck: () => {
 		dispatch(onRequestConnectivityCheck('pending'))
+	},
+	requestReportACallIssue: () => {
+		dispatch(onRequestReportCallIssue('pending'))
 	}
 });
 
