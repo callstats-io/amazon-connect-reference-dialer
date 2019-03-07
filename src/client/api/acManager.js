@@ -62,31 +62,37 @@ class ACManager {
 			this.rttRecords = success;
 		});
 
-		document.addEventListener('ON_INITIALIZE', this.onInitialize.bind(this), false);
 	}
 
 	onInitialize() {
-		console.warn('initialized');
+		console.warn('--> initialized');
 		this.setupCallstats(this.currentAgent);
 		this.agentHandler(this.currentAgent);
 		this.setIntervalMonitor();
 	}
 
 	onCSIOInitialize(err, msg) {
-		console.warn('->', 'onCSIOInitialize', err, msg);
+		console.warn('->', 'onCSIOInitialize', new Date(), err, msg);
 	}
 
 	onCSIOStats(stats) {
-		console.warn('->', 'onCSIOStats', stats);
+		if (stats && stats.fabricState === 'terminated') {
+			return;
+		}
+
+		console.warn('->', 'onCSIOStats', new Date(), stats);
 		if (stats && stats.mediaStreamTracks) {
 			let track1 = lo.first(stats.mediaStreamTracks);
 			let track2 = lo.last(stats.mediaStreamTracks);
-			console.warn('->', {track1: track1.bitrate, track2: track2.bitrate});
-			networkStrengthMonitor.addThroughput(track1.bitrate || 0, track2.bitrate || 0);
 
-			let audioIntputLevel = parseInt(track1.statsType === 'outbound-rtp' ? track1.audioIntputLevel : track2.audioIntputLevel);
-			let audioOutputLevel = parseInt(track1.statsType === 'inbound-rtp' ? track1.audioOutputLevel : track2.audioOutputLevel);
 
+			let audioIntputLevel = parseInt(track1.audioIntputLevel || track2.audioIntputLevel || 0);
+			let audioOutputLevel = parseInt(track1.audioOutputLevel || track2.audioOutputLevel || 0);
+
+			let track1Bitrate = track1.bitrate || 0;
+			let track2Bitrate = track2.bitrate || 0;
+
+			networkStrengthMonitor.addThroughput(track1Bitrate, track2Bitrate);
 			audioFrequencyMonitor.addAudioLevel(audioIntputLevel, false);
 			audioFrequencyMonitor.addAudioLevel(audioOutputLevel, true);
 
@@ -94,11 +100,11 @@ class ACManager {
 	}
 
 	onCSIORecommendedConfigCallback(config) {
-		console.warn('->', 'onCSIORecommendedConfigCallback', config);
+		console.warn('->', 'onCSIORecommendedConfigCallback', new Date(), config);
 	}
 
 	onCSIOPrecalltestCallback(status, result) {
-		console.warn('->', 'onCSIOPrecalltestCallback', status, result);
+		console.warn('->', 'onCSIOPrecalltestCallback', new Date(), status, result);
 		this.lastPCTRecord = result;
 		// connectivityTest.savePrecalltest(result).then(success => {
 		// 	console.warn('->', 'savePrecalltest', success);
@@ -123,7 +129,12 @@ class ACManager {
 		const localUserId = agent.getName();
 		const configParams = {};
 
-		console.warn(localUserId, configParams);
+		console.warn('->>>>', 'setupCallstats', configParams);
+
+		if (this.callstats) {
+			this.callstats = undefined;
+		}
+
 		this.callstats = CallstatsAmazonShim.initialize(connect, appId, appSecret, localUserId, configParams, this.onCSIOInitialize, this.onCSIOStats);
 		this.callstats.on('recommendedConfig', this.onCSIORecommendedConfigCallback.bind(this));
 		this.callstats.on('preCallTestResults', this.onCSIOPrecalltestCallback.bind(this));
@@ -150,8 +161,7 @@ class ACManager {
 		connect.core.initSoftphoneManager({allowFramedSoftphone: true});
 		connect.agent((agent) => {
 			this.currentAgent = agent;
-			const newEvent = new CustomEvent('ON_INITIALIZE', {});
-			document.dispatchEvent(newEvent);
+			this.onInitialize();
 		});
 
 		connect.contact(contact => {
@@ -283,10 +293,13 @@ class ACManager {
 
 	// actions
 	setAgentState(agentState = undefined) {
-		agentState && this.currentAgent && this.currentAgent.setState(agentState, success => {
-			console.warn('->', success);
-		}, err => {
-			console.error('->', err);
+		agentState && this.currentAgent && this.currentAgent.setState(agentState, {
+			success: (data) => {
+				console.warn('-> setAgentState', data);
+			},
+			failure: (data) => {
+				console.error('-> setAgentState', data);
+			}
 		})
 	}
 
@@ -296,8 +309,30 @@ class ACManager {
 		}
 	}
 
-	endCall() {
-		this.currentConnection && this.currentConnection.destroy();
+	// hangup a call with connection
+	hangupCall() {
+		this.currentConnection && this.currentConnection.destroy({
+			success: (data) => {
+				console.warn('-> hangupCall', data);
+			},
+			failure: (data) => {
+				console.error('-> hangupCall', data);
+			}
+		});
+	}
+
+	// accept a incoming call with contact
+	acceptCall() {
+		if (this.currentContact) {
+			this.currentContact.accept({
+				success: (data) => {
+					console.warn('-> acceptCall', data);
+				},
+				failure: (data) => {
+					console.error('-> acceptCall', data);
+				}
+			});
+		}
 	}
 }
 

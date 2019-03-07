@@ -33,15 +33,15 @@ class Footer extends Component {
 	}
 
 	endCall() {
-		acManager.endCall();
+		acManager.hangupCall();
 	}
 
 	acceptCall() {
-
+		acManager.acceptCall();
 	}
 
 	rejectCall() {
-
+		acManager.hangupCall();
 	}
 
 	render() {
@@ -94,7 +94,7 @@ class Footer extends Component {
 							fontFamily: 'AmazonEmber',
 							textAlign: 'center',
 							color: '#ffffff'
-						}} href="#"> Accept call</a></div>
+						}} href="#" onClick={() => this.acceptCall()}> Accept call</a></div>
 						<div className="col-md-6"><a className="btn" style={{
 							height: '36px',
 							boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
@@ -107,7 +107,7 @@ class Footer extends Component {
 							letterSpacing: 'normal',
 							textAlign: 'center',
 							color: '#ffffff'
-						}} href="#">
+						}} href="#" onClick={() => this.endCall()}>
 							<SVG src={dialButton}/>&nbsp;Reject call</a></div>
 					</div>
 				}
