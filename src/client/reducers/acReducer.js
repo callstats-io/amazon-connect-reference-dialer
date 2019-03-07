@@ -77,6 +77,13 @@ export const onRequestConnectivityCheck = (requestConnectivityCheck = 'complete'
 	}
 };
 
+export const onRequestShowDialPad = (requestShowDialPad = 'complete') => {
+	return {
+		type: 'onRequestShowDialPad',
+		requestShowDialPad
+	}
+};
+
 export const onChangeNetworkStrength = (networkStrength = 0) => {
 	return {
 		type: 'onChangeNetworkStrength',
@@ -127,6 +134,7 @@ const acReducer = (state = INITIAL_STATE, action) => {
 				requestAgentSettingsChange: 'complete',
 				requestReportCallIssue: 'complete',
 				requestConnectivityCheck: 'complete',
+				requestShowDialPad: 'complete'
 			};
 		case 'onRequestAgentSettingsChange':
 			return {
@@ -135,6 +143,7 @@ const acReducer = (state = INITIAL_STATE, action) => {
 				requestAgentSettingsChange: action.requestAgentSettingsChange,
 				requestReportCallIssue: 'complete',
 				requestConnectivityCheck: 'complete',
+				requestShowDialPad: 'complete',
 			};
 		case 'onFeedbackChange':
 			return {
@@ -148,6 +157,7 @@ const acReducer = (state = INITIAL_STATE, action) => {
 				requestAgentSettingsChange: 'complete',
 				requestReportCallIssue: action.requestReportCallIssue,
 				requestConnectivityCheck: 'complete',
+				requestShowDialPad: 'complete',
 			};
 		case 'onRequestConnectivityCheck':
 			return {
@@ -156,6 +166,16 @@ const acReducer = (state = INITIAL_STATE, action) => {
 				requestAgentSettingsChange: 'complete',
 				requestReportCallIssue: 'complete',
 				requestConnectivityCheck: action.requestConnectivityCheck,
+				requestShowDialPad: 'complete',
+			};
+		case 'onRequestShowDialPad':
+			return {
+				...state,
+				requestAgentStateChange: 'complete',
+				requestAgentSettingsChange: 'complete',
+				requestReportCallIssue: 'complete',
+				requestConnectivityCheck: 'complete',
+				requestShowDialPad: action.requestShowDialPad,
 			};
 		case 'onChangeNetworkStrength':
 			return {

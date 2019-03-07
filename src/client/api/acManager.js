@@ -8,6 +8,7 @@ import libphonenumber from 'google-libphonenumber';
 import networkStrengthMonitor from './networkStrengthMonitor';
 import audioFrequencyMonitor from './audioFrequencyMonitor';
 import agentStateManager from './agentStateManager';
+import agentConfigManager from './agentConfigManager';
 
 import {
 	onInitializationStateChange,
@@ -193,6 +194,7 @@ class ACManager {
 		});
 		console.warn('->', agent.getAgentStates());
 		agentStateManager.setAgentStates(agent.getAgentStates());
+		agentConfigManager.setAgentConfig(agent.getConfiguration());
 	}
 
 	contactHandler(contact) {
@@ -280,13 +282,13 @@ class ACManager {
 			this.dispatch(onDurationChange('agent', toHMS(this.currentStateDuration.agent)));
 		}
 		let networkStrength = networkStrengthMonitor.getNetworkStrength();
-		console.warn('->', networkStrength);
+		// console.warn('->', networkStrength);
 		this.dispatch(onChangeNetworkStrength(networkStrength));
 
 		let audioIntputLevel = audioFrequencyMonitor.getAudioLevel(false);
 		let audioOutputLevel = audioFrequencyMonitor.getAudioLevel(true);
 
-		console.warn('->', audioIntputLevel, audioOutputLevel);
+		// console.warn('->', audioIntputLevel, audioOutputLevel);
 		this.dispatch(onAudioLevelChange(audioIntputLevel, audioOutputLevel))
 	}
 

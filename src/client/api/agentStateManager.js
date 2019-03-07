@@ -1,10 +1,4 @@
-/*const SampleAgentState = [
-	{name: 'Available'},
-	{name: 'Offline'},
-	{name: 'Quality Issue'},
-];*/
-
-import lo from 'lodash';
+'use strict';
 
 class AgentStateMonitor {
 	constructor() {

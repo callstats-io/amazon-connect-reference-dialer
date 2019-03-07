@@ -10,6 +10,7 @@ import unMuteIcon from '../../res/images/fa-mic.svg';
 import dialNumberIcon from '../../res/images/fa-dial-number.svg';
 import quickConnect from '../../res/images/fa-quick-connect.svg';
 import transferIcon from '../../res/images/fa-transfer.svg';
+import {onRequestShowDialPad} from "../../reducers/acReducer";
 
 
 /*
@@ -40,6 +41,10 @@ class LowerBody extends Component {
 
 	_isAfterCallWork(agentState = null) {
 		return ['AfterCallWork'].includes(agentState);
+	}
+
+	requestDialPad() {
+		this.props.requestDialPad();
 	}
 
 	render() {
@@ -105,7 +110,7 @@ class LowerBody extends Component {
 								color: '#000000',
 								fontFamily: 'AmazonEmber',
 								fontSize: '14px'
-							}} href="#">
+							}} href="#" onClick={() => this.requestDialPad()}>
 								<img src={dialNumberIcon}/> &nbsp;Dial number </a>
 							</div>
 
@@ -151,12 +156,17 @@ class LowerBody extends Component {
 LowerBody.propTypes = {
 	agentState: PropTypes.string.isRequired,
 	muted: PropTypes.bool.isRequired,
+	requestDialPad: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
 	agentState: state.acReducer.agentState || 'unknown',
 	muted: state.acReducer.muted || false,
 });
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+	requestDialPad: () => {
+		dispatch(onRequestShowDialPad('pending'));
+	}
+});
 
 export default connect(
 	mapStateToProps,

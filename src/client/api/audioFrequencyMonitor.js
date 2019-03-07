@@ -49,11 +49,11 @@ class AudioFrequencyMonitor {
 		} else {
 			this.inboundMonitor.addAudioLevel(audioLevel);
 		}
-		console.warn('->addAudioLevel', this.inboundMonitor.curAudioLevel, this.outboundMonitor.curAudioLevel)
+		// console.warn('->addAudioLevel', this.inboundMonitor.curAudioLevel, this.outboundMonitor.curAudioLevel)
 	}
 
 	getAudioLevel(isOutbound = false) {
-		console.warn('->getAudioLevel', this.inboundMonitor.curAudioLevel, this.outboundMonitor.curAudioLevel)
+		// console.warn('->getAudioLevel', this.inboundMonitor.curAudioLevel, this.outboundMonitor.curAudioLevel)
 		if (isOutbound) {
 			return this.outboundMonitor.getAudioLevel()
 		} else {
