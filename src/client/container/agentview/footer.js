@@ -15,11 +15,11 @@ class Footer extends Component {
 
 	_setAvailable(agentState = null) {
 		return agentState && agentState.toLowerCase() !== 'available' &&
-			!this._endCall(agentState) &&
+			!this._showEndCall(agentState) &&
 			!this._acceptRejectCall(agentState);
 	}
 
-	_endCall(agentState = null) {
+	_showEndCall(agentState = null) {
 		return ['Connected', 'Outbound Call', 'On hold'].includes(agentState);
 	}
 
@@ -30,6 +30,18 @@ class Footer extends Component {
 	requestAgentStateChange(currentStateName = '') {
 		let currentState = agentStateManager.getStateAsObject(currentStateName);
 		currentState && acManager.setAgentState(currentState);
+	}
+
+	endCall() {
+		acManager.endCall();
+	}
+
+	acceptCall() {
+
+	}
+
+	rejectCall() {
+
 	}
 
 	render() {
@@ -57,7 +69,7 @@ class Footer extends Component {
 					</div>
 				}
 				{
-					this._endCall(agentState) &&
+					this._showEndCall(agentState) &&
 					<div className="row">
 						<div className="col-md-12">
 							<a className="btn w-100" style={{
@@ -67,7 +79,7 @@ class Footer extends Component {
 								color: '#ffffff',
 								fontFamily: 'AmazonEmber',
 								fontSize: '14px'
-							}} href="#">
+							}} href="#" onClick={() => this.endCall()}>
 								<SVG src={dialButton}/>&nbsp;End call </a>
 						</div>
 					</div>

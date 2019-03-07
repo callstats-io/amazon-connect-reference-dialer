@@ -296,6 +296,9 @@ class ACManager {
 		}
 	}
 
+	endCall() {
+		this.currentConnection && this.currentConnection.destroy();
+	}
 }
 
 const acManager = new ACManager();
