@@ -3,10 +3,14 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import SVG from 'react-inlinesvg';
 
+import acManager from './../../api/acManager';
+import agentConfigManager from './../../api/agentConfigManager';
+
 import closeOrDismissIcon from '../../res/images/fa-close-or-dismiss.svg';
 import circleMarkIcon from '../../res/images/fa-circle-mark.svg';
 import circleUnmarkIcon from '../../res/images/fa-circle-unmark.svg';
 
+import ReactPhoneInput from 'react-phone-input-2';
 
 import {
 	onRequestAgentSettingsChange
@@ -15,10 +19,42 @@ import {
 class Body extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			phoneNumber: agentConfigManager.getDeskphoneNumber() || '+358',
+			softphoneEnabled: agentConfigManager.isSoftphoneEnabled(),
+		};
+		this.handleInputChange = this.handleInputChange.bind(this);
 	}
 
-	requestAgentSettingsChange(phoneType) {
-		this.props.requestAgentSettingsChange();
+	changeToSoftphone() {
+		// this.props.requestAgentSettingsChange();
+		acManager.updateAgentConfig(true).then(success => {
+			agentConfigManager.setAgentConfig(success);
+			this.setState({
+				softphoneEnabled: true,
+			})
+		}, err => {
+			console.error(err);
+		})
+	}
+
+	changeToDeskphone() {
+		const {phoneNumber} = this.state;
+		console.warn('change to desktphone ', phoneNumber);
+		acManager.updateAgentConfig(false, phoneNumber).then(success => {
+			agentConfigManager.setAgentConfig(success);
+			this.setState({
+				softphoneEnabled: false,
+			})
+		}, err => {
+			console.error(err);
+		})
+	}
+
+	handleInputChange(value) {
+		this.setState({
+			phoneNumber: value
+		});
 	}
 
 	closeSetting() {
@@ -26,6 +62,7 @@ class Body extends Component {
 	}
 
 	render() {
+		const dialableCountries = agentConfigManager.getDialableCountries();
 		return (
 			<div className="card-body" style={{backgroundColor: '#ffffff'}}>
 				<div className="row ">
@@ -34,7 +71,8 @@ class Body extends Component {
 					</div>
 					<div className="col-md-2"
 						 onClick={() => this.closeSetting('')}>
-						<SVG src={closeOrDismissIcon} style={{cursor: 'pointer'}}/></div>
+						<img src={closeOrDismissIcon} style={{cursor: 'pointer'}}/>
+					</div>
 				</div>
 				<div className="row">
 					<div className="col-md-12">
@@ -43,9 +81,9 @@ class Body extends Component {
 					</div>
 				</div>
 				<div className="row" style={{cursor: 'pointer'}}
-					 onClick={() => this.requestAgentSettingsChange('softphone')}>
+					 onClick={() => this.changeToSoftphone()}>
 					<div className="col-md-2">
-						<SVG src={circleMarkIcon}/></div>
+						<SVG src={this.state.softphoneEnabled ? circleMarkIcon : circleUnmarkIcon}/></div>
 					<div className="col-md-10">
 						<p style={{
 							color: '#000000',
@@ -56,14 +94,45 @@ class Body extends Component {
 					</div>
 				</div>
 				<div className="row" style={{cursor: 'pointer'}}
-					 onClick={() => this.requestAgentSettingsChange('deskphone')}>
+					 onClick={() => this.changeToDeskphone()}>
 					<div className="col-md-2">
-						<SVG src={circleUnmarkIcon}/></div>
+						<img src={this.state.softphoneEnabled ? circleUnmarkIcon : circleMarkIcon}/>
+					</div>
 					<div className="col-md-10">
 						<p style={{color: '#000000', fontSize: '14px', fontFamily: 'AmazonEmber', marginTop: '1%'}}>Desk
 							phone</p>
 					</div>
 				</div>
+				{
+					!this.state.softphoneEnabled &&
+					<div className={"row"}>
+						<div className={"col-md-9"}>
+							<ReactPhoneInput inputStyle={{minWidth: '15.5em', maxWidth: '15.5em'}}
+											 onlyCountries={dialableCountries}
+											 defaultCountry={'fi'}
+											 enableSearchField={true}
+											 value={this.state.phoneNumber}
+											 inputExtraProps={{
+												 name: 'phone',
+												 required: true,
+												 autoFocus: true
+											 }}
+											 onChange={this.handleInputChange}/>
+						</div>
+						<div className="col-md-3 p-0 m-0">
+							<a className="btn" style={{
+								backgroundColor: '#a3acb6',
+								fontFamily: 'AmazonEmber',
+								color: '#ffffff',
+								height: '35px',
+								lineHeight: '1.3em',
+								cursor: 'pointer',
+							}} onClick={() => this.changeToDeskphone()}>
+								Save
+							</a>
+						</div>
+					</div>
+				}
 
 			</div>
 		);

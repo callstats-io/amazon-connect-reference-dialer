@@ -18,7 +18,6 @@ import lo from 'lodash';
 class Body extends Component {
 	constructor(props) {
 		super(props);
-		this.dialableCountries = agentConfigManager.getDialableCountries();
 		this.state = {
 			phoneNumber: '+358',
 		};
@@ -57,6 +56,7 @@ class Body extends Component {
 	}
 
 	render() {
+		const dialableCountries = agentConfigManager.getDialableCountries();
 		return (
 			<div className="card-body" style={{backgroundColor: '#ffffff'}}>
 				<div className="row">
@@ -71,7 +71,7 @@ class Body extends Component {
 				<div className="row mt-2">
 					<div className="col-md-9">
 						<ReactPhoneInput inputStyle={{minWidth: '15.5em', maxWidth: '15.5em'}}
-										 onlyCountries={this.dialableCountries}
+										 onlyCountries={dialableCountries}
 										 defaultCountry={'fi'}
 										 enableSearchField={true}
 										 value={this.state.phoneNumber}

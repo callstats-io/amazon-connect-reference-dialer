@@ -360,6 +360,43 @@ class ACManager {
 			});
 		});
 	}
+
+	// update agent config
+	updateAgentConfig(isSoftphone = true, phoneNumber = null) {
+		return new Promise((resolve, reject) => {
+			if (!this.currentAgent) {
+				reject('agent cannot be undefined');
+				return;
+			}
+			if (isSoftphone) {
+				let newConfig = this.currentAgent.getConfiguration();
+				newConfig.softphoneEnabled = true;
+				this.currentAgent.setConfiguration(newConfig, {
+					success: function () {
+						resolve(newConfig);
+					},
+					failure: function () {
+						reject("Failed to change to softphone");
+					}
+				})
+			} else {
+				if (!phoneNumber) {
+					reject('empty number');
+					return;
+				}
+				let newConfig = this.currentAgent.getConfiguration();
+				newConfig.softphoneEnabled = false;
+				this.currentAgent.setConfiguration(newConfig, {
+					success: function () {
+						resolve(newConfig);
+					},
+					failure: function () {
+						reject("Failed to change to hardphone");
+					}
+				})
+			}
+		});
+	}
 }
 
 const acManager = new ACManager();

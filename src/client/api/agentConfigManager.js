@@ -23,6 +23,11 @@ class AgentConfigManager {
 		const softphoneEnabled = this.agentConfig && this.agentConfig.softphoneEnabled;
 		return softphoneEnabled;
 	}
+
+	getDeskphoneNumber() {
+		const extension = this.agentConfig && this.agentConfig.extension;
+		return extension;
+	}
 }
 
 const agentConfigManager = new AgentConfigManager();
