@@ -6,7 +6,7 @@ class AgentConfigManager {
 	}
 
 	setAgentConfig(agentConfig = undefined) {
-		console.warn('->', agentConfig);
+		console.warn('->', 'setAgentConfig', agentConfig);
 		this.agentConfig = agentConfig;
 	}
 
@@ -17,6 +17,11 @@ class AgentConfigManager {
 	getDialableCountries() {
 		const dialableCountries = this.agentConfig && this.agentConfig.dialableCountries;
 		return dialableCountries || [];
+	}
+
+	isSoftphoneEnabled() {
+		const softphoneEnabled = this.agentConfig && this.agentConfig.softphoneEnabled;
+		return softphoneEnabled;
 	}
 }
 

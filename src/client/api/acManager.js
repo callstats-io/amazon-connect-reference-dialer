@@ -336,6 +336,30 @@ class ACManager {
 			});
 		}
 	}
+
+	// dial a phone number
+
+	dialNumber(phoneNumber = null) {
+		return new Promise((resolve, reject) => {
+			if (!phoneNumber) {
+				reject('empty number');
+				return;
+			}
+			if (!this.currentAgent) {
+				reject('agent cannot be undefined');
+				return;
+			}
+			const endpoint = connect.Endpoint.byPhoneNumber(phoneNumber);
+			this.currentAgent.connect(endpoint, {
+				success: function () {
+					resolve("Successfully sent outbound call")
+				},
+				failure: function (err) {
+					reject(err);
+				}
+			});
+		});
+	}
 }
 
 const acManager = new ACManager();

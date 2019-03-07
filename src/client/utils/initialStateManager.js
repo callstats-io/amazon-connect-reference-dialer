@@ -4,7 +4,7 @@ const initialStateManager = {
 	requestAgentSettingsChange: 'unknown',
 	requestReportCallIssue: 'unknown',
 	requestConnectivityCheck: 'unknown',
-	requestShowDialPad: 'pending',
+	requestShowDialPad: 'unknown',
 
 	networkStrength: 0,
 	agentAudioLevel: 0,

@@ -10,6 +10,7 @@ import {
 } from "../../reducers/acReducer";
 
 import agentConfigManager from './../../api/agentConfigManager';
+import acManager from './../../api/acManager';
 import DialPad from './dialpad';
 import lo from 'lodash';
 
@@ -19,7 +20,7 @@ class Body extends Component {
 		super(props);
 		this.dialableCountries = agentConfigManager.getDialableCountries();
 		this.state = {
-			phoneNumber: '',
+			phoneNumber: '+358',
 		};
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.numPadHandler = this.numPadHandler.bind(this);
@@ -41,14 +42,21 @@ class Body extends Component {
 			return
 		}
 		const {phoneNumber} = this.state;
-		console.warn('->', phoneNumber, value);
 		this.setState({
 			phoneNumber: `${phoneNumber}${value}`
 		})
 	}
 
+	dialNumber() {
+		const {phoneNumber} = this.state;
+		acManager.dialNumber(phoneNumber).then(success => {
+			this.closeDialPad();
+		}, err => {
+			console.error(err);
+		});
+	}
+
 	render() {
-		const handleChange = this.handleInputChange;
 		return (
 			<div className="card-body" style={{backgroundColor: '#ffffff'}}>
 				<div className="row">
@@ -64,18 +72,25 @@ class Body extends Component {
 					<div className="col-md-9">
 						<ReactPhoneInput inputStyle={{minWidth: '15.5em', maxWidth: '15.5em'}}
 										 onlyCountries={this.dialableCountries}
+										 defaultCountry={'fi'}
 										 enableSearchField={true}
 										 value={this.state.phoneNumber}
+										 inputExtraProps={{
+											 name: 'phone',
+											 required: true,
+											 autoFocus: true
+										 }}
 										 onChange={this.handleInputChange}/>
 					</div>
 					<div className="col-md-3 p-0 m-0">
-						<a href="#" className="btn" style={{
+						<a className="btn" style={{
 							backgroundColor: '#a3acb6',
 							fontFamily: 'AmazonEmber',
 							color: '#ffffff',
 							height: '35px',
 							lineHeight: '1.3em',
-						}}>
+							cursor: 'pointer',
+						}} onClick={() => this.dialNumber()}>
 							Dial
 						</a>
 					</div>
