@@ -22,6 +22,15 @@ class AgentStateMonitor {
 	getAgentStates() {
 		return this.agentStates || [];
 	}
+
+	getStateAsObject(stateName = '') {
+		for (let currentState of this.agentStates) {
+			if (stateName === currentState.name) {
+				return currentState;
+			}
+		}
+		return undefined;
+	}
 }
 
 const agentStateMonitor = new AgentStateMonitor();
