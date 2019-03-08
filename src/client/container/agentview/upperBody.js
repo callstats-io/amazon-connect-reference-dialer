@@ -51,9 +51,8 @@ class UpperBody extends Component {
 						fontSize: '24px'
 					}}> {agentState} </p>
 				</div>
-				<div className={`col-md-3 text-center ${muted || agentAudioLevel <= 0 ? 'pt-1' : ''} `}
-					 style={{height: '33px'}}>
-					<AudioLevel audioLevel={agentAudioLevel} muted={muted}/>
+				<div className={`col-md-3 text-center`}>
+					<AudioLevel audioLevel={agentAudioLevel} muted={muted} style={{width: '30px'}}/>
 				</div>
 
 				<div className={`col-md-12`}>
@@ -106,8 +105,13 @@ class UpperBody extends Component {
 								   fontSize: '14px'
 							   }}>{phoneNumber}</p>}
 						</div>
-						<div className={`col-md-2 pl-0`} style={{width: '20px', height: '20px', marginBottom: muted ? '3%' : '1%'}}>
-							{this._showPhoneNumber(agentState) && <AudioLevel audioLevel={peerAudioLevel} muted={false}/>}
+						<div className={`col-md-2 pl-0`}>
+							{this._showPhoneNumber(agentState) && <AudioLevel audioLevel={peerAudioLevel} muted={false}
+																			  style={{
+																				  width: '20px',
+																				  height: !muted && peerAudioLevel > 0 && '33px',
+																				  marginBottom: !muted && peerAudioLevel > 0 && '10%'
+																			  }}/>}
 						</div>
 						<div className={`col-md-4 align-self-center text-right`}>
 							<p className={`m-0`}
