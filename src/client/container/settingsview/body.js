@@ -27,7 +27,7 @@ class Body extends Component {
 			defaultAudioOutputDevice: {},
 			defaultAudioInputDevice: {},
 			inputDeviceList: [],
-			showMenuItem: true,
+			showMenuItem: false,
 		};
 		this.init();
 		this.handleInputChange = this.handleInputChange.bind(this);
