@@ -5,10 +5,12 @@ import SVG from 'react-inlinesvg';
 
 import acManager from './../../api/acManager';
 import agentConfigManager from './../../api/agentConfigManager';
+import agentMediaManager from './../../api/agentMediaManager';
 
 import closeOrDismissIcon from '../../res/images/fa-close-or-dismiss.svg';
 import circleMarkIcon from '../../res/images/fa-circle-mark.svg';
 import circleUnmarkIcon from '../../res/images/fa-circle-unmark.svg';
+import inputLevel from '../../res/images/fa-input-sound.svg';
 
 import ReactPhoneInput from 'react-phone-input-2';
 
@@ -22,8 +24,28 @@ class Body extends Component {
 		this.state = {
 			phoneNumber: agentConfigManager.getDeskphoneNumber() || '+358',
 			softphoneEnabled: agentConfigManager.isSoftphoneEnabled(),
+			defaultAudioOutputDevice: {},
+			defaultAudioInputDevice: {},
+			inputDeviceList: [],
+			showMenuItem: true,
 		};
+		this.init();
 		this.handleInputChange = this.handleInputChange.bind(this);
+	}
+
+	init() {
+		agentMediaManager.getDefaultAudioInputAndOutputDeviceDetails().then(success => {
+			console.warn('->', success);
+			const {inputDevice, outputDevice, inputDeviceList} = success;
+			this.setState({
+				defaultAudioInputDevice: inputDevice,
+				defaultAudioOutputDevice: outputDevice,
+				inputDeviceList: inputDeviceList,
+			});
+		}).catch(err => {
+			console.error(err);
+		});
+
 	}
 
 	changeToSoftphone() {
@@ -49,6 +71,22 @@ class Body extends Component {
 		}, err => {
 			console.error(err);
 		})
+	}
+
+	toggleMenuItem() {
+		const {showMenuItem} = this.state;
+		console.warn('may be toggle', showMenuItem);
+		this.setState({
+			showMenuItem: !showMenuItem,
+		});
+	}
+
+	changeAudioInputDevice(selectedDevice) {
+		console.warn('->', selectedDevice);
+		this.setState({
+			defaultAudioInputDevice: selectedDevice,
+			showMenuItem: false,
+		});
 	}
 
 	handleInputChange(value) {
@@ -93,6 +131,84 @@ class Body extends Component {
 						}}>Softphone</p>
 					</div>
 				</div>
+				{
+					this.state.softphoneEnabled &&
+					<div className="row">
+						<div className="col-md-10 pr-0 mr-0">
+							<div className="btn-group" style={{maxWidth: '220px'}}>
+								<button className="btn" type="button" style={{
+									border: 'solid 1px #cfcfcf',
+									fontFamily: 'AmazonEmber',
+									fontSize: '13px',
+									maxHeight: '45px',
+									minWidth: '200px',
+								}} onClick={() => this.toggleMenuItem()}> {this.state.defaultAudioInputDevice.label}
+								</button>
+								<button onClick={() => this.toggleMenuItem()} type="button"
+										className="btn dropdown-toggle dropdown-toggle-split"
+										aria-haspopup="true" aria-expanded="false"
+										style={{border: 'solid 1px #cfcfcf'}}>
+									<span className="sr-only">Toggle Dropdown</span>
+								</button>
+								<div className={`dropdown-menu ${this.state.showMenuItem && 'show'}`}
+									 x-placement="bottom-start" style={{
+									position: 'absolute',
+									willChange: 'transform',
+									top: '0px',
+									left: '0px',
+									transform: 'translate3d(0px, 38px, 0px)',
+									// translate3d: '(5px, 35px, 0px)!important',
+									// backgroundColor: '#f7f7f7',
+									border: 'solid 1px #cfcfcf'
+								}}>
+									{
+										this.state.inputDeviceList.map((item, indx) => (
+											<a key={`${item.deviceId}-${indx}`} className="dropdown-item"
+											   onClick={() => this.changeAudioInputDevice(item) }
+											   href="#" style={{
+												fontFamily: 'AmazonEmber',
+												fontSize: '13px',
+											}}>{item.label}</a>
+										))
+									}
+								</div>
+
+							</div>
+						</div>
+						<div className="col-md-2 pl-0 pr-0">
+							<img src={inputLevel} style={{marginTop: '15%'}}/>
+						</div>
+					</div>
+				}
+				{
+					this.state.softphoneEnabled &&
+					<div className="row mb-2">
+						<div className="col-md-12">
+							<div className={"row"}>
+								<div className={"col-md-12"}>
+									<span className="ml-1" style={{
+										height: '15px',
+										opacity: '0.6',
+										fontFamily: 'AmazonEmber',
+										fontSize: '12px',
+										color: '#000000'
+									}}> Audio output device </span>
+								</div>
+							</div>
+
+							<div className={"row"}>
+								<div className={"col-md-12"}>
+									<span className="ml-1" style={{
+										height: '17px',
+										fontFamily: 'AmazonEmber',
+										fontSize: '14px',
+										color: '#000000'
+									}}> {this.state.defaultAudioOutputDevice.label} </span>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
 				<div className="row" style={{cursor: 'pointer'}}
 					 onClick={() => this.changeToDeskphone()}>
 					<div className="col-md-2">
