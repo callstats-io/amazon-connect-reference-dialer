@@ -3,30 +3,20 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import Header from '../header/index';
 import Body from './body';
-import Footer from './footer';
+import Footer from './../footer/agentview';
 
-class AgentView extends Component {
-	constructor(props) {
-		super(props);
-	}
-
-	render() {
-		const initialized = this.props.initialized;
-		return (
-			initialized &&
-			<div className={`row h-100`}>
-				<div className={`col-md-12`} style={{padding: '0'}}>
-					<div className={`card h-100`} style={{backgroundColor: '#f2f2f2'}}>
-						<Header/>
-						<Body/>
-						<Footer/>
-					</div>
-				</div>
+const AgentView = ({initialized}) => (
+	initialized &&
+	<div className={`row h-100`}>
+		<div className={`col-md-12`} style={{padding: '0'}}>
+			<div className={`card h-100`} style={{backgroundColor: '#f2f2f2'}}>
+				<Header/>
+				<Body/>
+				<Footer/>
 			</div>
-
-		);
-	}
-}
+		</div>
+	</div>
+);
 
 AgentView.propTypes = {
 	initialized: PropTypes.bool.isRequired,
