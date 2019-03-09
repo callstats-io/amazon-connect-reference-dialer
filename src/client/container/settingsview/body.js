@@ -11,11 +11,12 @@ import closeOrDismissIcon from '../../res/images/fa-close-or-dismiss.svg';
 import circleMarkIcon from '../../res/images/fa-circle-mark.svg';
 import circleUnmarkIcon from '../../res/images/fa-circle-unmark.svg';
 import inputLevel from '../../res/images/fa-input-sound.svg';
-
+import AudioLevel from './../audiolabelview/audiolevel2';
 import ReactPhoneInput from 'react-phone-input-2';
 
 import {
-	onRequestAgentSettingsChange
+	onRequestAgentSettingsChange,
+	onAvailableStream,
 } from "../../reducers/acReducer";
 
 class Body extends Component {
@@ -75,7 +76,6 @@ class Body extends Component {
 
 	toggleMenuItem() {
 		const {showMenuItem} = this.state;
-		console.warn('may be toggle', showMenuItem);
 		this.setState({
 			showMenuItem: !showMenuItem,
 		});
@@ -87,6 +87,18 @@ class Body extends Component {
 			defaultAudioInputDevice: selectedDevice,
 			showMenuItem: false,
 		});
+
+		let isNew = agentMediaManager.setDefaultDevice(selectedDevice);
+		if (isNew) {
+			// do a new getUserMedia, and attach the frequency monitor
+
+			agentMediaManager.getUserMedia().then(success => {
+				console.warn('new audio input device', success);
+				this.props.onAvailableStream(success, true);
+			}, err => {
+				console.error('none');
+			})
+		}
 	}
 
 	handleInputChange(value) {
@@ -157,14 +169,12 @@ class Body extends Component {
 									top: '0px',
 									left: '0px',
 									transform: 'translate3d(0px, 38px, 0px)',
-									// translate3d: '(5px, 35px, 0px)!important',
-									// backgroundColor: '#f7f7f7',
 									border: 'solid 1px #cfcfcf'
 								}}>
 									{
 										this.state.inputDeviceList.map((item, indx) => (
 											<a key={`${item.deviceId}-${indx}`} className="dropdown-item"
-											   onClick={() => this.changeAudioInputDevice(item) }
+											   onClick={() => this.changeAudioInputDevice(item)}
 											   href="#" style={{
 												fontFamily: 'AmazonEmber',
 												fontSize: '13px',
@@ -176,7 +186,8 @@ class Body extends Component {
 							</div>
 						</div>
 						<div className="col-md-2 pl-0 pr-0">
-							<img src={inputLevel} style={{marginTop: '15%'}}/>
+							{/*<img src={inputLevel} style={{marginTop: '15%'}}/>*/}
+							<AudioLevel/>
 						</div>
 					</div>
 				}
@@ -258,6 +269,7 @@ class Body extends Component {
 Body.propTypes = {
 	closeSetting: PropTypes.func.isRequired,
 	requestAgentSettingsChange: PropTypes.func.isRequired,
+	onAvailableStream: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({});
 
@@ -267,6 +279,9 @@ const mapDispatchToProps = dispatch => ({
 	},
 	requestAgentSettingsChange: () => {
 		dispatch(onRequestAgentSettingsChange('complete'))
+	},
+	onAvailableStream: (stream, isLocal) => {
+		dispatch(onAvailableStream(stream, isLocal));
 	}
 });
 

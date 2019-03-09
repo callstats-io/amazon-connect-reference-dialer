@@ -9,7 +9,6 @@ class DialPad extends Component {
 		super(props);
 	}
 
-
 	render() {
 		const handleClick = this.props.numPadHandler;
 		return (

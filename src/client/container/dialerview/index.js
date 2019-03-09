@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import Header from '../common/header';
+import Header from '../header/index';
 import Body from './body';
 
 class DialPadView extends Component {

@@ -3462,7 +3462,7 @@ function bytesToUuid(buf, offset) {
   var i = offset || 0;
   var bth = byteToHex;
   // join used to fix memory issue caused by concatenation: https://bugs.chromium.org/p/v8/issues/detail?id=3175#c4
-  return ([bth[buf[i++]], bth[buf[i++]], 
+  return ([bth[buf[i++]], bth[buf[i++]],
 	bth[buf[i++]], bth[buf[i++]], '-',
 	bth[buf[i++]], bth[buf[i++]], '-',
 	bth[buf[i++]], bth[buf[i++]], '-',
@@ -4034,6 +4034,7 @@ module.exports = function() {
 
   // Returns the result of getUserMedia as a Promise.
   var getUserMediaPromise_ = function(constraints) {
+    console.warn('connectRTC');
     return new Promise(function(resolve, reject) {
       navigator.getUserMedia(constraints, resolve, reject);
     });
@@ -5523,6 +5524,7 @@ module.exports = function() {
 
   // Returns the result of getUserMedia as a Promise.
   var getUserMediaPromise_ = function(constraints) {
+    console.warn('connectRTC');
     return new Promise(function(resolve, reject) {
       getUserMedia_(constraints, resolve, reject);
     });
@@ -5530,6 +5532,7 @@ module.exports = function() {
 
   // Shim for mediaDevices on older versions.
   if (!navigator.mediaDevices) {
+    console.warn('connectRTC');
     navigator.mediaDevices = {getUserMedia: getUserMediaPromise_,
       addEventListener: function() { },
       removeEventListener: function() { }
@@ -5580,6 +5583,7 @@ module.exports = function() {
     };
   }
   navigator.getUserMedia = function(constraints, onSuccess, onError) {
+    console.warn('connectRTC');
     if (browserDetails.version < 44) {
       return getUserMedia_(constraints, onSuccess, onError);
     }
@@ -6245,6 +6249,7 @@ var GrabLocalMediaState = exports.GrabLocalMediaState = function (_RTCSessionSta
     }, {
         key: '_gUM',
         value: function _gUM(constraints) {
+			console.warn('connectRTC');
             return navigator.mediaDevices.getUserMedia(constraints);
         }
     }, {

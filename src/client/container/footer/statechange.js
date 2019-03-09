@@ -1,10 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import PropTypes from "prop-types";
-
 
 const logoutURL = 'https://callstatsio.awsapps.com/connect/logout';
-
 class Footer extends Component {
 	constructor(props) {
 		super(props);
@@ -24,7 +21,7 @@ class Footer extends Component {
 		return (
 			<div className="card-footer" style={{backgroundColor: 'inherit', marginRight: '5%', marginLeft: '5%'}}>
 				<div className="row">
-					<div className="col-md-12" onClick={() => this.logout()} style={{cursor: 'pointer'}}>
+					<div className="col-md-12" onClick={this.logout} style={{cursor: 'pointer'}}>
 						<a style={{fontFamily: 'AmazonEmber', color: '#3885de'}}>Log out</a>
 					</div>
 				</div>

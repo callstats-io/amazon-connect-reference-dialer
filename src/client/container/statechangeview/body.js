@@ -1,7 +1,5 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import SVG from 'react-inlinesvg';
-
 
 import activeIcon from '../../res/images/fa-tick-mark.svg'
 import PropTypes from "prop-types";
@@ -10,8 +8,8 @@ import {
 	onRequestAgentStateChange
 } from "../../reducers/acReducer";
 
-import agentStateManager  from './../../api/agentStateManager';
-import acManager  from './../../api/acManager';
+import agentStateManager from './../../api/agentStateManager';
+import acManager from './../../api/acManager';
 
 class Body extends Component {
 	constructor(props) {
@@ -19,7 +17,7 @@ class Body extends Component {
 		this.agentStates = agentStateManager.getAgentStates();
 	}
 
-	requestAgentStateChange(currentState=undefined) {
+	requestAgentStateChange(currentState = undefined) {
 		acManager.setAgentState(currentState);
 		this.props.requestAgentStateChange();
 	}
@@ -33,7 +31,7 @@ class Body extends Component {
 					<div key={`agent-state-${currentState.name}`} className="row" style={{cursor: 'pointer'}}
 						 onClick={() => this.requestAgentStateChange(currentState)}>
 						<div className="col-md-2">
-							{currentState.name === agentState && <SVG src={activeIcon}/>}
+							{currentState.name === agentState && <img src={activeIcon}/>}
 						</div>
 						<div className="col-md-10">
 							<p style={{color: '#3885de', fontFamily: 'AmazonEmber'}}> {currentState.name}</p>

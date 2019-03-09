@@ -9843,7 +9843,7 @@ function hash(alg, key) {
   return {
     update: function (data) {
       if(!Buffer.isBuffer(data)) data = new Buffer(data)
-        
+
       bufs.push(data)
       length += data.length
       return this
@@ -17314,7 +17314,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
       this._logRollTimer = null;
       this.setLogRollInterval(DEFAULT_LOG_ROLL_INTERVAL);
    };
-   
+
    /**
     * Sets the interval in milliseconds that the logs will be rotated.
     * Logs are rotated out completely at the end of the second roll
@@ -19425,7 +19425,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
    Agent.prototype.mute = function() {
       connect.core.getUpstream().sendUpstream(connect.EventType.BROADCAST,
         {
-          event: connect.EventType.MUTE, 
+          event: connect.EventType.MUTE,
           data: {mute: true}
       });
    };
@@ -19433,7 +19433,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
    Agent.prototype.unmute = function() {
       connect.core.getUpstream().sendUpstream(connect.EventType.BROADCAST,
         {
-          event: connect.EventType.MUTE, 
+          event: connect.EventType.MUTE,
           data: {mute: false}
       });
    };
@@ -20296,7 +20296,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
                otherParams.ringtone.voice || {});
          }
       };
-      
+
       // Merge params from params.softphone into params.ringtone
       // for embedded and non-embedded use cases so that defaults
       // are picked up.
@@ -20358,7 +20358,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
 
 
       connect.agent(function(agent) {
-         // Sync mute across all tabs 
+         // Sync mute across all tabs
          if(agent.isSoftphoneEnabled()){
             connect.core.getUpstream().sendUpstream(connect.EventType.BROADCAST,
               {
@@ -21161,7 +21161,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
         // Tracks the agent connection ID, so that if the same contact gets re-routed to the same agent, it'll still set up softphone
         var callsDetected = {};
 
-        
+
 
         var isContactTerminated = function(contact) {
             return contact.getStatus().type === connect.ContactStatusType.ENDED ||
@@ -21300,7 +21300,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
 
         connect.contact(onInitContact);
 
-        // Contact already in connecting state scenario - In this case contact INIT is missed hence the OnRefresh callback is missed. 
+        // Contact already in connecting state scenario - In this case contact INIT is missed hence the OnRefresh callback is missed.
         new connect.Agent().getContacts().forEach(function(contact){
             var agentConnectionId = contact.getAgentConnection().connectionId;
             logger.info("Contact exist in the snapshot. Reinitiate the Contact and RTC session creation for contactId" + contact.getContactId(), "agent connectionId " + agentConnectionId);
@@ -21333,7 +21333,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
             logger.info("Auto-accept is disabled, ringtone will be stopped by user action.");
         }
     };
-    
+
     // Bind events for mute
     var handleSoftPhoneMuteToggle = function(){
         var bus = connect.core.getEventBus();
@@ -21350,7 +21350,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
     };
 
     // Check for the local streams if exists  -  revert it
-    // And inform other clients about the change 
+    // And inform other clients about the change
     var muteToggle = function(data){
         var status;
         if(connect.keys(localMediaStream).length === 0){
@@ -21449,9 +21449,11 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
         }
 
         if (typeof navigator.mediaDevices === "object" && typeof navigator.mediaDevices.getUserMedia === "function") {
+            console.warn('1', navigator.mediaDevices.getUserMedia, CONSTRAINT);
             promise = navigator.mediaDevices.getUserMedia(CONSTRAINT);
 
         } else if (typeof navigator.webkitGetUserMedia === "function") {
+          console.warn('2')
             promise = new Promise(function(resolve, reject) {
                 navigator.webkitGetUserMedia(CONSTRAINT, resolve, reject);
             });
@@ -21799,7 +21801,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
    };
 
    WorkerClient.prototype._sendAPIMetrics = function(method, time, err) {
-      this.conduit.sendDownstream(connect.EventType.API_METRIC, { 
+      this.conduit.sendDownstream(connect.EventType.API_METRIC, {
          name: method,
          time: time,
          dimensions: [
@@ -22309,13 +22311,13 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
          authFailure: connect.hitch(self, self.handleAuthFail)
       });
    };
-   
+
    /**
     * Filter the 'authentication' field of the request params from the given API_REQUEST event.
     */
    ClientEngine.prototype.filterAuthToken = function(request) {
       var new_request = {};
-      
+
       for (var keyA in request) {
          if (keyA === 'params') {
             var new_params = {};

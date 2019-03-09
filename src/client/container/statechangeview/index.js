@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 
-import Header from './header';
+import Header from '../header/index';
 import Body from './body';
-import Footer from './footer';
+import Footer from './../footer/statechange';
 
 class StateChangeView extends Component {
 	constructor(props) {
@@ -19,7 +19,7 @@ class StateChangeView extends Component {
 						boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.2)',
 						backgroundColor: '#ffffff'
 					}}>
-						<Header/>
+						<Header emptyBody={true}/>
 						<Body/>
 						<Footer/>
 					</div>

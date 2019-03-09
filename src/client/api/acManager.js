@@ -1,14 +1,18 @@
 'use strict';
-import * as connectRTC from './thirdparty/connect-rtc';
-import * as connectStream from './thirdparty/connect-streams';
-import connectivityTest from './connectivityTest';
+
 import lo from 'lodash';
+
+import databaseManager from './databaseManager';
 
 import libphonenumber from 'google-libphonenumber';
 import networkStrengthMonitor from './networkStrengthMonitor';
 import audioFrequencyMonitor from './audioFrequencyMonitor';
 import agentStateManager from './agentStateManager';
 import agentConfigManager from './agentConfigManager';
+import audioManager from './agentMediaManager';
+
+import * as connectRTC from './thirdparty/connect-rtc';
+import * as connectStream from './thirdparty/connect-streams';
 
 import {
 	onInitializationStateChange,
@@ -58,7 +62,7 @@ class ACManager {
 		this.callstats = undefined;
 		this.rttRecords = [];
 		this.lastPCTRecord = undefined;
-		connectivityTest.getRecords().then(success => {
+		databaseManager.getRecords().then(success => {
 			// console.warn('->','getRecords',success);
 			this.rttRecords = success;
 		});
@@ -67,6 +71,7 @@ class ACManager {
 
 	onInitialize() {
 		console.warn('--> initialized');
+		audioManager.overWriteGetUserMedia();
 		this.setupCallstats(this.currentAgent);
 		this.agentHandler(this.currentAgent);
 		this.setIntervalMonitor();
@@ -107,7 +112,7 @@ class ACManager {
 	onCSIOPrecalltestCallback(status, result) {
 		console.warn('->', 'onCSIOPrecalltestCallback', new Date(), status, result);
 		this.lastPCTRecord = result;
-		// connectivityTest.savePrecalltest(result).then(success => {
+		// databaseManager.savePrecalltest(result).then(success => {
 		// 	console.warn('->', 'savePrecalltest', success);
 		// });
 		let throughput = lo.get(result, 'throughput', 0);

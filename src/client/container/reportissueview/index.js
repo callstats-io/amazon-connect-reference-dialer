@@ -1,10 +1,11 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import Header from '../common/header';
+import Header from '../header/index';
 import Body from './body';
-import Footer from './footer';
+import Footer from './../footer/reportissue';
 
+//todo actions are not implemented
 class ReportCallIssueView extends Component {
 	constructor(props) {
 		super(props);

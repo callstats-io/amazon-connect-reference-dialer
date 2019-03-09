@@ -99,6 +99,14 @@ export const onAudioLevelChange = (agentAudioLevel = 0, peerAudioLevel = 0) => {
 	}
 };
 
+export const onAvailableStream = (stream = undefined, isLocal = true) => {
+	return {
+		type: 'onAvailableStream',
+		stream,
+		isLocal,
+	}
+};
+
 const acReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case 'onInitializationStateChange':
@@ -187,6 +195,12 @@ const acReducer = (state = INITIAL_STATE, action) => {
 				...state,
 				agentAudioLevel: action.agentAudioLevel,
 				peerAudioLevel: action.peerAudioLevel,
+			};
+		case 'onAvailableStream':
+			return {
+				...state,
+				stream: action.stream,
+				isLocal: action.isLocal,
 			};
 		default:
 			return state;
