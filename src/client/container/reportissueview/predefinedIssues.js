@@ -14,38 +14,33 @@ const PredefinedIssues = ({onIssueListSelectionChange, issueList}) => (
 			backgroundColor: '#f7f7f7',
 			overflowY: 'scroll'
 		}}>
+
 			<div className="col-md-12 mt-1" style={{}}>
-				<div className="row">
-					<div className="col-md-12">
-						<a style={{fontFamily: 'AmazonEmber', fontSize: '14px', color: '#000000'}}>
-							<img src={markFalseIcon}/> I need help, contact
-							me</a>
-					</div>
-				</div>
-				<div className="row">
-					<div className="col-md-12">
-						<a style={{
-							opacity: '0.6',
-							fontFamily: 'AmazonEmber',
-							fontSize: '12px',
-							letterSpacing: 'normal',
-							color: '#000000'
-						}}> Audio related problems </a>
-					</div>
-				</div>
-				<div className="row">
-					<div className="col-md-12">
-						<a style={{fontFamily: 'AmazonEmber', fontSize: '14px', color: '#000000'}}>
-							<img src={markTrueIcon}/> Customer can't
-							hear agent</a>
-					</div>
-				</div>
-				<div className="row">
-					<div className="col-md-12">
-						<a style={{fontFamily: 'AmazonEmber', fontSize: '14px', color: '#000000'}}>
-							<img src={markFalseIcon}/> No audio</a>
-					</div>
-				</div>
+				{
+					issueList.map((issue, issueIndex) => (
+						<div className="row" key={`issue-${issue.name}`}>
+							<div className="col-md-12">
+								<a style={{
+									opacity: '0.6',
+									fontFamily: 'AmazonEmber',
+									fontSize: '12px',
+									letterSpacing: 'normal',
+									color: '#000000'
+								}}> {issue.name} </a>
+							</div>
+							{
+								issue.items.map((item, itemIndex) => (
+									<div className="col-md-12" key={`issue-link-${item.text}`}>
+										<a style={{fontFamily: 'AmazonEmber', fontSize: '14px', color: '#000000'}}>
+											<img style={{cursor: 'pointer'}}
+												 onClick={() => onIssueListSelectionChange(issueIndex, itemIndex)}
+												 src={item.marked ? markTrueIcon : markFalseIcon}/> {item.text} </a>
+									</div>
+								))
+							}
+						</div>
+					))
+				}
 			</div>
 		</div>
 	</div>
@@ -53,7 +48,7 @@ const PredefinedIssues = ({onIssueListSelectionChange, issueList}) => (
 
 PredefinedIssues.propTypes = {
 	onIssueListSelectionChange: PropTypes.func.isRequired,
-	issueList: PropTypes.object.isRequired,
+	issueList: PropTypes.array.isRequired,
 };
 
 export default PredefinedIssues;
