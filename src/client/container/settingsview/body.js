@@ -188,8 +188,7 @@ class Body extends Component {
 							</div>
 						</div>
 						<div className="col-md-2 pl-0 pr-0">
-							{/*<img src={inputLevel} style={{marginTop: '15%'}}/>*/}
-							<AudioLevel/>
+							<AudioLevel backgroundColor={'#ffffff'}/>
 						</div>
 					</div>
 				}

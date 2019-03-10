@@ -4,7 +4,9 @@ import {connect} from "react-redux";
 import SVG from 'react-inlinesvg';
 
 import agentMicMutedIcon from '../../res/images/muted-icon.svg';
-import AudioLevel from './../audiolabelview/index';
+import AudioLevel from './../audiolabelview/audiolevel2';
+import agentMediaManager from "../../api/agentMediaManager";
+import {onAvailableStream} from "../../reducers/acReducer";
 
 
 /*
@@ -31,6 +33,17 @@ class UpperBody extends Component {
 		return ['Connected', 'On hold'].includes(agentState);
 	}
 
+	componentDidMount() {
+		agentMediaManager.getDefaultAudioInputDevice().then(selectedDevice => {
+			agentMediaManager.getUserMedia(selectedDevice).then(success => {
+				this.props.onAvailableStream(success, true);
+			}, err => {
+				console.error('none');
+			})
+		});
+	}
+
+
 	render() {
 		const agentState = this.props.agentState;
 		const duration = this.props.duration;
@@ -52,7 +65,7 @@ class UpperBody extends Component {
 					}}> {agentState} </p>
 				</div>
 				<div className={`col-md-3 text-center`}>
-					<AudioLevel audioLevel={agentAudioLevel} muted={muted} style={{width: '30px'}}/>
+					<AudioLevel backgroundColor={'#3885de'}/>
 				</div>
 
 				<div className={`col-md-12`}>
@@ -136,6 +149,8 @@ UpperBody.propTypes = {
 
 	agentAudioLevel: PropTypes.number.isRequired,
 	peerAudioLevel: PropTypes.number.isRequired,
+
+	onAvailableStream: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
 	agentState: state.acReducer.agentState || 'unknown',
@@ -146,7 +161,11 @@ const mapStateToProps = state => ({
 	agentAudioLevel: state.acReducer.agentAudioLevel || 0,
 	peerAudioLevel: state.acReducer.peerAudioLevel || 0,
 });
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+	onAvailableStream: (stream, isLocal) => {
+		dispatch(onAvailableStream(stream, isLocal));
+	}
+});
 
 export default connect(
 	mapStateToProps,

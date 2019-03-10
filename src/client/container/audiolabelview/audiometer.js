@@ -1,7 +1,9 @@
 import agentMediaManager from './../../api/agentMediaManager'
+
 class AudioMeter {
-	constructor() {
+	constructor(backgroundColor = '#ffffff') {
 		this.intervalId = undefined;
+		this.backgroundColor = backgroundColor;
 	}
 
 	startVisualization(stream, canvasCtx, canvas) {
@@ -20,7 +22,7 @@ class AudioMeter {
 		const colors = ['rgb(192,192,192)', 'rgb((0,128,0))', 'rgb((0,0,128))', 'rgb((173,216,230))', 'rgb((255,250,205))'];
 		const len = colors.length;
 		const draw = () => {
-			canvasCtx.fillStyle = "#ffffff";
+			canvasCtx.fillStyle = this.backgroundColor;
 			canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
 
 			analyser.getByteFrequencyData(data);

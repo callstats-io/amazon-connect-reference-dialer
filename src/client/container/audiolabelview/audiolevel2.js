@@ -1,13 +1,14 @@
 import React from "react";
 import {connect} from "react-redux";
 import AudioMeter from './audiometer'
+import PropTypes from "prop-types";
 
 class AudioLevel extends React.Component {
 	constructor(props) {
 		super(props);
 		this.width = 0;
 		this.height = 0;
-		this.audioMeter = new AudioMeter();
+		this.audioMeter = new AudioMeter(props.backgroundColor);
 	}
 
 	shouldComponentUpdate(nextProps) {
@@ -34,7 +35,6 @@ class AudioLevel extends React.Component {
 		return (
 			<div>
 				<canvas ref="canvas" width="200" height="170" style={{
-					backgroundColor: '#ffffff',
 					width: '100%',
 					height: 'auto',
 				}}/>
@@ -46,7 +46,9 @@ class AudioLevel extends React.Component {
 	}
 }
 
-AudioLevel.propTypes = {};
+AudioLevel.propTypes = {
+	backgroundColor: PropTypes.string,
+};
 const mapStateToProps = state => ({
 	stream: state.acReducer.stream,
 	isLocal: state.acReducer.isLocal,
