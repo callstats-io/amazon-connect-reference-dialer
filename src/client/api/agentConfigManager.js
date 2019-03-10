@@ -5,9 +5,11 @@ class AgentConfigManager {
 		this.agentConfig = undefined;
 	}
 
-	setAgentConfig(agentConfig = undefined) {
-		console.warn('->', 'setAgentConfig', agentConfig);
-		this.agentConfig = agentConfig;
+	setAgentConfig(agent = undefined) {
+		if (!agent) {
+			return;
+		}
+		this.agentConfig = agent.getConfiguration();
 	}
 
 	getAgentConfig() {
@@ -27,6 +29,43 @@ class AgentConfigManager {
 	getDeskphoneNumber() {
 		const extension = this.agentConfig && this.agentConfig.extension;
 		return extension;
+	}
+
+	updateAgentConfig(isSoftphone = true, phoneNumber = null) {
+		let agent = agentHandler.getAgent();
+		return new Promise((resolve, reject) => {
+			if (agent) {
+				reject('agent cannot be undefined');
+				return;
+			}
+			if (isSoftphone) {
+				let newConfig = agent.getConfiguration();
+				newConfig.softphoneEnabled = true;
+				agent.setConfiguration(newConfig, {
+					success: function () {
+						resolve(newConfig);
+					},
+					failure: function () {
+						reject("Failed to change to softphone");
+					}
+				})
+			} else {
+				if (!phoneNumber) {
+					reject('empty number');
+					return;
+				}
+				let newConfig = agent.getConfiguration();
+				newConfig.softphoneEnabled = false;
+				agent.setConfiguration(newConfig, {
+					success: function () {
+						resolve(newConfig);
+					},
+					failure: function () {
+						reject("Failed to change to hardphone");
+					}
+				})
+			}
+		});
 	}
 }
 

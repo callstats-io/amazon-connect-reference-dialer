@@ -10,6 +10,5 @@ const AppStore = createStore(rootReducer, /* preloadedState, */ composeEnhancers
 	applyMiddleware(...middlewares)
 ));
 
-// const AppStore = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(), applyMiddleware(...middlewares));
 acManager.register(AppStore.dispatch);
 export default AppStore;

@@ -1,0 +1,33 @@
+import {onAgentStateChange} from "../reducers/acReducer";
+import {getAgentState, getAgentStateForHoldUnhold, isAgentStateChange, isCallOnHoldUnhold} from "./agenetevents";
+
+class EventHandler {
+	constructor() {
+		this.dispatch = undefined;
+	}
+
+	dispose() {
+		this.dispatch = undefined;
+	}
+
+	register(dispatch, connect) {
+		this.dispatch && this.dispose();
+		this.dispatch = dispatch;
+		if (connect && connect.core) {
+			connect.core.getEventBus().subscribe('<<all>>', e => {
+				console.info("--------------->", 'all ', e);
+				if (isAgentStateChange(e)) {
+					const agentState = getAgentState(e);
+					this.dispatch(onAgentStateChange(agentState));
+				} else if (isCallOnHoldUnhold(e)) {
+					const tempAgentState = getAgentStateForHoldUnhold(e, this.currentContact);
+					const agentState = getAgentState(tempAgentState);
+					this.dispatch(onAgentStateChange(agentState));
+				}
+			});
+		}
+	}
+}
+
+const eventHandler = new EventHandler();
+export default eventHandler;

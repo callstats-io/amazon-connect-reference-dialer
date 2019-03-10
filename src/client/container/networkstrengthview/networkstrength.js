@@ -7,8 +7,9 @@ import networkStrength2 from '../../res/images/fa-network-strength-2.svg';
 import networkStrength3 from '../../res/images/fa-network-strength-3.svg';
 import networkStrength4 from '../../res/images/fa-network-strength-4.svg';
 import networkStrength5 from '../../res/images/fa-network-strength-5.svg';
+import networkStrengthUnknown from '../../res/images/fa-network-strength-unknown.svg';
 
-const networkStrengthIcon = [networkStrength1, networkStrength1, networkStrength2, networkStrength3, networkStrength4, networkStrength5];
+const networkStrengthIcon = [networkStrengthUnknown, networkStrength1, networkStrength2, networkStrength3, networkStrength4, networkStrength5];
 
 const NetworkStrength = ({networkStrength = 0}) => (
 	<img src={networkStrengthIcon[networkStrength]}/>

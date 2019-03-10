@@ -4,13 +4,18 @@ import SVG from 'react-inlinesvg';
 
 import statusChangeIcon from '../../res/images/change-status-icon.svg';
 import dialerSettingIcon from '../../res/images/dialer-setting-icon.svg';
+import csioLogo from '../../res/images/csioLogo.png';
 
 import NetworkStrength from "../networkstrengthview/index"
 
 const HeaderStyle = {
 	parent: {
-		backgroundColor: '#2c6cb4',
+		backgroundColor: '#525252',
 		height: '48px'
+	},
+	csioLogo:{
+		width: '24px',
+		height: '24px',
 	},
 	changeStatus: {
 		paddingRight: '0px',
@@ -24,6 +29,12 @@ const HeaderStyle = {
 	}
 };
 
+const CSIOLogo = () => (
+	<div className={`col-md-1 h-100 pr-0 mr-0 pl-1`}>
+		<img src={csioLogo} style={{...HeaderStyle.csioLogo}}/>
+	</div>
+);
+
 const ChangeStatus = ({onClickHandler}) => (
 	<div className={`col-md-5 h-100`} style={{...HeaderStyle.changeStatus, ...HeaderStyle.showCursor}}
 		 onClick={onClickHandler}>
@@ -32,7 +43,7 @@ const ChangeStatus = ({onClickHandler}) => (
 );
 
 const ChangeStatusIcon = ({onClickHandler}) => (
-	<div className={`col-md-3 h-100 pl-0`} style={HeaderStyle.showCursor}
+	<div className={`col-md-2 h-100 pl-0`} style={HeaderStyle.showCursor}
 		 onClick={onClickHandler}>
 		<SVG src={statusChangeIcon}/>
 	</div>
@@ -54,6 +65,7 @@ const DialerSettings = ({onClickHandler}) => (
 const Custom = ({agentState = 'unknown', requestAgentStateChange, requestAgentSettingsChange}) => (
 	<div className={`card-header`} style={HeaderStyle.parent}>
 		<div className={`row h-100`}>
+			<CSIOLogo/>
 			<ChangeStatus onClickHandler={requestAgentStateChange}/>
 			<ChangeStatusIcon onClickHandler={requestAgentStateChange}/>
 			<NetworkStrengthChange/>

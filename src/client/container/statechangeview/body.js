@@ -4,12 +4,10 @@ import {connect} from "react-redux";
 import activeIcon from '../../res/images/fa-tick-mark.svg'
 import PropTypes from "prop-types";
 import {
-	onAgentStateChange,
 	onRequestAgentStateChange
 } from "../../reducers/acReducer";
 
 import agentStateManager from './../../api/agentStateManager';
-import acManager from './../../api/acManager';
 
 class Body extends Component {
 	constructor(props) {
@@ -18,7 +16,7 @@ class Body extends Component {
 	}
 
 	requestAgentStateChange(currentState = undefined) {
-		acManager.setAgentState(currentState);
+		agentStateManager.setAgentState(currentState);
 		this.props.requestAgentStateChange();
 	}
 

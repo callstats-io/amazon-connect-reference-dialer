@@ -60,7 +60,7 @@ const AgentViewStyle = {
 
 const requestAgentStateChange = () => {
 	let currentState = agentStateManager.getStateAsObject('Available');
-	currentState && acManager.setAgentState(currentState);
+	currentState && agentStateManager.setAgentState(currentState);
 };
 
 const _showAvailable = (agentState = null) => {

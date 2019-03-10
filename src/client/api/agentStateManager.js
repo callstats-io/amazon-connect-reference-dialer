@@ -1,16 +1,17 @@
 'use strict';
 
-class AgentStateMonitor {
+import agentHandler from "./agentHandler";
+
+class AgentStateManager {
 	constructor() {
 		this.agentStates = [];
 	}
 
-	setAgentStates(agentStates = []) {
-		this.agentStates = agentStates;
-		// this.agentStates = lo.map(agentStates, currentState => {
-		// 	return {name: currentState.name};
-		// });
-		// console.warn('->', this.agentStates);
+	setAgentStates(agent = undefined) {
+		if (!agent) {
+			return;
+		}
+		this.agentStates = agent.getAgentStates() || [];
 	}
 
 	getAgentStates() {
@@ -25,7 +26,20 @@ class AgentStateMonitor {
 		}
 		return undefined;
 	}
+
+	// actions
+	setAgentState(agentState = undefined) {
+		let agent = agentHandler.getAgent();
+		agentState && agent && agent.setState(agentState, {
+			success: (data) => {
+				console.warn('-> setAgentState', data);
+			},
+			failure: (data) => {
+				console.error('-> setAgentState', data);
+			}
+		})
+	}
 }
 
-const agentStateMonitor = new AgentStateMonitor();
-export default agentStateMonitor;
+const agentStateManager = new AgentStateManager();
+export default agentStateManager;

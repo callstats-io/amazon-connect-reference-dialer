@@ -18,7 +18,6 @@ export const onAgentStateChange = (agentState = 'unknown', duration = '00:00:00'
 };
 
 export const onDurationChange = (who = undefined, duration = 0) => {
-	// console.warn('-> ', 'onDurationChange', who, duration);
 	return {
 		type: 'onDurationChange',
 		duration
