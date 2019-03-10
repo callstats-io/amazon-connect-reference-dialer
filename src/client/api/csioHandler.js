@@ -3,6 +3,7 @@ import networkStrengthMonitor from './networkStrengthMonitor';
 import audioFrequencyMonitor from './audioFrequencyMonitor';
 
 import lo from 'lodash';
+import databaseManager from "./databaseManager";
 
 
 const appId = "821179284";
@@ -12,7 +13,7 @@ class CSIOHandler {
 	constructor() {
 		this.callstats = undefined;
 		this.dispatch = undefined;
-		this.prevPCTResult = undefined;
+		this.localUserId = undefined;
 	}
 
 
@@ -44,13 +45,25 @@ class CSIOHandler {
 		}
 	}
 
+	doPrecallTest() {
+		return new Promise((resolve) => {
+			let cs = new callstats();
+			cs.initialize(appId, appSecret, this.localUserId, {}, null, null);
+			cs.on('preCallTestResults', (status, result) => {
+				let testResult = databaseManager.savePrecalltestResult(result);
+				resolve(testResult);
+			});
+		});
+
+	}
+
 	onCSIORecommendedConfigCallback(config) {
-		// console.warn('->', 'onCSIORecommendedConfigCallback', new Date(), config);
+		console.warn('->', 'onCSIORecommendedConfigCallback', new Date(), config);
 	}
 
 	onCSIOPrecalltestCallback(status, result) {
-		this.prevPCTResult = result;
-		console.warn('->', 'onCSIOPrecalltestCallback', new Date(), status, result);
+		let testResult = databaseManager.savePrecalltestResult(result);
+		console.warn('->', 'onCSIOPrecalltestCallback', new Date(), status, result, testResult);
 		let throughput = lo.get(result, 'throughput', 0);
 		networkStrengthMonitor.addThroughput(throughput, throughput);
 	}
@@ -72,6 +85,7 @@ class CSIOHandler {
 			return;
 		}
 		const localUserId = agent.getName();
+		this.localUserId = localUserId;
 		const configParams = {};
 		if (this.callstats) {
 			this.callstats = undefined;

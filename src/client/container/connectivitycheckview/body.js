@@ -1,24 +1,32 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import SVG from 'react-inlinesvg';
-import acManager from './../../api/acManager';
 
 import closeIcon from '../../res/images/fa-close-or-dismiss.svg';
-import tickGreenIcon from '../../res/images/fa-tick-green.svg';
 import rerunIcon from '../../res/images/fa-return.svg';
-import dangerIcon from '../../res/images/fa-danger.svg';
 
 
 import {
 	onRequestConnectivityCheck
 } from "../../reducers/acReducer";
 
-import {Line} from 'react-chartjs-2';
+import csioHandler from "../../api/csioHandler";
+import MediaConnectivity from "./mediaConnectivity";
+import RoundTripTime from "./roundTripTime";
+import FractionalLoss from "./fractionalLoss";
+import Throughput from "./throughput";
+import ThroughputMessage from "./throughputMessage";
+import RTTGraph from "./rttgraph";
+import databaseManager from "../../api/databaseManager";
 
 class Body extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			pctResult: databaseManager.getPrecallTestResult(),
+			inProgress: false,
+		};
+		this.doPrecalTest = this.doPrecalTest.bind(this);
 	}
 
 	requestConnectivityCheck(phoneType) {
@@ -29,28 +37,19 @@ class Body extends Component {
 		this.props.closeSetting();
 	}
 
+	doPrecalTest() {
+		this.setState({
+			inProgress: true,
+		});
+		csioHandler.doPrecallTest().then(result => {
+			this.setState({
+				inProgress: false,
+				pctResult: result,
+			});
+		});
+	}
+
 	render() {
-		const lastPCTRecord = acManager.getLastPCTRecord() || {};
-		const rttRecords = acManager.getRTTRecords() || [];
-		const chartOptions = {};
-		const chartData = {
-			labels: rttRecords.map((item) => {
-				return item.timeStamps;
-			}),
-			datasets: [{
-				label: 'RTT timeline',
-				backgroundColor: '#ccc',
-				borderColor: '#ccc',
-				borderWidth: 3,
-				pointRadius: 0,
-				lineTension: 0,
-				hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-				hoverBorderColor: 'rgba(255,99,132,1)',
-				data: rttRecords.map((item) => {
-					return item.rtt;
-				}),
-			}]
-		};
 		return (
 			<div className="card-body" style={{backgroundColor: '#ffffff'}}>
 				<div className="row ">
@@ -59,82 +58,22 @@ class Body extends Component {
 						   className="m-0 p-0">Connectivity check</p>
 					</div>
 					<div className="col-md-3 p-0 m-0">
-						<span className="btn text-left p-0 m-0" href="#"
-							  style={{color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px'}}>
-							<SVG class="fa-dial-button" src={rerunIcon}/> Rerun </span>
+						<a className={`btn text-left p-0 m-0 ${this.state.inProgress && 'disabled'}`} href="#"
+						   onClick={this.doPrecalTest}
+						   style={{color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px'}}>
+							<img className="fa-dial-button" src={rerunIcon}/> Rerun </a>
 					</div>
 					<div className="col-md-2" style={{cursor: 'pointer'}}
 						 onClick={() => this.closeSetting()}>
-						<SVG class="p-0 m-0" src={closeIcon}/>
+						<img className="p-0 m-0" src={closeIcon}/>
 					</div>
 				</div>
-				<div className="row mt-3">
-					<div className="col-md-12">
-						<div className="row">
-							<div className="col-md-8">
-								<span style={{color: '#000000', fontSize: '14px', fontFamily: 'AmazonEmber'}}>
-									{lastPCTRecord.mediaConnectivity && <SVG src={tickGreenIcon}/>}
-									{!lastPCTRecord.mediaConnectivity && <SVG src={dangerIcon}/>}
-									<a className="ml-1">Media
-									connectivity</a></span>
-							</div>
-							<div className="col-md-4"/>
-						</div>
-					</div>
-				</div>
-				<div className="row mt-1">
-					<div className="col-md-12">
-						<div className="row">
-							<div className="col-md-8">
-								<span style={{color: '#000000', fontSize: '14px', fontFamily: 'AmazonEmber'}}>
-									<SVG src={tickGreenIcon}/> <a className="ml-1">Round trip time</a></span>
-							</div>
-							<div className="col-md-4 text-right">
-								<a style={{fontFamily: 'AmazonEmber', fontSize: '14px', color: '#000000'}}>
-									{parseFloat(lastPCTRecord.rtt || 0).toFixed(2)} ms </a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div className="row mt-1">
-					<div className="col-md-12">
-						<div className="row">
-							<div className="col-md-8">
-								<span style={{color: '#000000', fontSize: '14px', fontFamily: 'AmazonEmber'}}>
-									<SVG src={tickGreenIcon}/> <a className="ml-1">Packet loss</a></span>
-							</div>
-							<div className="col-md-4 text-right">
-								<a style={{fontFamily: 'AmazonEmber', fontSize: '14px', color: '#000000'}}
-								> {parseFloat(lastPCTRecord.fractionalLoss || 0).toFixed(2)} </a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div className="row mt-1">
-					<div className="col-md-12">
-						<div className="row">
-							<div className="col-md-8">
-								<span style={{color: '#000000', fontSize: '14px', fontFamily: 'AmazonEmber'}}>
-									<SVG src={tickGreenIcon}/> <a className="ml-1">Average throughput</a></span>
-							</div>
-							<div className="col-md-4 text-right">
-								<a style={{fontFamily: 'AmazonEmber', fontSize: '14px', color: '#000000'}}>
-									{Math.round(lastPCTRecord.throughput || 0)} kbps </a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div className="row mt-1">
-					<div className="col-md-12">
-						<a style={{fontFamily: 'AmazonEmber', fontSize: '14px', color: '#000000'}}> Check to
-							see if you have other devices on the network consuming bandwidth. </a>
-					</div>
-				</div>
-				<div className="row mt-1">
-					<div className="col-md-12" style={{height: '90px'}}>
-						<Line data={chartData} options={chartOptions}/>
-					</div>
-				</div>
+				<MediaConnectivity pctResult={this.state.pctResult}/>
+				<RoundTripTime pctResult={this.state.pctResult}/>
+				<FractionalLoss pctResult={this.state.pctResult}/>
+				<Throughput pctResult={this.state.pctResult}/>
+				<ThroughputMessage pctResult={this.state.pctResult}/>
+				<RTTGraph pctResult={this.state.pctResult}/>
 			</div>
 		);
 	}

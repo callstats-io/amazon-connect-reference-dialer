@@ -26,7 +26,7 @@ class Footer extends Component {
 						onClickHandler={this.props.requestReportACallIssue}/>
 
 					<Info divClass={'col-md-6 text-right'}
-						  linkClass={'btn'}
+						  linkClass={'btn disabled'}
 						  style={{color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px'}}
 						  onClickHandler={() => true}/>
 				</div>
