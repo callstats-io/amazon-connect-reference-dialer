@@ -1,5 +1,7 @@
 'use strict';
 
+import agentHandler from "./agentHandler";
+
 class AgentConfigManager {
 	constructor() {
 		this.agentConfig = undefined;
@@ -10,6 +12,10 @@ class AgentConfigManager {
 			return;
 		}
 		this.agentConfig = agent.getConfiguration();
+	}
+
+	setCurrentConfig(agentConfig) {
+		this.agentConfig = agentConfig;
 	}
 
 	getAgentConfig() {
@@ -23,6 +29,7 @@ class AgentConfigManager {
 
 	isSoftphoneEnabled() {
 		const softphoneEnabled = this.agentConfig && this.agentConfig.softphoneEnabled;
+		console.warn('-> softphoneEnabled', this.agentConfig);
 		return softphoneEnabled;
 	}
 
@@ -31,41 +38,49 @@ class AgentConfigManager {
 		return extension;
 	}
 
-	updateAgentConfig(isSoftphone = true, phoneNumber = null) {
-		let agent = agentHandler.getAgent();
+	changeToSoftPhone() {
 		return new Promise((resolve, reject) => {
-			if (agent) {
-				reject('agent cannot be undefined');
+			let agent = agentHandler.getAgent();
+			let newConfig = agent && agent.getConfiguration();
+			newConfig.softphoneEnabled = true;
+			agent.setConfiguration(newConfig, {
+				success: function () {
+					resolve(newConfig);
+				},
+				failure: function () {
+					reject("Failed to change to softphone");
+				}
+			});
+		});
+	}
+
+	changeToDeskphone(phoneNumber) {
+		return new Promise((resolve, reject) => {
+			if (!phoneNumber) {
+				reject('empty number');
 				return;
 			}
-			if (isSoftphone) {
-				let newConfig = agent.getConfiguration();
-				newConfig.softphoneEnabled = true;
-				agent.setConfiguration(newConfig, {
-					success: function () {
-						resolve(newConfig);
-					},
-					failure: function () {
-						reject("Failed to change to softphone");
-					}
-				})
-			} else {
-				if (!phoneNumber) {
-					reject('empty number');
-					return;
+			let agent = agentHandler.getAgent();
+			let newConfig = agent.getConfiguration();
+			newConfig.softphoneEnabled = false;
+			newConfig.extension = phoneNumber;
+			agent.setConfiguration(newConfig, {
+				success: function () {
+					resolve(newConfig);
+				},
+				failure: function () {
+					reject("Failed to change to hardphone");
 				}
-				let newConfig = agent.getConfiguration();
-				newConfig.softphoneEnabled = false;
-				agent.setConfiguration(newConfig, {
-					success: function () {
-						resolve(newConfig);
-					},
-					failure: function () {
-						reject("Failed to change to hardphone");
-					}
-				})
-			}
+			})
 		});
+	}
+
+	updateAgentConfig(isSoftphone = true, phoneNumber = null) {
+		if (isSoftphone) {
+			return this.changeToSoftPhone();
+		} else {
+			return this.changeToDeskphone(phoneNumber);
+		}
 	}
 }
 

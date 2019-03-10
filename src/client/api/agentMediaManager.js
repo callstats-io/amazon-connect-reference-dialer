@@ -2,7 +2,6 @@ import databaseManager from "./databaseManager";
 
 class AgentMediaManager {
 	constructor() {
-		this.selectedDevice = undefined;
 		this.localStream = undefined;
 	}
 

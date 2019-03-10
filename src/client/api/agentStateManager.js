@@ -41,5 +41,5 @@ class AgentStateManager {
 	}
 }
 
-const agentStateManager = new AgentStateManager();
-export default agentStateManager;
+const agentStateMonitor = new AgentStateManager();
+export default agentStateMonitor;

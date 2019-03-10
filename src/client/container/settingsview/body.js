@@ -3,14 +3,12 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import SVG from 'react-inlinesvg';
 
-import acManager from './../../api/acManager';
 import agentConfigManager from './../../api/agentConfigManager';
 import agentMediaManager from './../../api/agentMediaManager';
 
 import closeOrDismissIcon from '../../res/images/fa-close-or-dismiss.svg';
 import circleMarkIcon from '../../res/images/fa-circle-mark.svg';
 import circleUnmarkIcon from '../../res/images/fa-circle-unmark.svg';
-import inputLevel from '../../res/images/fa-input-sound.svg';
 import AudioLevel from './../audiolabelview/audiolevel2';
 import ReactPhoneInput from 'react-phone-input-2';
 
@@ -59,8 +57,8 @@ class Body extends Component {
 	}
 
 	changeToSoftphone() {
-		acManager.updateAgentConfig(true).then(success => {
-			agentConfigManager.setAgentConfig(success);
+		agentConfigManager.updateAgentConfig(true).then(success => {
+			agentConfigManager.setCurrentConfig(success);
 			this.setState({
 				softphoneEnabled: true,
 			});
@@ -74,9 +72,8 @@ class Body extends Component {
 
 	changeToDeskphone() {
 		const {phoneNumber} = this.state;
-		console.warn('change to desktphone ', phoneNumber);
-		acManager.updateAgentConfig(false, phoneNumber).then(success => {
-			agentConfigManager.setAgentConfig(success);
+		agentConfigManager.updateAgentConfig(false, phoneNumber).then(success => {
+			agentConfigManager.setCurrentConfig(success);
 			this.setState({
 				softphoneEnabled: false,
 			})
