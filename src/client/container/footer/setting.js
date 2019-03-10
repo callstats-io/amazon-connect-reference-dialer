@@ -34,7 +34,7 @@ const FooterStyle = {
 	},
 	language: {
 		divClass: 'col-md-6 p-0',
-		linkClass: 'btn text-left',
+		linkClass: 'btn text-left disabled',
 		style: {color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px'},
 	},
 };
