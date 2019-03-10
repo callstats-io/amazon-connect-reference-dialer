@@ -12,7 +12,12 @@ class AudioLevel extends React.Component {
 	}
 
 	shouldComponentUpdate(nextProps) {
-		const {stream, isLocal} = nextProps;
+		const {stream} = nextProps;
+		if(!stream){
+			return false
+		}
+
+		console.warn('shouldComponentUpdate', nextProps);
 		const audio = document.querySelector("#localAudio");
 		audio.srcObject = stream;
 
@@ -48,11 +53,9 @@ class AudioLevel extends React.Component {
 
 AudioLevel.propTypes = {
 	backgroundColor: PropTypes.string,
+	stream: PropTypes.object,
 };
-const mapStateToProps = state => ({
-	stream: state.acReducer.stream,
-	isLocal: state.acReducer.isLocal,
-});
+const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({});
 
 export default connect(

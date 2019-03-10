@@ -23,6 +23,9 @@ import {onAvailableStream} from "../../reducers/acReducer";
 class UpperBody extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			stream: undefined,
+		}
 	}
 
 	_showPhoneNumber(agentState = null) {
@@ -36,7 +39,9 @@ class UpperBody extends Component {
 	componentDidMount() {
 		agentMediaManager.getDefaultAudioInputDevice().then(selectedDevice => {
 			agentMediaManager.getUserMedia(selectedDevice).then(success => {
-				this.props.onAvailableStream(success, true);
+				this.setState({
+					stream: success,
+				});
 			}, err => {
 				console.error('none');
 			})
@@ -65,7 +70,7 @@ class UpperBody extends Component {
 					}}> {agentState} </p>
 				</div>
 				<div className={`col-md-3 text-center`}>
-					<AudioLevel backgroundColor={'#3885de'}/>
+					<AudioLevel backgroundColor={'#3885de'} stream={this.state.stream}/>
 				</div>
 
 				<div className={`col-md-12`}>

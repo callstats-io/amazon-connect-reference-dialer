@@ -27,6 +27,7 @@ class Body extends Component {
 			defaultAudioInputDevice: {},
 			inputDeviceList: [],
 			showMenuItem: false,
+			stream: undefined,
 		};
 		this.init();
 		this.handleInputChange = this.handleInputChange.bind(this);
@@ -34,8 +35,9 @@ class Body extends Component {
 
 	updateMediaSource(selectedDevice) {
 		agentMediaManager.getUserMedia(selectedDevice).then(success => {
-			console.warn('new audio input device', success);
-			this.props.onAvailableStream(success, true);
+			this.setState({
+				stream: success,
+			})
 		}, err => {
 			console.error('none');
 		})
@@ -188,7 +190,7 @@ class Body extends Component {
 							</div>
 						</div>
 						<div className="col-md-2 pl-0 pr-0">
-							<AudioLevel backgroundColor={'#ffffff'}/>
+							<AudioLevel backgroundColor={'#ffffff'} stream={this.state.stream}/>
 						</div>
 					</div>
 				}
