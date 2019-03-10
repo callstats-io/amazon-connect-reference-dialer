@@ -1,3 +1,5 @@
+import databaseManager from "./databaseManager";
+
 class AgentMediaManager {
 	constructor() {
 		this.selectedDevice = undefined;
@@ -10,7 +12,16 @@ class AgentMediaManager {
 		return defaultAudioDevice;
 	}
 
+	/*
+		If there is a prefered audio device. return that one
+		otherwise return default audio device
+	 */
 	async getDefaultAudioInputDevice() {
+		let preferedDevice = this.getPreferedAudioInputDevice();
+		if (preferedDevice) {
+			return preferedDevice;
+		}
+
 		const deviceList = await navigator.mediaDevices.enumerateDevices();
 		const defaultAudioDevice = deviceList.find(device => device.kind === 'audioinput' && device.deviceId === 'default');
 		return defaultAudioDevice;
@@ -29,20 +40,23 @@ class AgentMediaManager {
 		return {inputDevice, outputDevice, inputDeviceList};
 	}
 
-	setDefaultDevice(selectedDevice = undefined) {
-		let isNew = selectedDevice.label !== (this.selectedDevice && this.selectedDevice.label);
-		this.selectedDevice = selectedDevice;
+	setPreferedAudioInputDevice(selectedDevice = undefined) {
+		let prvSelectedDevice = this.getPreferedAudioInputDevice();
+		let isNew = selectedDevice.label !== (prvSelectedDevice && prvSelectedDevice.label);
 		window.selectedDevice = selectedDevice;
-		return isNew
+
+		databaseManager.saveDefaultDevice(selectedDevice);
+		// return  whether it is a new device, or old one
+		return isNew;
 	}
 
-	getDefaultDevice() {
-		return this.selectedDevice;
+	getPreferedAudioInputDevice() {
+		const selectedDevice = databaseManager.getSelectedAudioDevice();
+		return selectedDevice && JSON.parse(selectedDevice);
 	}
 
-	getUserMedia() {
-		const audioDeviceId = (this.selectedDevice && this.selectedDevice.deviceId) || undefined;
-		const videoDeviceId = undefined;
+	async getUserMedia(selectedDevice = undefined) {
+		const audioDeviceId = (selectedDevice && selectedDevice.deviceId) || undefined;
 		const constraints = {
 			audio: {deviceId: audioDeviceId},
 			video: false,

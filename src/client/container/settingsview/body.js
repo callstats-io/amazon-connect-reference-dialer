@@ -34,15 +34,24 @@ class Body extends Component {
 		this.handleInputChange = this.handleInputChange.bind(this);
 	}
 
+	updateMediaSource(selectedDevice) {
+		agentMediaManager.getUserMedia(selectedDevice).then(success => {
+			console.warn('new audio input device', success);
+			this.props.onAvailableStream(success, true);
+		}, err => {
+			console.error('none');
+		})
+	}
+
 	init() {
 		agentMediaManager.getDefaultAudioInputAndOutputDeviceDetails().then(success => {
-			console.warn('->', success);
 			const {inputDevice, outputDevice, inputDeviceList} = success;
 			this.setState({
 				defaultAudioInputDevice: inputDevice,
 				defaultAudioOutputDevice: outputDevice,
 				inputDeviceList: inputDeviceList,
 			});
+			this.updateMediaSource(inputDevice);
 		}).catch(err => {
 			console.error(err);
 		});
@@ -50,12 +59,14 @@ class Body extends Component {
 	}
 
 	changeToSoftphone() {
-		// this.props.requestAgentSettingsChange();
 		acManager.updateAgentConfig(true).then(success => {
 			agentConfigManager.setAgentConfig(success);
 			this.setState({
 				softphoneEnabled: true,
-			})
+			});
+			agentMediaManager.getDefaultAudioInputDevice().then(selectedDevice => {
+				this.updateMediaSource(selectedDevice);
+			});
 		}, err => {
 			console.error(err);
 		})
@@ -82,22 +93,16 @@ class Body extends Component {
 	}
 
 	changeAudioInputDevice(selectedDevice) {
-		console.warn('->', selectedDevice);
 		this.setState({
 			defaultAudioInputDevice: selectedDevice,
 			showMenuItem: false,
 		});
 
-		let isNew = agentMediaManager.setDefaultDevice(selectedDevice);
+		let isNew = agentMediaManager.setPreferedAudioInputDevice(selectedDevice);
 		if (isNew) {
-			// do a new getUserMedia, and attach the frequency monitor
-
-			agentMediaManager.getUserMedia().then(success => {
-				console.warn('new audio input device', success);
-				this.props.onAvailableStream(success, true);
-			}, err => {
-				console.error('none');
-			})
+			agentMediaManager.getDefaultAudioInputDevice().then(selectedDevice => {
+				this.updateMediaSource(selectedDevice);
+			});
 		}
 	}
 

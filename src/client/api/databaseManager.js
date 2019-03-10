@@ -11,7 +11,6 @@ class DatabaseManager {
 		this.db = new pouchdb(dbName);
 		this.deviceDB = new pouchdb(deviceDB);
 		this.lastTestResult = undefined;
-		this.selectedDevice = undefined;
 	}
 
 	async savePrecalltest(result) {
@@ -44,30 +43,12 @@ class DatabaseManager {
 		return [];
 	}
 
-	async saveDefaultDevice(defaultAudioDevice = {}) {
-		this.selectedDevice = defaultAudioDevice;
-		/*const record = {
-			_id: 'defaultDevice',
-			data: defaultAudioDevice,
-		};
-		try {
-			const doc = await this.deviceDB.put(record);
-			return doc;
-		} catch (err) {
-			console.error('->', err);
-		}
-		return undefined;*/
+	saveDefaultDevice(defaultAudioDevice = undefined) {
+		window.localStorage.setItem('defaultDevice', JSON.stringify(defaultAudioDevice));
 	}
 
-	async getSelectedAudioDevice() {
-		return this.selectedDevice;
-
-		/*try {
-			const record = await this.deviceDB.get('defaultDevice');
-			return record;
-		} catch (err) {
-			console.error('->', 'error fetching records', err);
-		}*/
+	getSelectedAudioDevice() {
+		return window.localStorage.getItem('defaultDevice') || undefined;
 	}
 
 }
