@@ -16,13 +16,18 @@ class AgentMediaManager {
 		otherwise return default audio device
 	 */
 	async getDefaultAudioInputDevice() {
-		let preferedDevice = this.getPreferedAudioInputDevice();
-		if (preferedDevice) {
-			return preferedDevice;
-		}
-
 		const deviceList = await navigator.mediaDevices.enumerateDevices();
+		let preferedDevice = this.getPreferedAudioInputDevice();
+
+		if (preferedDevice) {
+			const defaultAudioDevice = deviceList.find(device => device.kind === preferedDevice.kind && device.deviceId === preferedDevice.deviceId);
+			if (defaultAudioDevice) {
+				window.selectedDevice = defaultAudioDevice;
+				return defaultAudioDevice;
+			}
+		}
 		const defaultAudioDevice = deviceList.find(device => device.kind === 'audioinput' && device.deviceId === 'default');
+		window.selectedDevice = defaultAudioDevice;
 		return defaultAudioDevice;
 	}
 
