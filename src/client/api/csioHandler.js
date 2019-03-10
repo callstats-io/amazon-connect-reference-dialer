@@ -18,7 +18,7 @@ class CSIOHandler {
 
 
 	onCSIOInitialize(err, msg) {
-		console.warn('->', 'onCSIOInitialize', new Date(), err, msg);
+		// console.warn('->', 'onCSIOInitialize', new Date(), err, msg);
 	}
 
 	onCSIOStats(stats) {
@@ -58,12 +58,12 @@ class CSIOHandler {
 	}
 
 	onCSIORecommendedConfigCallback(config) {
-		console.warn('->', 'onCSIORecommendedConfigCallback', new Date(), config);
+		// console.warn('->', 'onCSIORecommendedConfigCallback', new Date(), config);
 	}
 
 	onCSIOPrecalltestCallback(status, result) {
 		let testResult = databaseManager.savePrecalltestResult(result);
-		console.warn('->', 'onCSIOPrecalltestCallback', new Date(), status, result, testResult);
+		// console.warn('->', 'onCSIOPrecalltestCallback', new Date(), status, result, testResult);
 		let throughput = lo.get(result, 'throughput', 0);
 		networkStrengthMonitor.addThroughput(throughput, throughput);
 	}

@@ -39,7 +39,7 @@ const getLabels = (pctRecords) => {
 	let labels = pctRecords.map((item) => {
 		return item.isoTime;
 	});
-	console.warn('->labels', labels);
+	// console.warn('->labels', labels);
 	return labels || [];
 };
 const getRTT = (pctRecords) => {
@@ -47,7 +47,7 @@ const getRTT = (pctRecords) => {
 		let rtt = parseFloat(item.rtt);
 		return rtt || 0;
 	});
-	console.warn('->rtts', rtts);
+	// console.warn('->rtts', rtts);
 	return rtts || [];
 };
 const getChartData = (pctRecords) => {
