@@ -9,7 +9,7 @@ import agentMediaManager from './../../api/agentMediaManager';
 import closeOrDismissIcon from '../../res/images/fa-close-or-dismiss.svg';
 import circleMarkIcon from '../../res/images/fa-circle-mark.svg';
 import circleUnmarkIcon from '../../res/images/fa-circle-unmark.svg';
-import AudioLevel from './../audiolabelview/audiolevel2';
+import AudioLevel from '../audiolabelview/audiolevel';
 import ReactPhoneInput from 'react-phone-input-2';
 
 import {

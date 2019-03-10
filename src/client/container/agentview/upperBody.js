@@ -4,10 +4,8 @@ import {connect} from "react-redux";
 import SVG from 'react-inlinesvg';
 
 import agentMicMutedIcon from '../../res/images/muted-icon.svg';
-import AudioLevel from './../audiolabelview/audiolevel2';
+import AudioLevel from '../audiolabelview/audiolevel';
 import agentMediaManager from "../../api/agentMediaManager";
-import {onAvailableStream} from "../../reducers/acReducer";
-
 
 /*
 	Card upper body. Mainly the upper part of the card body.
@@ -54,11 +52,7 @@ class UpperBody extends Component {
 		const duration = this.props.duration;
 		const phoneNumber = this.props.phoneNumber;
 
-		//todo should come from API
 		const muted = this.props.muted;
-		const agentAudioLevel = this.props.agentAudioLevel;
-		const peerAudioLevel = this.props.peerAudioLevel;
-
 		const remoteStream = this.props.remoteStream;
 
 		return (

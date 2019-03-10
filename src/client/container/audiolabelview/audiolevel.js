@@ -1,18 +1,60 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import AudioMeter from './audiometer'
+import PropTypes from "prop-types";
 
-import noVoiceIcon from '../../res/images/fa-voice-no-freq.svg';
-import talkingVoiceIcon from '../../res/images/agent-voice-freq-icon.svg';
+class AudioLevel extends React.Component {
+	constructor(props) {
+		super(props);
+		this.width = 0;
+		this.height = 0;
+		this.audioMeter = new AudioMeter(props.backgroundColor);
+	}
 
+	shouldComponentUpdate(nextProps) {
+		const {stream} = nextProps;
+		if(!stream){
+			return false
+		}
 
+		console.warn('shouldComponentUpdate', nextProps);
+		const audio = document.querySelector("#localAudio");
+		audio.srcObject = stream;
 
-const AudioLevel = ({audioLevel, muted, fullHeight, style}) => (
-	<img src={audioLevel > 0 && muted === false ? talkingVoiceIcon : noVoiceIcon}
-		 style={style && style}/>
-);
+		const canvas = this.refs.canvas;
+		const canvasCtx = canvas.getContext("2d");
+		this.audioMeter.startVisualization(audio.srcObject, canvasCtx, canvas);
+		return (this.props && this.props.stream && this.props.stream.id === stream.id) ? true : false;
+	}
 
-AudioLevel.propTypes = {};
+	componentDidMount() {
+		const canvas = this.refs.canvas;
+		const canvasCtx = canvas.getContext("2d");
+	}
+
+	componentWillUnmount() {
+		this.audioMeter && this.audioMeter.dispose();
+	}
+
+	render() {
+		return (
+			<div>
+				<canvas ref="canvas" width="200" height="170" style={{
+					width: '100%',
+					height: 'auto',
+				}}/>
+				<audio id="localAudio" muted controls width="160" height="120" autoPlay
+					   style={{display: 'none'}}></audio>
+			</div>
+
+		)
+	}
+}
+
+AudioLevel.propTypes = {
+	backgroundColor: PropTypes.string,
+	stream: PropTypes.object,
+};
 const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({});
 

@@ -1,3 +1,3 @@
-import AudioLevel from './audiolevel';
+import AudioLevel from './audiolevel.js';
 
 export default AudioLevel;
