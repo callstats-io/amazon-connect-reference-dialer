@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import SVG from 'react-inlinesvg';
 import lo from 'lodash';
 
 import starYellowIcon from '../../res/images/star-yellow.svg';
@@ -10,20 +9,22 @@ import {
 	onRequestReportCallIssue
 } from "../../reducers/acReducer";
 
-
-const feedbackRatings = [1, 2, 3, 4, 5];
-const feedbackRatingsText = ['Poor', 'Poor', 'Ok', 'Good', 'Excellent'];
-const defaultFeedback = 3;
+import {
+	feedbackRatings,
+	feedbackRatingsText,
+	defaultFeedback
+} from './../../utils/feedback'
 
 class QuickFeedback extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			feedback: props.feedback,
+			feedback: defaultFeedback,
 		};
 	}
 
 	feedbackChange(currentFeedback) {
+		//todo submit feedback, and vanish
 		this.setState({
 			feedback: currentFeedback
 		});
@@ -61,7 +62,7 @@ class QuickFeedback extends Component {
 							<a key={`feedback-rating-${currentFeedback}`}
 							   style={{cursor: 'pointer'}}
 							   onClick={() => this.feedbackChange(currentFeedback)}>
-								<SVG src={currentFeedback <= this.state.feedback ? starYellowIcon : starWhiteIcon}/>
+								<img src={currentFeedback <= this.state.feedback ? starYellowIcon : starWhiteIcon}/>
 							</a>
 						))
 					}
@@ -80,12 +81,10 @@ class QuickFeedback extends Component {
 }
 
 QuickFeedback.propTypes = {
-	feedback: PropTypes.number.isRequired,
+	feedback: PropTypes.number,
 	requestReportACallIssue: PropTypes.func.isRequired,
 };
-const mapStateToProps = state => ({
-	feedback: state.acReducer.feedback || defaultFeedback,
-});
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
 	requestReportACallIssue: () => {

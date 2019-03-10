@@ -6,8 +6,7 @@ import Body from './body';
 import Footer from './footer';
 import issueList from "./issues";
 import {onRequestReportCallIssue} from "../../reducers/acReducer";
-
-const defaultFeedback = 3;
+import {defaultFeedback} from './../../utils/feedback'
 
 class ReportCallIssueView extends Component {
 	constructor(props) {

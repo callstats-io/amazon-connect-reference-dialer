@@ -1,12 +1,7 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
+import React from "react";
 import PropTypes from "prop-types";
 
 import closeOrDismissIcon from '../../res/images/fa-close-or-dismiss.svg';
-
-import {
-	onRequestReportCallIssue
-} from "../../reducers/acReducer";
 
 import IssueNotes from './issueNotes';
 import FeedbackRatings from './feedbackRatings';

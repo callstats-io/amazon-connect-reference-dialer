@@ -5,9 +5,7 @@ import lo from "lodash";
 import starYellowIcon from '../../res/images/star-yellow.svg';
 import starWhiteIcon from '../../res/images/star-white.svg';
 
-const feedbackRatings = [1, 2, 3, 4, 5];
-const feedbackRatingsText = ['Poor', 'Poor', 'Ok', 'Good', 'Excellent'];
-
+import {feedbackRatings, feedbackRatingsText} from '../../utils/feedback'
 
 const FeedbackRatings = ({onFeedbackRatingChange, feedbackRating}) => (
 	<div className="row mt-0">
@@ -20,7 +18,7 @@ const FeedbackRatings = ({onFeedbackRatingChange, feedbackRating}) => (
 				feedbackRatings.map((currentFeedback,) => (
 					<a key={`feedback-rating-${currentFeedback}`}
 					   style={{cursor: 'pointer'}}
-					   onClick={ ()=> onFeedbackRatingChange(currentFeedback) }>
+					   onClick={() => onFeedbackRatingChange(currentFeedback)}>
 						<img src={currentFeedback <= feedbackRating ? starYellowIcon : starWhiteIcon}/>
 					</a>
 				))
