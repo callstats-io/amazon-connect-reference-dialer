@@ -11,6 +11,7 @@ import dialNumberIcon from '../../res/images/fa-dial-number.svg';
 import quickConnect from '../../res/images/fa-quick-connect.svg';
 import transferIcon from '../../res/images/fa-transfer.svg';
 import {onRequestShowDialPad} from "../../reducers/acReducer";
+import connectionHandler from "../../api/connectionHandler";
 
 
 /*
@@ -25,6 +26,8 @@ import {onRequestShowDialPad} from "../../reducers/acReducer";
 class LowerBody extends Component {
 	constructor(props) {
 		super(props);
+
+		this.toggleHold = this.toggleHold.bind(this);
 	}
 
 	_showHoldOrMute(agentState = null) {
@@ -43,6 +46,16 @@ class LowerBody extends Component {
 		return ['AfterCallWork'].includes(agentState);
 	}
 
+	toggleHold() {
+		let isOnHold = connectionHandler.isOnHold();
+		let promise = isOnHold ? connectionHandler.resume() : connectionHandler.hold();
+		promise.then(success => {
+
+		}).catch(err => {
+			console.error(err);
+		})
+	}
+
 	requestDialPad() {
 		this.props.requestDialPad();
 	}
@@ -59,20 +72,20 @@ class LowerBody extends Component {
 					{
 						this._showHoldOrMute(agentState) &&
 						<div className="row mt-3">
-							<div className="col-md-6"><a className="btn" style={{
-								width: '132px',
-								height: '36px',
-								boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
-								backgroundColor: '#ffffff',
-								color: '#000000',
-								fontFamily: 'AmazonEmber',
-								fontSize: '14px'
-							}} href="#">
-								<SVG src={holdIcon}/> &nbsp;Hold </a>
+							<div className="col-md-6">
+								<a className="btn" style={{
+									width: '132px',
+									height: '36px',
+									boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
+									backgroundColor: '#ffffff',
+									color: '#000000',
+									fontFamily: 'AmazonEmber',
+									fontSize: '14px'
+								}} href="#" onClick={this.toggleHold}>
+									<img src={holdIcon}/> &nbsp;Hold </a>
 							</div>
 
 							<div className="col-md-6">
-
 								{
 									muted ?
 										<a className="btn pl-0 pr-0" href="#" style={{
@@ -117,7 +130,7 @@ class LowerBody extends Component {
 							<div className="col-md-6">
 								{
 									this._transferCall(agentState) ?
-										<a className="btn pl-0 pr-0" href="#" style={{
+										<a className="btn pl-0 pr-0 disabled" href="#" style={{
 											width: '132px',
 											height: '36px',
 											boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
@@ -127,7 +140,7 @@ class LowerBody extends Component {
 											fontSize: '14px'
 										}}>
 											<img src={transferIcon}/> &nbsp;Transfer </a> :
-										<a className="btn pl-0 pr-0" href="#" style={{
+										<a className="btn pl-0 pr-0 disabled" href="#" style={{
 											width: '132px',
 											height: '36px',
 											boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',

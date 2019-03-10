@@ -67,14 +67,6 @@ class ACManager {
 	}
 
 
-	getRTTRecords() {
-		return this.rttRecords;
-	}
-
-	getLastPCTRecord() {
-		return this.lastPCTRecord;
-	}
-
 	downloadACLog() {
 		if (connect) {
 			connect.getLog().download();

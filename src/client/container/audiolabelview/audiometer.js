@@ -6,7 +6,7 @@ class AudioMeter {
 		this.backgroundColor = backgroundColor;
 	}
 
-	startVisualization(stream, canvasCtx, canvas) {
+	startVisualization(stream, canvasCtx, canvas, backgroundColor) {
 		var audioCtx = new AudioContext();
 		var analyser = audioCtx.createAnalyser();
 		var source = audioCtx.createMediaStreamSource(stream);
@@ -22,7 +22,7 @@ class AudioMeter {
 		const colors = ['rgb(192,192,192)', 'rgb((0,128,0))', 'rgb((0,0,128))', 'rgb((173,216,230))', 'rgb((255,250,205))'];
 		const len = colors.length;
 		const draw = () => {
-			canvasCtx.fillStyle = this.backgroundColor;
+			canvasCtx.fillStyle = backgroundColor || this.backgroundColor;
 			canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
 
 			analyser.getByteFrequencyData(data);

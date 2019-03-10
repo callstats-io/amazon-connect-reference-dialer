@@ -8,6 +8,10 @@ class ContactHandler {
 		this.contact = undefined;
 	}
 
+	getContact() {
+		return this.contact;
+	}
+
 	dispose() {
 		this.dispatch = undefined;
 		this.contact = undefined;

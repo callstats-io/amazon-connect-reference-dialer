@@ -17,13 +17,12 @@ class AudioLevel extends React.Component {
 			return false
 		}
 
-		console.warn('shouldComponentUpdate', nextProps);
 		const audio = document.querySelector("#localAudio");
 		audio.srcObject = stream;
 
 		const canvas = this.refs.canvas;
 		const canvasCtx = canvas.getContext("2d");
-		this.audioMeter.startVisualization(audio.srcObject, canvasCtx, canvas);
+		this.audioMeter.startVisualization(audio.srcObject, canvasCtx, canvas, nextProps.backgroundColor);
 		return (this.props && this.props.stream && this.props.stream.id === stream.id) ? true : false;
 	}
 

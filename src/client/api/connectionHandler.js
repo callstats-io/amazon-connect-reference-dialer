@@ -35,7 +35,7 @@ class ConnectionHandler {
 
 	// hangup a call with connection
 	hangupCall() {
-		if(this.connection){
+		if (this.connection) {
 			this.connection.destroy({
 				success: (data) => {
 					console.warn('-> hangupCall', data);
@@ -45,6 +45,40 @@ class ConnectionHandler {
 				}
 			});
 		}
+	}
+
+	isOnHold() {
+		return this.connection && this.connection.isOnHold();
+	}
+
+	hold() {
+		return new Promise((resolve, reject) => {
+			if (this.connection) {
+				this.connection.hold({
+					success: function () {
+						resolve(null);
+					},
+					failure: function () {
+						reject('failed');
+					}
+				});
+			}
+		});
+	}
+
+	resume() {
+		return new Promise((resolve, reject) => {
+			if (this.connection) {
+				this.connection.resume({
+					success: function () {
+						resolve(null);
+					},
+					failure: function () {
+						reject('failed');
+					}
+				});
+			}
+		});
 	}
 }
 

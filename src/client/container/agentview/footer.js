@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
-import agentStateManager from './../../api/agentStateManager';
+import agentStateManager from '../../api/agentStateManager';
 import AcceptOrReject from "../footer/components/acceptOrReject";
 import AvailableOrEnd from "../footer/components/availableOrEnd";
 import connectionHandler from "../../api/connectionHandler";
@@ -46,7 +46,7 @@ const AgentViewStyle = {
 		}
 	},
 	end: {
-		divClass: 'col-md-6',
+		divClass: 'col-md-12',
 		linkClass: 'btn w-100',
 		style: {
 			height: '36px',
@@ -99,10 +99,10 @@ const Footer = ({agentState = 'unknown'}) => (
 		}
 		{
 			_showEndCall(agentState) &&
-			<AvailableOrEnd divClass={AgentViewStyle.available.divClass}
-							linkClass={AgentViewStyle.available.linkClass}
-							style={AgentViewStyle.available.style}
-							text={'End call'}
+			<AvailableOrEnd divClass={AgentViewStyle.end.divClass}
+							linkClass={AgentViewStyle.end.linkClass}
+							style={AgentViewStyle.end.style}
+							text={' End call'}
 							isEnded={true}
 							onClickHandler={hangupCall}/>
 
@@ -120,7 +120,7 @@ const Footer = ({agentState = 'unknown'}) => (
 				<AcceptOrReject divClass={AgentViewStyle.reject.divClass}
 								linkClass={AgentViewStyle.reject.linkClass}
 								style={AgentViewStyle.reject.style}
-								text={'Reject call'}
+								text={' Reject call'}
 								onClickHandler={hangupCall}/>
 			</div>
 		}

@@ -11,7 +11,7 @@ class DatabaseManager {
 		let retval = this.getPrecallTestResult();
 		if (retval) {
 			if (retval.length > maxElement) {
-				retval = retval.shift();
+				retval.shift();
 			}
 			retval.push({...result, isoTime});
 		}

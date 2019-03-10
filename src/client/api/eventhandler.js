@@ -1,5 +1,6 @@
 import {onAgentStateChange} from "../reducers/acReducer";
 import {getAgentState, getAgentStateForHoldUnhold, isAgentStateChange, isCallOnHoldUnhold} from "./agenetevents";
+import contactHandler from "./contactHandler";
 
 class EventHandler {
 	constructor() {
@@ -20,7 +21,7 @@ class EventHandler {
 					const agentState = getAgentState(e);
 					this.dispatch(onAgentStateChange(agentState));
 				} else if (isCallOnHoldUnhold(e)) {
-					const tempAgentState = getAgentStateForHoldUnhold(e, this.currentContact);
+					const tempAgentState = getAgentStateForHoldUnhold(e, contactHandler.getContact());
 					const agentState = getAgentState(tempAgentState);
 					this.dispatch(onAgentStateChange(agentState));
 				}
