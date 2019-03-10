@@ -1,11 +1,12 @@
-import React, {Component} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
 import agentStateManager from './../../api/agentStateManager';
-import acManager from './../../api/acManager';
 import AcceptOrReject from "../footer/components/acceptOrReject";
 import AvailableOrEnd from "../footer/components/availableOrEnd";
+import connectionHandler from "../../api/connectionHandler";
+import contactHandler from "../../api/contactHandler";
 
 const AgentViewStyle = {
 	accept: {
@@ -62,6 +63,14 @@ const requestAgentStateChange = () => {
 	let currentState = agentStateManager.getStateAsObject('Available');
 	currentState && agentStateManager.setAgentState(currentState);
 };
+const hangupCall = () => {
+	console.warn('->', 'hangupCall');
+	connectionHandler.hangupCall();
+};
+
+const acceptCall = () => {
+	contactHandler.acceptCall();
+};
 
 const _showAvailable = (agentState = null) => {
 	return agentState && agentState.toLowerCase() !== 'available' &&
@@ -95,7 +104,7 @@ const Footer = ({agentState = 'unknown'}) => (
 							style={AgentViewStyle.available.style}
 							text={'End call'}
 							isEnded={true}
-							onClickHandler={acManager.hangupCall}/>
+							onClickHandler={hangupCall}/>
 
 		}
 		{
@@ -106,12 +115,13 @@ const Footer = ({agentState = 'unknown'}) => (
 					linkClass={AgentViewStyle.accept.linkClass}
 					style={AgentViewStyle.accept.style}
 					text={'Accept call'}
-					onClickHandler={acManager.acceptCall}/>
+					onClickHandler={acceptCall}/>
+
 				<AcceptOrReject divClass={AgentViewStyle.reject.divClass}
 								linkClass={AgentViewStyle.reject.linkClass}
 								style={AgentViewStyle.reject.style}
 								text={'Reject call'}
-								onClickHandler={acManager.hangupCall}/>
+								onClickHandler={hangupCall}/>
 			</div>
 		}
 	</div>

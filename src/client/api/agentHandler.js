@@ -64,6 +64,7 @@ class AgentHandler {
 			});
 		});
 	}
+
 }
 
 const agentHandler = new AgentHandler();

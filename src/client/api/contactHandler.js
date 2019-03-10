@@ -1,5 +1,6 @@
 import {onAgentStateChange, onAvailableStream} from "../reducers/acReducer";
 import {getAgentState} from "./agenetevents";
+import connectionHandler from "./connectionHandler";
 
 class ContactHandler {
 	constructor() {
@@ -45,7 +46,7 @@ class ContactHandler {
 			//todo
 		});
 		contact.onSession(session => {
-			setTimeout(()=>{
+			setTimeout(() => {
 				this.dispatch(onAvailableStream(session._remoteAudioStream, false))
 			}, 2000);
 
@@ -53,6 +54,21 @@ class ContactHandler {
 		const currentConnection = contact.getActiveInitialConnection();
 		if (!currentConnection) {
 			return;
+		}
+		connectionHandler.register(dispatch, currentConnection);
+	}
+
+	// accept a incoming call with contact
+	acceptCall() {
+		if (this.contact) {
+			this.contact.accept({
+				success: (data) => {
+					console.warn('-> acceptCall', data);
+				},
+				failure: (data) => {
+					console.error('-> acceptCall', data);
+				}
+			});
 		}
 	}
 }

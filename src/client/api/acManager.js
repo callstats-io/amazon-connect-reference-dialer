@@ -75,36 +75,9 @@ class ACManager {
 		return this.lastPCTRecord;
 	}
 
-
 	downloadACLog() {
 		if (connect) {
 			connect.getLog().download();
-		}
-	}
-
-	// hangup a call with connection
-	hangupCall() {
-		this.currentConnection && this.currentConnection.destroy({
-			success: (data) => {
-				console.warn('-> hangupCall', data);
-			},
-			failure: (data) => {
-				console.error('-> hangupCall', data);
-			}
-		});
-	}
-
-	// accept a incoming call with contact
-	acceptCall() {
-		if (this.currentContact) {
-			this.currentContact.accept({
-				success: (data) => {
-					console.warn('-> acceptCall', data);
-				},
-				failure: (data) => {
-					console.error('-> acceptCall', data);
-				}
-			});
 		}
 	}
 

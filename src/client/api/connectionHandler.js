@@ -22,12 +22,28 @@ class ConnectionHandler {
 		this.dispatch = dispatch;
 		this.connection = connection;
 
+		console.warn('->>> ConnectionHandler', this.connection);
+
 		const address = connection.getAddress();
 		const phoneNumber = address && address.stripPhoneNumber();
 		if (phoneNumber) {
 			const temp = this.phoneUtil.parse(phoneNumber, "");
 			const formatPhoneNumber = this.phoneUtil.format(temp, this.PNF.INTERNATIONAL);
 			this.dispatch(onPhoneNumber(formatPhoneNumber));
+		}
+	}
+
+	// hangup a call with connection
+	hangupCall() {
+		if(this.connection){
+			this.connection.destroy({
+				success: (data) => {
+					console.warn('-> hangupCall', data);
+				},
+				failure: (data) => {
+					console.error('-> hangupCall', data);
+				}
+			});
 		}
 	}
 }
