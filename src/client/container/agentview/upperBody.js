@@ -59,6 +59,8 @@ class UpperBody extends Component {
 		const agentAudioLevel = this.props.agentAudioLevel;
 		const peerAudioLevel = this.props.peerAudioLevel;
 
+		const remoteStream = this.props.remoteStream;
+
 		return (
 			<div className={`row`}
 				 style={{height: '182px', backgroundColor: '#3885de', paddingTop: '5%'}}>
@@ -124,12 +126,8 @@ class UpperBody extends Component {
 							   }}>{phoneNumber}</p>}
 						</div>
 						<div className={`col-md-2 pl-0`}>
-							{this._showPhoneNumber(agentState) && <AudioLevel audioLevel={peerAudioLevel} muted={false}
-																			  style={{
-																				  width: '20px',
-																				  height: !muted && peerAudioLevel > 0 && '33px',
-																				  marginBottom: !muted && peerAudioLevel > 0 && '10%'
-																			  }}/>}
+							{this._showPhoneNumber(agentState) &&
+							<AudioLevel backgroundColor={'#3885de'} stream={remoteStream}/>}
 						</div>
 						<div className={`col-md-4 align-self-center text-right`}>
 							<p className={`m-0`}
@@ -155,7 +153,8 @@ UpperBody.propTypes = {
 	agentAudioLevel: PropTypes.number.isRequired,
 	peerAudioLevel: PropTypes.number.isRequired,
 
-	onAvailableStream: PropTypes.func.isRequired,
+	remoteStream: PropTypes.object
+
 };
 const mapStateToProps = state => ({
 	agentState: state.acReducer.agentState || 'unknown',
@@ -165,12 +164,10 @@ const mapStateToProps = state => ({
 
 	agentAudioLevel: state.acReducer.agentAudioLevel || 0,
 	peerAudioLevel: state.acReducer.peerAudioLevel || 0,
+
+	remoteStream: state.acReducer.stream,
 });
-const mapDispatchToProps = dispatch => ({
-	onAvailableStream: (stream, isLocal) => {
-		dispatch(onAvailableStream(stream, isLocal));
-	}
-});
+const mapDispatchToProps = dispatch => ({});
 
 export default connect(
 	mapStateToProps,

@@ -10,9 +10,9 @@ import {
 } from "../../reducers/acReducer";
 
 import agentConfigManager from './../../api/agentConfigManager';
-import acManager from './../../api/acManager';
 import DialPad from './dialpad';
 import lo from 'lodash';
+import agentHandler from "../../api/agentHandler";
 
 
 class Body extends Component {
@@ -48,7 +48,7 @@ class Body extends Component {
 
 	dialNumber() {
 		const {phoneNumber} = this.state;
-		acManager.dialNumber(phoneNumber).then(success => {
+		agentHandler.dialNumber(phoneNumber).then(success => {
 			this.closeDialPad();
 		}, err => {
 			console.error(err);

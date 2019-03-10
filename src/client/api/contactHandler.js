@@ -1,4 +1,4 @@
-import {onAgentStateChange} from "../reducers/acReducer";
+import {onAgentStateChange, onAvailableStream} from "../reducers/acReducer";
 import {getAgentState} from "./agenetevents";
 
 class ContactHandler {
@@ -43,6 +43,12 @@ class ContactHandler {
 		});
 		contact.onRefresh((e) => {
 			//todo
+		});
+		contact.onSession(session => {
+			setTimeout(()=>{
+				this.dispatch(onAvailableStream(session._remoteAudioStream, false))
+			}, 2000);
+
 		});
 		const currentConnection = contact.getActiveInitialConnection();
 		if (!currentConnection) {

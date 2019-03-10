@@ -14,7 +14,6 @@ import ReactPhoneInput from 'react-phone-input-2';
 
 import {
 	onRequestAgentSettingsChange,
-	onAvailableStream,
 } from "../../reducers/acReducer";
 
 class Body extends Component {
@@ -272,7 +271,6 @@ class Body extends Component {
 Body.propTypes = {
 	closeSetting: PropTypes.func.isRequired,
 	requestAgentSettingsChange: PropTypes.func.isRequired,
-	onAvailableStream: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({});
 
@@ -282,9 +280,6 @@ const mapDispatchToProps = dispatch => ({
 	},
 	requestAgentSettingsChange: () => {
 		dispatch(onRequestAgentSettingsChange('complete'))
-	},
-	onAvailableStream: (stream, isLocal) => {
-		dispatch(onAvailableStream(stream, isLocal));
 	}
 });
 

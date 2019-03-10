@@ -42,6 +42,28 @@ class AgentHandler {
 	getAgent() {
 		return this.agent;
 	}
+
+	dialNumber(phoneNumber = null) {
+		return new Promise((resolve, reject) => {
+			if (!phoneNumber) {
+				reject('empty number');
+				return;
+			}
+			if (!this.agent) {
+				reject('agent cannot be undefined');
+				return;
+			}
+			const endpoint = connect.Endpoint.byPhoneNumber(phoneNumber);
+			this.agent.connect(endpoint, {
+				success: function () {
+					resolve("Successfully sent outbound call")
+				},
+				failure: function (err) {
+					reject(err);
+				}
+			});
+		});
+	}
 }
 
 const agentHandler = new AgentHandler();

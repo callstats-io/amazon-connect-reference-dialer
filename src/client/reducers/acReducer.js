@@ -99,6 +99,7 @@ export const onAudioLevelChange = (agentAudioLevel = 0, peerAudioLevel = 0) => {
 };
 
 export const onAvailableStream = (stream = undefined, isLocal = true) => {
+	console.warn('onAvailableStream', stream, isLocal);
 	return {
 		type: 'onAvailableStream',
 		stream,
