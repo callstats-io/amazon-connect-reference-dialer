@@ -1,22 +1,20 @@
 import agentMediaManager from './../../api/agentMediaManager'
 class AudioMeter {
 	constructor() {
-		this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-		this.analyser = this.audioCtx.createAnalyser();
-		this.source = undefined;
 		this.intervalId = undefined;
 	}
 
 	startVisualization(stream, canvasCtx, canvas) {
-		this.source = this.audioCtx.createMediaStreamSource(stream);
-		this.source.connect(this.analyser);
-		this.analyser.connect(this.audioCtx.destination);
-
+		var audioCtx = new AudioContext();
+		var analyser = audioCtx.createAnalyser();
+		var source = audioCtx.createMediaStreamSource(stream);
+		source.connect(analyser);
 
 		if (this.intervalId) {
 			clearInterval(this.intervalId);
 			this.intervalId = undefined;
 		}
+
 		let data = new Uint8Array(canvas.width);
 		canvasCtx.strokeStyle = '#cfcfcf';
 		const colors = ['rgb(192,192,192)', 'rgb((0,128,0))', 'rgb((0,0,128))', 'rgb((173,216,230))', 'rgb((255,250,205))'];
@@ -25,7 +23,7 @@ class AudioMeter {
 			canvasCtx.fillStyle = "#ffffff";
 			canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
 
-			this.analyser.getByteFrequencyData(data);
+			analyser.getByteFrequencyData(data);
 			canvasCtx.lineWidth = 2;
 			data.forEach((y, x) => {
 				y = canvas.height - (y / 128) * canvas.height / 4;
@@ -33,7 +31,7 @@ class AudioMeter {
 				canvasCtx.fillRect(x, y, 2, canvas.height - y)
 			});
 
-			this.analyser.getByteTimeDomainData(data);
+			analyser.getByteTimeDomainData(data);
 			canvasCtx.lineWidth = 5;
 			canvasCtx.beginPath();
 			data.forEach((y, x) => {
@@ -44,7 +42,7 @@ class AudioMeter {
 		};
 		this.intervalId = setInterval(() => {
 			draw()
-		}, 1000 * canvas.width / this.audioCtx.sampleRate)
+		}, 1000 * canvas.width / audioCtx.sampleRate)
 	}
 
 	dispose() {

@@ -1,7 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
 import AudioMeter from './audiometer'
-import PropTypes from "prop-types";
 
 class AudioLevel extends React.Component {
 	constructor(props) {
@@ -13,32 +12,36 @@ class AudioLevel extends React.Component {
 
 	shouldComponentUpdate(nextProps) {
 		const {stream, isLocal} = nextProps;
-		console.warn('>>>', 'shouldComponentUpdate ', stream, isLocal, nextProps);
+		const audio = document.querySelector("#localAudio");
+		audio.srcObject = stream;
+
 		const canvas = this.refs.canvas;
 		const canvasCtx = canvas.getContext("2d");
-
-		this.audioMeter.startVisualization(stream, canvasCtx, canvas);
+		this.audioMeter.startVisualization(audio.srcObject, canvasCtx, canvas);
 		return (this.props && this.props.stream && this.props.stream.id === stream.id) ? true : false;
 	}
 
 	componentDidMount() {
 		const canvas = this.refs.canvas;
 		const canvasCtx = canvas.getContext("2d");
-		// this.audioMeter
 	}
 
 	componentWillUnmount() {
-		console.warn('->', 'componentWillUnmount');
 		this.audioMeter && this.audioMeter.dispose();
 	}
 
 	render() {
 		return (
-			<canvas ref="canvas" width="200" height="170" style={{
-				backgroundColor: '#ffffff',
-				width: '100%',
-				height: 'auto',
-			}}/>
+			<div>
+				<canvas ref="canvas" width="200" height="170" style={{
+					backgroundColor: '#ffffff',
+					width: '100%',
+					height: 'auto',
+				}}/>
+				<audio id="localAudio" muted controls width="160" height="120" autoPlay
+					   style={{display: 'none'}}></audio>
+			</div>
+
 		)
 	}
 }

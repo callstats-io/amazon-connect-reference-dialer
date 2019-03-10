@@ -53,9 +53,9 @@ class AgentMediaManager {
 			});
 		}
 		return new Promise((resolve, reject) => {
-			navigator.getUserMedia(constraints, success => {
-				this.localStream = success;
-				resolve(success);
+			navigator.getUserMedia(constraints, stream => {
+				this.localStream = stream;
+				resolve(this.localStream);
 			}, err => {
 				reject(err);
 			});
