@@ -7,9 +7,9 @@ class AudioMeter {
 	}
 
 	startVisualization(stream, canvasCtx, canvas, backgroundColor) {
-		var audioCtx = new AudioContext();
-		var analyser = audioCtx.createAnalyser();
-		var source = audioCtx.createMediaStreamSource(stream);
+		let audioCtx = new AudioContext();
+		let analyser = audioCtx.createAnalyser();
+		let source = audioCtx.createMediaStreamSource(stream);
 		source.connect(analyser);
 
 		if (this.intervalId) {
@@ -52,7 +52,6 @@ class AudioMeter {
 			clearInterval(this.intervalId);
 			this.intervalId = undefined;
 		}
-		agentMediaManager.dispose();
 	}
 }
 

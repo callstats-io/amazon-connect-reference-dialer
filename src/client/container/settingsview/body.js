@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import SVG from 'react-inlinesvg';
 
 import agentConfigManager from './../../api/agentConfigManager';
 import agentMediaManager from './../../api/agentMediaManager';
@@ -28,21 +27,10 @@ class Body extends Component {
 			showMenuItem: false,
 			stream: undefined,
 		};
-		this.init();
 		this.handleInputChange = this.handleInputChange.bind(this);
 	}
 
-	updateMediaSource(selectedDevice) {
-		agentMediaManager.getUserMedia(selectedDevice).then(success => {
-			this.setState({
-				stream: success,
-			})
-		}, err => {
-			console.error('none');
-		})
-	}
-
-	init() {
+	componentDidMount() {
 		agentMediaManager.getDefaultAudioInputAndOutputDeviceDetails().then(success => {
 			const {inputDevice, outputDevice, inputDeviceList} = success;
 			this.setState({
@@ -54,7 +42,16 @@ class Body extends Component {
 		}).catch(err => {
 			console.error(err);
 		});
+	}
 
+	updateMediaSource(selectedDevice) {
+		agentMediaManager.getUserMedia(selectedDevice).then(success => {
+			this.setState({
+				stream: success,
+			})
+		}, err => {
+			console.error('none');
+		})
 	}
 
 	changeToSoftphone() {
@@ -136,7 +133,7 @@ class Body extends Component {
 				<div className="row" style={{cursor: 'pointer'}}
 					 onClick={() => this.changeToSoftphone()}>
 					<div className="col-md-2">
-						<SVG src={this.state.softphoneEnabled ? circleMarkIcon : circleUnmarkIcon}/></div>
+						<img src={this.state.softphoneEnabled ? circleMarkIcon : circleUnmarkIcon}/></div>
 					<div className="col-md-10">
 						<p style={{
 							color: '#000000',

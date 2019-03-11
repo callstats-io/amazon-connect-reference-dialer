@@ -22,8 +22,6 @@ class ConnectionHandler {
 		this.dispatch = dispatch;
 		this.connection = connection;
 
-		console.warn('->>> ConnectionHandler', this.connection);
-
 		const address = connection.getAddress();
 		const phoneNumber = address && address.stripPhoneNumber();
 		if (phoneNumber) {

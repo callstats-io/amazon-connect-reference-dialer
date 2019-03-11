@@ -42,6 +42,10 @@ class UpperBody extends Component {
 		});
 	}
 
+	componentWillUnmount() {
+		agentMediaManager.dispose();
+	}
+
 	render() {
 		const hasError = this.props.errorMessage && this.props.errorMessage.errorType;
 		return (

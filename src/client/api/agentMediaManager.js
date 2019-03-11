@@ -65,11 +65,7 @@ class AgentMediaManager {
 			audio: {deviceId: audioDeviceId},
 			video: false,
 		};
-		if (this.localStream) {
-			this.localStream.getTracks().forEach(track => {
-				track.stop();
-			});
-		}
+		this.dispose();
 		return new Promise((resolve, reject) => {
 			navigator.getUserMedia(constraints, stream => {
 				this.localStream = stream;
@@ -96,6 +92,7 @@ class AgentMediaManager {
 			this.localStream.getTracks().forEach(track => {
 				track.stop();
 			});
+			this.localStream = undefined;
 		}
 	}
 

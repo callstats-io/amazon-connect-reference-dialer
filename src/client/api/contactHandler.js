@@ -50,10 +50,9 @@ class ContactHandler {
 			//todo
 		});
 		contact.onSession(session => {
-			setTimeout(() => {
-				this.dispatch(onAvailableStream(session._remoteAudioStream, false))
-			}, 2000);
-
+			// setTimeout(() => {
+			// 	this.dispatch(onAvailableStream(session._remoteAudioStream, false))
+			// }, 2000);
 		});
 		const currentConnection = contact.getActiveInitialConnection();
 		if (!currentConnection) {
