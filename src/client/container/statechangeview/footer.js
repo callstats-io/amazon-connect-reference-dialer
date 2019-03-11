@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import {connect} from "react-redux";
 
 const logoutURL = 'https://callstatsio.awsapps.com/connect/logout';
+
 class Footer extends Component {
 	constructor(props) {
 		super(props);
@@ -34,11 +34,5 @@ class Footer extends Component {
 	}
 }
 
-Footer.propTypes = {};
-const mapStateToProps = state => ({});
-const mapDispatchToProps = dispatch => ({});
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(Footer);
+export default Footer;
