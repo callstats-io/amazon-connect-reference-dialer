@@ -4,6 +4,12 @@ import PropTypes from "prop-types";
 import {Line} from 'react-chartjs-2';
 import lo from "lodash";
 
+/*
+# todo
+segmented the timeline series point
+manually fill the gaps between two irregular intervals
+ */
+
 const chartOptions = {
 	legend: {
 		display: false
@@ -20,13 +26,13 @@ const chartOptions = {
 			type: 'time',
 			time: {
 				displayFormats: {
-					// 'millisecond': 'MMM DD',
-					// 'second': 'MMM DD',
-					// 'minute': 'MMM DD',
-					// 'hour': 'MMM DD',
-					// 'day': 'MMM DD',
-					// 'week': 'MMM DD',
-					// 'month': 'MMM DD',
+					'millisecond': 'MMM DD',
+					'second': 'MMM DD',
+					'minute': 'MMM DD',
+					'hour': 'MMM DD',
+					'day': 'MMM DD',
+					'week': 'MMM DD',
+					'month': 'MMM DD',
 					'quarter': 'MMM DD',
 					'year': 'MMM DD',
 				}

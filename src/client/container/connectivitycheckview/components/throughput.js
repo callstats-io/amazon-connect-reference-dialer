@@ -3,8 +3,8 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
 
-import tickGreenIcon from '../../res/images/fa-tick-green.svg';
-import dangerIcon from '../../res/images/fa-danger.svg';
+import tickGreenIcon from '../../../res/images/fa-tick-green.svg';
+import dangerIcon from '../../../res/images/fa-danger.svg';
 
 import lo from 'lodash';
 

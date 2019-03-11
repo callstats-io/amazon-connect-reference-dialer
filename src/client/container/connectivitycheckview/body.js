@@ -11,12 +11,12 @@ import {
 } from "../../reducers/acReducer";
 
 import csioHandler from "../../api/csioHandler";
-import MediaConnectivity from "./mediaConnectivity";
-import RoundTripTime from "./roundTripTime";
-import FractionalLoss from "./fractionalLoss";
-import Throughput from "./throughput";
-import ThroughputMessage from "./throughputMessage";
-import RTTGraph from "./rttgraph";
+import MediaConnectivity from "./components/mediaConnectivity";
+import RoundTripTime from "./components/roundTripTime";
+import FractionalLoss from "./components/fractionalLoss";
+import Throughput from "./components/throughput";
+import ThroughputMessage from "./components/throughputMessage";
+import RTTGraph from "./components/rttgraph";
 import databaseManager from "../../api/databaseManager";
 
 class Body extends Component {
@@ -26,7 +26,6 @@ class Body extends Component {
 			pctResult: databaseManager.getPrecallTestResult(),
 			inProgress: false,
 		};
-		this.doPrecalTest = this.doPrecalTest.bind(this);
 	}
 
 	requestConnectivityCheck(phoneType) {
@@ -59,7 +58,7 @@ class Body extends Component {
 					</div>
 					<div className="col-md-3 p-0 m-0">
 						<a className={`btn text-left p-0 m-0 ${this.state.inProgress && 'disabled'}`} href="#"
-						   onClick={this.doPrecalTest}
+						   onClick={() => this.doPrecalTest()}
 						   style={{color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px'}}>
 							<img className="fa-dial-button" src={rerunIcon}/> Rerun </a>
 					</div>
