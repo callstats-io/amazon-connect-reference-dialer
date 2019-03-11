@@ -8,13 +8,13 @@ import {
 } from "../../reducers/acReducer";
 
 
-import ReportACall from "./components/reportcall";
-import DownloadLogs from "./components/downloadlogs";
-import ConnectivityCheck from "./components/connectivitycheck";
-import Language from "./components/language";
+import ReportACall from "../footer/components/reportcall";
+import DownloadLogs from "../footer/components/downloadlogs";
+import ConnectivityCheck from "../footer/components/connectivitycheck";
+import Language from "../footer/components/language";
 
 
-import acManager from './../../api/acManager';
+import acManager from '../../api/acManager';
 
 const FooterStyle = {
 	reportCall: {

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import Header from '../header/index';
 import Body from './body';
-import Footer from '../footer/setting';
+import Footer from './setting';
 
 class SettingPageView extends Component {
 	constructor(props) {

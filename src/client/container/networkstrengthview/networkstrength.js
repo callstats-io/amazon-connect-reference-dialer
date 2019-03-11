@@ -88,7 +88,6 @@ class NetworkStrength extends React.Component {
 	}
 
 	componentWillUnmount() {
-		console.warn('<<<', 'componentWillUnmount');
 		this._dispose();
 	}
 
