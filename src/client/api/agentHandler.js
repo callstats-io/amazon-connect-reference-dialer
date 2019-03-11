@@ -1,4 +1,4 @@
-import {onDurationChange, onInitializationStateChange, onMuteToggle} from "../reducers/acReducer";
+import {onInitializationStateChange, onMuteToggle} from "../reducers/acReducer";
 import agentStateManager from "./agentStateManager";
 import agentConfigManager from "./agentConfigManager";
 import {toHMS} from "../utils/acutils";
@@ -41,8 +41,8 @@ class AgentHandler {
 	}
 
 	stateDuration() {
-		const currentStateDuration = this.agent && this.agent.getStateDuration();
-		return toHMS(currentStateDuration);
+		const currentStateDuration = this.agent && typeof this.agent.getStateDuration === 'function' && this.agent.getStateDuration();
+		return toHMS(currentStateDuration || 0);
 	}
 
 	getAgent() {

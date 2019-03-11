@@ -11,8 +11,9 @@ const showPhoneNumber = (agentState) => {
 };
 import AudioLevel from '../audiolabelview/audiolevel';
 import {getColorSchema} from './../../utils/agetStateMap';
+import Duration from "../agentduration/duration";
 
-const PeerAndAgentDuration = ({agentState = 'unknown', phoneNumber = '', remoteStream = undefined, duration = '00:00:00'}) => (
+const PeerAndAgentDuration = ({agentState = 'unknown', phoneNumber = '', remoteStream = undefined}) => (
 	<div className={`col-md-12`}>
 		<div className={`row`}>
 			<div className={`col-md-6`}>
@@ -46,14 +47,7 @@ const PeerAndAgentDuration = ({agentState = 'unknown', phoneNumber = '', remoteS
 				{showPhoneNumber(agentState) &&
 				<AudioLevel backgroundColor={getColorSchema(agentState)} stream={remoteStream}/>}
 			</div>
-			<div className={`col-md-4 align-self-center text-right`}>
-				<p className={`m-0`}
-				   style={{
-					   fontFamily: 'AmazonEmber',
-					   color: '#ffffff',
-					   fontSize: '14px'
-				   }}>{duration}</p>
-			</div>
+			<Duration/>
 		</div>
 	</div>
 );
@@ -62,7 +56,6 @@ PeerAndAgentDuration.propTypes = {
 	agentState: PropTypes.string,
 	phoneNumber: PropTypes.string,
 	remoteStream: PropTypes.object,
-	duration: PropTypes.string,
 };
 
 export default PeerAndAgentDuration;

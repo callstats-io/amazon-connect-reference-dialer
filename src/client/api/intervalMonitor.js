@@ -1,5 +1,4 @@
-import {onChangeNetworkStrength, onDurationChange} from "../reducers/acReducer";
-import {toHMS} from "../utils/acutils";
+import {onChangeNetworkStrength} from "../reducers/acReducer";
 import networkStrengthMonitor from "./networkStrengthMonitor";
 import agentHandler from "./agentHandler";
 
@@ -15,10 +14,6 @@ class IntervalMonitor {
 
 	mayBeUpdate() {
 		const agent = agentHandler.getAgent();
-		if (agent && typeof agent.getStateDuration === 'function') {
-			const currentStateDuration = agent && agent.getStateDuration();
-			this.dispatch(onDurationChange('agent', toHMS(currentStateDuration)));
-		}
 		let networkStrength = networkStrengthMonitor.getNetworkStrength();
 		this.dispatch(onChangeNetworkStrength(networkStrength));
 	}

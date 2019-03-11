@@ -17,13 +17,6 @@ export const onAgentStateChange = (agentState = 'unknown', duration = '00:00:00'
 	};
 };
 
-export const onDurationChange = (who = undefined, duration = 0) => {
-	return {
-		type: 'onDurationChange',
-		duration
-	};
-};
-
 export const onPhoneNumber = (phoneNumber = null) => {
 	// console.warn('-> ', 'onPhoneNumber', who, duration);
 	return {
@@ -118,11 +111,6 @@ const acReducer = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				agentState: action.agentState,
-				duration: action.duration,
-			};
-		case 'onDurationChange':
-			return {
-				...state,
 				duration: action.duration,
 			};
 		case 'onPhoneNumber':
