@@ -5,6 +5,7 @@ import SVG from 'react-inlinesvg';
 import QuickFeedback from './quickFeedback';
 
 import holdIcon from '../../res/images/fa-hold.svg';
+import resumeIcon from '../../res/images/fa-resume.svg';
 import muteIcon from '../../res/images/fa-mute.svg';
 import unMuteIcon from '../../res/images/fa-mic.svg';
 import dialNumberIcon from '../../res/images/fa-dial-number.svg';
@@ -12,6 +13,7 @@ import quickConnect from '../../res/images/fa-quick-connect.svg';
 import transferIcon from '../../res/images/fa-transfer.svg';
 import {onRequestShowDialPad} from "../../reducers/acReducer";
 import connectionHandler from "../../api/connectionHandler";
+import agentHandler from "../../api/agentHandler";
 
 
 /*
@@ -28,6 +30,7 @@ class LowerBody extends Component {
 		super(props);
 
 		this.toggleHold = this.toggleHold.bind(this);
+		this.toggleMuteUnmute = this.toggleMuteUnmute.bind(this);
 	}
 
 	_showHoldOrMute(agentState = null) {
@@ -56,6 +59,10 @@ class LowerBody extends Component {
 		})
 	}
 
+	toggleMuteUnmute() {
+		this.props.muted ? agentHandler.unmute() : agentHandler.mute();
+	}
+
 	requestDialPad() {
 		this.props.requestDialPad();
 	}
@@ -82,11 +89,14 @@ class LowerBody extends Component {
 									fontFamily: 'AmazonEmber',
 									fontSize: '14px'
 								}} href="#" onClick={this.toggleHold}>
-									<img src={holdIcon}/> &nbsp;Hold </a>
+									<img
+										src={this.props.agentState === 'On hold' ? resumeIcon : holdIcon}/> &nbsp; {this.props.agentState === 'On hold' ? 'Resume' : 'Hold'}
+								</a>
 							</div>
 
 							<div className="col-md-6">
-								<a className="btn pl-0 pr-0" href="#" style={{
+								<a onClick={this.toggleMuteUnmute}
+								   className="btn pl-0 pr-0" href="#" style={{
 									width: '132px',
 									height: '36px',
 									boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',

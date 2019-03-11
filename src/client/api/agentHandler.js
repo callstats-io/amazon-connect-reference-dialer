@@ -65,6 +65,18 @@ class AgentHandler {
 		});
 	}
 
+	mute(){
+		if(this.agent){
+			this.agent.mute();
+		}
+	}
+
+	unmute(){
+		if(this.agent){
+			this.agent.unmute();
+		}
+	}
+
 }
 
 const agentHandler = new AgentHandler();
