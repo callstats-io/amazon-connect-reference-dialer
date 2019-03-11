@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import agentHandler from './../../api/agentHandler';
 
 const DURATION_MS = 1 * 1000;
+
 const durationCSS = {
 	div: 'col-md-4 align-self-center text-right',
 	p: 'm-0',

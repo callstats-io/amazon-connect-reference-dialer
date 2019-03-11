@@ -52,7 +52,7 @@ class AudioMeter {
 			clearInterval(this.intervalId);
 			this.intervalId = undefined;
 		}
-		agentMediaManager._dispose();
+		agentMediaManager.dispose();
 	}
 }
 

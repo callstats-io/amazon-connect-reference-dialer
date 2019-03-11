@@ -8,6 +8,7 @@ const colorSchema = {
 	connected: '#0f9a28',
 	onhold: '#e07724',
 	inboundcall: '#9a62cf',
+	missedcallagent: '#e07724',
 	default: '#3885de',
 };
 
