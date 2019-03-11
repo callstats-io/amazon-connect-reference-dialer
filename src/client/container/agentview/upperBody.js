@@ -8,6 +8,7 @@ import AgentStatusAndAudioLabel from "./agentStatusAndAudioLabel";
 import AgentMutedLabel from "./agentMutedLabel";
 import PeerAndAgentDuration from "./peerAndAgentDuration";
 import {getColorSchema} from './../../utils/agetStateMap';
+import Error from './../errors/index';
 
 /*
 	Card upper body. Mainly the upper part of the card body.
@@ -19,6 +20,7 @@ import {getColorSchema} from './../../utils/agetStateMap';
 	5.
 
 */
+
 
 class UpperBody extends Component {
 	constructor(props) {
@@ -41,18 +43,23 @@ class UpperBody extends Component {
 	}
 
 	render() {
+		const hasError = this.props.errorMessage && this.props.errorMessage.errorType;
+		console.warn('<<', hasError);
 		return (
 			<div className={`row`}
 				 style={{height: '182px', backgroundColor: getColorSchema(this.props.agentState), paddingTop: '5%'}}>
-
+				{!hasError &&
 				<AgentStatusAndAudioLabel stream={this.state.stream}
-										  agentState={this.props.agentState}/>
-				<AgentMutedLabel muted={this.props.muted}/>
+										  agentState={this.props.agentState}/>}
+				{!hasError &&
+				<AgentMutedLabel muted={this.props.muted}/>}
+				{!hasError &&
 				<PeerAndAgentDuration agentState={this.props.agentState}
 									  phoneNumber={this.props.phoneNumber}
 									  duration={this.props.duration}
-									  remoteStream={this.props.remoteStream}/>
-
+									  remoteStream={this.props.remoteStream}/>}
+				{hasError &&
+				<Error agentState={this.props.agentState} errorMessage={this.props.errorMessage}/>}
 			</div>
 		);
 	}
@@ -64,7 +71,8 @@ UpperBody.propTypes = {
 	phoneNumber: PropTypes.string,
 	muted: PropTypes.bool,
 
-	remoteStream: PropTypes.object
+	remoteStream: PropTypes.object,
+	errorMessage: PropTypes.object
 
 };
 const mapStateToProps = state => ({
@@ -74,6 +82,7 @@ const mapStateToProps = state => ({
 	muted: state.acReducer.muted,
 
 	remoteStream: state.acReducer.stream,
+	errorMessage: state.acReducer.errorMessage,
 });
 const mapDispatchToProps = dispatch => ({});
 

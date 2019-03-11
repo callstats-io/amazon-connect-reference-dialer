@@ -17,6 +17,13 @@ export const onAgentStateChange = (agentState = 'unknown', duration = '00:00:00'
 	};
 };
 
+export const onCCPError = (errorMessage = {}) => {
+	return {
+		type: 'onCCPError',
+		errorMessage,
+	};
+};
+
 export const onPhoneNumber = (phoneNumber = null) => {
 	// console.warn('-> ', 'onPhoneNumber', who, duration);
 	return {
@@ -189,6 +196,11 @@ const acReducer = (state = INITIAL_STATE, action) => {
 				...state,
 				stream: action.stream,
 				isLocal: action.isLocal,
+			};
+		case 'onCCPError':
+			return {
+				...state,
+				errorMessage: action.errorMessage,
 			};
 		default:
 			return state;

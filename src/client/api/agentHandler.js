@@ -25,9 +25,12 @@ class AgentHandler {
 		agent.onOffline(() => {
 			console.warn('->', 'agentHandler', 'onOffline');
 		});
-		agent.onError(() => {
-			console.warn('->', 'agentHandler', 'onError');
-		});
+		// agent.onError((err) => {
+		// 	console.warn('->', 'onError', err);
+		// });
+		// agent.onSoftphoneError((err) => {
+		// 	console.warn('->', 'onSoftphoneError', err);
+		// });
 		agent.onMuteToggle((e) => {
 			this.dispatch(onMuteToggle(e && e.muted))
 		});

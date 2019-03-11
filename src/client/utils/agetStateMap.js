@@ -10,6 +10,7 @@ const colorSchema = {
 	inboundcall: '#9a62cf',
 	missedcallagent: '#e07724',
 	default: '#3885de',
+	error: '#ffffff'
 };
 
 export const getColorSchema = (agentState) => {

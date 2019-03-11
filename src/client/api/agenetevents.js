@@ -18,6 +18,12 @@ export const getAgentState = (e) => {
 	return e.newState;
 };
 
+export const isError = (e) => {
+	if (e && e.errorType && e.errorMessage) {
+		return true;
+	}
+};
+
 export const getAgentStateForHoldUnhold = (e, contact = undefined) => {
 	const currentState = e.name;
 	if (currentState === 'holdConnection') {
