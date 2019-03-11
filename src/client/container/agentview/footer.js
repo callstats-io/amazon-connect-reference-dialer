@@ -121,6 +121,7 @@ const Footer = ({agentState = 'unknown'}) => (
 								linkClass={AgentViewStyle.reject.linkClass}
 								style={AgentViewStyle.reject.style}
 								text={' Reject call'}
+								isReject={true}
 								onClickHandler={hangupCall}/>
 			</div>
 		}
