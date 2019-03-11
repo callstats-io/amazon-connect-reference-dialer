@@ -48,6 +48,14 @@ class AgentHandler {
 		return toHMS(currentStateDuration || 0);
 	}
 
+	getState() {
+		let state = this.agent && this.agent.getState();
+		if (!state) {
+			return 'unknown'
+		}
+		return state.name;
+	}
+
 	getAgent() {
 		return this.agent;
 	}

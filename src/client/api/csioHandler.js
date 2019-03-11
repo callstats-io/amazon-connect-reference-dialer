@@ -26,7 +26,6 @@ class CSIOHandler {
 			return;
 		}
 
-		console.warn('->', 'onCSIOStats', new Date(), stats);
 		if (stats && stats.mediaStreamTracks) {
 			let track1 = lo.first(stats.mediaStreamTracks);
 			let track2 = lo.last(stats.mediaStreamTracks);
@@ -51,6 +50,9 @@ class CSIOHandler {
 			cs.initialize(appId, appSecret, this.localUserId, {}, null, null);
 			cs.on('preCallTestResults', (status, result) => {
 				let testResult = databaseManager.savePrecalltestResult(result);
+
+				let throughput = lo.get(result, 'throughput', 0);
+				networkStrengthMonitor.addThroughput(throughput, throughput);
 				resolve(testResult);
 			});
 		});
@@ -62,8 +64,7 @@ class CSIOHandler {
 	}
 
 	onCSIOPrecalltestCallback(status, result) {
-		let testResult = databaseManager.savePrecalltestResult(result);
-		// console.warn('->', 'onCSIOPrecalltestCallback', new Date(), status, result, testResult);
+		databaseManager.savePrecalltestResult(result);
 		let throughput = lo.get(result, 'throughput', 0);
 		networkStrengthMonitor.addThroughput(throughput, throughput);
 	}

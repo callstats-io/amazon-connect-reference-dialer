@@ -28,9 +28,10 @@ class NetworkStrengthMonitor {
 		} else {
 			this.consicutiveMissCount += 1;
 		}
-		if (this.consicutiveMissCount > MAX_ITERATION_COUNT) {
-			return 0;
-		}
+		// if (this.consicutiveMissCount > MAX_ITERATION_COUNT) {
+		// 	return 0;
+		// }
+
 		this.hashLastPulled = this.hash;
 		return throughputThreshold(this.curBitrate);
 	}

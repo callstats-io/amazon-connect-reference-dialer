@@ -8,22 +8,95 @@ import networkStrength3 from '../../res/images/fa-network-strength-3.svg';
 import networkStrength4 from '../../res/images/fa-network-strength-4.svg';
 import networkStrength5 from '../../res/images/fa-network-strength-5.svg';
 import networkStrengthUnknown from '../../res/images/fa-network-strength-unknown.svg';
+import agentHandler from "../../api/agentHandler";
+import csioHandler from "../../api/csioHandler";
+import networkStrengthMonitor from "../../api/networkStrengthMonitor";
 
 const networkStrengthIcon = [networkStrengthUnknown, networkStrength1, networkStrength2, networkStrength3, networkStrength4, networkStrength5];
 
-const NetworkStrength = ({networkStrength = 0}) => (
-	<img src={networkStrengthIcon[networkStrength]}/>
-);
-
-NetworkStrength.propTypes = {
-	networkStrength: PropTypes.number,
+const getStrengthIcon = (networkStrength = 0) => {
+	return networkStrengthIcon[networkStrength];
 };
-const mapStateToProps = state => ({
-	networkStrength: state.acReducer.networkStrength,
-});
-const mapDispatchToProps = dispatch => ({});
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(NetworkStrength);
+const shouldRunPCT = () => {
+	let currentState = agentHandler.getState();
+	return currentState === 'Available' || currentState === 'Offline';
+};
+
+const DURATION_MS = 1 * 1000; // Every two minutes
+const PCT_INTERVAL_MS = 2 * 60 * 1000; // Every two minutes
+
+class NetworkStrength extends React.Component {
+	constructor(props) {
+		super(props);
+		this.intervalId = undefined;
+		this.inProgress = false;
+		this.lastTimestamp = Date.now();
+		this.state = {
+			networkStrength: 0,
+		}
+	}
+
+	_dispose() {
+		if (this.intervalId) {
+			clearInterval(this.intervalId);
+		}
+	}
+
+	// only run precall test when agent state is available, or offline
+	async doPrecallTest() {
+		let runTimeStamp = Date.now();
+		if (runTimeStamp - this.lastTimestamp < PCT_INTERVAL_MS) {
+			return;
+		}
+		if (this.inProgress) {
+			return;
+		}
+		if (!shouldRunPCT()) {
+			return;
+		}
+		this.inProgress = true;
+		try {
+			await csioHandler.doPrecallTest();
+		} catch (err) {
+			console.warn('->', err);
+		}
+		this.inProgress = false;
+		this.lastTimestamp = runTimeStamp;
+
+	}
+
+	updateNetworkStrength() {
+		let networkStrength = networkStrengthMonitor.getNetworkStrength();
+		this.setState({
+			networkStrength: networkStrength,
+		});
+
+		this.doPrecallTest().then(() => {
+		}).catch(err => {
+		});
+
+	}
+
+	componentDidMount() {
+		this._dispose();
+		this.updateNetworkStrength();
+
+		this.intervalId = setInterval(() => {
+			this.updateNetworkStrength();
+		}, DURATION_MS);
+	}
+
+	componentWillUnmount() {
+		console.warn('<<<', 'componentWillUnmount');
+		this._dispose();
+	}
+
+	render() {
+		return (
+			<img src={getStrengthIcon(this.state.networkStrength)}/>
+		);
+	}
+}
+
+export default NetworkStrength;

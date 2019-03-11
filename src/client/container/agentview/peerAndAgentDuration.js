@@ -9,6 +9,7 @@ const isConnected = (agentState) => {
 const showPhoneNumber = (agentState) => {
 	return ['Connected', 'Inbound Call', 'Outbound Call', 'On hold'].includes(agentState);
 };
+
 import AudioLevel from '../audiolabelview/audiolevel';
 import {getColorSchema} from './../../utils/agetStateMap';
 import Duration from "../agentduration/duration";

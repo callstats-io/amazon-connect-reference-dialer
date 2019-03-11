@@ -44,7 +44,6 @@ class UpperBody extends Component {
 
 	render() {
 		const hasError = this.props.errorMessage && this.props.errorMessage.errorType;
-		console.warn('<<', hasError);
 		return (
 			<div className={`row`}
 				 style={{height: '182px', backgroundColor: getColorSchema(this.props.agentState), paddingTop: '5%'}}>
