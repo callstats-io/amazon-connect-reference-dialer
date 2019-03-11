@@ -86,29 +86,17 @@ class LowerBody extends Component {
 							</div>
 
 							<div className="col-md-6">
-								{
-									muted ?
-										<a className="btn pl-0 pr-0" href="#" style={{
-											width: '132px',
-											height: '36px',
-											boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
-											backgroundColor: '#ffffff',
-											color: '#000000',
-											fontFamily: 'AmazonEmber',
-											fontSize: '14px'
-										}}>
-											<img src={unMuteIcon}/> &nbsp; Unmute </a> :
-										<a className="btn pl-0 pr-0" href="#" style={{
-											width: '132px',
-											height: '36px',
-											boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
-											backgroundColor: '#ffffff',
-											color: '#000000',
-											fontFamily: 'AmazonEmber',
-											fontSize: '14px'
-										}}>
-											<img src={muteIcon}/> &nbsp; Mute </a>
-								}
+								<a className="btn pl-0 pr-0" href="#" style={{
+									width: '132px',
+									height: '36px',
+									boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
+									backgroundColor: '#ffffff',
+									color: '#000000',
+									fontFamily: 'AmazonEmber',
+									fontSize: '14px'
+								}}> {muted ? <img src={unMuteIcon}/> : <img src={muteIcon}/>}
+									{muted ? ' Unmute' : ' Mute'}
+								</a>
 							</div>
 						</div>
 					}

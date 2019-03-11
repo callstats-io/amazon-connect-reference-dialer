@@ -47,7 +47,7 @@ class UpperBody extends Component {
 
 				<AgentStatusAndAudioLabel stream={this.state.stream}
 										  agentState={this.props.agentState}/>
-				<AgentMutedLabel isMuted={this.props.muted}/>
+				<AgentMutedLabel muted={this.props.muted}/>
 				<PeerAndAgentDuration agentState={this.props.agentState}
 									  phoneNumber={this.props.phoneNumber}
 									  duration={this.props.duration}
