@@ -4,7 +4,6 @@ import audioManager from './agentMediaManager';
 import agentHandler from './agentHandler';
 import contactHandler from './contactHandler';
 import eventHandler from './eventhandler';
-import intervalMonitor from './intervalMonitor';
 
 import csioHandler from './csioHandler';
 
@@ -29,7 +28,6 @@ class ACManager {
 		audioManager.overWriteGetUserMedia();
 		csioHandler.register(this.dispatch, agent);
 		agentHandler.register(this.dispatch, agent);
-		intervalMonitor.register(this.dispatch);
 	}
 
 	onContactInitialize(contact) {
