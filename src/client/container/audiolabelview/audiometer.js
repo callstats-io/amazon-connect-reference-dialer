@@ -25,13 +25,13 @@ class AudioMeter {
 			canvasCtx.fillStyle = backgroundColor || this.backgroundColor;
 			canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
 
-			analyser.getByteFrequencyData(data);
-			canvasCtx.lineWidth = 2;
-			data.forEach((y, x) => {
-				y = canvas.height - (y / 128) * canvas.height / 4;
-				canvasCtx.fillStyle = colors[Math.floor(Math.random() * 100) % len];
-				canvasCtx.fillRect(x, y, 2, canvas.height - y)
-			});
+			// analyser.getByteFrequencyData(data);
+			// canvasCtx.lineWidth = 2;
+			// data.forEach((y, x) => {
+			// 	y = canvas.height - (y / 128) * canvas.height / 4;
+			// 	canvasCtx.fillStyle = colors[Math.floor(Math.random() * 100) % len];
+			// 	canvasCtx.fillRect(x, y, 2, canvas.height - y)
+			// });
 
 			analyser.getByteTimeDomainData(data);
 			canvasCtx.lineWidth = 5;

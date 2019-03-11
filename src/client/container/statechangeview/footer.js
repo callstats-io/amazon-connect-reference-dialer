@@ -8,6 +8,7 @@ class Footer extends Component {
 		this.state = {
 			loggedOut: false,
 		};
+		this.logout = this.logout.bind(this);
 	}
 
 	logout() {

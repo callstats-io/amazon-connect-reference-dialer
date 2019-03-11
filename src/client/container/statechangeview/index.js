@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 
 import Header from '../header/index';
 import Body from './body';
-import Footer from './../footer/statechange';
+import Footer from './footer';
 
 class StateChangeView extends Component {
 	constructor(props) {
