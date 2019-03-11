@@ -22,17 +22,27 @@ const selectedIssueCount = (issueList) => {
 	return totalCount;
 };
 
+const BodyHeader = ({closeReportCallIssue}) => (
+	<div className="row ">
+		<div className="col-md-10">
+			<p style={{color: '#000000', fontSize: '18px', fontFamily: 'AmazonEmber'}}>Report a
+				call issue</p>
+		</div>
+		<div className="col-md-2"
+			 onClick={closeReportCallIssue}>
+			<img src={closeOrDismissIcon} style={{cursor: 'pointer'}}/></div>
+	</div>
+);
+BodyHeader.propTypes = {
+	closeReportCallIssue: PropTypes.func.isRequired,
+};
+
+
 const Body = ({closeReportCallIssue, onFeedbackTextChange, onFeedbackRatingChange, onIssueListSelectionChange, feedbackRatings, feedbackText, issueList}) => (
 	<div className="card-body" style={{backgroundColor: '#ffffff'}}>
-		<div className="row ">
-			<div className="col-md-10">
-				<p style={{color: '#000000', fontSize: '18px', fontFamily: 'AmazonEmber'}}>Report a
-					call issue</p>
-			</div>
-			<div className="col-md-2"
-				 onClick={closeReportCallIssue}>
-				<img src={closeOrDismissIcon} style={{cursor: 'pointer'}}/></div>
-		</div>
+
+		<BodyHeader closeReportCallIssue={closeReportCallIssue}/>
+
 		<FeedbackRatings onFeedbackRatingChange={onFeedbackRatingChange}
 						 feedbackRating={feedbackRatings}/>
 

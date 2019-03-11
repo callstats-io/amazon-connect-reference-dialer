@@ -1,3 +1,6 @@
+// list of constant issues
+// which might come from some API call later on
+
 const issueList = [
 	{
 		name: '', items: [

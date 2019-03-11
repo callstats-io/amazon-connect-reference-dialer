@@ -46,7 +46,9 @@ class ReportCallIssueView extends Component {
 		});
 	}
 
+	//todo call csio sdk to submit feedback summary
 	submitIssue() {
+
 		this.closeReportCallIssue();
 	}
 
@@ -55,9 +57,7 @@ class ReportCallIssueView extends Component {
 	}
 
 	render() {
-		const initialized = this.props.initialized;
 		return (
-			initialized &&
 			<div className={`row h-100`}>
 				<div className={`col-md-12`} style={{padding: '0'}}>
 					<div className={`card h-100`} style={{backgroundColor: '#f2f2f2'}}>
@@ -81,12 +81,9 @@ class ReportCallIssueView extends Component {
 }
 
 ReportCallIssueView.propTypes = {
-	initialized: PropTypes.bool.isRequired,
 	closeReportCallIssue: PropTypes.func.isRequired,
 };
-const mapStateToProps = state => ({
-	initialized: state.acReducer.initialized,
-});
+const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({
 	closeReportCallIssue: () => {
 		dispatch(onRequestReportCallIssue('close'));

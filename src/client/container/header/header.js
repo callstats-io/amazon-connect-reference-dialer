@@ -10,7 +10,7 @@ import {
 import Custom from './custom';
 import Empty from './empty';
 
-const Header = ({agentState = 'unknown', requestAgentStateChange, requestAgentSettingsChange, emptyBody = false}) => (
+const Header = ({requestAgentStateChange, requestAgentSettingsChange, emptyBody = false}) => (
 	emptyBody ? <Empty/> : <Custom
 		requestAgentStateChange={requestAgentStateChange}
 		requestAgentSettingsChange={requestAgentSettingsChange}/>
@@ -18,13 +18,11 @@ const Header = ({agentState = 'unknown', requestAgentStateChange, requestAgentSe
 
 Header.propTypes = {
 	emptyBody: PropTypes.bool,
-	agentState: PropTypes.string,
 	requestAgentStateChange: PropTypes.func.isRequired,
 	requestAgentSettingsChange: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-	agentState: state.acReducer.agentState,
 });
 
 const mapDispatchToProps = dispatch => ({
