@@ -32,7 +32,7 @@ export const getStateColor = (curState) => {
 };
 
 /*convert millisecond to hh:mm:ss*/
-export const toHMS = (durationInMs) => {
+export const toHMS = (durationInMs = 0) => {
 	let seconds = Math.floor(durationInMs / 1000);
 	let minutes = Math.floor(seconds / 60);
 	seconds = seconds % 60;
