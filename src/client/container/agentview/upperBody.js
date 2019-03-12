@@ -53,7 +53,8 @@ class UpperBody extends Component {
 				 style={{height: '182px', backgroundColor: getColorSchema(this.props.agentState), paddingTop: '5%'}}>
 				{!hasError &&
 				<AgentStatusAndAudioLabel stream={this.state.stream}
-										  agentState={this.props.agentState}/>}
+										  agentState={this.props.agentState}
+										  muted={this.props.muted}/>}
 				{!hasError &&
 				<AgentMutedLabel muted={this.props.muted}/>}
 				{!hasError &&

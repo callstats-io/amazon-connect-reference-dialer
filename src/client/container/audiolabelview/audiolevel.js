@@ -19,7 +19,7 @@ class AudioLevel extends React.Component {
 		if (!stream) {
 			return true
 		}
-		// console.warn('<< ','shouldComponentUpdate', stream);
+		// console.warn('<< ', 'shouldComponentUpdate', stream);
 		const canvas = this.refs.canvas;
 		const canvasCtx = canvas.getContext("2d");
 		this.audioMeter.startVisualization(stream, canvasCtx, canvas, nextProps.backgroundColor);
@@ -27,9 +27,17 @@ class AudioLevel extends React.Component {
 	}
 
 	componentDidMount() {
-		// console.warn('<<', 'componentDidMount');
-		this.canvas = this.refs.canvas;
-		this.canvasCtx = this.canvas.getContext("2d");
+		// console.warn('<< ', 'shouldComponentUpdate', this.props.stream);
+
+		const {stream, backgroundColor} = this.props;
+		if (!stream) {
+			return true
+		}
+
+		const canvas = this.refs.canvas;
+		const canvasCtx = canvas.getContext("2d");
+		this.audioMeter.startVisualization(stream, canvasCtx, canvas, backgroundColor);
+		return true;
 	}
 
 	componentWillUnmount() {
