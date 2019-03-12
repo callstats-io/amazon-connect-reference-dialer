@@ -1,10 +1,9 @@
 import React from "react";
-import {connect} from "react-redux";
 import AudioMeter from './audiometer'
 import PropTypes from "prop-types";
 
 
-class AudioLevel extends React.Component {
+class RemoteAudioLevel extends React.Component {
 	constructor(props) {
 		super(props);
 		this.width = 0;
@@ -14,26 +13,27 @@ class AudioLevel extends React.Component {
 	}
 
 	shouldComponentUpdate(nextProps) {
-
-		const {stream} = nextProps;
-		if (!stream) {
+		const {remoteStream} = nextProps;
+		if (!remoteStream) {
 			return true
 		}
-		// console.warn('<< ','shouldComponentUpdate', stream);
 		const canvas = this.refs.canvas;
 		const canvasCtx = canvas.getContext("2d");
-		this.audioMeter.startVisualization(stream, canvasCtx, canvas, nextProps.backgroundColor);
+		this.audioMeter.startVisualization(remoteStream, canvasCtx, canvas, nextProps.backgroundColor);
 		return true;
 	}
 
 	componentDidMount() {
-		// console.warn('<<', 'componentDidMount');
-		this.canvas = this.refs.canvas;
-		this.canvasCtx = this.canvas.getContext("2d");
+		const {remoteStream, backgroundColor} = this.props;
+		if (!remoteStream) {
+			return;
+		}
+		const canvas = this.refs.canvas;
+		const canvasCtx = canvas.getContext("2d");
+		this.audioMeter.startVisualization(remoteStream, canvasCtx, canvas, backgroundColor);
 	}
 
 	componentWillUnmount() {
-		// console.warn('<<', 'componentWillUnmount');
 		this.audioMeter && this.audioMeter.dispose();
 	}
 
@@ -50,9 +50,9 @@ class AudioLevel extends React.Component {
 	}
 }
 
-AudioLevel.propTypes = {
+RemoteAudioLevel.propTypes = {
 	backgroundColor: PropTypes.string,
-	stream: PropTypes.object,
+	remoteStream: PropTypes.object,
 };
 
-export default AudioLevel;
+export default RemoteAudioLevel;

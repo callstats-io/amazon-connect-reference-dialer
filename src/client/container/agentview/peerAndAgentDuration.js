@@ -10,7 +10,7 @@ const showPhoneNumber = (agentState) => {
 	return ['Connected', 'Inbound Call', 'Outbound Call', 'On hold'].includes(agentState);
 };
 
-import AudioLevel from '../audiolabelview/audiolevel';
+import RemoteAudioLevel from '../audiolabelview/audiolevelRemote';
 import {getColorSchema} from './../../utils/agetStateMap';
 import Duration from "../agentduration/duration";
 
@@ -46,7 +46,7 @@ const PeerAndAgentDuration = ({agentState = 'unknown', phoneNumber = '', remoteS
 			</div>
 			<div className={`col-md-2 pl-0`}>
 				{showPhoneNumber(agentState) &&
-				<AudioLevel backgroundColor={getColorSchema(agentState)} stream={remoteStream}/>}
+				<RemoteAudioLevel backgroundColor={getColorSchema(agentState)} remoteStream={remoteStream}/>}
 			</div>
 			<Duration/>
 		</div>

@@ -1,5 +1,3 @@
-import agentMediaManager from './../../api/agentMediaManager'
-
 class AudioMeter {
 	constructor(backgroundColor = '#ffffff') {
 		this.intervalId = undefined;
@@ -7,6 +5,9 @@ class AudioMeter {
 	}
 
 	startVisualization(stream, canvasCtx, canvas, backgroundColor) {
+		// if (!canvas || !canvasCtx) {
+		// 	return;
+		// }
 		let audioCtx = new AudioContext();
 		let analyser = audioCtx.createAnalyser();
 		let source = audioCtx.createMediaStreamSource(stream);
