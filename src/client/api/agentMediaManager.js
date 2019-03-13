@@ -3,6 +3,7 @@ import databaseManager from "./databaseManager";
 class AgentMediaManager {
 	constructor() {
 		this.localStream = undefined;
+		this.remoteStream = undefined;
 	}
 
 	async getDefaultAudioOutputDevice() {
@@ -12,13 +13,15 @@ class AgentMediaManager {
 	}
 
 	/*
-		If there is a prefered audio device. return that one
+		If there is a preferred audio device. return that one
 		otherwise return default audio device
 	 */
-	async getDefaulOrPreferedtAudioInputDevice() {
+	async getDefaultOrPreferredAudioInputDevice() {
 		const deviceList = await navigator.mediaDevices.enumerateDevices();
 		let preferedDevice = this.getPreferedAudioInputDevice();
 
+		// if preferred device is found in the device list
+		// there can be cases where user removed the prefered device from list, and the preffered is no longer available
 		let found = preferedDevice && deviceList.find(device => device.kind === preferedDevice.kind && device.deviceId === preferedDevice.deviceId);
 		if (found) {
 			return preferedDevice;
@@ -35,7 +38,7 @@ class AgentMediaManager {
 	}
 
 	async getDefaultAudioInputAndOutputDeviceDetails() {
-		const inputDevice = await this.getDefaulOrPreferedtAudioInputDevice();
+		const inputDevice = await this.getDefaultOrPreferredAudioInputDevice();
 		const outputDevice = await this.getDefaultAudioOutputDevice();
 		const inputDeviceList = await this.getInputDeviceList();
 		return {inputDevice, outputDevice, inputDeviceList};
@@ -86,17 +89,29 @@ class AgentMediaManager {
 		return localStream;
 	}
 
+	setLocalStream(stream) {
+		this.localStream = stream;
+	}
+
+	setRemoteStream(stream) {
+		this.remoteStream = stream;
+	}
+
 	getLocalStream() {
 		return this.localStream;
 	}
 
+	getRemoteStream() {
+		return this.remoteStream;
+	}
+
 	// make sure we dispose local stream
-	dispose(localStream = undefined) {
-		if (localStream) {
-			localStream.getTracks().forEach(track => {
+	dispose(stream = undefined) {
+		if (stream) {
+			stream.getTracks().forEach(track => {
 				track.stop();
 			});
-			localStream = undefined;
+			stream = undefined;
 		}
 	}
 
