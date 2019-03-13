@@ -11,9 +11,16 @@ import circleUnmarkIcon from '../../res/images/fa-circle-unmark.svg';
 import AudioLevel from '../audiolabelview/audiolevel';
 import ReactPhoneInput from 'react-phone-input-2';
 
+import Settings from './components/settings';
+
 import {
 	onRequestAgentSettingsChange,
 } from "../../reducers/acReducer";
+import PhoneType from "./components/phonetype";
+import DeskPhone from "./components/deskphone";
+import DeskPhoneSettings from "./components/desktopsettings";
+import SoftPhone from "./components/softphone";
+import DropDownOptions from "./components/dropdown-options";
 
 class Body extends Component {
 	constructor(props) {
@@ -28,6 +35,10 @@ class Body extends Component {
 			stream: undefined,
 		};
 		this.handleInputChange = this.handleInputChange.bind(this);
+		this.changeToDeskphone = this.changeToDeskphone.bind(this);
+		this.closeSetting = this.closeSetting.bind(this);
+		this.toggleMenuItem = this.toggleMenuItem.bind(this);
+		this.changeAudioInputDevice = this.changeAudioInputDevice.bind(this);
 	}
 
 	componentDidMount() {
@@ -112,83 +123,22 @@ class Body extends Component {
 	}
 
 	render() {
-		const dialableCountries = agentConfigManager.getDialableCountries();
 		return (
 			<div className="card-body" style={{backgroundColor: '#ffffff'}}>
-				<div className="row ">
-					<div className="col-md-10">
-						<p style={{color: '#000000', fontSize: '18px', fontFamily: 'AmazonEmber'}}>Settings</p>
-					</div>
-					<div className="col-md-2"
-						 onClick={() => this.closeSetting('')}>
-						<img src={closeOrDismissIcon} style={{cursor: 'pointer'}}/>
-					</div>
-				</div>
-				<div className="row">
-					<div className="col-md-12">
-						<p style={{color: '#000000', fontSize: '14px', fontFamily: 'AmazonEmber'}}>Phone
-							type</p>
-					</div>
-				</div>
-				<div className="row" style={{cursor: 'pointer'}}
-					 onClick={() => this.changeToSoftphone()}>
-					<div className="col-md-2">
-						<img src={this.state.softphoneEnabled ? circleMarkIcon : circleUnmarkIcon}/></div>
-					<div className="col-md-10">
-						<p style={{
-							color: '#000000',
-							fontSize: '14px',
-							fontFamily: 'AmazonEmber',
-							marginTop: '1%'
-						}}>Softphone</p>
-					</div>
-				</div>
+				<Settings closeSettings={this.closeSetting}/>
+				<PhoneType/>
+
+				<SoftPhone changeToSoftphone={this.changeToSoftphone}
+						   enabled={this.state.softphoneEnabled}/>
+
 				{
 					this.state.softphoneEnabled &&
-					<div className="row">
-						<div className="col-md-10 pr-0 mr-0">
-							<div className="btn-group" style={{maxWidth: '220px'}}>
-								<button className="btn" type="button" style={{
-									border: 'solid 1px #cfcfcf',
-									fontFamily: 'AmazonEmber',
-									fontSize: '13px',
-									maxHeight: '45px',
-									minWidth: '200px',
-								}} onClick={() => this.toggleMenuItem()}> {this.state.defaultAudioInputDevice.label}
-								</button>
-								<button onClick={() => this.toggleMenuItem()} type="button"
-										className="btn dropdown-toggle dropdown-toggle-split"
-										aria-haspopup="true" aria-expanded="false"
-										style={{border: 'solid 1px #cfcfcf'}}>
-									<span className="sr-only">Toggle Dropdown</span>
-								</button>
-								<div className={`dropdown-menu ${this.state.showMenuItem && 'show'}`}
-									 x-placement="bottom-start" style={{
-									position: 'absolute',
-									willChange: 'transform',
-									top: '0px',
-									left: '0px',
-									transform: 'translate3d(0px, 38px, 0px)',
-									border: 'solid 1px #cfcfcf'
-								}}>
-									{
-										this.state.inputDeviceList.map((item, indx) => (
-											<a key={`${item.deviceId}-${indx}`} className="dropdown-item"
-											   onClick={() => this.changeAudioInputDevice(item)}
-											   href="#" style={{
-												fontFamily: 'AmazonEmber',
-												fontSize: '13px',
-											}}>{item.label}</a>
-										))
-									}
-								</div>
-
-							</div>
-						</div>
-						<div className="col-md-2 pl-0 pr-0">
-							<AudioLevel backgroundColor={'#ffffff'} stream={this.state.stream}/>
-						</div>
-					</div>
+					<DropDownOptions audioDevice={this.state.defaultAudioInputDevice &&
+					this.state.defaultAudioInputDevice.label}
+									 changeAudioInputDevice={this.changeAudioInputDevice}
+									 inputDeviceList={this.state.inputDeviceList}
+									 showMenuItem={this.state.showMenuItem}
+									 toggleMenuItem={this.toggleMenuItem}/>
 				}
 				{
 					this.state.softphoneEnabled &&
@@ -219,47 +169,16 @@ class Body extends Component {
 						</div>
 					</div>
 				}
-				<div className="row" style={{cursor: 'pointer'}}
-					 onClick={() => this.changeToDeskphone()}>
-					<div className="col-md-2">
-						<img src={this.state.softphoneEnabled ? circleUnmarkIcon : circleMarkIcon}/>
-					</div>
-					<div className="col-md-10">
-						<p style={{color: '#000000', fontSize: '14px', fontFamily: 'AmazonEmber', marginTop: '1%'}}>Desk
-							phone</p>
-					</div>
-				</div>
+
+
+				<DeskPhone changeToDeskphone={this.changeToDeskphone} enabled={!this.state.softphoneEnabled}/>
 				{
 					!this.state.softphoneEnabled &&
-					<div className={"row"}>
-						<div className={"col-md-9"}>
-							<ReactPhoneInput inputStyle={{minWidth: '15.5em', maxWidth: '15.5em'}}
-											 onlyCountries={dialableCountries}
-											 defaultCountry={'fi'}
-											 enableSearchField={true}
-											 value={this.state.phoneNumber}
-											 inputExtraProps={{
-												 name: 'phone',
-												 required: true,
-												 autoFocus: true
-											 }}
-											 onChange={this.handleInputChange}/>
-						</div>
-						<div className="col-md-3 p-0 m-0">
-							<a className="btn" style={{
-								backgroundColor: '#a3acb6',
-								fontFamily: 'AmazonEmber',
-								color: '#ffffff',
-								height: '35px',
-								lineHeight: '1.3em',
-								cursor: 'pointer',
-							}} onClick={() => this.changeToDeskphone()}>
-								Save
-							</a>
-						</div>
-					</div>
+					<DeskPhoneSettings handleInputChange={this.handleInputChange}
+									   changeToDeskphone={this.changeToDeskphone}
+									   dialableCountries={agentConfigManager.getDialableCountries()}
+									   phoneNumber={this.state.phoneNumber}/>
 				}
-
 			</div>
 		);
 	}
