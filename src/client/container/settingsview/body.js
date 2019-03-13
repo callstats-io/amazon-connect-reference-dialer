@@ -60,7 +60,7 @@ class Body extends Component {
 			this.setState({
 				softphoneEnabled: true,
 			});
-			agentMediaManager.getDefaultAudioInputDevice().then(selectedDevice => {
+			agentMediaManager.getDefaulOrPreferedtAudioInputDevice().then(selectedDevice => {
 				this.updateMediaSource(selectedDevice);
 			});
 		}, err => {
@@ -95,7 +95,7 @@ class Body extends Component {
 
 		let isNew = agentMediaManager.setPreferedAudioInputDevice(selectedDevice);
 		if (isNew) {
-			agentMediaManager.getDefaultAudioInputDevice().then(selectedDevice => {
+			agentMediaManager.getDefaulOrPreferedtAudioInputDevice().then(selectedDevice => {
 				this.updateMediaSource(selectedDevice);
 			});
 		}

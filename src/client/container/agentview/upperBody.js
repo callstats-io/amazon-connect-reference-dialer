@@ -31,7 +31,7 @@ class UpperBody extends Component {
 	}
 
 	componentDidMount() {
-		agentMediaManager.getDefaultAudioInputDevice().then(selectedDevice => {
+		agentMediaManager.getDefaulOrPreferedtAudioInputDevice().then(selectedDevice => {
 			agentMediaManager.getUserMedia(selectedDevice).then(success => {
 				this.setState({
 					stream: success,

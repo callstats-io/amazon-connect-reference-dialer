@@ -15,19 +15,16 @@ class AgentMediaManager {
 		If there is a prefered audio device. return that one
 		otherwise return default audio device
 	 */
-	async getDefaultAudioInputDevice() {
+	async getDefaulOrPreferedtAudioInputDevice() {
 		const deviceList = await navigator.mediaDevices.enumerateDevices();
 		let preferedDevice = this.getPreferedAudioInputDevice();
 
-		if (preferedDevice) {
-			const defaultAudioDevice = deviceList.find(device => device.kind === preferedDevice.kind && device.deviceId === preferedDevice.deviceId);
-			if (defaultAudioDevice) {
-				window.selectedDevice = defaultAudioDevice;
-				return defaultAudioDevice;
-			}
+		let found = preferedDevice && deviceList.find(device => device.kind === preferedDevice.kind && device.deviceId === preferedDevice.deviceId);
+		if (found) {
+			return preferedDevice;
 		}
-		const defaultAudioDevice = deviceList.find(device => device.kind === 'audioinput' && device.deviceId === 'default');
-		window.selectedDevice = defaultAudioDevice;
+
+		let defaultAudioDevice = deviceList.find(device => device.kind === 'audioinput' && device.deviceId === 'default');
 		return defaultAudioDevice;
 	}
 
@@ -38,20 +35,16 @@ class AgentMediaManager {
 	}
 
 	async getDefaultAudioInputAndOutputDeviceDetails() {
-		const inputDevice = await this.getDefaultAudioInputDevice();
+		const inputDevice = await this.getDefaulOrPreferedtAudioInputDevice();
 		const outputDevice = await this.getDefaultAudioOutputDevice();
 		const inputDeviceList = await this.getInputDeviceList();
 		return {inputDevice, outputDevice, inputDeviceList};
 	}
 
+	// save it in current window, and also in database
 	setPreferedAudioInputDevice(selectedDevice = undefined) {
-		let prvSelectedDevice = this.getPreferedAudioInputDevice();
-		let isNew = selectedDevice.label !== (prvSelectedDevice && prvSelectedDevice.label);
-		window.selectedDevice = selectedDevice;
-
-		databaseManager.saveDefaultDevice(selectedDevice);
-		// return  whether it is a new device, or old one
-		return isNew;
+		window.selectedDevice = {...selectedDevice};
+		selectedDevice && databaseManager.saveDefaultDevice(selectedDevice);
 	}
 
 	getPreferedAudioInputDevice() {
@@ -59,24 +52,12 @@ class AgentMediaManager {
 		return selectedDevice && JSON.parse(selectedDevice);
 	}
 
-	async getUserMedia(selectedDevice = undefined) {
-		const audioDeviceId = (selectedDevice && selectedDevice.deviceId) || undefined;
-		const constraints = {
-			audio: {deviceId: audioDeviceId},
-			video: false,
-		};
-		this.dispose();
-		return new Promise((resolve, reject) => {
-			navigator.getUserMedia(constraints, stream => {
-				this.localStream = stream;
-				resolve(this.localStream);
-			}, err => {
-				reject(err);
-			});
-		});
-	}
-
+	// Overwrite get user media
 	overWriteGetUserMedia() {
+		if (!(navigator && navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia === 'function')) {
+			return;
+		}
+
 		let original = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);
 		navigator.mediaDevices.getUserMedia = function (constraints) {
 			const newConstraints = {
@@ -87,12 +68,35 @@ class AgentMediaManager {
 		}
 	}
 
-	dispose() {
-		if (this.localStream) {
-			this.localStream.getTracks().forEach(track => {
+
+	async getUserMedia(selectedDevice = undefined) {
+		let localStream = this.getLocalStream();
+		this.dispose(localStream);
+
+		const audioDeviceId = (selectedDevice && selectedDevice.deviceId) || undefined;
+		const constraints = {
+			audio: {deviceId: audioDeviceId},
+			video: false,
+		};
+		try {
+			localStream = await navigator.getUserMedia(constraints);
+		} catch (err) {
+			console.error('->', err);
+		}
+		return localStream;
+	}
+
+	getLocalStream() {
+		return this.localStream;
+	}
+
+	// make sure we dispose local stream
+	dispose(localStream = undefined) {
+		if (localStream) {
+			localStream.getTracks().forEach(track => {
 				track.stop();
 			});
-			this.localStream = undefined;
+			localStream = undefined;
 		}
 	}
 
