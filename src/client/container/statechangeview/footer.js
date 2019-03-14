@@ -2,6 +2,25 @@ import React, {Component} from "react";
 
 const logoutURL = 'https://callstatsio.awsapps.com/connect/logout';
 
+const mainFooter = {
+	backgroundColor: 'inherit',
+	marginRight: '5%',
+	marginLeft: '5%'
+};
+
+const pointer = {
+	cursor: 'pointer',
+};
+
+const link = {
+	fontFamily: 'AmazonEmber',
+	color: '#3885de'
+};
+
+const displayNone = {
+	display: 'none'
+};
+
 class Footer extends Component {
 	constructor(props) {
 		super(props);
@@ -20,13 +39,13 @@ class Footer extends Component {
 
 	render() {
 		return (
-			<div className="card-footer" style={{backgroundColor: 'inherit', marginRight: '5%', marginLeft: '5%'}}>
+			<div className="card-footer" style={mainFooter}>
 				<div className="row">
-					<div className="col-md-12" onClick={this.logout} style={{cursor: 'pointer'}}>
-						<a style={{fontFamily: 'AmazonEmber', color: '#3885de'}}>Log out</a>
+					<div className="col-md-12" onClick={this.logout} style={pointer}>
+						<a style={link}>Log out</a>
 					</div>
 				</div>
-				<div style={{display: 'none'}}>
+				<div style={displayNone}>
 					{this.state.loggedOut && <iframe src={logoutURL}/>}
 				</div>
 			</div>

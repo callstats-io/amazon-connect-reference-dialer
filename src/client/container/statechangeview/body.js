@@ -20,16 +20,26 @@ const changeAgentState = (currentState) => {
 	agentStateManager.setAgentState(currentState);
 };
 
+const pointer = {
+	cursor: 'pointer',
+};
+
+
+const stateText = {
+	color: '#3885de',
+	fontFamily: 'AmazonEmber'
+};
+
 const Body = ({agentState = 'unknown', requestAgentStateChange}) => (
 	<div className="card-body" style={{}}>
 		{getAgentStates().map((currentState) => (
-			<div key={`agent-state-${currentState.name}`} className="row" style={{cursor: 'pointer'}}
+			<div key={`agent-state-${currentState.name}`} className="row" style={pointer}
 				 onClick={() => requestAgentStateChange(currentState)}>
 				<div className="col-md-2">
 					{currentState && currentState.name === agentState && <img src={activeIcon}/>}
 				</div>
 				<div className="col-md-10">
-					<p style={{color: '#3885de', fontFamily: 'AmazonEmber'}}> {currentState.name}</p>
+					<p style={stateText}> {currentState.name}</p>
 				</div>
 			</div>
 		))}
