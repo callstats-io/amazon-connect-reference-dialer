@@ -1,11 +1,8 @@
 import React from "react";
 
-const header = {
-	borderBottom: '0px',
-	backgroundColor: 'inherit'
-};
+import styles from './statuschange.css';
 
 const Header = () => (
-	<div className="card-header" style={header}/>
+	<div className={`card-header ${styles.acHeader}`}/>
 );
 export default Header;

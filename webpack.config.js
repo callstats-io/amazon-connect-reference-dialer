@@ -22,7 +22,15 @@ module.exports = {
 			},
 			{
 				test: /\.css$/,
-				use: ['style-loader', 'css-loader']
+				use: ['style-loader'],
+			},
+			{
+				test: /\.css$/,
+				loader: 'css-loader',
+				options: {
+					modules: true,
+					context: path.resolve(__dirname, 'context'),
+				},
 			},
 			{
 				test: /\.(png|woff|woff2|eot|ttf|svg|gif)$/,

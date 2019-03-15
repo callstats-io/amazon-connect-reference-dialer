@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 
 import activeIcon from '../../res/images/fa-tick-mark.svg'
 import PropTypes from "prop-types";
+import styles from './statuschange.css';
+
 import {
 	onRequestAgentStateChange
 } from "../../reducers/acReducer";
@@ -20,26 +22,16 @@ const changeAgentState = (currentState) => {
 	agentStateManager.setAgentState(currentState);
 };
 
-const pointer = {
-	cursor: 'pointer',
-};
-
-
-const stateText = {
-	color: '#3885de',
-	fontFamily: 'AmazonEmber'
-};
-
 const Body = ({agentState = 'unknown', requestAgentStateChange}) => (
 	<div className="card-body" style={{}}>
 		{getAgentStates().map((currentState) => (
-			<div key={`agent-state-${currentState.name}`} className="row" style={pointer}
+			<div key={`agent-state-${currentState.name}`} className={`row ${styles.acPointer} ${styles.acList}`}
 				 onClick={() => requestAgentStateChange(currentState)}>
 				<div className="col-md-2">
 					{currentState && currentState.name === agentState && <img src={activeIcon}/>}
 				</div>
 				<div className="col-md-10">
-					<p style={stateText}> {currentState.name}</p>
+					<span className={`${styles.acSpan}`}> {currentState.name}</span>
 				</div>
 			</div>
 		))}

@@ -1,0 +1,42 @@
+.acCard {
+    margin-right: 8%;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+    background-color: #ffffff
+}
+
+.acHeader {
+    border-bottom: 0;
+    background-color: inherit;
+}
+
+.acFooter {
+    background-color: inherit;
+    margin-right: 5%;
+    margin-left: 5%;
+}
+
+.acPointer {
+    cursor: pointer;
+}
+
+.acLink {
+    font-family: AmazonEmber;
+    color: #3885de !important;
+}
+
+.acSpan {
+    font-family: AmazonEmber;
+    color: #3885de !important;
+}
+
+.acList {
+    margin-bottom: 5%;
+}
+
+.acNoDisplay {
+    display: none;
+}
+
+.acZeroPadding {
+    padding: 0;
+}

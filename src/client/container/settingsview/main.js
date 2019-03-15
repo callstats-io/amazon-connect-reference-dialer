@@ -5,6 +5,14 @@ import Header from './header';
 import Body from './body';
 import Footer from './footer';
 
+const zeroPadding = {
+	padding: '0',
+};
+
+const cardBody = {
+	backgroundColor: '#f2f2f2',
+};
+
 class SettingPageView extends Component {
 	constructor(props) {
 		super(props);
@@ -15,8 +23,8 @@ class SettingPageView extends Component {
 		return (
 			initialized &&
 			<div className={`row h-100`}>
-				<div className={`col-md-12`} style={{padding: '0'}}>
-					<div className={`card h-100`} style={{backgroundColor: '#f2f2f2'}}>
+				<div className={`col-md-12`} style={zeroPadding}>
+					<div className={`card h-100`} style={cardBody}>
 						<Header/>
 						<Body/>
 						<Footer/>

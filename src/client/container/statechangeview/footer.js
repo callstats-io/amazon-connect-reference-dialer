@@ -1,25 +1,8 @@
 import React, {Component} from "react";
 
+import styles from './statuschange.css';
+
 const logoutURL = 'https://callstatsio.awsapps.com/connect/logout';
-
-const mainFooter = {
-	backgroundColor: 'inherit',
-	marginRight: '5%',
-	marginLeft: '5%'
-};
-
-const pointer = {
-	cursor: 'pointer',
-};
-
-const link = {
-	fontFamily: 'AmazonEmber',
-	color: '#3885de'
-};
-
-const displayNone = {
-	display: 'none'
-};
 
 class Footer extends Component {
 	constructor(props) {
@@ -39,13 +22,13 @@ class Footer extends Component {
 
 	render() {
 		return (
-			<div className="card-footer" style={mainFooter}>
+			<div className={`card-footer ${styles.acFooter}`}>
 				<div className="row">
-					<div className="col-md-12" onClick={this.logout} style={pointer}>
-						<a style={link}>Log out</a>
+					<div className="col-md-12" onClick={this.logout}>
+						<a className={`${styles.acLink} ${styles.acPointer}`}>Log out</a>
 					</div>
 				</div>
-				<div style={displayNone}>
+				<div className={`${styles.acNoDisplay}`}>
 					{this.state.loggedOut && <iframe src={logoutURL}/>}
 				</div>
 			</div>

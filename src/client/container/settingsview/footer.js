@@ -16,6 +16,11 @@ import Language from "../footer/components/language";
 
 import acManager from '../../api/acManager';
 
+const cardFooter = {
+	borderTop: '0',
+	backgroundColor: '#ffffff'
+};
+
 const FooterStyle = {
 	reportCall: {
 		divClass: 'col-md-6 p-0',
@@ -40,7 +45,7 @@ const FooterStyle = {
 };
 
 const Footer = ({requestReportACallIssue, requestConnectivityCheck}) => (
-	<div className="card-footer" style={{backgroundColor: '#ffffff', borderTop: 0}}>
+	<div className="card-footer" style={cardFooter}>
 		<div className="row">
 			<ReportACall divClass={FooterStyle.reportCall.divClass}
 						 linkClass={FooterStyle.reportCall.linkClass}
