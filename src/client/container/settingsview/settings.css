@@ -1,4 +1,4 @@
-.zeroPadding{
+.zeroPadding {
     padding: 0 !important;
 }
 
@@ -7,5 +7,22 @@
 }
 
 .cardBody {
-
+    background-color: #ffffff;
 }
+
+.cursor {
+    cursor: pointer;
+}
+
+.settingsText {
+    color: #000000;
+    font-size: 18px;
+    font-family: AmazonEmber-Light;
+}
+
+.phoneTypeText {
+    color: #000000;
+    font-size: 14px;
+    font-family: AmazonEmber-Light;
+}
+

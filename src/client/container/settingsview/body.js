@@ -17,7 +17,7 @@ import SoftPhone from "./components/softphone";
 import DropDownOptions from "./components/dropdown-options";
 
 
-
+import styles from './settings.css';
 
 class Body extends Component {
 	constructor(props) {
@@ -121,61 +121,13 @@ class Body extends Component {
 
 	render() {
 		return (
-			<div className="card-body" style={{backgroundColor: '#ffffff'}}>
+			<div className={`card-body ${styles.cardBody}`}>
 				<Settings closeSettings={this.closeSetting}/>
+
 				<PhoneType/>
 
-				<SoftPhone changeToSoftphone={this.changeToSoftphone}
-						   enabled={this.state.softphoneEnabled}/>
-
-				{
-					this.state.softphoneEnabled &&
-					<DropDownOptions audioDevice={this.state.defaultAudioInputDevice &&
-					this.state.defaultAudioInputDevice.label}
-									 changeAudioInputDevice={this.changeAudioInputDevice}
-									 inputDeviceList={this.state.inputDeviceList}
-									 showMenuItem={this.state.showMenuItem}
-									 toggleMenuItem={this.toggleMenuItem}/>
-				}
-				{
-					this.state.softphoneEnabled &&
-					<div className="row mb-2">
-						<div className="col-md-12">
-							<div className={"row"}>
-								<div className={"col-md-12"}>
-									<span className="ml-1" style={{
-										height: '15px',
-										opacity: '0.6',
-										fontFamily: 'AmazonEmber',
-										fontSize: '12px',
-										color: '#000000'
-									}}> Audio output device </span>
-								</div>
-							</div>
-
-							<div className={"row"}>
-								<div className={"col-md-12"}>
-									<span className="ml-1" style={{
-										height: '17px',
-										fontFamily: 'AmazonEmber',
-										fontSize: '14px',
-										color: '#000000'
-									}}> {this.state.defaultAudioOutputDevice.label} </span>
-								</div>
-							</div>
-						</div>
-					</div>
-				}
-
-
-				<DeskPhone changeToDeskphone={this.changeToDeskphone} enabled={!this.state.softphoneEnabled}/>
-				{
-					!this.state.softphoneEnabled &&
-					<DeskPhoneSettings handleInputChange={this.handleInputChange}
-									   changeToDeskphone={this.changeToDeskphone}
-									   dialableCountries={agentConfigManager.getDialableCountries()}
-									   phoneNumber={this.state.phoneNumber}/>
-				}
+				{/*<SoftPhone changeToSoftphone={this.changeToSoftphone}*/}
+						   {/*enabled={this.state.softphoneEnabled}/>*/}
 			</div>
 		);
 	}

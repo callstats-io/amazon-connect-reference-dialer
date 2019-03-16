@@ -1,10 +1,12 @@
 import React from "react";
 
+import styles from './../settings.css';
+
 const PhoneType = ({}) => (
-	<div className="row">
+	<div className="row mt-1">
 		<div className="col-md-12">
-			<p style={{color: '#000000', fontSize: '14px', fontFamily: 'AmazonEmber'}}>Phone
-				type</p>
+			<span className={styles.phoneTypeText}>Phone
+				type</span>
 		</div>
 	</div>
 );

@@ -10,7 +10,7 @@ const SettingPageView = ({}) => (
 		<div className={`col-md-12 ${styles.zeroPadding}`}>
 			<div className={`card h-100 ${styles.cardBodyMain}`}>
 				<Header/>
-				{/*<Body/>*/}
+				<Body/>
 				<Footer/>
 			</div>
 		</div>
