@@ -82,7 +82,7 @@ class AgentMediaManager {
 			video: false,
 		};
 		try {
-			localStream = await navigator.getUserMedia(constraints);
+			localStream = await navigator.mediaDevices.getUserMedia(constraints);
 		} catch (err) {
 			console.error('->', err);
 		}
