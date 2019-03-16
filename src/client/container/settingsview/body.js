@@ -130,7 +130,8 @@ class Body extends Component {
 									   changeAudioInputDevice={this.changeAudioInputDevice}
 									   showMenuItem={this.state.showMenuItem}
 									   inputDeviceList={this.state.inputDeviceList}
-									   audioDevice={this.state.defaultAudioInputDevice}
+									   audioInputDevice={this.state.defaultAudioInputDevice}
+									   audioOutputDevice={this.state.defaultAudioOutputDevice}
 									   stream={this.state.stream}
 									   backgroundColor={'#ffffff'}/>
 				}

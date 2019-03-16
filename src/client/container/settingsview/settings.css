@@ -74,5 +74,24 @@
 
 .dropdownItem {
     font-family: AmazonEmber-Light;
-    font-size: 13px;
+    font-size: 14px;
+}
+
+.audioLabel {
+    max-height: 42px;
+}
+
+.outputDeviceText {
+    height: 15px;
+    opacity: 0.6;
+    font-family: AmazonEmber-Light;
+    font-size: 12px;
+    color: #000000
+}
+
+.outputDeviceNameText {
+    height: 17px;
+    font-size: 14px;
+    font-family: AmazonEmber-Light;
+    color: #000000;
 }

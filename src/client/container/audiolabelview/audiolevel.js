@@ -31,15 +31,6 @@ class AudioLevel extends React.Component {
 
 	componentDidMount() {
 		console.warn('<< ', 'componentDidMount', this.props.stream);
-
-		// const {stream, backgroundColor} = this.props;
-		// if (!stream) {
-		// 	return true
-		// }
-		//
-		// const canvas = this.refs.canvas;
-		// const canvasCtx = canvas.getContext("2d");
-		// this.audioMeter.startVisualization(stream, canvasCtx, canvas, backgroundColor);
 	}
 
 	componentWillUnmount() {

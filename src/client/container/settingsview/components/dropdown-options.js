@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 
 import styles from './../settings.css';
 
-const DropDownOptions = ({toggleMenuItem, changeAudioInputDevice, showMenuItem, inputDeviceList, audioDevice}) => (
+const DropDownOptions = ({toggleMenuItem, changeAudioInputDevice, showMenuItem, inputDeviceList, audioInputDevice}) => (
 	<div className="col-md-10 pr-0 mr-0">
 		<div className={`btn-group ${styles.btnGroup}`}>
 			<button className={`btn ${styles.dropDownButton}`}
 					type="button"
-					onClick={toggleMenuItem}> {audioDevice.label}
+					onClick={toggleMenuItem}> {audioInputDevice.label}
 			</button>
 
 			<button onClick={toggleMenuItem} type="button"
@@ -36,7 +36,7 @@ DropDownOptions.propTypes = {
 	changeAudioInputDevice: PropTypes.func.isRequired,
 	showMenuItem: PropTypes.bool.isRequired,
 	inputDeviceList: PropTypes.array.isRequired,
-	audioDevice: PropTypes.object.isRequired,
+	audioInputDevice: PropTypes.object.isRequired,
 };
 
 export default DropDownOptions;
