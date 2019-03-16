@@ -1,6 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import ReactPhoneInput from 'react-phone-input-2';
+import styles from './../settings.css';
+
 const DeskPhoneSettings = ({enabled, handleInputChange, changeToDeskphone, dialableCountries = [], phoneNumber = ''}) => (
 	<div className={"row"}>
 		<div className={"col-md-9"}>
@@ -17,14 +20,8 @@ const DeskPhoneSettings = ({enabled, handleInputChange, changeToDeskphone, diala
 							 onChange={handleInputChange}/>
 		</div>
 		<div className="col-md-3 p-0 m-0">
-			<a className="btn" style={{
-				backgroundColor: '#a3acb6',
-				fontFamily: 'AmazonEmber',
-				color: '#ffffff',
-				height: '35px',
-				lineHeight: '1.3em',
-				cursor: 'pointer',
-			}} onClick={changeToDeskphone}>
+			<a className={`btn ${styles.deskphoneSave}`}
+			   onClick={changeToDeskphone}>
 				Save
 			</a>
 		</div>

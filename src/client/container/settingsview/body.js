@@ -14,10 +14,10 @@ import PhoneType from "./components/phonetype";
 import DeskPhone from "./components/deskphone";
 import DeskPhoneSettings from "./components/desktopsettings";
 import SoftPhone from "./components/softphone";
-import DropDownOptions from "./components/dropdown-options";
 
 
 import styles from './settings.css';
+import SoftPhoneSettings from "./components/softphonesettings";
 
 class Body extends Component {
 	constructor(props) {
@@ -32,6 +32,7 @@ class Body extends Component {
 			stream: undefined,
 		};
 		this.handleInputChange = this.handleInputChange.bind(this);
+		this.changeToSoftphone = this.changeToSoftphone.bind(this);
 		this.changeToDeskphone = this.changeToDeskphone.bind(this);
 		this.closeSetting = this.closeSetting.bind(this);
 		this.toggleMenuItem = this.toggleMenuItem.bind(this);
@@ -126,8 +127,27 @@ class Body extends Component {
 
 				<PhoneType/>
 
-				{/*<SoftPhone changeToSoftphone={this.changeToSoftphone}*/}
-						   {/*enabled={this.state.softphoneEnabled}/>*/}
+				<SoftPhone changeToSoftphone={this.changeToSoftphone}
+						   enabled={this.state.softphoneEnabled}/>
+				{
+					this.state.softphoneEnabled &&
+					<SoftPhoneSettings toggleMenuItem={this.toggleMenuItem}
+									   changeAudioInputDevice={this.changeAudioInputDevice}
+									   showMenuItem={this.state.showMenuItem}
+									   inputDeviceList={this.state.inputDeviceList}
+									   audioDevice={this.state.defaultAudioInputDevice}/>
+				}
+
+				<DeskPhone changeToDeskphone={this.changeToDeskphone}
+						   enabled={!this.state.softphoneEnabled}/>
+
+				{
+					!this.state.softphoneEnabled &&
+					<DeskPhoneSettings handleInputChange={this.handleInputChange}
+									   changeToDeskphone={this.changeToDeskphone}
+									   dialableCountries={agentConfigManager.getDialableCountries()}
+									   phoneNumber={this.state.phoneNumber}/>
+				}
 			</div>
 		);
 	}

@@ -1,41 +1,28 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const DropDownOptions = ({toggleMenuItem, changeAudioInputDevice, showMenuItem, inputDeviceList, audioDevice}) => (
+import styles from './../settings.css';
 
+const DropDownOptions = ({toggleMenuItem, changeAudioInputDevice, showMenuItem, inputDeviceList, audioDevice}) => (
 	<div className="col-md-10 pr-0 mr-0">
-		<div className="btn-group" style={{maxWidth: '220px'}}>
-			<button className="btn" type="button" style={{
-				border: 'solid 1px #cfcfcf',
-				fontFamily: 'AmazonEmber',
-				fontSize: '13px',
-				maxHeight: '45px',
-				minWidth: '200px',
-			}} onClick={toggleMenuItem}> {audioDevice}
+		<div className={`btn-group ${styles.btnGroup}`}>
+			<button className={`btn ${styles.dropDownButton}`}
+					type="button"
+					onClick={toggleMenuItem}> {audioDevice.label}
 			</button>
+
 			<button onClick={toggleMenuItem} type="button"
-					className="btn dropdown-toggle dropdown-toggle-split"
-					aria-haspopup="true" aria-expanded="false"
-					style={{border: 'solid 1px #cfcfcf'}}>
+					className={`btn dropdown-toggle dropdown-toggle-split ${styles.btnDropDown}`}
+					aria-haspopup="true" aria-expanded="false">
 				<span className="sr-only">Toggle Dropdown</span>
 			</button>
-			<div className={`dropdown-menu ${showMenuItem && 'show'}`}
-				 xPlacement="bottom-start" style={{
-				position: 'absolute',
-				willChange: 'transform',
-				top: '0px',
-				left: '0px',
-				transform: 'translate3d(0px, 38px, 0px)',
-				border: 'solid 1px #cfcfcf'
-			}}>
+			<div className={`dropdown-menu ${showMenuItem && 'show'} ${styles.dropDownMenu}`}
+				 x-placement="bottom-start">
 				{
 					inputDeviceList.map((item, indx) => (
-						<a key={`${item.deviceId}-${indx}`} className="dropdown-item"
-						   onClick={changeAudioInputDevice(item)}
-						   href="#" style={{
-							fontFamily: 'AmazonEmber',
-							fontSize: '13px',
-						}}>{item.label}</a>
+						<a key={`${item.deviceId}-${indx}`} className={`dropdown-item ${styles.dropdownItem}`}
+						   onClick={() => changeAudioInputDevice(item)}
+						   href="#">{item.label}</a>
 					))
 				}
 			</div>
@@ -47,9 +34,9 @@ const DropDownOptions = ({toggleMenuItem, changeAudioInputDevice, showMenuItem, 
 DropDownOptions.propTypes = {
 	toggleMenuItem: PropTypes.func.isRequired,
 	changeAudioInputDevice: PropTypes.func.isRequired,
-	showMenuItem: PropTypes.func.isRequired,
+	showMenuItem: PropTypes.bool.isRequired,
 	inputDeviceList: PropTypes.array.isRequired,
-	audioDevice: PropTypes.string.isRequired,
+	audioDevice: PropTypes.object.isRequired,
 };
 
 export default DropDownOptions;

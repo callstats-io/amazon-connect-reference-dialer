@@ -26,3 +26,53 @@
     font-family: AmazonEmber-Light;
 }
 
+.deskphoneText {
+    color: #000000;
+    font-size: 14px;
+    font-family: AmazonEmber-Light;
+}
+
+.softphoneText {
+    color: #000000;
+    font-size: 14px;
+    font-family: AmazonEmber-Light;
+}
+
+.deskphoneSave {
+    background-color: #a3acb6;
+    font-family: AmazonEmber-Light;
+    color: #ffffff !important;
+    height: 35px;
+    line-height: 1.3em;
+    cursor: pointer;
+}
+
+.btnGroup {
+    max-width: 220px
+}
+
+.dropDownButton {
+    border: solid 1px #cfcfcf;
+    font-family: AmazonEmber-Light;
+    font-size: 13px;
+    max-height: 45px;
+    min-width: 200px;
+}
+
+.btnDropDown {
+    border: solid 1px #cfcfcf;
+}
+
+.dropDownMenu {
+    position: absolute;
+    will-change: transform;
+    top: 0;
+    left: 0;
+    transform: translate3d(0px, 38px, 0px);
+    border: solid 1px #cfcfcf;
+}
+
+.dropdownItem {
+    font-family: AmazonEmber-Light;
+    font-size: 13px;
+}

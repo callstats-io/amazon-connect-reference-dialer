@@ -4,15 +4,18 @@ import PropTypes from "prop-types";
 import circleMarkIcon from './../../../res/images/fa-circle-mark.svg';
 import circleUnmarkIcon from './../../../res/images/fa-circle-unmark.svg';
 
+import styles from './../settings.css';
+
 const DeskPhone = ({changeToDeskphone, enabled = false}) => (
-	<div className="row" style={{cursor: 'pointer'}}
+	<div className={`row ${styles.cursor}`}
 		 onClick={changeToDeskphone}>
+
 		<div className="col-md-2">
-			<img src={softphoneEnabled ? circleUnmarkIcon : circleMarkIcon}/>
+			<img src={enabled ? circleMarkIcon : circleUnmarkIcon}/>
 		</div>
 		<div className="col-md-10">
-			<p style={{color: '#000000', fontSize: '14px', fontFamily: 'AmazonEmber', marginTop: '1%'}}>Desk
-				phone</p>
+			<span className={styles.deskphoneText}>Desk
+				phone</span>
 		</div>
 	</div>
 );

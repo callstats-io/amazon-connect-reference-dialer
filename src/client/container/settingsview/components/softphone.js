@@ -5,18 +5,16 @@ import PropTypes from "prop-types";
 import circleMarkIcon from './../../../res/images/fa-circle-mark.svg';
 import circleUnmarkIcon from './../../../res/images/fa-circle-unmark.svg';
 
-const SoftPhone = ({changeToSoftphone, enabled}) => (
-	<div className="row" style={{cursor: 'pointer'}}
+import styles from './../settings.css';
+
+const SoftPhone = ({changeToSoftphone, enabled = false}) => (
+	<div className={`row ${styles.cursor}`}
 		 onClick={changeToSoftphone}>
 		<div className="col-md-2">
 			<img src={enabled ? circleMarkIcon : circleUnmarkIcon}/></div>
+
 		<div className="col-md-10">
-			<p style={{
-				color: '#000000',
-				fontSize: '14px',
-				fontFamily: 'AmazonEmber',
-				marginTop: '1%'
-			}}>Softphone</p>
+			<span className={styles.softphoneText}>Softphone</span>
 		</div>
 	</div>
 );
