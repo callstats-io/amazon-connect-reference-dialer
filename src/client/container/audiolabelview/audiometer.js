@@ -5,9 +5,6 @@ class AudioMeter {
 	}
 
 	startVisualization(stream, canvasCtx, canvas, backgroundColor) {
-		// if (!canvas || !canvasCtx) {
-		// 	return;
-		// }
 		let audioCtx = new AudioContext();
 		let analyser = audioCtx.createAnalyser();
 		let source = audioCtx.createMediaStreamSource(stream);
@@ -45,7 +42,7 @@ class AudioMeter {
 		};
 		this.intervalId = setInterval(() => {
 			draw()
-		}, 1000 * canvas.width / audioCtx.sampleRate)
+		}, 15 * 1000 * canvas.width / audioCtx.sampleRate)
 	}
 
 	dispose() {

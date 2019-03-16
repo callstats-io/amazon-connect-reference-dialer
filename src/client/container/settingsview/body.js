@@ -31,6 +31,7 @@ class Body extends Component {
 			showMenuItem: false,
 			stream: undefined,
 		};
+
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.changeToSoftphone = this.changeToSoftphone.bind(this);
 		this.changeToDeskphone = this.changeToDeskphone.bind(this);
@@ -42,22 +43,19 @@ class Body extends Component {
 	componentDidMount() {
 		agentMediaManager.getDefaultAudioInputAndOutputDeviceDetails().then(success => {
 			const {inputDevice, outputDevice, inputDeviceList} = success;
-			this.setState({
+			this.updateMediaSource(inputDevice, {
 				defaultAudioInputDevice: inputDevice,
 				defaultAudioOutputDevice: outputDevice,
-				inputDeviceList: inputDeviceList,
+				inputDeviceList: inputDeviceList
 			});
-			this.updateMediaSource(inputDevice);
 		}).catch(err => {
 			console.error(err);
 		});
 	}
 
-	updateMediaSource(selectedDevice) {
+	updateMediaSource(selectedDevice, options) {
 		agentMediaManager.getUserMedia(selectedDevice).then(success => {
-			this.setState({
-				stream: success,
-			})
+			this.setState({stream: success, ...options});
 		}, err => {
 			console.error('none');
 		})
@@ -66,11 +64,8 @@ class Body extends Component {
 	changeToSoftphone() {
 		agentConfigManager.updateAgentConfig(true).then(success => {
 			agentConfigManager.setCurrentConfig(success);
-			this.setState({
-				softphoneEnabled: true,
-			});
 			agentMediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
-				this.updateMediaSource(selectedDevice);
+				this.updateMediaSource(selectedDevice, {softphoneEnabled: true});
 			});
 		}, err => {
 			console.error(err);
@@ -97,17 +92,17 @@ class Body extends Component {
 	}
 
 	changeAudioInputDevice(selectedDevice) {
-		this.setState({
-			defaultAudioInputDevice: selectedDevice,
-			showMenuItem: false,
-		});
-
-		let isNew = agentMediaManager.setPreferedAudioInputDevice(selectedDevice);
-		if (isNew) {
-			agentMediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
-				this.updateMediaSource(selectedDevice);
+		agentMediaManager.setPreferedAudioInputDevice(selectedDevice);
+		agentMediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
+			this.updateMediaSource(selectedDevice, {
+				defaultAudioInputDevice: selectedDevice,
+				showMenuItem: false,
 			});
-		}
+		});
+	}
+
+	componentWillUnmount() {
+		agentMediaManager.dispose(this.state.stream);
 	}
 
 	handleInputChange(value) {
@@ -135,7 +130,9 @@ class Body extends Component {
 									   changeAudioInputDevice={this.changeAudioInputDevice}
 									   showMenuItem={this.state.showMenuItem}
 									   inputDeviceList={this.state.inputDeviceList}
-									   audioDevice={this.state.defaultAudioInputDevice}/>
+									   audioDevice={this.state.defaultAudioInputDevice}
+									   stream={this.state.stream}
+									   backgroundColor={'#ffffff'}/>
 				}
 
 				<DeskPhone changeToDeskphone={this.changeToDeskphone}

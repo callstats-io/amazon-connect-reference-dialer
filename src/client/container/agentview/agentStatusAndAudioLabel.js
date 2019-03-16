@@ -17,9 +17,9 @@ const AgentStatusAndAudioLabel = ({agentState, stream, muted}) => (
 				}}> {agentState} </p>
 			</div>
 			<div className={`col-md-3 text-center`}>
-				{muted || agentState === 'On hold' ? <NoAudioLabel/> :
-					<AudioLevel backgroundColor={getColorSchema(agentState)} stream={stream}/>
-				}
+				{/*{muted || agentState === 'On hold' ? <NoAudioLabel/> :*/}
+					{/*<AudioLevel backgroundColor={getColorSchema(agentState)} stream={stream}/>*/}
+				{/*}*/}
 			</div>
 		</div>
 	</div>
