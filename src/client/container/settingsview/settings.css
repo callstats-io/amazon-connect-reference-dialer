@@ -17,30 +17,30 @@
 .settingsText {
     color: #000000;
     font-size: 18px;
-    font-family: AmazonEmber-Light;
+    font-family: AmazonEmber;
 }
 
 .phoneTypeText {
     color: #000000;
     font-size: 14px;
-    font-family: AmazonEmber-Light;
+    font-family: AmazonEmber;
 }
 
 .deskphoneText {
     color: #000000;
     font-size: 14px;
-    font-family: AmazonEmber-Light;
+    font-family: AmazonEmber;
 }
 
 .softphoneText {
     color: #000000;
     font-size: 14px;
-    font-family: AmazonEmber-Light;
+    font-family: AmazonEmber;
 }
 
 .deskphoneSave {
     background-color: #a3acb6;
-    font-family: AmazonEmber-Light;
+    font-family: AmazonEmber;
     color: #ffffff !important;
     height: 35px;
     line-height: 1.3em;
@@ -53,7 +53,7 @@
 
 .dropDownButton {
     border: solid 1px #cfcfcf;
-    font-family: AmazonEmber-Light;
+    font-family: AmazonEmber;
     font-size: 13px;
     max-height: 45px;
     min-width: 200px;
@@ -73,7 +73,7 @@
 }
 
 .dropdownItem {
-    font-family: AmazonEmber-Light;
+    font-family: AmazonEmber;
     font-size: 14px;
 }
 
@@ -84,7 +84,7 @@
 .outputDeviceText {
     height: 15px;
     opacity: 0.6;
-    font-family: AmazonEmber-Light;
+    font-family: AmazonEmber;
     font-size: 12px;
     color: #000000
 }
@@ -92,6 +92,6 @@
 .outputDeviceNameText {
     height: 17px;
     font-size: 14px;
-    font-family: AmazonEmber-Light;
+    font-family: AmazonEmber;
     color: #000000;
 }
