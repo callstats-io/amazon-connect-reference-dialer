@@ -1,18 +1,18 @@
 .acCard {
-    margin-right: 8%;
+    margin-right: 15%;
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
     background-color: #ffffff
 }
 
-.acHeader {
-    border-bottom: 0;
-    background-color: inherit;
-}
-
 .acFooter {
     background-color: inherit;
-    margin-right: 5%;
-    margin-left: 5%;
+    margin-right: 8%;
+    margin-left: 8%;
+    min-height: 12%;
+}
+
+.acFooterChild {
+    margin-left: -18%;
 }
 
 .acPointer {
@@ -20,13 +20,18 @@
 }
 
 .acLink {
-    font-family: AmazonEmber;
+    font-family: AmazonEmber-Light;
     color: #3885de !important;
 }
 
-.acSpan {
-    font-family: AmazonEmber;
+.acSpanSelected {
+    font-family: AmazonEmber-Light;
     color: #3885de !important;
+}
+
+.acSpanNormal {
+    font-family: AmazonEmber-Light;
+    color: #000000 !important;
 }
 
 .acList {

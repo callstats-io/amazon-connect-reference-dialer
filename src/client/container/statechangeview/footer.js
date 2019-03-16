@@ -23,7 +23,7 @@ class Footer extends Component {
 	render() {
 		return (
 			<div className={`card-footer ${styles.acFooter}`}>
-				<div className="row">
+				<div className={`row ${styles.acFooterChild}`}>
 					<div className="col-md-12" onClick={this.logout}>
 						<a className={`${styles.acLink} ${styles.acPointer}`}>Log out</a>
 					</div>

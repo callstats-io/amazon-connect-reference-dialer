@@ -22,16 +22,21 @@ const changeAgentState = (currentState) => {
 	agentStateManager.setAgentState(currentState);
 };
 
+const isCurrentState = (currentState, agentState) => {
+	return currentState && currentState.name === agentState;
+};
+
 const Body = ({agentState = 'unknown', requestAgentStateChange}) => (
-	<div className="card-body" style={{}}>
+	<div className={`card-body`}>
 		{getAgentStates().map((currentState) => (
 			<div key={`agent-state-${currentState.name}`} className={`row ${styles.acPointer} ${styles.acList}`}
 				 onClick={() => requestAgentStateChange(currentState)}>
 				<div className="col-md-2">
-					{currentState && currentState.name === agentState && <img src={activeIcon}/>}
+					{isCurrentState(currentState, agentState) && <img src={activeIcon}/>}
 				</div>
 				<div className="col-md-10">
-					<span className={`${styles.acSpan}`}> {currentState.name}</span>
+					<span
+						className={`${ isCurrentState(currentState, agentState) ? styles.acSpanSelected : styles.acSpanNormal}`}> {currentState.name}</span>
 				</div>
 			</div>
 		))}

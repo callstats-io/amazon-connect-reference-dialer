@@ -1,0 +1,24 @@
+.acHeader {
+    background-color: #525252;
+    height: 48px;
+    width: 319px;
+}
+
+.csioLogo {
+    width: 24px;
+    height: 24px;
+}
+
+.csioChangeStatus {
+    padding-right: 0;
+    cursor: pointer;
+}
+
+.csioHeaderText {
+    fontFamily: AmazonEmber-Light;
+    color: #ffffff;
+}
+
+.acPointer {
+    cursor: pointer;
+}
