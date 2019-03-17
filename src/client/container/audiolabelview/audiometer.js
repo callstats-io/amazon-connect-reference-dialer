@@ -42,7 +42,7 @@ class AudioMeter {
 		};
 		this.intervalId = setInterval(() => {
 			draw()
-		}, 15 * 1000 * canvas.width / audioCtx.sampleRate)
+		}, 1000 * canvas.width / audioCtx.sampleRate)
 	}
 
 	dispose() {

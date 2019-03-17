@@ -73,20 +73,21 @@ class AgentMediaManager {
 
 
 	async getUserMedia(selectedDevice = undefined) {
-		let localStream = this.getLocalStream();
-		this.dispose(localStream);
-
 		const audioDeviceId = (selectedDevice && selectedDevice.deviceId) || undefined;
 		const constraints = {
 			audio: {deviceId: audioDeviceId},
 			video: false,
 		};
-		try {
-			localStream = await navigator.mediaDevices.getUserMedia(constraints);
-		} catch (err) {
-			console.error('->', err);
-		}
-		return localStream;
+		this.dispose();
+
+		return new Promise((resolve, reject) => {
+			navigator.getUserMedia(constraints, stream => {
+				this.localStream = stream;
+				resolve(this.localStream);
+			}, err => {
+				reject(err);
+			});
+		});
 	}
 
 	setLocalStream(stream) {
@@ -106,12 +107,12 @@ class AgentMediaManager {
 	}
 
 	// make sure we dispose local stream
-	dispose(stream = undefined) {
-		if (stream) {
-			stream.getTracks().forEach(track => {
+	dispose() {
+		if (this.localStream) {
+			this.localStream.getTracks().forEach(track => {
 				track.stop();
 			});
-			stream = undefined;
+			this.localStream = undefined;
 		}
 	}
 

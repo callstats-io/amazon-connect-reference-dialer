@@ -102,7 +102,7 @@ class Body extends Component {
 	}
 
 	componentWillUnmount() {
-		agentMediaManager.dispose(this.state.stream);
+		agentMediaManager.dispose();
 	}
 
 	handleInputChange(value) {

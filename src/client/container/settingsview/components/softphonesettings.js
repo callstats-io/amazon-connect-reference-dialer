@@ -15,7 +15,9 @@ const SoftPhoneSettings = ({toggleMenuItem, changeAudioInputDevice, showMenuItem
 						 inputDeviceList={inputDeviceList}
 						 audioInputDevice={audioInputDevice}/>
 		<div className={`col-md-2 pl-0 pr-0 ${styles.audioLabel}`}>
-			<AudioLevel stream={stream} backgroundColor={backgroundColor}/>
+			<AudioLevel stream={stream}
+						backgroundColor={backgroundColor}
+						audioInputDevice={audioInputDevice}/>
 		</div>
 
 		<AudioOutputDevice audioOutputDevice={audioOutputDevice}/>

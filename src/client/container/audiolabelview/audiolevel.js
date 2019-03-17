@@ -3,8 +3,8 @@ import AudioMeter from './audiometer'
 import PropTypes from "prop-types";
 import agentMediaManager from './../../api/agentMediaManager';
 
-const isSame = (stream = undefined, prvStream = undefined) => {
-	return (stream && stream.id) === (prvStream && prvStream.id);
+const isSame = (inputDevice = undefined, prvInputDevice = undefined) => {
+	return (inputDevice && inputDevice.groupId) === (prvInputDevice && prvInputDevice.groupId);
 };
 
 class AudioLevel extends React.Component {
@@ -14,15 +14,13 @@ class AudioLevel extends React.Component {
 	}
 
 	shouldComponentUpdate(nextProps) {
-		const {stream} = nextProps;
-		const same = isSame(stream, this.props.stream);
+		const {stream, audioInputDevice} = nextProps;
+		const same = isSame(audioInputDevice, this.props.audioInputDevice);
 		if (same) {
 			return false;
 		}
 		// dispose previous audio source if there is any
-		agentMediaManager.dispose(this.props.stream);
-
-		console.warn('shouldComponentUpdate', stream);
+		console.warn('shouldComponentUpdate', stream, audioInputDevice);
 		const canvas = this.refs.canvas;
 		const canvasCtx = canvas.getContext("2d");
 		this.audioMeter.startVisualization(stream, canvasCtx, canvas, nextProps.backgroundColor);
@@ -50,6 +48,7 @@ class AudioLevel extends React.Component {
 AudioLevel.propTypes = {
 	backgroundColor: PropTypes.string,
 	stream: PropTypes.object,
+	audioInputDevice: PropTypes.object,
 };
 
 export default AudioLevel;
