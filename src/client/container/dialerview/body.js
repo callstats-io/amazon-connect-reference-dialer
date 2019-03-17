@@ -9,6 +9,8 @@ import {
 	onRequestShowDialPad
 } from "../../reducers/acReducer";
 
+import styles from './dialpad.css';
+
 import agentConfigManager from './../../api/agentConfigManager';
 import DialPad from './dialpad';
 import lo from 'lodash';
@@ -61,11 +63,11 @@ class Body extends Component {
 			<div className="card-body" style={{backgroundColor: '#ffffff'}}>
 				<div className="row">
 					<div className="col-md-10">
-						<span style={{color: '#000000', fontSize: '18px', fontFamily: 'AmazonEmber'}}>Dial number</span>
+						<span className={styles.dialNumber}>Dial number</span>
 					</div>
 					<div className="col-md-2"
 						 onClick={() => this.closeDialPad()}>
-						<img src={closeOrDismissIcon} style={{cursor: 'pointer'}}/>
+						<img src={closeOrDismissIcon} className={styles.cursor}/>
 					</div>
 				</div>
 				<div className="row mt-2">
@@ -83,14 +85,8 @@ class Body extends Component {
 										 onChange={this.handleInputChange}/>
 					</div>
 					<div className="col-md-3 p-0 m-0">
-						<a className="btn" style={{
-							backgroundColor: '#a3acb6',
-							fontFamily: 'AmazonEmber',
-							color: '#ffffff',
-							height: '35px',
-							lineHeight: '1.3em',
-							cursor: 'pointer',
-						}} onClick={() => this.dialNumber()}>
+						<a className={`btn ${styles.dialButton}`}
+						   onClick={() => this.dialNumber()}>
 							Dial
 						</a>
 					</div>
