@@ -6,7 +6,7 @@ import closeOrDismissIcon from '../../res/images/fa-close-or-dismiss.svg';
 import IssueNotes from './issueNotes';
 import FeedbackRatings from './feedbackRatings';
 import PredefinedIssues from './predefinedIssues';
-
+import styles from './reportissue.css';
 
 const selectedIssueCount = (issueList) => {
 	let totalCount = 0;
@@ -25,12 +25,12 @@ const selectedIssueCount = (issueList) => {
 const BodyHeader = ({closeReportCallIssue}) => (
 	<div className="row ">
 		<div className="col-md-10">
-			<p style={{color: '#000000', fontSize: '18px', fontFamily: 'AmazonEmber'}}>Report a
-				call issue</p>
+			<span className={styles.cardBodyHeader}>Report a
+				call issue</span>
 		</div>
 		<div className="col-md-2"
 			 onClick={closeReportCallIssue}>
-			<img src={closeOrDismissIcon} style={{cursor: 'pointer'}}/></div>
+			<img src={closeOrDismissIcon} className={styles.cursor}/></div>
 	</div>
 );
 BodyHeader.propTypes = {
@@ -39,7 +39,7 @@ BodyHeader.propTypes = {
 
 
 const Body = ({closeReportCallIssue, onFeedbackTextChange, onFeedbackRatingChange, onIssueListSelectionChange, feedbackRatings, feedbackText, issueList}) => (
-	<div className="card-body" style={{backgroundColor: '#ffffff'}}>
+	<div className={`card-body ${styles.cardBodyMain}`}>
 
 		<BodyHeader closeReportCallIssue={closeReportCallIssue}/>
 
@@ -50,21 +50,9 @@ const Body = ({closeReportCallIssue, onFeedbackTextChange, onFeedbackRatingChang
 					feedbackText={feedbackText}/>
 
 		<div className="row">
-			<div className="col-md-7 text-left" style={{
-				opacity: '0.6',
-				fontFamily: 'AmazonEmber',
-				fontSize: '12px',
-				letterSpacing: 'normal',
-				color: '#000000'
-			}}>Select a reason
+			<div className={`col-md-7 text-left ${styles.bodySelectAReason}`}>Select a reason
 			</div>
-			<div className="col-md-5 text-right" style={{
-				opacity: '0.6',
-				fontFamily: 'AmazonEmber',
-				fontSize: '12px',
-				letterSpacing: 'normal',
-				color: '#000000'
-			}}>{selectedIssueCount(issueList)} selected
+			<div className={`col-md-5 text-right ${styles.bodyIssueSelect}`}>{selectedIssueCount(issueList)} selected
 			</div>
 		</div>
 		<PredefinedIssues onIssueListSelectionChange={onIssueListSelectionChange}

@@ -5,31 +5,25 @@ import lo from "lodash";
 import starYellowIcon from '../../res/images/star-yellow.svg';
 import starWhiteIcon from '../../res/images/star-white.svg';
 
-import {feedbackRatings, feedbackRatingsText} from '../../utils/feedback'
+import {feedbackRatings, feedbackRatingsText} from '../../utils/feedback';
+import styles from './reportissue.css';
 
 const FeedbackRatings = ({onFeedbackRatingChange, feedbackRating}) => (
 	<div className="row mt-0">
 		<div className="col-md-12">
-			<a className="text-left"
-			   style={{fontFamily: 'AmazonEmber', fontSize: '12px', color: '#000000'}}>How was the call
+			<a className={`text-left ${styles.callQualityText}`}>How was the call
 				quality? </a></div>
 		<div className="col-md-12">
 			{
 				feedbackRatings.map((currentFeedback,) => (
-					<a key={`feedback-rating-${currentFeedback}`}
-					   style={{cursor: 'pointer'}}
+					<a key={`feedback-rating-${currentFeedback} ${styles.cursor}`}
 					   onClick={() => onFeedbackRatingChange(currentFeedback)}>
 						<img src={currentFeedback <= feedbackRating ? starYellowIcon : starWhiteIcon}/>
 					</a>
 				))
 			}
 		</div>
-		<div className="col-md-12" style={{
-			fontFamily: 'AmazonEmber',
-			fontSize: '12px',
-			letterSpacing: 'normal',
-			color: '#000000'
-		}}>{lo.get(feedbackRatingsText, feedbackRating - 1)}
+		<div className={`col-md-12 ${styles.feedbackRatingText}`}>{lo.get(feedbackRatingsText, feedbackRating - 1)}
 		</div>
 	</div>
 );
