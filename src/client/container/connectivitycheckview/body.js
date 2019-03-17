@@ -19,6 +19,9 @@ import ThroughputMessage from "./components/throughputMessage";
 import RTTGraph from "./components/rttgraph";
 import databaseManager from "../../api/databaseManager";
 
+
+import styles from './connectivitycheck.css';
+
 class Body extends Component {
 	constructor(props) {
 		super(props);
@@ -50,19 +53,18 @@ class Body extends Component {
 
 	render() {
 		return (
-			<div className="card-body" style={{backgroundColor: '#ffffff'}}>
+			<div className={`card-body ${styles.cardBody}`}>
 				<div className="row ">
 					<div className="col-md-7 mr-0 pr-0">
-						<p style={{color: '#000000', fontSize: '18px', fontFamily: 'AmazonEmber'}}
-						   className="m-0 p-0">Connectivity check</p>
+						<p className={`m-0 p-0 ${styles.connectivityCheck}`}>Connectivity check</p>
 					</div>
 					<div className="col-md-3 p-0 m-0">
-						<a className={`btn text-left p-0 m-0 ${this.state.inProgress && 'disabled'}`} href="#"
-						   onClick={() => this.doPrecalTest()}
-						   style={{color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px'}}>
+						<a className={`btn text-left p-0 m-0 ${this.state.inProgress && 'disabled'} ${styles.reRunButton}`}
+						   href="#"
+						   onClick={() => this.doPrecalTest()}>
 							<img className="fa-dial-button" src={rerunIcon}/> Rerun </a>
 					</div>
-					<div className="col-md-2" style={{cursor: 'pointer'}}
+					<div className={`col-md-2 ${styles.cursor}`}
 						 onClick={() => this.closeSetting()}>
 						<img className="p-0 m-0" src={closeIcon}/>
 					</div>

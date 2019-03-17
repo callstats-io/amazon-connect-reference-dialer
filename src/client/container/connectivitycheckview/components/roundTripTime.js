@@ -7,7 +7,7 @@ import tickGreenIcon from '../../../res/images/fa-tick-green.svg';
 import dangerIcon from '../../../res/images/fa-danger.svg';
 
 import lo from 'lodash';
-
+import styles from './../connectivitycheck.css';
 
 const getLatestResultRTT = (pctResult) => {
 	let lastRecord = lo.last(pctResult) || {};
@@ -24,14 +24,14 @@ const RoundTripTime = ({pctResult = {}}) => (
 		<div className="col-md-12">
 			<div className="row">
 				<div className="col-md-8">
-					<span style={{color: '#000000', fontSize: '14px', fontFamily: 'AmazonEmber'}}>
+					<span className={styles.resultText}>
 						<img src={isOK(pctResult) ? tickGreenIcon : dangerIcon}/>
-						<a className="ml-1">Round trip time</a>
+						<span className="ml-1">Round trip time</span>
 					</span>
 				</div>
 				<div className="col-md-4 text-right">
-					<a style={{fontFamily: 'AmazonEmber', fontSize: '14px', color: '#000000'}}>
-						{parseFloat(getLatestResultRTT(pctResult)).toFixed(2)} ms </a>
+					<span className={styles.resultValue}>
+						{parseFloat(getLatestResultRTT(pctResult)).toFixed(2)} ms </span>
 				</div>
 			</div>
 		</div>

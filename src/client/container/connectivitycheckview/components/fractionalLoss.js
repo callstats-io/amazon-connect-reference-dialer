@@ -7,7 +7,7 @@ import tickGreenIcon from '../../../res/images/fa-tick-green.svg';
 import dangerIcon from '../../../res/images/fa-danger.svg';
 
 import lo from 'lodash';
-
+import styles from './../connectivitycheck.css';
 
 const getLatestResultFractionalLoss = (pctResult) => {
 	let lastRecord = lo.last(pctResult) || {};
@@ -24,13 +24,13 @@ const FractionalLoss = ({pctResult = {}}) => (
 		<div className="col-md-12">
 			<div className="row">
 				<div className="col-md-8">
-					<span style={{color: '#000000', fontSize: '14px', fontFamily: 'AmazonEmber'}}>
+					<span className={styles.resultText}>
 						<img src={isOK(pctResult) ? tickGreenIcon : dangerIcon}/>
-					<a className="ml-1">Packet loss</a></span>
+					<span className="ml-1">Packet loss</span></span>
 				</div>
 				<div className="col-md-4 text-right">
-					<a style={{fontFamily: 'AmazonEmber', fontSize: '14px', color: '#000000'}}>
-						{parseFloat(getLatestResultFractionalLoss(pctResult)).toFixed(3)} % </a>
+					<span className={styles.resultValue}>
+						{parseFloat(getLatestResultFractionalLoss(pctResult)).toFixed(3)} % </span>
 				</div>
 			</div>
 		</div>

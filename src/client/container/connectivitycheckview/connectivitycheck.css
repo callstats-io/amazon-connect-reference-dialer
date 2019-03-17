@@ -1,0 +1,46 @@
+.cursor {
+    cursor: pointer;
+}
+
+.zeroPadding {
+    padding: 0;
+}
+
+.cardBodyMain {
+    background-color: #f2f2f2;
+}
+
+.footerMain {
+    background-color: #ffffff;
+    border-top: 0;
+}
+
+
+.cardBody {
+    background-color: #ffffff;
+}
+
+
+.connectivityCheck {
+    font-family: AmazonEmber;
+    font-size: 18px;
+    color: #000000;
+}
+
+.reRunButton {
+    font-family: AmazonEmber;
+    font-size: 14px;
+    color: #3885de;
+}
+
+.resultText {
+    font-family: AmazonEmber;
+    font-size: 14px;
+    color: #000000;
+}
+
+.resultValue {
+    font-family: AmazonEmber;
+    font-size: 14px;
+    color: #000000;
+}

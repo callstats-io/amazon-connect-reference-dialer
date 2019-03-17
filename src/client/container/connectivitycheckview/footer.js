@@ -6,8 +6,10 @@ import {onRequestReportCallIssue} from "../../reducers/acReducer";
 import ReportACall from "../footer/components/reportcall";
 import Info from "../footer/components/info";
 
+import styles from './connectivitycheck.css';
+
 const Footer = ({requestReportACallIssue}) => (
-	<div className="card-footer" style={{backgroundColor: '#ffffff', borderTop: 0}}>
+	<div className={`card-footer ${styles.footerMain}`}>
 		<div className="row">
 			<ReportACall
 				divClass={'col-md-6 p-0 text-left'}
@@ -18,7 +20,7 @@ const Footer = ({requestReportACallIssue}) => (
 			<Info divClass={'col-md-6 text-right'}
 				  linkClass={'btn disabled'}
 				  style={{color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px'}}
-				/*dummy click handler to pass info props required field*/
+				/*todo dummy click handler to pass info props required field*/
 				  onClickHandler={() => true}/>
 		</div>
 	</div>
