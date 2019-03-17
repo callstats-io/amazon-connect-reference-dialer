@@ -11,12 +11,12 @@ import styles from './reportissue.css';
 const FeedbackRatings = ({onFeedbackRatingChange, feedbackRating}) => (
 	<div className="row mt-0">
 		<div className="col-md-12">
-			<a className={`text-left ${styles.callQualityText}`}>How was the call
+			<a className={`text-left ${styles.callQualityText} `}>How was the call
 				quality? </a></div>
 		<div className="col-md-12">
 			{
 				feedbackRatings.map((currentFeedback,) => (
-					<a key={`feedback-rating-${currentFeedback} ${styles.cursor}`}
+					<a key={`feedback-rating-${currentFeedback}`} className={styles.cursor}
 					   onClick={() => onFeedbackRatingChange(currentFeedback)}>
 						<img src={currentFeedback <= feedbackRating ? starYellowIcon : starWhiteIcon}/>
 					</a>

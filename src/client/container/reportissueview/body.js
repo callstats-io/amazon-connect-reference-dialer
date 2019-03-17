@@ -55,9 +55,10 @@ const Body = ({closeReportCallIssue, onFeedbackTextChange, onFeedbackRatingChang
 			<div className={`col-md-5 text-right ${styles.bodyIssueSelect}`}>{selectedIssueCount(issueList)} selected
 			</div>
 		</div>
-		<PredefinedIssues onIssueListSelectionChange={onIssueListSelectionChange}
-						  issueList={issueList}/>
-
+		<div className={`row`}>
+			<PredefinedIssues onIssueListSelectionChange={onIssueListSelectionChange}
+							  issueList={issueList}/>
+		</div>
 	</div>
 );
 

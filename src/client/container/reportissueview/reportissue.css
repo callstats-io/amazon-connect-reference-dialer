@@ -48,11 +48,11 @@
 }
 
 .predefinedIssueDivMain {
-    max-height: 117px;
-    min-height: 20%;
-    border: solid 1px #cfcfcf;
-    background-color: #f7f7f7;
-    overflow-y: scroll;
+    /*max-height: 117px;*/
+    /*min-height: 20%;*/
+    /*border: solid 1px #cfcfcf;*/
+    /*background-color: #f7f7f7;*/
+    /*overflow-y: scroll;*/
 }
 
 .predefinedIssueName {
@@ -87,6 +87,9 @@
 
 .cardBodyMain {
     background-color: #ffffff;
+    /*background-color: #f7f7f7;*/
+    overflow-y: scroll;
+    height: 0em;
 }
 
 .cardBodyHeader {
