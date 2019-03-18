@@ -1,0 +1,30 @@
+.errorDiv {
+    border-radius: 2px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    height: 148px;
+}
+
+.errorDivNext {
+    height: 16px;
+}
+
+.errorText {
+    color: #c91922;
+    font-size: 16px;
+    font-family: AmazonEmber;
+}
+
+.errorMessage {
+    color: #c91922;
+    font-size: 14px;
+    font-family: AmazonEmber;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.closeOrDissmiss{
+    height: 16px;
+}

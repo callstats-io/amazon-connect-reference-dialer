@@ -26,7 +26,7 @@ class UpperBody extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			stream: undefined,
+			localStream: undefined,
 		}
 	}
 
@@ -34,7 +34,7 @@ class UpperBody extends Component {
 		agentMediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
 			agentMediaManager.getUserMedia(selectedDevice).then(success => {
 				this.setState({
-					stream: success,
+					localStream: success,
 				});
 			}, err => {
 				console.error('none');
@@ -52,7 +52,7 @@ class UpperBody extends Component {
 			<div className={`row`}
 				 style={{height: '182px', backgroundColor: getColorSchema(this.props.agentState), paddingTop: '5%'}}>
 				{!hasError &&
-				<AgentStatusAndAudioLabel stream={this.state.stream}
+				<AgentStatusAndAudioLabel stream={this.state.localStream}
 										  agentState={this.props.agentState}
 										  muted={this.props.muted}/>}
 				{!hasError &&
