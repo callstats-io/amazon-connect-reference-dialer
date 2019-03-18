@@ -5,6 +5,7 @@ import agentHandler from "./agentHandler";
 class AgentStateManager {
 	constructor() {
 		this.agentStates = [];
+		this.localState = undefined;
 	}
 
 	setAgentStates(agent = undefined) {
@@ -12,6 +13,14 @@ class AgentStateManager {
 			return;
 		}
 		this.agentStates = agent.getAgentStates() || [];
+	}
+
+	setAgentLocalState(localState = undefined) {
+		this.localState = localState;
+	}
+
+	getAgentLocalState() {
+		return this.localState;
 	}
 
 	getAgentStates() {
@@ -41,5 +50,5 @@ class AgentStateManager {
 	}
 }
 
-const agentStateMonitor = new AgentStateManager();
-export default agentStateMonitor;
+const agentStateManager = new AgentStateManager();
+export default agentStateManager;

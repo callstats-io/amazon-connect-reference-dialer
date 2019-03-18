@@ -27,15 +27,16 @@ const PeerAndAgentDuration = ({agentState = 'unknown', phoneNumber = '', remoteS
 			<div className={`col-md-6 text-right`}>
 				<span className={`m-0 ${styles.peerAndAgentDurationText}`}> Time elapsed</span>
 			</div>
-			<div className={`col-md-6 align-self-center`}>
+			{/*<div className={`w-100`}></div>*/}
+			<div className={`col-md-6 align-self-center pr-0 mr-0`}>
 				{
 					showPhoneNumber(agentState) &&
-					<p className={`m-0 ${styles.peerAndAgentDurationText}`}>{phoneNumber}</p>
+					<span className={`m-0 ${styles.peerAndAgentDurationText}`}>{phoneNumber}</span>
 				}
 			</div>
-			<div className={`col-md-2 pl-0`}>
-				{showPhoneNumber(agentState) &&
-				<RemoteAudioLevel remoteStream={remoteStream}/>}
+			<div className={`col-md-2 pl-0 ml-0 text-center`}>
+					{showPhoneNumber(agentState) &&
+					<RemoteAudioLevel remoteStream={remoteStream}/>}
 			</div>
 			<Duration/>
 		</div>

@@ -9,6 +9,7 @@ const isSame = (inputDevice = undefined, prvInputDevice = undefined) => {
 class AudioLevel extends React.Component {
 	constructor(props) {
 		super(props);
+		this.audioInputDevice = undefined;
 		this.audioMeter = new AudioMeter();
 	}
 
@@ -18,6 +19,7 @@ class AudioLevel extends React.Component {
 		if (same) {
 			return false;
 		}
+		console.warn('<< shouldComponentUpdate', this.props.stream, this.props.audioInputDevice);
 		// dispose previous audio source if there is any
 		const canvas = this.refs.canvas;
 		const canvasCtx = canvas.getContext("2d");
@@ -26,7 +28,14 @@ class AudioLevel extends React.Component {
 	}
 
 	componentDidMount() {
-		console.warn('<< ', 'componentDidMount', this.props.stream);
+		const same = isSame(this.audioInputDevice, this.props.audioInputDevice);
+		if (same) {
+			return;
+		}
+		this.audioInputDevice = this.props.audioInputDevice;
+		const canvas = this.refs.canvas;
+		const canvasCtx = canvas.getContext("2d");
+		this.audioMeter.startVisualization(this.props.stream, canvasCtx, canvas, this.props.backgroundColor);
 	}
 
 	componentWillUnmount() {

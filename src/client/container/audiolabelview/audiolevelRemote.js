@@ -39,13 +39,11 @@ class RemoteAudioLevel extends React.Component {
 
 	render() {
 		return (
-			<div>
-				<canvas ref="canvas" width="200" height="170" style={{
-					width: '100%',
-					height: 'auto',
-				}}/>
-			</div>
-
+			<canvas ref="canvas" width="200" height="100" style={{
+				height: '15px',
+				// border: '1px solid #000000',
+				marginTop: '20%'
+			}}/>
 		)
 	}
 }

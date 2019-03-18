@@ -1,6 +1,7 @@
 import {onAgentStateChange, onAvailableStream} from "../reducers/acReducer";
 import {getAgentState} from "./agenetevents";
 import connectionHandler from "./connectionHandler";
+import agentStateManager from './agentStateManager';
 
 class ContactHandler {
 	constructor() {
@@ -39,11 +40,13 @@ class ContactHandler {
 		contact.onConnected(() => {
 			const e = Object.assign({}, {newState: 'Connected'});
 			const agentState = getAgentState(e);
+			agentStateManager.setAgentLocalState(agentState);
 			this.dispatch(onAgentStateChange(agentState));
 		});
 		contact.onConnecting(() => {
 			const e = Object.assign({}, {newState: contact.isInbound() ? 'Inbound Call' : 'Outbound Call'});
 			const agentState = getAgentState(e);
+			agentStateManager.setAgentLocalState(agentState);
 			this.dispatch(onAgentStateChange(agentState));
 		});
 		contact.onRefresh((e) => {

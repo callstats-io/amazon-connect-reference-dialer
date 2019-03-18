@@ -1,20 +1,20 @@
-import agentHandler from './../../api/agentHandler';
+import agentStateManager from './../../api/agentStateManager';
 import {getColorSchema} from './../../utils/agetStateMap';
 
 class AudioMeter {
 	constructor() {
-		this.intervalId = undefined;
+		this.id = undefined;
+		this.source = undefined;
 	}
 
 	startVisualization(stream, canvasCtx, canvas, backgroundColor = undefined) {
 		let audioCtx = new AudioContext();
 		let analyser = audioCtx.createAnalyser();
-		let source = audioCtx.createMediaStreamSource(stream);
-		source.connect(analyser);
+		this.source = audioCtx.createMediaStreamSource(stream);
+		this.source.connect(analyser);
 
-		if (this.intervalId) {
-			clearInterval(this.intervalId);
-			this.intervalId = undefined;
+		if (this.id) {
+			window.cancelAnimationFrame(this.id);
 		}
 
 		let data = new Uint8Array(canvas.width);
@@ -22,7 +22,7 @@ class AudioMeter {
 		const colors = ['rgb(192,192,192)', 'rgb((0,128,0))', 'rgb((0,0,128))', 'rgb((173,216,230))', 'rgb((255,250,205))'];
 		const len = colors.length;
 		const draw = () => {
-			canvasCtx.fillStyle = backgroundColor || getColorSchema(agentHandler.getState());
+			canvasCtx.fillStyle = backgroundColor || getColorSchema(agentStateManager.getAgentLocalState());
 			canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
 
 			// analyser.getByteFrequencyData(data);
@@ -41,16 +41,15 @@ class AudioMeter {
 				x ? canvasCtx.lineTo(x, y) : canvasCtx.moveTo(x, y);
 			});
 			canvasCtx.stroke();
+			this.id = window.requestAnimationFrame(draw);
 		};
-		this.intervalId = setInterval(() => {
-			draw()
-		}, 1000 * canvas.width / audioCtx.sampleRate)
+		this.id = window.requestAnimationFrame(draw)
 	}
 
 	dispose() {
-		if (this.intervalId) {
-			clearInterval(this.intervalId);
-			this.intervalId = undefined;
+		if (this.id) {
+			window.cancelAnimationFrame(this.id);
+			this.id = undefined;
 		}
 	}
 }

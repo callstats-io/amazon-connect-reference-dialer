@@ -5,7 +5,7 @@ export const isAgentStateChange = (e) => {
 };
 
 export const isCallOnHoldUnhold = (e) => {
-	return e && e.name && (['holdConnection', 'resumeConnection'].includes(e.name))
+	return e && e.name && (['holdConnection', 'resumeConnection'].includes(e.name));
 };
 
 

@@ -7,6 +7,7 @@ import {
 	isError
 } from "./agenetevents";
 import contactHandler from "./contactHandler";
+import agentStateManager from './agentStateManager';
 
 class EventHandler {
 	constructor() {
@@ -25,10 +26,12 @@ class EventHandler {
 				console.info("--------------->", 'all ', e);
 				if (isAgentStateChange(e)) {
 					const agentState = getAgentState(e);
+					agentStateManager.setAgentLocalState(agentState);
 					this.dispatch(onAgentStateChange(agentState));
 				} else if (isCallOnHoldUnhold(e)) {
 					const tempAgentState = getAgentStateForHoldUnhold(e, contactHandler.getContact());
 					const agentState = getAgentState(tempAgentState);
+					agentStateManager.setAgentLocalState(agentState);
 					this.dispatch(onAgentStateChange(agentState));
 				} else if (isError(e)) {
 					this.dispatch(onCCPError({...e}));
