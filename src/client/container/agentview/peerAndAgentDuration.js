@@ -11,42 +11,31 @@ const showPhoneNumber = (agentState) => {
 };
 
 import RemoteAudioLevel from '../audiolabelview/audiolevelRemote';
-import {getColorSchema} from './../../utils/agetStateMap';
 import Duration from "../agentduration/duration";
+import styles from './agentview.css';
 
 const PeerAndAgentDuration = ({agentState = 'unknown', phoneNumber = '', remoteStream = undefined}) => (
 	<div className={`col-md-12`}>
 		<div className={`row`}>
 			<div className={`col-md-6`}>
 				{showPhoneNumber(agentState) &&
-				<p className={`m-0`} style={{
-					fontFamily: 'AmazonEmber',
-					color: '#ffffff',
-					fontSize: '14px'
-				}}>
+				<span className={`m-0 ${styles.peerAndAgentDurationText}`}>
 					{isConnected(agentState) ? 'With' : 'To'}
-				</p>
+				</span>
 				}
 			</div>
 			<div className={`col-md-6 text-right`}>
-				<p className={`m-0`}
-				   style={{fontFamily: 'AmazonEmber', color: '#ffffff', fontSize: '14px'}}> Time
-					elapsed</p>
+				<span className={`m-0 ${styles.peerAndAgentDurationText}`}> Time elapsed</span>
 			</div>
 			<div className={`col-md-6 align-self-center`}>
 				{
 					showPhoneNumber(agentState) &&
-					<p className={`m-0`}
-					   style={{
-						   fontFamily: 'AmazonEmber',
-						   color: '#ffffff',
-						   fontSize: '14px'
-					   }}>{phoneNumber}</p>
+					<p className={`m-0 ${styles.peerAndAgentDurationText}`}>{phoneNumber}</p>
 				}
 			</div>
 			<div className={`col-md-2 pl-0`}>
 				{showPhoneNumber(agentState) &&
-				<RemoteAudioLevel backgroundColor={getColorSchema(agentState)} remoteStream={remoteStream}/>}
+				<RemoteAudioLevel remoteStream={remoteStream}/>}
 			</div>
 			<Duration/>
 		</div>

@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 import AudioLevel from '../audiolabelview/audiolevel';
 import NoAudioLabel from '../audiolabelview/noaudio';
-import {getColorSchema} from './../../utils/agetStateMap';
 import styles from './agentview.css';
 
 const showAudioLabel = (agentState = undefined, muted) => {
@@ -18,8 +17,7 @@ const AgentStatusAndAudioLabel = ({agentState, stream, muted, audioInputDevice})
 			</div>
 			<div className={`col-md-3 text-right`}>
 				{showAudioLabel(agentState, muted) ?
-					<AudioLevel backgroundColor={getColorSchema(agentState)}
-								stream={stream}
+					<AudioLevel stream={stream}
 								audioInputDevice={audioInputDevice}/> : <NoAudioLabel/>
 				}
 			</div>

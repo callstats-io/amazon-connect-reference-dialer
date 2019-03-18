@@ -1,10 +1,12 @@
+import agentHandler from './../../api/agentHandler';
+import {getColorSchema} from './../../utils/agetStateMap';
+
 class AudioMeter {
-	constructor(backgroundColor = '#ffffff') {
+	constructor() {
 		this.intervalId = undefined;
-		this.backgroundColor = backgroundColor;
 	}
 
-	startVisualization(stream, canvasCtx, canvas, backgroundColor) {
+	startVisualization(stream, canvasCtx, canvas, backgroundColor = undefined) {
 		let audioCtx = new AudioContext();
 		let analyser = audioCtx.createAnalyser();
 		let source = audioCtx.createMediaStreamSource(stream);
@@ -20,7 +22,7 @@ class AudioMeter {
 		const colors = ['rgb(192,192,192)', 'rgb((0,128,0))', 'rgb((0,0,128))', 'rgb((173,216,230))', 'rgb((255,250,205))'];
 		const len = colors.length;
 		const draw = () => {
-			canvasCtx.fillStyle = backgroundColor || this.backgroundColor;
+			canvasCtx.fillStyle = backgroundColor || getColorSchema(agentHandler.getState());
 			canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
 
 			// analyser.getByteFrequencyData(data);
