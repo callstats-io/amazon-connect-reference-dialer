@@ -90,12 +90,12 @@
 .dialNumber {
     color: #000000;
     font-size: 18px;
-    font-family: Amazon-Ember;
+    font-family: AmazonEmber;
 }
 
 .dialButton {
     background-color: #a3acb6;
-    font-family: Amazon-Ember;
+    font-family: AmazonEmber;
     color: #ffffff !important;
     height: 35px;
     line-height: 1.3em;
