@@ -1,0 +1,31 @@
+.toggleHold {
+    width: 132px;
+    height: 36px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    color: #000000;
+    font-family: Amazon-Ember;
+    font-size: 14px;
+}
+
+.toggleMute {
+    width: 132px;
+    height: 36px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    color: #000000;
+    font-family: Amazon-Ember;
+    font-size: 14px;
+}
+
+.quickConnectOrTransfer {
+    width: 132px;
+    height: 36px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    color: #000000;
+    font-family: AmazonEmber;
+    font-size: 14px;
+}
+
+.trans

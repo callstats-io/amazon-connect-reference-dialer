@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import SVG from 'react-inlinesvg';
 import QuickFeedback from './quickFeedback';
 
 import holdIcon from '../../res/images/fa-hold.svg';
@@ -15,6 +14,7 @@ import {onRequestShowDialPad} from "../../reducers/acReducer";
 import connectionHandler from "../../api/connectionHandler";
 import agentHandler from "../../api/agentHandler";
 
+import styles from './agentview.css';
 
 /*
 	Card lower body. Mainly the lower part of the card body.
@@ -69,10 +69,7 @@ class LowerBody extends Component {
 
 	render() {
 		const agentState = this.props.agentState;
-
-		//todo should come from API
 		const muted = this.props.muted;
-
 		return (
 			<div className="row">
 				<div className="col-md-12">
@@ -80,15 +77,8 @@ class LowerBody extends Component {
 						this._showHoldOrMute(agentState) &&
 						<div className="row mt-3">
 							<div className="col-md-6">
-								<a className="btn" style={{
-									width: '132px',
-									height: '36px',
-									boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
-									backgroundColor: '#ffffff',
-									color: '#000000',
-									fontFamily: 'AmazonEmber',
-									fontSize: '14px'
-								}} href="#" onClick={this.toggleHold}>
+								<a className={`btn ${styles.toggleHold}`}
+								   href="#" onClick={this.toggleHold}>
 									<img
 										src={this.props.agentState === 'On hold' ? resumeIcon : holdIcon}/> &nbsp; {this.props.agentState === 'On hold' ? 'Resume' : 'Hold'}
 								</a>
@@ -96,15 +86,8 @@ class LowerBody extends Component {
 
 							<div className="col-md-6">
 								<a onClick={this.toggleMuteUnmute}
-								   className="btn pl-0 pr-0" href="#" style={{
-									width: '132px',
-									height: '36px',
-									boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
-									backgroundColor: '#ffffff',
-									color: '#000000',
-									fontFamily: 'AmazonEmber',
-									fontSize: '14px'
-								}}> {muted ? <img src={unMuteIcon}/> : <img src={muteIcon}/>}
+								   className={`btn pl-0 pr-0 ${styles.toggleMute}`}
+								   href="#"> {muted ? <img src={unMuteIcon}/> : <img src={muteIcon}/>}
 									{muted ? ' Unmute' : ' Mute'}
 								</a>
 							</div>
@@ -113,40 +96,20 @@ class LowerBody extends Component {
 					{
 						this._dialOrQuickConnectOrTransfer(agentState) &&
 						<div className="row mt-3">
-							<div className="col-md-6"><a className="btn" style={{
-								width: '132px',
-								height: '36px',
-								boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
-								backgroundColor: '#ffffff',
-								color: '#000000',
-								fontFamily: 'AmazonEmber',
-								fontSize: '14px'
-							}} href="#" onClick={() => this.requestDialPad()}>
-								<img src={dialNumberIcon}/> &nbsp;Dial number </a>
+							<div className="col-md-6">
+								<a className={`btn ${styles.quickConnectOrTransfer}`} href="#"
+								   onClick={() => this.requestDialPad()}>
+									<img src={dialNumberIcon}/> &nbsp;Dial number </a>
 							</div>
 
 							<div className="col-md-6">
 								{
 									this._transferCall(agentState) ?
-										<a className="btn pl-0 pr-0 disabled" href="#" style={{
-											width: '132px',
-											height: '36px',
-											boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
-											backgroundColor: '#ffffff',
-											color: '#000000',
-											fontFamily: 'AmazonEmber',
-											fontSize: '14px'
-										}}>
+										<a className={`btn pl-0 pr-0 disabled ${styles.quickConnectOrTransfer}`}
+										   href="#">
 											<img src={transferIcon}/> &nbsp;Transfer </a> :
-										<a className="btn pl-0 pr-0 disabled" href="#" style={{
-											width: '132px',
-											height: '36px',
-											boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
-											backgroundColor: '#ffffff',
-											color: '#000000',
-											fontFamily: 'AmazonEmber',
-											fontSize: '14px'
-										}}>
+										<a className={`btn pl-0 pr-0 disabled ${styles.quickConnectOrTransfer}`}
+										   href="#">
 											<img src={quickConnect}/> &nbsp;Quick connect </a>
 
 								}
