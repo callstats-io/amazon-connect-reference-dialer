@@ -10,6 +10,8 @@ import PeerAndAgentDuration from "./peerAndAgentDuration";
 import {getColorSchema} from './../../utils/agetStateMap';
 import Error from './../errors/index';
 
+import styles from './agentview.css';
+
 /*
 	Card upper body. Mainly the upper part of the card body.
 	It shows
@@ -21,23 +23,32 @@ import Error from './../errors/index';
 
 */
 
+const shouldCaptureMediaSource = (agentState = undefined, muted) => {
+	return !(agentState === 'On hold' || muted === true);
+};
 
 class UpperBody extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			localStream: undefined,
+			audioInputDevice: undefined,
 		}
 	}
 
 	componentDidMount() {
+		if (!shouldCaptureMediaSource(this.state.agentState, this.state.muted)) {
+			return;
+		}
+		console.warn("not muted. try to grab stream");
 		agentMediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
 			agentMediaManager.getUserMedia(selectedDevice).then(success => {
 				this.setState({
 					localStream: success,
+					audioInputDevice: selectedDevice,
 				});
 			}, err => {
-				console.error('none');
+				console.error('none ', err);
 			})
 		});
 	}
@@ -52,9 +63,10 @@ class UpperBody extends Component {
 			<div className={`row`}
 				 style={{height: '182px', backgroundColor: getColorSchema(this.props.agentState), paddingTop: '5%'}}>
 				{!hasError &&
-				<AgentStatusAndAudioLabel stream={this.state.localStream}
-										  agentState={this.props.agentState}
-										  muted={this.props.muted}/>}
+				<AgentStatusAndAudioLabel agentState={this.props.agentState}
+										  stream={this.state.localStream}
+										  muted={this.props.muted}
+										  audioInputDevice={this.state.audioInputDevice}/>}
 				{!hasError &&
 				<AgentMutedLabel muted={this.props.muted}/>}
 				{!hasError &&

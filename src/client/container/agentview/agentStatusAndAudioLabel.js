@@ -4,22 +4,24 @@ import PropTypes from "prop-types";
 import AudioLevel from '../audiolabelview/audiolevel';
 import NoAudioLabel from '../audiolabelview/noaudio';
 import {getColorSchema} from './../../utils/agetStateMap';
+import styles from './agentview.css';
 
+const showAudioLabel = (agentState = undefined, muted) => {
+	return !(agentState === 'On hold' || muted === true);
+};
 
-const AgentStatusAndAudioLabel = ({agentState, stream, muted}) => (
-	<div className={'col-md-12'}>
+const AgentStatusAndAudioLabel = ({agentState, stream, muted, audioInputDevice}) => (
+	<div className={`col-md-12 ${styles.agentStateDiv}`}>
 		<div className={'row'}>
 			<div className={`col-md-9`}>
-				<p className={`m-0`} style={{
-					fontFamily: 'AmazonEmber',
-					color: '#ffffff',
-					fontSize: '24px'
-				}}> {agentState} </p>
+				<span className={`m-0 ${styles.agentState}`}> {agentState} </span>
 			</div>
-			<div className={`col-md-3 text-center`}>
-				{/*{muted || agentState === 'On hold' ? <NoAudioLabel/> :*/}
-					{/*<AudioLevel backgroundColor={getColorSchema(agentState)} stream={stream}/>*/}
-				{/*}*/}
+			<div className={`col-md-3 text-right`}>
+				{showAudioLabel(agentState, muted) ?
+					<AudioLevel backgroundColor={getColorSchema(agentState)}
+								stream={stream}
+								audioInputDevice={audioInputDevice}/> : <NoAudioLabel/>
+				}
 			</div>
 		</div>
 	</div>
@@ -29,6 +31,7 @@ const AgentStatusAndAudioLabel = ({agentState, stream, muted}) => (
 AgentStatusAndAudioLabel.propTypes = {
 	agentState: PropTypes.string,
 	stream: PropTypes.object,
-	muted: PropTypes.bool
+	muted: PropTypes.bool,
+	audioInputDevice: PropTypes.object,
 };
 export default AgentStatusAndAudioLabel;

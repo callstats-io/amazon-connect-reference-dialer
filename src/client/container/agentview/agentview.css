@@ -27,3 +27,32 @@
     font-family: AmazonEmber;
     font-size: 14px;
 }
+
+.agentStateDiv {
+    max-height: 0em;
+}
+
+.agentState {
+    font-family: AmazonEmber;
+    color: #ffffff;
+    font-size: 24px;
+}
+
+.agentMutedState {
+    /*max-height: 0em;*/
+}
+
+.agentMutedText {
+    font-family: AmazonEmber;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.agentMutedSpan {
+    margin-left: 2%;
+}
+
+.agentMutedIcon {
+    margin-top: -1%;
+}
+
