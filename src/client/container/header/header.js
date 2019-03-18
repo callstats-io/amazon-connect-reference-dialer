@@ -19,7 +19,7 @@ const CSIOLogo = () => (
 );
 
 const ChangeStatus = ({onClickHandler}) => (
-	<div className={`col-md-10 m-0 p-0 ${styles.csioChangeStatus}`}
+	<div className={`col-md-10 m-0 p-0 pl-1 ${styles.csioChangeStatus}`}
 		 onClick={onClickHandler}>
 		<span className={styles.csioHeaderText}>Change status</span>
 		<SVG src={statusChangeIcon}/>
