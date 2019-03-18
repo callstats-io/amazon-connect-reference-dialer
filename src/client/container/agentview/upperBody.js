@@ -40,7 +40,6 @@ class UpperBody extends Component {
 		if (!shouldCaptureMediaSource(this.state.agentState, this.state.muted)) {
 			return;
 		}
-		console.warn("not muted. try to grab stream");
 		agentMediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
 			agentMediaManager.getUserMedia(selectedDevice).then(success => {
 				this.setState({

@@ -18,7 +18,8 @@ const AgentViewStyle = {
 			backgroundColor: '#0e9526',
 			fontFamily: 'AmazonEmber',
 			textAlign: 'center',
-			color: '#ffffff'
+			color: '#ffffff',
+			borderRadius:'0px',
 		},
 	},
 	reject: {
@@ -30,7 +31,8 @@ const AgentViewStyle = {
 			backgroundColor: '#c91922',
 			fontFamily: 'AmazonEmber',
 			textAlign: 'center',
-			color: '#ffffff'
+			color: '#ffffff',
+			borderRadius:'0px',
 		},
 	},
 	available: {
@@ -42,7 +44,8 @@ const AgentViewStyle = {
 			backgroundColor: '#3885de',
 			color: '#ffffff',
 			fontFamily: 'AmazonEmber',
-			fontSize: '14px'
+			fontSize: '14px',
+			borderRadius:'0px',
 		}
 	},
 	end: {
@@ -54,7 +57,8 @@ const AgentViewStyle = {
 			backgroundColor: '#c91922',
 			color: '#ffffff',
 			fontFamily: 'AmazonEmber',
-			fontSize: '14px'
+			fontSize: '14px',
+			borderRadius:'0px',
 		},
 	},
 };

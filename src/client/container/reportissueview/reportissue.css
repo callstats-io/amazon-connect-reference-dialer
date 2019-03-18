@@ -10,6 +10,7 @@
     color: rgb(255, 255, 255);
     font-family: AmazonEmber;
     font-size: 14px;
+    border-radius: 0 !important;
 }
 
 .textArea {

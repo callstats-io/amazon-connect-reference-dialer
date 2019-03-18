@@ -100,4 +100,5 @@
     height: 35px;
     line-height: 1.3em;
     cursor: pointer;
+    border-radius: 0 !important;
 }

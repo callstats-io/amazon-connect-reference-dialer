@@ -45,10 +45,12 @@
     height: 35px;
     line-height: 1.3em;
     cursor: pointer;
+    border-radius: 0 !important;
 }
 
 .btnGroup {
-    max-width: 220px
+    max-width: 220px;
+    border-radius: 0 !important;
 }
 
 .dropDownButton {
@@ -57,10 +59,12 @@
     font-size: 13px;
     max-height: 45px;
     min-width: 200px;
+    border-radius: 0 !important;
 }
 
 .btnDropDown {
     border: solid 1px #cfcfcf;
+    border-radius: 0 !important;
 }
 
 .dropDownMenu {
@@ -70,6 +74,7 @@
     left: 0;
     transform: translate3d(0px, 38px, 0px);
     border: solid 1px #cfcfcf;
+    border-radius: 0 !important;
 }
 
 .dropdownItem {
