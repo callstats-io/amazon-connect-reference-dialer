@@ -6,7 +6,7 @@ import LowerBody from './lowerBody'
 
 const Body = () => (
 	<div className={`card-body`}
-		 style={{paddingLeft: '0.95em', paddingRight: '0.95em', paddingTop: '0'}}>
+		 style={{paddingLeft: '0.95em', paddingRight: '0.9em', paddingTop: '0'}}>
 		<UpperBody/>
 		<LowerBody/>
 	</div>

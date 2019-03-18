@@ -1,7 +1,7 @@
 .acHeader {
     background-color: #525252;
-    height: 48px;
-    width: 319px;
+    height: 42px;
+    /*width: 319px;*/
 }
 
 .csioLogo {
@@ -21,4 +21,8 @@
 
 .acPointer {
     cursor: pointer;
+}
+
+.dialerImage {
+    margin-top: 50%;
 }

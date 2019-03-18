@@ -13,27 +13,27 @@ import {connect} from "react-redux";
 import styles from './header.css';
 
 const CSIOLogo = () => (
-	<div className={`col-md-1 h-100 pr-0 mr-0 pl-1`}>
+	<div className={`col-md-1 pr-0 mr-0 pl-1 my-auto`}>
 		<img src={csioLogo} className={styles.csioLogo}/>
 	</div>
 );
 
 const ChangeStatus = ({onClickHandler}) => (
-	<div className={`col-md-5 h-100 ${styles.csioChangeStatus}`}
+	<div className={`col-md-5 my-auto ${styles.csioChangeStatus}`}
 		 onClick={onClickHandler}>
 		<span className={styles.csioHeaderText}>Change status</span>
 	</div>
 );
 
 const ChangeStatusIcon = ({onClickHandler}) => (
-	<div className={`col-md-2 h-100 pl-0 ${styles.acPointer}`}
+	<div className={`col-md-2 pl-0 my-auto ${styles.acPointer}`}
 		 onClick={onClickHandler}>
 		<SVG src={statusChangeIcon}/>
 	</div>
 );
 
 const NetworkStrengthChange = () => (
-	<div className={`col-md-2 h-100`}>
+	<div className={`col-md-2 my-auto`}>
 		<NetworkStrength/>
 	</div>
 );
@@ -41,7 +41,7 @@ const NetworkStrengthChange = () => (
 const DialerSettings = ({onClickHandler}) => (
 	<div className={`col-md-2 border-left ${styles.acPointer}`}
 		 onClick={onClickHandler}>
-		<img src={dialerSettingIcon}/>
+		<img src={dialerSettingIcon} className={styles.dialerImage}/>
 	</div>
 );
 
@@ -66,7 +66,7 @@ class Header extends React.Component {
 
 	render() {
 		return (
-			<div className={`card-header ${styles.acHeader}`}>
+			<div className={`card-header pt-0 pb-0 mt-0 mb-0 ${styles.acHeader}`}>
 				<div className={`row h-100`}>
 					<CSIOLogo/>
 					<ChangeStatus onClickHandler={this.requestAgentStateChangeFunc}/>
