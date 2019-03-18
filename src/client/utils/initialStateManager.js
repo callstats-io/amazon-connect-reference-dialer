@@ -5,6 +5,7 @@ const initialStateManager = {
 	requestReportCallIssue: 'unknown',
 	requestConnectivityCheck: 'unknown',
 	requestShowDialPad: 'unknown',
+	requestShowQuickConnects: 'unknown',
 	errorMessage: {},
 };
 

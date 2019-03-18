@@ -54,6 +54,7 @@ class ACManager {
 		});
 		connect.core.initSoftphoneManager({allowFramedSoftphone: true});
 		connect.agent((agent) => {
+			window.currentAgent = agent;
 			this.onAgentInitialize(agent);
 		});
 

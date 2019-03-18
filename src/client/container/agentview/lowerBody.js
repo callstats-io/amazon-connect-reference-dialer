@@ -108,9 +108,9 @@ class LowerBody extends Component {
 										<a className={`btn pl-0 pr-0 disabled ${styles.quickConnectOrTransfer}`}
 										   href="#">
 											<img src={transferIcon}/> &nbsp;Transfer </a> :
-										<a className={`btn pl-0 pr-0 disabled ${styles.quickConnectOrTransfer}`}
+										<a className={`btn pl-0 pr-0 ${styles.quickConnectOrTransfer}`}
 										   href="#">
-											<img src={quickConnect}/> &nbsp;Quick connect </a>
+											<img src={quickConnect}/> &nbsp;Quick connects </a>
 
 								}
 							</div>

@@ -43,6 +43,31 @@ class AgentHandler {
 		agentConfigManager.setAgentConfig(agent);
 	}
 
+	getQuickConnectionList() {
+		if (!this.agent) {
+			return [];
+		}
+		return new Promise((resolve, reject) => {
+			this.agent.getEndpoints(this.agent.getAllQueueARNs(),
+				{
+					success: data => {
+						let endpoints = data.endpoints || [];
+						let quickConnects = endpoints.map(item => {
+							return item.type === 'phone_number';
+						});
+						resolve(quickConnects);
+					}
+				},
+				{
+					failure: err => {
+						reject('failed to get quick connection list');
+					}
+				}
+			)
+		});
+
+	}
+
 	stateDuration() {
 		const currentStateDuration = this.agent && typeof this.agent.getStateDuration === 'function' && this.agent.getStateDuration();
 		return toHMS(currentStateDuration || 0);
