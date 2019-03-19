@@ -9,6 +9,7 @@ import {
 } from "../../reducers/acReducer";
 
 import CloseQuickConnect from "./close";
+import FindContact from "./findcontact";
 
 class Body extends Component {
 	constructor(props) {
@@ -32,6 +33,7 @@ class Body extends Component {
 		return (
 			<div className={`card-body ${styles.cardBody}`}>
 				<CloseQuickConnect close={this.close}/>
+				<FindContact/>
 			</div>
 		);
 	}

@@ -16,6 +16,18 @@
     font-family: AmazonEmber;
 }
 
+.quickConnectSearch {
+    font-family: AmazonEmber;
+    color: #000000;
+    border: 1px solid #000000;
+    border-top: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-radius: 0;
+    box-shadow: none;
+}
+
 .cursor {
     cursor: pointer;
 }
+
