@@ -44,21 +44,21 @@ class AgentHandler {
 	}
 
 	getQuickConnectionList() {
-		if (!this.agent) {
-			return [];
-		}
 		return new Promise((resolve, reject) => {
+			if(!this.agent){
+				resolve([]);
+				return ;
+			}
+
 			this.agent.getEndpoints(this.agent.getAllQueueARNs(),
 				{
 					success: data => {
 						let endpoints = data.endpoints || [];
-						let quickConnects = endpoints.map(item => {
+						let quickConnects = endpoints.filter(item => {
 							return item.type === 'phone_number';
 						});
 						resolve(quickConnects);
-					}
-				},
-				{
+					},
 					failure: err => {
 						reject('failed to get quick connection list');
 					}
