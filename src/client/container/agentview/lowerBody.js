@@ -109,7 +109,7 @@ class LowerBody extends Component {
 							<div className="col-md-6">
 								{
 									this._transferCall(agentState) ?
-										<a className={`btn pl-0 pr-0 disabled ${styles.quickConnectOrTransfer}`}
+										<a className={`btn pl-0 pr-0 ${styles.quickConnectOrTransfer}`}
 										   href="#">
 											<img src={transferIcon}/> &nbsp;Transfer </a> :
 										<a className={`btn pl-0 pr-0 ${styles.quickConnectOrTransfer}`}
