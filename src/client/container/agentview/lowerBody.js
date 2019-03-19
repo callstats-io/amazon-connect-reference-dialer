@@ -10,7 +10,7 @@ import unMuteIcon from '../../res/images/fa-mic.svg';
 import dialNumberIcon from '../../res/images/fa-dial-number.svg';
 import quickConnect from '../../res/images/fa-quick-connect.svg';
 import transferIcon from '../../res/images/fa-transfer.svg';
-import {onRequestShowDialPad} from "../../reducers/acReducer";
+import {onRequestShowDialPad, onRequestShowQuickConnects} from "../../reducers/acReducer";
 import connectionHandler from "../../api/connectionHandler";
 import agentHandler from "../../api/agentHandler";
 
@@ -67,6 +67,10 @@ class LowerBody extends Component {
 		this.props.requestDialPad();
 	}
 
+	requestQuickConnect() {
+		this.props.requestQuickConnect();
+	}
+
 	render() {
 		const agentState = this.props.agentState;
 		const muted = this.props.muted;
@@ -109,7 +113,8 @@ class LowerBody extends Component {
 										   href="#">
 											<img src={transferIcon}/> &nbsp;Transfer </a> :
 										<a className={`btn pl-0 pr-0 ${styles.quickConnectOrTransfer}`}
-										   href="#">
+										   href="#"
+										   onClick={() => this.requestQuickConnect()}>
 											<img src={quickConnect}/> &nbsp;Quick connects </a>
 
 								}
@@ -131,6 +136,7 @@ LowerBody.propTypes = {
 	agentState: PropTypes.string.isRequired,
 	muted: PropTypes.bool.isRequired,
 	requestDialPad: PropTypes.func.isRequired,
+	requestQuickConnect: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
 	agentState: state.acReducer.agentState || 'unknown',
@@ -139,6 +145,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 	requestDialPad: () => {
 		dispatch(onRequestShowDialPad('pending'));
+	},
+	requestQuickConnect: () => {
+		dispatch(onRequestShowQuickConnects('pending'));
 	}
 });
 
