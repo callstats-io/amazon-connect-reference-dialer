@@ -83,6 +83,13 @@ export const onRequestShowDialPad = (requestShowDialPad = 'complete') => {
 	}
 };
 
+export const onRequestShowQuickConnects = (requestShowQuickConnects = 'complete') => {
+	return {
+		type: 'onRequestShowQuickConnects',
+		requestShowQuickConnects
+	}
+};
+
 export const onChangeNetworkStrength = (networkStrength = 0) => {
 	return {
 		type: 'onChangeNetworkStrength',
@@ -137,7 +144,8 @@ const acReducer = (state = INITIAL_STATE, action) => {
 				requestAgentSettingsChange: 'complete',
 				requestReportCallIssue: 'complete',
 				requestConnectivityCheck: 'complete',
-				requestShowDialPad: 'complete'
+				requestShowDialPad: 'complete',
+				requestShowQuickConnects: 'complete',
 			};
 		case 'onRequestAgentSettingsChange':
 			return {
@@ -147,6 +155,7 @@ const acReducer = (state = INITIAL_STATE, action) => {
 				requestReportCallIssue: 'complete',
 				requestConnectivityCheck: 'complete',
 				requestShowDialPad: 'complete',
+				requestShowQuickConnects: 'complete',
 			};
 		case 'onFeedbackChange':
 			return {
@@ -161,6 +170,7 @@ const acReducer = (state = INITIAL_STATE, action) => {
 				requestReportCallIssue: action.requestReportCallIssue,
 				requestConnectivityCheck: 'complete',
 				requestShowDialPad: 'complete',
+				requestShowQuickConnects: 'complete',
 			};
 		case 'onRequestConnectivityCheck':
 			return {
@@ -170,6 +180,7 @@ const acReducer = (state = INITIAL_STATE, action) => {
 				requestReportCallIssue: 'complete',
 				requestConnectivityCheck: action.requestConnectivityCheck,
 				requestShowDialPad: 'complete',
+				requestShowQuickConnects: 'complete',
 			};
 		case 'onRequestShowDialPad':
 			return {
@@ -179,6 +190,17 @@ const acReducer = (state = INITIAL_STATE, action) => {
 				requestReportCallIssue: 'complete',
 				requestConnectivityCheck: 'complete',
 				requestShowDialPad: action.requestShowDialPad,
+				requestShowQuickConnects: 'complete',
+			};
+		case 'onRequestShowQuickConnects':
+			return {
+				...state,
+				requestAgentStateChange: 'complete',
+				requestAgentSettingsChange: 'complete',
+				requestReportCallIssue: 'complete',
+				requestConnectivityCheck: 'complete',
+				requestShowDialPad: 'complete',
+				requestShowQuickConnects: action.requestShowQuickConnects,
 			};
 		case 'onChangeNetworkStrength':
 			return {
