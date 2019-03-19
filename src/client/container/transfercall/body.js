@@ -30,7 +30,6 @@ class Body extends Component {
 	}
 
 	componentDidMount() {
-		console.warn('componentDidMount');
 		agentHandler.getQuickConnectionList().then(quickContacts => {
 			this.defaultContactList = quickContacts;
 			this.setState({
