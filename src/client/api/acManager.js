@@ -8,7 +8,7 @@ import eventHandler from './eventhandler';
 import csioHandler from './csioHandler';
 
 import * as connectRTC from './thirdparty/connect-rtc';
-import * as connectStream from './thirdparty/connect-streams';
+import * as amazonConnect from './thirdparty/amazon-connect';
 
 const ccpUrl = "https://callstatsio.awsapps.com/connect/ccp#/";
 

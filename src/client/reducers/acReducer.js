@@ -90,6 +90,13 @@ export const onRequestShowQuickConnects = (requestShowQuickConnects = 'complete'
 	}
 };
 
+export const onRequestShowTransferCall = (requestShowTransferCall = 'complete') => {
+	return {
+		type: 'onRequestShowTransferCall',
+		requestShowTransferCall
+	}
+};
+
 export const onChangeNetworkStrength = (networkStrength = 0) => {
 	return {
 		type: 'onChangeNetworkStrength',
@@ -201,6 +208,17 @@ const acReducer = (state = INITIAL_STATE, action) => {
 				requestConnectivityCheck: 'complete',
 				requestShowDialPad: 'complete',
 				requestShowQuickConnects: action.requestShowQuickConnects,
+			};
+		case 'onRequestShowTransferCall':
+			return {
+				...state,
+				requestAgentStateChange: 'complete',
+				requestAgentSettingsChange: 'complete',
+				requestReportCallIssue: 'complete',
+				requestConnectivityCheck: 'complete',
+				requestShowDialPad: 'complete',
+				requestShowQuickConnects: 'complete',
+				requestShowTransferCall: action.requestShowTransferCall,
 			};
 		case 'onChangeNetworkStrength':
 			return {

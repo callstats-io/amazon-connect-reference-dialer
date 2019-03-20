@@ -2,10 +2,11 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import agentHandler from './../../api/agentHandler';
+import contactHandler from './../../api/contactHandler';
 import styles from './transfercall.css';
 
 import {
-	onRequestShowQuickConnects,
+	onRequestShowTransferCall,
 } from "../../reducers/acReducer";
 
 import CloseQuickConnect from "./close";
@@ -30,7 +31,7 @@ class Body extends Component {
 	}
 
 	componentDidMount() {
-		agentHandler.getQuickConnectionList().then(quickContacts => {
+		agentHandler.getTransferConnList().then(quickContacts => {
 			this.defaultContactList = quickContacts;
 			this.setState({
 				contactList: [...this.defaultContactList],
@@ -64,18 +65,19 @@ class Body extends Component {
 		this.updateContactList(value);
 	}
 
+	//
 	dialContact(selectedContact = undefined) {
 		const {phoneNumber} = selectedContact;
-		agentHandler.dialNumber(phoneNumber).then(success => {
+		console.warn('-> selected contact', selectedContact);
+		contactHandler.dialContact(selectedContact).then(success => {
 			this.close();
 		}, err => {
-			console.error(err);
+			console.error(err)
 		});
 		this.setState({
 			contactList: [...this.defaultContactList],
 			contactValue: "",
 		});
-
 	}
 
 	close() {
@@ -102,7 +104,7 @@ const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
 	close: () => {
-		dispatch(onRequestShowQuickConnects('close'));
+		dispatch(onRequestShowTransferCall('close'));
 	}
 });
 

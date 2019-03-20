@@ -5,7 +5,7 @@ export const isAgentStateChange = (e) => {
 };
 
 export const isCallOnHoldUnhold = (e) => {
-	return e && e.name && (['holdConnection', 'resumeConnection'].includes(e.name));
+	return e && e.name && (['holdConnection', 'resumeConnection', 'createAdditionalConnection'].includes(e.name));
 };
 
 
@@ -26,7 +26,7 @@ export const isError = (e) => {
 
 export const getAgentStateForHoldUnhold = (e, contact = undefined) => {
 	const currentState = e.name;
-	if (currentState === 'holdConnection') {
+	if (currentState === 'holdConnection' || currentState === 'createAdditionalConnection' ) {
 		return {
 			newState: 'On hold',
 			oldState: contact && contact.getStatus().type,

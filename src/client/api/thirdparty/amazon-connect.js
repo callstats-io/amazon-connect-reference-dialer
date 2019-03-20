@@ -9843,7 +9843,7 @@ function hash(alg, key) {
   return {
     update: function (data) {
       if(!Buffer.isBuffer(data)) data = new Buffer(data)
-
+        
       bufs.push(data)
       length += data.length
       return this
@@ -16945,7 +16945,6 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
 
 },{"../apis/connect-2017-02-15.min":2,"../apis/sts-2011-06-15.min":4,"./browser_loader":8,"./core":10,"./services/sts":43}]},{},[146]);
 
-
 /*! @license sprintf.js | Copyright (c) 2007-2013 Alexandru Marasteanu <hello at alexei dot ro> | 3 clause BSD license */
 
 (function() {
@@ -17082,7 +17081,6 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
 	ctx.sprintf = sprintf;
 	ctx.vsprintf = vsprintf;
 })();
-
 
 /*
  * Copyright 2014-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
@@ -17314,7 +17312,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
       this._logRollTimer = null;
       this.setLogRollInterval(DEFAULT_LOG_ROLL_INTERVAL);
    };
-
+   
    /**
     * Sets the interval in milliseconds that the logs will be rotated.
     * Logs are rotated out completely at the end of the second roll
@@ -17537,7 +17535,6 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
    connect.LogComponent = LogComponent;
    connect.DownstreamConduitLogger = DownstreamConduitLogger;
 })();
-
 /*
  * Copyright 2014-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -18067,7 +18064,6 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
    connect.StateError.prototype.constructor = connect.StateError;
 
 })();
-
 /*
  * Copyright 2014-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -18351,7 +18347,6 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
    connect.ContactEvents = ContactEvents;
    connect.MasterTopics = MasterTopics;
 })();
-
 /*
  * Copyright 2014-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -18686,7 +18681,6 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
    connect.Conduit = Conduit;
    connect.IFrameConduit = IFrameConduit;
 })();
-
 /*
  * Copyright 2014-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -19007,7 +19001,6 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
    connect.AWSClient = AWSClient;
 
 })();
-
 /*
  * Copyright 2014-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -19183,7 +19176,6 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
    connect.EventGraph = EventGraph;
 
 })();
-
 /*
  * Copyright 2014-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -19425,7 +19417,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
    Agent.prototype.mute = function() {
       connect.core.getUpstream().sendUpstream(connect.EventType.BROADCAST,
         {
-          event: connect.EventType.MUTE,
+          event: connect.EventType.MUTE, 
           data: {mute: true}
       });
    };
@@ -19433,7 +19425,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
    Agent.prototype.unmute = function() {
       connect.core.getUpstream().sendUpstream(connect.EventType.BROADCAST,
         {
-          event: connect.EventType.MUTE,
+          event: connect.EventType.MUTE, 
           data: {mute: false}
       });
    };
@@ -20125,7 +20117,6 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
    connect.SoftphoneError = SoftphoneError;
 
 })();
-
 /*
  * Copyright 2014-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -20296,7 +20287,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
                otherParams.ringtone.voice || {});
          }
       };
-
+      
       // Merge params from params.softphone into params.ringtone
       // for embedded and non-embedded use cases so that defaults
       // are picked up.
@@ -20358,7 +20349,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
 
 
       connect.agent(function(agent) {
-         // Sync mute across all tabs
+         // Sync mute across all tabs 
          if(agent.isSoftphoneEnabled()){
             connect.core.getUpstream().sendUpstream(connect.EventType.BROADCAST,
               {
@@ -20907,7 +20898,6 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
    connect.core.AgentDataProvider = AgentDataProvider;
 
 })();
-
 /*
  * Copyright 2014-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -21087,7 +21077,6 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
    connect.VoiceRingtoneEngine = VoiceRingtoneEngine;
    connect.QueueCallbackRingtoneEngine = QueueCallbackRingtoneEngine;
 })();
-
 /*
  * Copyright 2014-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -21449,11 +21438,9 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
         }
 
         if (typeof navigator.mediaDevices === "object" && typeof navigator.mediaDevices.getUserMedia === "function") {
-            console.warn('1', navigator.mediaDevices.getUserMedia, CONSTRAINT);
             promise = navigator.mediaDevices.getUserMedia(CONSTRAINT);
 
         } else if (typeof navigator.webkitGetUserMedia === "function") {
-          console.warn('2')
             promise = new Promise(function(resolve, reject) {
                 navigator.webkitGetUserMedia(CONSTRAINT, resolve, reject);
             });
@@ -21801,7 +21788,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
    };
 
    WorkerClient.prototype._sendAPIMetrics = function(method, time, err) {
-      this.conduit.sendDownstream(connect.EventType.API_METRIC, {
+      this.conduit.sendDownstream(connect.EventType.API_METRIC, { 
          name: method,
          time: time,
          dimensions: [
@@ -21898,7 +21885,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
          self.portConduitMap[stream.getId()] = portConduit;
 
          if (self.agent !== null) {
-            self.updateAgent();
+            portConduit.sendDownstream(connect.AgentEvents.UPDATE, self.agent);
          }
 
          portConduit.onDownstream(connect.EventType.API_REQUEST,
@@ -21925,19 +21912,14 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
          timeout:       GET_AGENT_TIMEOUT_MS
       }, {
          success: function(data) {
-             try {
-                 self.agent = self.agent || {};
-                 self.agent.snapshot = data.snapshot;
-                 self.agent.snapshot.localTimestamp = connect.now();
-                 self.agent.snapshot.skew = self.agent.snapshot.snapshotTimestamp - self.agent.snapshot.localTimestamp;
-                 self.nextToken = data.nextToken;
-                 connect.getLog().trace("GET_AGENT_SNAPSHOT succeeded.").withObject(data);
-                 self.updateAgent();
-             } catch(e) {
-                 connect.getLog().error("Long poll failed to update agent.").withObject(data).withException(e);
-             } finally {
-                 global.setTimeout(connect.hitch(self, self.pollForAgent), GET_AGENT_SUCCESS_TIMEOUT_MS);
-             }
+            self.agent = self.agent || {};
+            self.agent.snapshot = data.snapshot;
+            self.agent.snapshot.localTimestamp = connect.now();
+            self.agent.snapshot.skew = self.agent.snapshot.snapshotTimestamp - self.agent.snapshot.localTimestamp;
+            self.nextToken = data.nextToken;
+            connect.getLog().trace("GET_AGENT_SNAPSHOT succeeded.").withObject(data);
+            self.updateAgent();
+            global.setTimeout(connect.hitch(self, self.pollForAgent), GET_AGENT_SUCCESS_TIMEOUT_MS);
          },
          failure: function(err, data) {
             try {
@@ -22311,13 +22293,13 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
          authFailure: connect.hitch(self, self.handleAuthFail)
       });
    };
-
+   
    /**
     * Filter the 'authentication' field of the request params from the given API_REQUEST event.
     */
    ClientEngine.prototype.filterAuthToken = function(request) {
       var new_request = {};
-
+      
       for (var keyA in request) {
          if (keyA === 'params') {
             var new_params = {};

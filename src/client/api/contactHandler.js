@@ -78,6 +78,23 @@ class ContactHandler {
 			});
 		}
 	}
+
+	dialContact(selectedContact = undefined) {
+		return new Promise((resolve, reject) => {
+			if (!this.contact) {
+				reject('contact is undefined');
+				return;
+			}
+			this.contact.addConnection(selectedContact, {
+				success: function () {
+					resolve('successfully added new contact');
+				},
+				failure: function (err, data) {
+					reject({err, data});
+				}
+			});
+		});
+	}
 }
 
 const contactHandler = new ContactHandler();

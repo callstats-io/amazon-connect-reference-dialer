@@ -45,9 +45,9 @@ class AgentHandler {
 
 	getQuickConnectionList() {
 		return new Promise((resolve, reject) => {
-			if(!this.agent){
+			if (!this.agent) {
 				resolve([]);
-				return ;
+				return;
 			}
 
 			this.agent.getEndpoints(this.agent.getAllQueueARNs(),
@@ -65,7 +65,27 @@ class AgentHandler {
 				}
 			)
 		});
+	}
 
+	getTransferConnList() {
+		return new Promise((resolve, reject) => {
+			if (!this.agent) {
+				resolve([]);
+				return;
+			}
+
+			this.agent.getEndpoints(this.agent.getAllQueueARNs(),
+				{
+					success: data => {
+						let endpoints = data.endpoints || [];
+						resolve(endpoints);
+					},
+					failure: err => {
+						reject('failed to get transfer connection list');
+					}
+				}
+			)
+		});
 	}
 
 	stateDuration() {
