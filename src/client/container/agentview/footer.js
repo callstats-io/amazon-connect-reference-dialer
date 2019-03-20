@@ -83,7 +83,7 @@ const _showAvailable = (agentState = null) => {
 };
 
 const _showEndCall = (agentState = null) => {
-	return ['Connected', 'Outbound Call', 'On hold'].includes(agentState);
+	return ['Connected',  'Joined', 'Outbound Call', 'On hold'].includes(agentState);
 };
 
 const _acceptRejectCall = (agentState = null) => {

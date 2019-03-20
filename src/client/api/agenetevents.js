@@ -5,16 +5,15 @@ export const isAgentStateChange = (e) => {
 };
 
 export const isCallOnHoldUnhold = (e) => {
-	return e && e.name && (['holdConnection', 'resumeConnection', 'createAdditionalConnection'].includes(e.name));
+	return e && e.name && (['holdConnection', 'resumeConnection'].includes(e.name));
 };
 
+export const isJoinedOrHold = (e) => {
+	return e && e.name && (['createAdditionalConnection', 'conferenceConnections'].includes(e.name));
+};
 
 export const getAgentState = (e) => {
 	console.warn('->', {newState: e.newState, oldState: e.oldState});
-	/*	const curState = e.newState.toLowerCase();
-		if (curState.includes("callingcustomer")) {
-			return 'Outbound call'
-		}*/
 	return e.newState;
 };
 
@@ -26,7 +25,7 @@ export const isError = (e) => {
 
 export const getAgentStateForHoldUnhold = (e, contact = undefined) => {
 	const currentState = e.name;
-	if (currentState === 'holdConnection' || currentState === 'createAdditionalConnection' ) {
+	if (currentState === 'holdConnection') {
 		return {
 			newState: 'On hold',
 			oldState: contact && contact.getStatus().type,
@@ -34,6 +33,22 @@ export const getAgentStateForHoldUnhold = (e, contact = undefined) => {
 	} else if (currentState === 'resumeConnection') {
 		return {
 			newState: contact && lo.capitalize(contact.getStatus().type),
+			oldState: 'On hold'
+		}
+	}
+	return {newState: 'unknown'};
+};
+
+export const getAgentStateForJoinedUnhold = (e, contact = undefined) => {
+	const currentState = e.name;
+	if (currentState === 'createAdditionalConnection') {
+		return {
+			newState: 'On hold',
+			oldState: contact && contact.getStatus().type,
+		}
+	} else if (currentState === 'conferenceConnections') {
+		return {
+			newState: 'Joined',
 			oldState: 'On hold'
 		}
 	}

@@ -6,6 +6,8 @@ class AgentStateManager {
 	constructor() {
 		this.agentStates = [];
 		this.localState = undefined;
+
+		this.intervalID = undefined;
 	}
 
 	setAgentStates(agent = undefined) {

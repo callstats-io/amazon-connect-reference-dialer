@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 
 
 const isConnected = (agentState) => {
-	return ['Connected', 'On hold'].includes(agentState);
+	return ['Connected', 'Joined', 'On hold'].includes(agentState);
 };
 
 const showPhoneNumber = (agentState) => {
-	return ['Connected', 'Inbound Call', 'Outbound Call', 'On hold'].includes(agentState);
+	return ['Connected',  'Joined', 'Inbound Call', 'Outbound Call', 'On hold'].includes(agentState);
 };
 
 import RemoteAudioLevel from '../audiolabelview/audiolevelRemote';

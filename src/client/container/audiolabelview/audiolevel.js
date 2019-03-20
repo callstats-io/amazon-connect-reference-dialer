@@ -19,7 +19,6 @@ class AudioLevel extends React.Component {
 		if (same) {
 			return false;
 		}
-		console.warn('<< shouldComponentUpdate', this.props.stream, this.props.audioInputDevice);
 		// dispose previous audio source if there is any
 		const canvas = this.refs.canvas;
 		const canvasCtx = canvas.getContext("2d");

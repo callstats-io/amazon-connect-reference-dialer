@@ -21,21 +21,20 @@ class AgentHandler {
 		this.agent = agent;
 
 		this.dispatch(onInitializationStateChange(true));
-
-		agent.onOffline(() => {
-			console.warn('->', 'agentHandler', 'onOffline');
-		});
-		// agent.onError((err) => {
-		// 	console.warn('->', 'onError', err);
-		// });
-		// agent.onSoftphoneError((err) => {
-		// 	console.warn('->', 'onSoftphoneError', err);
-		// });
 		agent.onMuteToggle((e) => {
 			this.dispatch(onMuteToggle(e && e.muted))
 		});
-		agent.onRefresh((e) => {
-			//todo
+
+		agent.onRoutable(e => {
+			console.warn('onRoutable', e);
+		});
+
+		agent.onNotRoutable(e => {
+			console.warn('onNotRoutable', e);
+		});
+
+		agent.onOffline(e => {
+			console.warn('onOffline', e);
 		});
 		// store current agent states
 		agentStateManager.setAgentStates(agent);

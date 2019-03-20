@@ -34,11 +34,11 @@ class LowerBody extends Component {
 	}
 
 	_showHoldOrMute(agentState = null) {
-		return ['Connected', 'On hold'].includes(agentState);
+		return ['Connected','Joined', 'On hold'].includes(agentState);
 	}
 
 	_transferCall(agentState = null) {
-		return ['Connected', 'On hold'].includes(agentState);
+		return ['Connected', 'Joined', 'On hold'].includes(agentState);
 	}
 
 	_dialOrQuickConnectOrTransfer(agentState = null) {

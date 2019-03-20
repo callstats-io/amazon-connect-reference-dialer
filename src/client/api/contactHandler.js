@@ -27,42 +27,67 @@ class ContactHandler {
 			this.dispose();
 		});
 
-		contact.onIncoming((incomingContact) => {
-			console.warn('->', 'contactHandler', 'onIncoming', incomingContact);
+		contact.onEnded((e) => {
+			this.contact = undefined;
 		});
-		contact.onAccepted((incomingContact) => {
-			console.warn('->', 'contactHandler', 'onAccepted', incomingContact);
-		});
-		contact.onEnded(() => {
-			console.warn('->', 'contactHandler', 'onEnded');
-			this.currentConnection = undefined;
-		});
-		contact.onConnected(() => {
-			const e = Object.assign({}, {newState: 'Connected'});
-			const agentState = getAgentState(e);
-			agentStateManager.setAgentLocalState(agentState);
-			this.dispatch(onAgentStateChange(agentState));
-		});
-		contact.onConnecting(() => {
-			const e = Object.assign({}, {newState: contact.isInbound() ? 'Inbound Call' : 'Outbound Call'});
-			const agentState = getAgentState(e);
-			agentStateManager.setAgentLocalState(agentState);
-			this.dispatch(onAgentStateChange(agentState));
-		});
-		contact.onRefresh((e) => {
-			//todo
-		});
+
+		// contact.onConnected(() => {
+		// 	const e = Object.assign({}, {newState: 'Connected'});
+		// 	const agentState = getAgentState(e);
+		// 	agentStateManager.setAgentLocalState(agentState);
+		// 	this.dispatch(onAgentStateChange(agentState));
+		// });
+		// contact.onConnecting(() => {
+		// 	const e = Object.assign({}, {newState: contact.isInbound() ? 'Inbound Call' : 'Outbound Call'});
+		// 	const agentState = getAgentState(e);
+		// 	agentStateManager.setAgentLocalState(agentState);
+		// 	this.dispatch(onAgentStateChange(agentState));
+		// });
+		// contact.onRefresh((e) => {
+		// 	console.warn('onRefresh', e);
+		// 	const activeConnection = contact.getActiveInitialConnection();
+		// 	const activeThirdPartyConnection = contact.getSingleActiveThirdPartyConnection();
+		// 	connectionHandler.mayBeUpdateConnection(activeConnection, true);
+		// 	connectionHandler.mayBeUpdateConnection(activeThirdPartyConnection, false);
+		//
+		// 	this.mayBeEmitConnectionUpdate(activeConnection, activeThirdPartyConnection, contact);
+		// });
 		contact.onSession(session => {
+			console.warn('new session ', session);
 			setTimeout(() => {
 				let _remoteAudioStream = session._remoteAudioStream;
 				this.dispatch(onAvailableStream(_remoteAudioStream, false))
 			}, 5 * 1000);
 		});
-		const currentConnection = contact.getActiveInitialConnection();
-		if (!currentConnection) {
-			return;
+
+		connectionHandler.register(dispatch);
+	}
+
+	isToHold(connection = undefined, contact = undefined) {
+		let lastAgentState = agentStateManager.getAgentLocalState();
+		return connection.isActive() && connection.isOnHold();
+	}
+
+	isFromHold(connection = undefined, contact = undefined) {
+		let lastAgentState = agentStateManager.getAgentLocalState();
+		return lastAgentState === 'On hold' && connection.isConnected();
+	}
+
+	mayBeEmitConnectionUpdate(activeConnection = undefined, activeThirdPartyConnection = undefined, contact = undefined) {
+		if (!activeThirdPartyConnection && this.isToHold(activeConnection, contact)) {
+			let lastAgentState = agentStateManager.getAgentLocalState();
+			const e = Object.assign({oldState: lastAgentState, newState: 'On hold'});
+			const agentState = getAgentState(e);
+			agentStateManager.setAgentLocalState(agentState);
+			this.dispatch(onAgentStateChange(agentState));
+		} else if (!activeThirdPartyConnection && this.isFromHold(activeConnection, contact)) {
+			let lastAgentState = agentStateManager.getAgentLocalState();
+			const e = Object.assign({oldState: lastAgentState, newState: 'Connected'});
+			const agentState = getAgentState(e);
+			agentStateManager.setAgentLocalState(agentState);
+			this.dispatch(onAgentStateChange(agentState));
 		}
-		connectionHandler.register(dispatch, currentConnection);
+		console.warn('<<<', activeConnection && activeConnection.isOnHold(), activeThirdPartyConnection && activeThirdPartyConnection.isOnHold());
 	}
 
 	// accept a incoming call with contact

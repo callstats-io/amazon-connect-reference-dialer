@@ -53,12 +53,16 @@ class ACManager {
 			}
 		});
 		connect.core.initSoftphoneManager({allowFramedSoftphone: true});
+
 		connect.agent((agent) => {
+			console.warn('new agent ', agent);
 			window.currentAgent = agent;
 			this.onAgentInitialize(agent);
 		});
 
 		connect.contact(contact => {
+			console.warn('new contact', contact);
+			window.currentContact = contact;
 			this.onContactInitialize(contact)
 		});
 
