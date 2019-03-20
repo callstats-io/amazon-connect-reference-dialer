@@ -10,6 +10,7 @@ export const onInitializationStateChange = (initialized = false) => {
 };
 
 export const onStateChange = (currentState = undefined) => {
+	console.warn('~', currentState);
 	return {
 		type: 'onStateChange',
 		currentState: currentState,
@@ -134,6 +135,11 @@ const acReducer = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				initialized: action.initialized,
+			};
+		case 'onStateChange':
+			return {
+				...state,
+				currentState: action.currentState,
 			};
 		case 'onAgentStateChange':
 			return {

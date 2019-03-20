@@ -16,7 +16,7 @@ import {
 
 
 let currentContact;
-const agentStates = ['Init', 'Available', 'Offline', 'AfterCallWork', 'FailedConnectCustomer'];
+const agentStates = ['Init', 'Available', 'Offline', 'AfterCallWork', 'FailedConnectCustomer', 'FailedConnectAgent'];
 const getAgentState = (e) => {
 	const {agent, newState} = e;
 	if (!agentStates.includes(newState)) {
@@ -26,6 +26,7 @@ const getAgentState = (e) => {
 	return {
 		state: newState,
 		duration: duration,
+		agent: agent,
 	};
 };
 
@@ -82,6 +83,7 @@ const getConnectionState = (contact = undefined, isPrimary = true) => {
 	return {
 		state: state,
 		duration: duration,
+		connection: connection,
 	}
 };
 

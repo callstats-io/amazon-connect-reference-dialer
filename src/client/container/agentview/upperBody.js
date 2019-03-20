@@ -10,18 +10,6 @@ import PeerAndAgentDuration from "./peerAndAgentDuration";
 import {getColorSchema} from './../../utils/agetStateMap';
 import Error from './../errors/index';
 
-import styles from './agentview.css';
-
-/*
-	Card upper body. Mainly the upper part of the card body.
-	It shows
-	1. the status, available, offline , muted or something else etc.
-	2. the audio volume icon
-	3. who I am connected with, and their audio volume
-	4. time elapsed in current state
-	5.
-
-*/
 
 const shouldCaptureMediaSource = (agentState = undefined, muted) => {
 	return !(agentState === 'On hold' || muted === true);
@@ -37,19 +25,19 @@ class UpperBody extends Component {
 	}
 
 	componentDidMount() {
-		if (!shouldCaptureMediaSource(this.state.agentState, this.state.muted)) {
-			return;
-		}
-		agentMediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
-			agentMediaManager.getUserMedia(selectedDevice).then(success => {
-				this.setState({
-					localStream: success,
-					audioInputDevice: selectedDevice,
-				});
-			}, err => {
-				console.error('none ', err);
-			})
-		});
+		// if (!shouldCaptureMediaSource(this.state.agentState, this.state.muted)) {
+		// 	return;
+		// }
+		// agentMediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
+		// 	agentMediaManager.getUserMedia(selectedDevice).then(success => {
+		// 		this.setState({
+		// 			localStream: success,
+		// 			audioInputDevice: selectedDevice,
+		// 		});
+		// 	}, err => {
+		// 		console.error('none ', err);
+		// 	})
+		// });
 	}
 
 	componentWillUnmount() {
@@ -81,6 +69,7 @@ class UpperBody extends Component {
 }
 
 UpperBody.propTypes = {
+	currentState: PropTypes.object,
 	agentState: PropTypes.string,
 	duration: PropTypes.string,
 	phoneNumber: PropTypes.string,
@@ -91,6 +80,9 @@ UpperBody.propTypes = {
 
 };
 const mapStateToProps = state => ({
+	currentState: state.acReducer.currentState,
+
+
 	agentState: state.acReducer.agentState,
 	duration: state.acReducer.duration,
 	phoneNumber: state.acReducer.phoneNumber,

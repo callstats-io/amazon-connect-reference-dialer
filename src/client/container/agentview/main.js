@@ -2,16 +2,22 @@ import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import Header from '../header/index';
-import Body from './body';
+
+import SingleConnection from './singleconnection/index';
+import ConferenceConnection from './conferenceconnection/index';
 import Footer from './footer';
 
-const AgentView = ({initialized}) => (
+const isSingle = (currentState = undefined) => {
+	return currentState && !currentState.thirdPartyConnectionState;
+};
+
+const AgentView = ({initialized = false, currentState = undefined}) => (
 	initialized &&
 	<div className={`row h-100`}>
 		<div className={`col-md-12`} style={{padding: '0'}}>
 			<div className={`card h-100`} style={{backgroundColor: '#f2f2f2'}}>
 				<Header/>
-				<Body/>
+				{isSingle(currentState) ? <SingleConnection/> : <ConferenceConnection/>}
 				<Footer/>
 			</div>
 		</div>
@@ -20,9 +26,11 @@ const AgentView = ({initialized}) => (
 
 AgentView.propTypes = {
 	initialized: PropTypes.bool.isRequired,
+	currentState: PropTypes.object,
 };
 const mapStateToProps = state => ({
 	initialized: state.acReducer.initialized,
+	currentState: state.acReducer.currentState,
 });
 const mapDispatchToProps = dispatch => ({});
 

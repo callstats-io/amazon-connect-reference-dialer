@@ -63,34 +63,44 @@ class Home extends Component {
 			initialized &&
 			<div className={`container`} style={{width: '320px', height: '480px'}}>
 				{
-					this.showAgentView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue, requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
+					this.showAgentView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
+						requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects,
+						requestShowTransferCall) &&
 					<AgentView/>}
-				{
-					this.showStateChangeView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue, requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
+				{/*{
+					this.showStateChangeView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
+						requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects,
+						requestShowTransferCall) &&
 					<StateChangeView/>}
 				{
-					this.showSettingPageView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue, requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
+					this.showSettingPageView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
+						requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
 					<SettingPageView/>}
 
 				{
-					this.showReportCallIssueView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue, requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
+					this.showReportCallIssueView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
+						requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
 					<ReportCallIssueView/>}
 
 				{
-					this.showConnectivityCheckView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue, requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
+					this.showConnectivityCheckView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
+						requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
 					<ConnectivityCheckView/>}
 
 				{
-					this.showDialPadView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue, requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
+					this.showDialPadView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
+						requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
 					<DialPadView/>}
 
 				{
-					this.showQuickConnects(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue, requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
+					this.showQuickConnects(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
+						requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
 					<QuickConnectsView/>}
 
 				{
-					this.showTransferCall(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue, requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
-					<TransferCallView/>}
+					this.showTransferCall(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
+						requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
+					<TransferCallView/>}*/}
 
 			</div>
 		);
