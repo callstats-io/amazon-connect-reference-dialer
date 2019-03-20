@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
 import agentConfigManager from './../../api/agentConfigManager';
-import agentMediaManager from './../../api/agentMediaManager';
+import agentMediaManager from '../../api/mediaManager';
 
 import Settings from './components/settings';
 

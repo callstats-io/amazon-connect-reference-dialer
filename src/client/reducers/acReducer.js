@@ -9,6 +9,13 @@ export const onInitializationStateChange = (initialized = false) => {
 
 };
 
+export const onStateChange = (currentState = undefined) => {
+	return {
+		type: 'onStateChange',
+		currentState: currentState,
+	}
+};
+
 export const onAgentStateChange = (agentState = 'unknown', duration = '00:00:00') => {
 	return {
 		type: 'onAgentStateChange',

@@ -1,6 +1,6 @@
 import databaseManager from "./databaseManager";
 
-class AgentMediaManager {
+class MediaManager {
 	constructor() {
 		this.localStream = undefined;
 		this.remoteStream = undefined;
@@ -119,5 +119,5 @@ class AgentMediaManager {
 
 }
 
-const agentMediaManager = new AgentMediaManager();
-export default agentMediaManager;
+const mediaManager = new MediaManager();
+export default mediaManager;

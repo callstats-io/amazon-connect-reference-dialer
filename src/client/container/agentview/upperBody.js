@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
-import agentMediaManager from "../../api/agentMediaManager";
+import agentMediaManager from "../../api/mediaManager";
 
 import AgentStatusAndAudioLabel from "./agentStatusAndAudioLabel";
 import AgentMutedLabel from "./agentMutedLabel";

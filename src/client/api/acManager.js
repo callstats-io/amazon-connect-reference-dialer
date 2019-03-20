@@ -1,6 +1,6 @@
 'use strict';
 
-import audioManager from './agentMediaManager';
+import audioManager from './mediaManager';
 import agentHandler from './agentHandler';
 import contactHandler from './contactHandler';
 import eventHandler from './eventhandler';
@@ -19,7 +19,6 @@ class ACManager {
 		this.isInitialized = false;
 		this.dispatch = undefined;
 		this.onAgentInitialize = this.onAgentInitialize.bind(this);
-		this.onContactInitialize = this.onContactInitialize.bind(this);
 		this.onEventHandler = this.onEventHandler.bind(this);
 
 	}
@@ -28,10 +27,6 @@ class ACManager {
 		audioManager.overWriteGetUserMedia();
 		csioHandler.register(this.dispatch, agent);
 		agentHandler.register(this.dispatch, agent);
-	}
-
-	onContactInitialize(contact) {
-		contactHandler.register(this.dispatch, contact);
 	}
 
 	onEventHandler(connect) {
@@ -55,17 +50,8 @@ class ACManager {
 		connect.core.initSoftphoneManager({allowFramedSoftphone: true});
 
 		connect.agent((agent) => {
-			console.warn('new agent ', agent);
-			window.currentAgent = agent;
 			this.onAgentInitialize(agent);
 		});
-
-		connect.contact(contact => {
-			console.warn('new contact', contact);
-			window.currentContact = contact;
-			this.onContactInitialize(contact)
-		});
-
 		this.onEventHandler(connect);
 	}
 

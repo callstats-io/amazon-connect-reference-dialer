@@ -1,5 +1,6 @@
 import {
-	onCCPError
+	onCCPError,
+	onStateChange,
 } from "../reducers/acReducer";
 
 import {
@@ -118,6 +119,11 @@ class EventHandler {
 			});
 			bus.subscribe(connect.AgentEvents.STATE_CHANGE, e => {
 				console.warn('~agent state change ', getAgentState(e));
+				let payload = {
+					primaryConnectionState: getAgentState(e),
+					thirdPartyConnectionState: undefined,
+				};
+				this.dispatch(onStateChange(payload));
 			});
 			bus.subscribe(connect.ContactEvents.REFRESH, e => {
 				currentContact = e;
@@ -125,13 +131,22 @@ class EventHandler {
 				const connection2 = getConnectionState(e, false);
 				const {primaryConnectionState, thirdPartyConnectionState} = mayBeUpdateToJoined(connection1, connection2);
 				console.warn('~REFRESH', primaryConnectionState, thirdPartyConnectionState);
+				let payload = {
+					primaryConnectionState: primaryConnectionState,
+					thirdPartyConnectionState: thirdPartyConnectionState,
+				};
+				this.dispatch(onStateChange(payload));
 			});
 			bus.subscribe(connect.ContactEvents.ENDED, () => {
 				currentContact = undefined;
 			});
 			bus.subscribe(connect.ContactEvents.DESTROYED, () => {
 				currentContact = undefined;
-			})
+			});
+			bus.subscribe(connect.ContactEvents.SESSION, (session) => {
+				const remoteStream = session._remoteAudioStream;
+				console.warn('~', 'onRemoteStream', remoteStream);
+			});
 		}
 	}
 
