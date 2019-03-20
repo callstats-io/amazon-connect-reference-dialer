@@ -2,18 +2,18 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import lo from 'lodash';
 
-import starYellowIcon from '../../res/images/star-yellow.svg';
-import starWhiteIcon from '../../res/images/star-white.svg';
+import starYellowIcon from '../../../res/images/star-yellow.svg';
+import starWhiteIcon from '../../../res/images/star-white.svg';
 import PropTypes from "prop-types";
 import {
 	onRequestReportCallIssue
-} from "../../reducers/acReducer";
+} from "../../../reducers/acReducer";
 
 import {
 	feedbackRatings,
 	feedbackRatingsText,
 	defaultFeedback
-} from './../../utils/feedback'
+} from '../../../utils/feedback'
 
 class QuickFeedback extends Component {
 	constructor(props) {

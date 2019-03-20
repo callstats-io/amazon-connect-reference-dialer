@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import agentMicMutedIcon from '../../res/images/muted-icon.svg';
+import agentMicMutedIcon from '../../../res/images/muted-icon.svg';
 import styles from './agentview.css';
 
 const getAudioState = (muted) => {

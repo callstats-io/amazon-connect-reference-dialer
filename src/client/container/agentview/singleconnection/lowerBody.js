@@ -3,16 +3,16 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import QuickFeedback from './quickFeedback';
 
-import holdIcon from '../../res/images/fa-hold.svg';
-import resumeIcon from '../../res/images/fa-resume.svg';
-import muteIcon from '../../res/images/fa-mute.svg';
-import unMuteIcon from '../../res/images/fa-mic.svg';
-import dialNumberIcon from '../../res/images/fa-dial-number.svg';
-import quickConnect from '../../res/images/fa-quick-connect.svg';
-import transferIcon from '../../res/images/fa-transfer.svg';
-import {onRequestShowDialPad, onRequestShowQuickConnects, onRequestShowTransferCall} from "../../reducers/acReducer";
-import connectionHandler from "../../api/connectionHandler";
-import agentHandler from "../../api/agentHandler";
+import holdIcon from '../../../res/images/fa-hold.svg';
+import resumeIcon from '../../../res/images/fa-resume.svg';
+import muteIcon from '../../../res/images/fa-mute.svg';
+import unMuteIcon from '../../../res/images/fa-mic.svg';
+import dialNumberIcon from '../../../res/images/fa-dial-number.svg';
+import quickConnect from '../../../res/images/fa-quick-connect.svg';
+import transferIcon from '../../../res/images/fa-transfer.svg';
+import {onRequestShowDialPad, onRequestShowQuickConnects, onRequestShowTransferCall} from "../../../reducers/acReducer";
+import connectionHandler from "../../../api/connectionHandler";
+import agentHandler from "../../../api/agentHandler";
 
 import styles from './agentview.css';
 

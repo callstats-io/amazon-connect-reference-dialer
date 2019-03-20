@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import AudioLevel from '../audiolabelview/audiolevel';
-import NoAudioLabel from '../audiolabelview/noaudio';
+import AudioLevel from '../../audiolabelview/audiolevel';
+import NoAudioLabel from '../../audiolabelview/noaudio';
 import styles from './agentview.css';
 
 const showAudioLabel = (agentState = undefined, muted) => {

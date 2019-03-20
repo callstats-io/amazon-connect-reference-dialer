@@ -2,13 +2,13 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
-import agentMediaManager from "../../api/mediaManager";
+import agentMediaManager from "../../../api/mediaManager";
 
 import AgentStatusAndAudioLabel from "./agentStatusAndAudioLabel";
 import AgentMutedLabel from "./agentMutedLabel";
 import PeerAndAgentDuration from "./peerAndAgentDuration";
-import {getColorSchema} from './../../utils/agetStateMap';
-import Error from './../errors/index';
+import {getColorSchema} from '../../../utils/agetStateMap';
+import Error from '../../errors/index';
 
 
 const shouldCaptureMediaSource = (agentState = undefined, muted) => {

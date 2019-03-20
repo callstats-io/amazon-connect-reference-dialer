@@ -10,8 +10,8 @@ const showPhoneNumber = (agentState) => {
 	return ['Connected',  'Joined', 'Inbound Call', 'Outbound Call', 'On hold'].includes(agentState);
 };
 
-import RemoteAudioLevel from '../audiolabelview/audiolevelRemote';
-import Duration from "../agentduration/duration";
+import RemoteAudioLevel from '../../audiolabelview/audiolevelRemote';
+import Duration from "../../agentduration/duration";
 import styles from './agentview.css';
 
 const PeerAndAgentDuration = ({agentState = 'unknown', phoneNumber = '', remoteStream = undefined}) => (
