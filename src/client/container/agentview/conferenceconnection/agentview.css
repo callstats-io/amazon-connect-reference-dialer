@@ -1,0 +1,67 @@
+.buttonCommon {
+    width: 132px;
+    height: 36px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    color: #000000;
+    font-family: AmazonEmber;
+    font-size: 14px;
+    border-radius: 0 !important;
+}
+
+.toggleMute {
+    width: 132px;
+    height: 36px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    color: #000000;
+    font-family: AmazonEmber;
+    font-size: 14px;
+    border-radius: 0 !important;
+}
+
+.quickConnectOrTransfer {
+    width: 132px;
+    height: 36px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    color: #000000;
+    font-family: AmazonEmber;
+    font-size: 14px;
+    border-radius: 0 !important;
+}
+
+.agentStateDiv {
+    max-height: 0em;
+}
+
+.agentState {
+    font-family: AmazonEmber;
+    color: #ffffff;
+    font-size: 24px;
+}
+
+.agentMutedState {
+    /*max-height: 0em;*/
+}
+
+.agentMutedText {
+    font-family: AmazonEmber;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.agentMutedSpan {
+    margin-left: 2%;
+}
+
+.agentMutedIcon {
+    margin-top: -1%;
+}
+
+.peerAndAgentDurationText {
+    font-family: AmazonEmber;
+    color: #ffffff;
+    font-size: 14px;
+}
+
