@@ -20,7 +20,7 @@ const formatText = (msg) => {
 	return retval;
 };
 
-const Error = ({agentState, errorMessage = {}, closeError}) => (
+const Error = ({errorMessage = {}, closeError}) => (
 	<div className={`col-md-12 mr-0 ml-0`}>
 		<div className={`row ml-0 mr-0 ${styles.errorDiv}`}>
 			<div className={`col-md-10 mt-2 ${styles.errorDivNext}`}>
@@ -43,7 +43,6 @@ const Error = ({agentState, errorMessage = {}, closeError}) => (
 
 
 Error.propTypes = {
-	agentState: PropTypes.string,
 	errorMessage: PropTypes.object,
 	closeError: PropTypes.func.isRequired,
 };

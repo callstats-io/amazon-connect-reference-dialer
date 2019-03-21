@@ -7,6 +7,11 @@ import {
 	unmute
 } from './manager/agent';
 
+import {
+	holdConnection,
+	resumeConnection,
+} from './manager/connection';
+
 class SessionManager {
 	constructor() {
 
@@ -35,6 +40,14 @@ class SessionManager {
 	unmute() {
 		const agent = agentHandler.getAgent();
 		return unmute(agent);
+	}
+
+	holdConnection(connection = undefined) {
+		return holdConnection(connection);
+	}
+
+	resumeConnection(connection = undefined) {
+		return resumeConnection(connection);
 	}
 
 }

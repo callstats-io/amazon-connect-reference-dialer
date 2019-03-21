@@ -16,7 +16,7 @@ import {
 
 
 let currentContact;
-const agentStates = ['Init', 'Available', 'Offline', 'AfterCallWork', 'FailedConnectCustomer', 'FailedConnectAgent'];
+const agentStates = ['Init', 'Available', 'Offline', 'AfterCallWork', 'FailedConnectCustomer', 'FailedConnectAgent', 'Quality Issue'];
 const getAgentState = (e) => {
 	const {agent, newState} = e;
 	if (!agentStates.includes(newState)) {
@@ -72,7 +72,7 @@ const getConnectionState = (contact = undefined, isPrimary = true) => {
 	if (isOutbound(connection)) {
 		state = 'Outbound call';
 	} else if (isInbound(connection)) {
-		state = 'Incoming call';
+		state = 'Inbound call';
 	} else if (isConnected(connection)) {
 		state = 'Connected';
 	} else if (isHold(connection)) {

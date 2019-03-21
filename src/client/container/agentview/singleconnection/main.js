@@ -1,11 +1,14 @@
 import React from "react";
 import {connect} from "react-redux";
 
+import UpperBody from './upperBody';
+import LowerBody from './lowerBody';
 
 const SingleConnection = () => (
 	<div className={`card-body`}
 		 style={{paddingLeft: '0.95em', paddingRight: '0.9em', paddingTop: '0'}}>
-		<h2> Single call </h2>
+		<UpperBody/>
+		<LowerBody/>
 	</div>
 );
 

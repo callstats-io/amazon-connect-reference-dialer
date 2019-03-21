@@ -5,18 +5,18 @@ import AudioLevel from '../../audiolabelview/audiolevel';
 import NoAudioLabel from '../../audiolabelview/noaudio';
 import styles from './agentview.css';
 
-const showAudioLabel = (agentState = undefined, muted) => {
-	return !(agentState === 'On hold' || muted === true);
+const showAudioLabel = (state = null, muted) => {
+	return !(['On hold', 'Hold'].includes(state) || muted === true);
 };
 
-const AgentStatusAndAudioLabel = ({agentState, stream, muted, audioInputDevice}) => (
+const AgentStatusAndAudioLabel = ({currentState, stream, muted, audioInputDevice}) => (
 	<div className={`col-md-12 ${styles.agentStateDiv}`}>
 		<div className={'row'}>
 			<div className={`col-md-9`}>
-				<span className={`m-0 ${styles.agentState}`}> {agentState} </span>
+				<span className={`m-0 ${styles.agentState}`}> {currentState} </span>
 			</div>
 			<div className={`col-md-3 text-right`}>
-				{showAudioLabel(agentState, muted) ?
+				{showAudioLabel(currentState, muted) ?
 					<AudioLevel stream={stream}
 								audioInputDevice={audioInputDevice}/> : <NoAudioLabel/>
 				}
@@ -27,7 +27,7 @@ const AgentStatusAndAudioLabel = ({agentState, stream, muted, audioInputDevice})
 
 
 AgentStatusAndAudioLabel.propTypes = {
-	agentState: PropTypes.string,
+	currentState: PropTypes.string,
 	stream: PropTypes.object,
 	muted: PropTypes.bool,
 	audioInputDevice: PropTypes.object,

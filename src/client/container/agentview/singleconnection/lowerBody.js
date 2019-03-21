@@ -11,9 +11,9 @@ import dialNumberIcon from '../../../res/images/fa-dial-number.svg';
 import quickConnect from '../../../res/images/fa-quick-connect.svg';
 import transferIcon from '../../../res/images/fa-transfer.svg';
 import {onRequestShowDialPad, onRequestShowQuickConnects, onRequestShowTransferCall} from "../../../reducers/acReducer";
-import connectionHandler from "../../../api/connectionHandler";
-import agentHandler from "../../../api/agentHandler";
+import sessionManager from './../../../api/sessionManager';
 
+import lo from 'lodash';
 import styles from './agentview.css';
 
 /*
@@ -33,34 +33,41 @@ class LowerBody extends Component {
 		this.toggleMuteUnmute = this.toggleMuteUnmute.bind(this);
 	}
 
-	_showHoldOrMute(agentState = null) {
-		return ['Connected','Joined', 'On hold'].includes(agentState);
+	_showHoldOrMute(currentState = undefined) {
+		const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
+		return ['Connected', 'Joined', 'On hold', 'Hold'].includes(state);
 	}
 
-	_transferCall(agentState = null) {
-		return ['Connected', 'Joined', 'On hold'].includes(agentState);
+	_transferCall(currentState = undefined) {
+		const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
+		return ['Connected', 'Joined', 'On hold', 'Hold'].includes(state);
 	}
 
-	_dialOrQuickConnectOrTransfer(agentState = null) {
-		return ['Inbound Call', 'Outbound Call'].includes(agentState) === false;
+	_dialOrQuickConnectOrTransfer(currentState = undefined) {
+		const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
+		return ['Inbound call', 'Outbound call'].includes(state) === false;
 	}
 
-	_isAfterCallWork(agentState = null) {
-		return ['AfterCallWork'].includes(agentState);
+	_isAfterCallWork(currentState = undefined) {
+		const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
+		return ['AfterCallWork'].includes(state);
 	}
 
-	toggleHold() {
-		let isOnHold = connectionHandler.isOnHold();
-		let promise = isOnHold ? connectionHandler.resume() : connectionHandler.hold();
-		promise.then(success => {
+	_isHold(currentState = undefined) {
+		const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
+		return ['On hold', 'Hold'].includes(state);
+	}
 
-		}).catch(err => {
-			console.error(err);
-		})
+	toggleHold(currentState = undefined) {
+		let isOnHold = this._isHold(currentState);
+		let connection = lo.get(currentState, "primaryConnectionState.connection", undefined);
+		let promise = isOnHold ? sessionManager.resumeConnection(connection) :
+			sessionManager.holdConnection(connection);
+		promise.then(() => _, err => console.error(err))
 	}
 
 	toggleMuteUnmute() {
-		this.props.muted ? agentHandler.unmute() : agentHandler.mute();
+		this.props.muted ? sessionManager.unmute() : sessionManager.mute();
 	}
 
 	requestDialPad() {
@@ -76,19 +83,18 @@ class LowerBody extends Component {
 	}
 
 	render() {
-		const agentState = this.props.agentState;
-		const muted = this.props.muted;
+		const {currentState, muted} = this.props;
 		return (
 			<div className="row">
 				<div className="col-md-12">
 					{
-						this._showHoldOrMute(agentState) &&
+						this._showHoldOrMute(currentState) &&
 						<div className="row mt-3">
 							<div className="col-md-6">
 								<a className={`btn ${styles.toggleHold}`}
-								   href="#" onClick={this.toggleHold}>
+								   href="#" onClick={() => this.toggleHold(currentState)}>
 									<img
-										src={this.props.agentState === 'On hold' ? resumeIcon : holdIcon}/> &nbsp; {this.props.agentState === 'On hold' ? 'Resume' : 'Hold'}
+										src={this._isHold(currentState) ? resumeIcon : holdIcon}/> &nbsp; {this._isHold(currentState) ? 'Resume' : 'Hold'}
 								</a>
 							</div>
 
@@ -102,7 +108,7 @@ class LowerBody extends Component {
 						</div>
 					}
 					{
-						this._dialOrQuickConnectOrTransfer(agentState) &&
+						this._dialOrQuickConnectOrTransfer(currentState) &&
 						<div className="row mt-3">
 							<div className="col-md-6">
 								<a className={`btn ${styles.quickConnectOrTransfer}`} href="#"
@@ -112,7 +118,7 @@ class LowerBody extends Component {
 
 							<div className="col-md-6">
 								{
-									this._transferCall(agentState) ?
+									this._transferCall(currentState) ?
 										<a className={`btn pl-0 pr-0 ${styles.quickConnectOrTransfer}`}
 										   href="#"
 										   onClick={() => this.requestTransferCall()}>
@@ -128,7 +134,7 @@ class LowerBody extends Component {
 						</div>
 					}
 					{
-						this._isAfterCallWork(agentState) && <QuickFeedback/>
+						this._isAfterCallWork(currentState) && <QuickFeedback/>
 					}
 
 				</div>
@@ -138,14 +144,17 @@ class LowerBody extends Component {
 }
 
 LowerBody.propTypes = {
-	agentState: PropTypes.string.isRequired,
+	currentState: PropTypes.object,
+
+
 	muted: PropTypes.bool.isRequired,
 	requestDialPad: PropTypes.func.isRequired,
 	requestQuickConnect: PropTypes.func.isRequired,
 	requestTransferCall: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
-	agentState: state.acReducer.agentState || 'unknown',
+	currentState: state.acReducer.currentState,
+
 	muted: state.acReducer.muted || false,
 });
 const mapDispatchToProps = dispatch => ({

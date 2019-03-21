@@ -2,18 +2,26 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
-import agentMediaManager from "../../../api/mediaManager";
+import mediaManager from "../../../api/mediaManager";
 
 import AgentStatusAndAudioLabel from "./agentStatusAndAudioLabel";
 import AgentMutedLabel from "./agentMutedLabel";
 import PeerAndAgentDuration from "./peerAndAgentDuration";
 import {getColorSchema} from '../../../utils/agetStateMap';
 import Error from '../../errors/index';
+import lo from "lodash";
 
 
-const shouldCaptureMediaSource = (agentState = undefined, muted) => {
-	return !(agentState === 'On hold' || muted === true);
+const getCurrentStateString = (currentState = undefined) => {
+	const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
+	return state;
 };
+
+const shouldCaptureMediaSource = (currentState = undefined, muted) => {
+	const state = getCurrentStateString(currentState);
+	return !(['On hold', 'Hold'].includes(state) || muted === true);
+};
+
 
 class UpperBody extends Component {
 	constructor(props) {
@@ -41,28 +49,30 @@ class UpperBody extends Component {
 	}
 
 	componentWillUnmount() {
-		agentMediaManager.dispose();
+		mediaManager.dispose();
 	}
 
 	render() {
 		const hasError = this.props.errorMessage && this.props.errorMessage.errorType;
+		const state = getCurrentStateString(this.props.currentState);
+
 		return (
 			<div className={`row`}
-				 style={{height: '182px', backgroundColor: getColorSchema(this.props.agentState), paddingTop: '5%'}}>
+				 style={{height: '182px', backgroundColor: getColorSchema(state), paddingTop: '5%'}}>
 				{!hasError &&
-				<AgentStatusAndAudioLabel agentState={this.props.agentState}
+				<AgentStatusAndAudioLabel currentState={state}
 										  stream={this.state.localStream}
 										  muted={this.props.muted}
 										  audioInputDevice={this.state.audioInputDevice}/>}
-				{!hasError &&
+				{/*{!hasError &&
 				<AgentMutedLabel muted={this.props.muted}/>}
 				{!hasError &&
 				<PeerAndAgentDuration agentState={this.props.agentState}
 									  phoneNumber={this.props.phoneNumber}
 									  duration={this.props.duration}
-									  remoteStream={this.props.remoteStream}/>}
+									  remoteStream={this.props.remoteStream}/>}*/}
 				{hasError &&
-				<Error agentState={this.props.agentState} errorMessage={this.props.errorMessage}/>}
+				<Error errorMessage={this.props.errorMessage}/>}
 			</div>
 		);
 	}
@@ -70,24 +80,14 @@ class UpperBody extends Component {
 
 UpperBody.propTypes = {
 	currentState: PropTypes.object,
-	agentState: PropTypes.string,
-	duration: PropTypes.string,
-	phoneNumber: PropTypes.string,
 	muted: PropTypes.bool,
-
 	remoteStream: PropTypes.object,
 	errorMessage: PropTypes.object
 
 };
 const mapStateToProps = state => ({
 	currentState: state.acReducer.currentState,
-
-
-	agentState: state.acReducer.agentState,
-	duration: state.acReducer.duration,
-	phoneNumber: state.acReducer.phoneNumber,
 	muted: state.acReducer.muted,
-
 	remoteStream: state.acReducer.stream,
 	errorMessage: state.acReducer.errorMessage,
 });
