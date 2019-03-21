@@ -6,6 +6,9 @@ import mediaManager from "../../../api/mediaManager";
 
 
 import AgentStatusAndAudioLabel from "./agentStatusAndAudioLabel";
+import AgentMutedLabel from './AgentMutedLabel';
+import PeerAndAgentDuration from './PeerAndAgentDuration';
+
 import {getColorSchema} from '../../../utils/agetStateMap';
 import Error from '../../errors/index';
 import lo from "lodash";
@@ -65,13 +68,14 @@ class UpperBody extends Component {
 										  stream={this.state.localStream}
 										  muted={this.props.muted}
 										  audioInputDevice={this.state.audioInputDevice}/>}
-				{/*{!hasError &&
-				<AgentMutedLabel muted={this.props.muted}/>}
 				{!hasError &&
-				<PeerAndAgentDuration agentState={this.props.agentState}
+				<AgentMutedLabel muted={this.props.muted}/>}
+
+				{!hasError &&
+				<PeerAndAgentDuration currentState={this.props.agentState}
 									  phoneNumber={this.props.phoneNumber}
 									  duration={this.props.duration}
-									  remoteStream={this.props.remoteStream}/>}*/}
+									  remoteStream={this.props.remoteStream}/>}
 				{hasError &&
 				<Error errorMessage={this.props.errorMessage}/>}
 			</div>

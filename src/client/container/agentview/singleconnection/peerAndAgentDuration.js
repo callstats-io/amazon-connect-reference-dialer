@@ -27,7 +27,6 @@ const PeerAndAgentDuration = ({agentState = 'unknown', phoneNumber = '', remoteS
 			<div className={`col-md-6 text-right`}>
 				<span className={`m-0 ${styles.peerAndAgentDurationText}`}> Time elapsed</span>
 			</div>
-			{/*<div className={`w-100`}></div>*/}
 			<div className={`col-md-6 align-self-center pr-0 mr-0`}>
 				{
 					showPhoneNumber(agentState) &&
