@@ -15,6 +15,7 @@ import {
 // Duration = connection.isActive() && connection.getState() && connection.getState().duration
 
 
+let currentAgent;
 let currentContact;
 let currentState;
 
@@ -122,6 +123,7 @@ class EventHandler {
 				}
 			});
 			bus.subscribe(connect.AgentEvents.STATE_CHANGE, e => {
+				currentAgent = e;
 				console.warn('~agent state change ', getAgentState(e));
 				let payload = {
 					primaryConnectionState: getAgentState(e),
@@ -140,8 +142,20 @@ class EventHandler {
 					primaryConnectionState: primaryConnectionState,
 					thirdPartyConnectionState: thirdPartyConnectionState,
 				};
-				currentState = payload;
-				this.dispatch(onStateChange(payload));
+				//donot send state change for connection when both are null.
+				//in that case use agent state
+				if (primaryConnectionState || thirdPartyConnectionState) {
+					currentState = payload;
+					this.dispatch(onStateChange(payload));
+				} else {
+					let payload = {
+						primaryConnectionState: getAgentState(currentAgent),
+						thirdPartyConnectionState: undefined,
+					};
+					currentState = payload;
+					this.dispatch(onStateChange(payload));
+				}
+
 			});
 			bus.subscribe(connect.ContactEvents.ENDED, () => {
 				currentContact = undefined;
