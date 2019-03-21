@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import agentHandler from './../../api/agentHandler';
 import styles from './quickconnects.css';
+
+import sessionManager from './../../api/sessionManager';
 
 import {
 	onRequestShowQuickConnects,
@@ -30,7 +31,7 @@ class Body extends Component {
 	}
 
 	componentDidMount() {
-		agentHandler.getQuickConnectionList().then(quickContacts => {
+		sessionManager.getQuickConnectionList().then(quickContacts => {
 			this.defaultContactList = quickContacts;
 			this.setState({
 				contactList: [...this.defaultContactList],
@@ -66,7 +67,7 @@ class Body extends Component {
 
 	dialContact(selectedContact = undefined) {
 		const {phoneNumber} = selectedContact;
-		agentHandler.dialNumber(phoneNumber).then(success => {
+		sessionManager.dialNumber(phoneNumber).then(success => {
 			this.close();
 		}, err => {
 			console.error(err);
