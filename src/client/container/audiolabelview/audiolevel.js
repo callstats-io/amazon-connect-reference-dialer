@@ -22,7 +22,7 @@ class AudioLevel extends React.Component {
 		// dispose previous audio source if there is any
 		const canvas = this.refs.canvas;
 		const canvasCtx = canvas.getContext("2d");
-		this.audioMeter.startVisualization(stream, canvasCtx, canvas, nextProps.backgroundColor);
+		this.audioMeter.startVisualization(stream, canvasCtx, canvas, nextProps.backgroundColor, nextProps.agentStateFn);
 		return true;
 	}
 
@@ -34,7 +34,7 @@ class AudioLevel extends React.Component {
 		this.audioInputDevice = this.props.audioInputDevice;
 		const canvas = this.refs.canvas;
 		const canvasCtx = canvas.getContext("2d");
-		this.audioMeter.startVisualization(this.props.stream, canvasCtx, canvas, this.props.backgroundColor);
+		this.audioMeter.startVisualization(this.props.stream, canvasCtx, canvas, this.props.backgroundColor, this.props.agentStateFn);
 	}
 
 	componentWillUnmount() {
@@ -55,6 +55,7 @@ AudioLevel.propTypes = {
 	stream: PropTypes.object,
 	audioInputDevice: PropTypes.object,
 	backgroundColor: PropTypes.string,
+	agentStateFn: PropTypes.func,
 };
 
 export default AudioLevel;

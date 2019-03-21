@@ -1,4 +1,3 @@
-import sessionManager from './../../api/sessionManager';
 import {getColorSchema} from './../../utils/agetStateMap';
 
 class AudioMeter {
@@ -7,7 +6,7 @@ class AudioMeter {
 		this.source = undefined;
 	}
 
-	startVisualization(stream, canvasCtx, canvas, backgroundColor = undefined) {
+	startVisualization(stream, canvasCtx, canvas, backgroundColor = undefined, agentStateFn = undefined) {
 		let audioCtx = new AudioContext();
 		let analyser = audioCtx.createAnalyser();
 		this.source = audioCtx.createMediaStreamSource(stream);
@@ -22,7 +21,7 @@ class AudioMeter {
 		const colors = ['rgb(192,192,192)', 'rgb((0,128,0))', 'rgb((0,0,128))', 'rgb((173,216,230))', 'rgb((255,250,205))'];
 		const len = colors.length;
 		const draw = () => {
-			canvasCtx.fillStyle = backgroundColor || getColorSchema(sessionManager.getPrimaryAgentState());
+			canvasCtx.fillStyle = backgroundColor || (agentStateFn && getColorSchema(agentStateFn()));
 			canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
 
 			// analyser.getByteFrequencyData(data);
