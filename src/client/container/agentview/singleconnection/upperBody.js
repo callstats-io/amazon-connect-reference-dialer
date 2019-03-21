@@ -4,9 +4,8 @@ import {connect} from "react-redux";
 
 import mediaManager from "../../../api/mediaManager";
 
+
 import AgentStatusAndAudioLabel from "./agentStatusAndAudioLabel";
-import AgentMutedLabel from "./agentMutedLabel";
-import PeerAndAgentDuration from "./peerAndAgentDuration";
 import {getColorSchema} from '../../../utils/agetStateMap';
 import Error from '../../errors/index';
 import lo from "lodash";
@@ -33,19 +32,21 @@ class UpperBody extends Component {
 	}
 
 	componentDidMount() {
-		// if (!shouldCaptureMediaSource(this.state.agentState, this.state.muted)) {
-		// 	return;
-		// }
-		// agentMediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
-		// 	agentMediaManager.getUserMedia(selectedDevice).then(success => {
-		// 		this.setState({
-		// 			localStream: success,
-		// 			audioInputDevice: selectedDevice,
-		// 		});
-		// 	}, err => {
-		// 		console.error('none ', err);
-		// 	})
-		// });
+		const {currentState, muted} = this.props;
+		const state = getCurrentStateString(currentState);
+		if (!shouldCaptureMediaSource(state, muted)) {
+			return;
+		}
+		mediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
+			mediaManager.getUserMedia(selectedDevice).then(success => {
+				this.setState({
+					localStream: success,
+					audioInputDevice: selectedDevice,
+				});
+			}, err => {
+				console.error('none ', err);
+			})
+		});
 	}
 
 	componentWillUnmount() {

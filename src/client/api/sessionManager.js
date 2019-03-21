@@ -1,4 +1,6 @@
 import agentHandler from './agentHandler';
+import acManager from './acManager';
+
 import {
 	dialNumber,
 	getQuickConnectionList,
@@ -10,6 +12,7 @@ import {
 import {
 	holdConnection,
 	resumeConnection,
+	getPrimaryAgentState,
 } from './manager/connection';
 
 class SessionManager {
@@ -48,6 +51,11 @@ class SessionManager {
 
 	resumeConnection(connection = undefined) {
 		return resumeConnection(connection);
+	}
+
+	getPrimaryAgentState() {
+		const currentState = acManager.getCurrentState();
+		return getPrimaryAgentState(currentState);
 	}
 
 }

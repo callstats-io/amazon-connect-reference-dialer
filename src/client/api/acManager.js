@@ -2,7 +2,6 @@
 
 import audioManager from './mediaManager';
 import agentHandler from './agentHandler';
-import contactHandler from './contactHandler';
 import eventHandler from './eventhandler';
 
 import csioHandler from './csioHandler';
@@ -60,6 +59,14 @@ class ACManager {
 		if (connect) {
 			connect.getLog().download();
 		}
+	}
+
+	getCurrentContact() {
+		return eventHandler.getCurrentContact();
+	}
+
+	getCurrentState() {
+		return eventHandler.getCurrentState();
 	}
 
 }

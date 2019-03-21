@@ -16,6 +16,8 @@ import {
 
 
 let currentContact;
+let currentState;
+
 const agentStates = ['Init', 'Available', 'Offline', 'AfterCallWork', 'FailedConnectCustomer', 'FailedConnectAgent', 'Quality Issue'];
 const getAgentState = (e) => {
 	const {agent, newState} = e;
@@ -125,6 +127,7 @@ class EventHandler {
 					primaryConnectionState: getAgentState(e),
 					thirdPartyConnectionState: undefined,
 				};
+				currentState = payload;
 				this.dispatch(onStateChange(payload));
 			});
 			bus.subscribe(connect.ContactEvents.REFRESH, e => {
@@ -137,6 +140,7 @@ class EventHandler {
 					primaryConnectionState: primaryConnectionState,
 					thirdPartyConnectionState: thirdPartyConnectionState,
 				};
+				currentState = payload;
 				this.dispatch(onStateChange(payload));
 			});
 			bus.subscribe(connect.ContactEvents.ENDED, () => {
@@ -154,6 +158,10 @@ class EventHandler {
 
 	getCurrentContact() {
 		return currentContact;
+	}
+
+	getCurrentState() {
+		return currentState;
 	}
 }
 
