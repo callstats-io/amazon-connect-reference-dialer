@@ -80,14 +80,16 @@ class LowerBody extends Component {
 
 	joinConnection() {
 		console.warn('~joinConnection');
+		// join call, and resume all actually same.
+		// so just calling the same function
+		sessionManager.resumeAll().then(s => {
+		}, e => console.error(e));
 	}
 
 	swapConnection() {
 		console.warn('~swapConnection');
-	}
-
-	swapConnection() {
-		console.warn('~swapConnection');
+		sessionManager.swapCall().then(s => {
+		}, e => console.error(e));
 	}
 
 	render() {

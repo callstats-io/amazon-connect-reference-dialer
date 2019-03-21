@@ -96,3 +96,20 @@ export const holdAll = (hold, ...connections) => {
 	};
 	return holdConnections();
 };
+
+export const swapCall = (contact = undefined) => {
+	return new Promise((resolve, reject) => {
+		if (!contact) {
+			reject('contact is undefined');
+			return;
+		}
+		contact.toggleActiveConnections({
+			success: (success) => {
+				resolve(success);
+			},
+			failure: (err) => {
+				reject(err);
+			}
+		});
+	});
+};

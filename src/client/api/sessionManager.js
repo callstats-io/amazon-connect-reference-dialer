@@ -24,6 +24,7 @@ import {
 	dialContact,
 	holdAll,
 	resumeAll,
+	swapCall,
 } from './manager/contact'
 
 import {
@@ -183,6 +184,11 @@ class SessionManager {
 	resumeAll() {
 		const currentContact = acManager.getCurrentContact();
 		return resumeAll(currentContact);
+	}
+
+	swapCall() {
+		const currentContact = acManager.getCurrentContact();
+		return swapCall(currentContact);
 	}
 }
 
