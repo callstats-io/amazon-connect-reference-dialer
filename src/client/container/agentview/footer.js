@@ -75,12 +75,18 @@ const setAvailable = () => {
 	sessionManager.setAgentAvailable();
 };
 
+// this is a agent hangup type/ customer hangup type.
+// we will disconnect the primary connection asscociated with current session
 const hangupCall = () => {
-	connectionHandler.hangupCall();
+	sessionManager.hangupPrimaryConnection();
+};
+
+const rejectCall = () => {
+	sessionManager.rejectCall();
 };
 
 const acceptCall = () => {
-	contactHandler.acceptCall();
+	sessionManager.acceptCall();
 };
 
 const _showAvailable = (currentState = undefined) => {
@@ -136,7 +142,7 @@ const Footer = ({currentState = {}}) => (
 								style={AgentViewStyle.reject.style}
 								text={' Reject call'}
 								isReject={true}
-								onClickHandler={hangupCall}/>
+								onClickHandler={rejectCall}/>
 			</div>
 		}
 	</div>

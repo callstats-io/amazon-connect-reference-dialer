@@ -17,12 +17,19 @@ import {
 } from './manager/agent';
 
 import {
+	acceptCall,
+	rejectCall,
+} from './manager/contact'
+
+import {
 	holdConnection,
 	resumeConnection,
 	getPrimaryAgentState,
 	getPrimaryConnectionDuration,
 	getPrimaryConnectionPhone,
+	hangupPrimaryConnection,
 } from './manager/connection';
+
 
 class SessionManager {
 	constructor() {
@@ -115,6 +122,21 @@ class SessionManager {
 	setAgentAvailable() {
 		let agent = agentHandler.getAgent();
 		return setAgentAvailable(agent);
+	}
+
+	hangupPrimaryConnection() {
+		const currentState = acManager.getCurrentState();
+		return hangupPrimaryConnection(currentState);
+	}
+
+	acceptCall() {
+		const currentContact = acManager.getCurrentContact();
+		return acceptCall(currentContact);
+	}
+
+	rejectCall() {
+		const currentContact = acManager.getCurrentContact();
+		return rejectCall(currentContact);
 	}
 
 }

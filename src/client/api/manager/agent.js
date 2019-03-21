@@ -1,5 +1,3 @@
-import agentHandler from "../agentHandler";
-
 export const getQuickConnectionList = (agent = undefined) => {
 	return new Promise((resolve, reject) => {
 		if (!agent) {

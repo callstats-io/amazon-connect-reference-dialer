@@ -73,3 +73,22 @@ export const getPrimaryConnectionPhone = (currentState = undefined) => {
 		return number;
 	}
 };
+
+export const hangupPrimaryConnection = (currentState = undefined) => {
+	const primaryConnection = lo.get(currentState, 'primaryConnectionState', undefined);
+	const connection = primaryConnection.agent || primaryConnection.connection;
+	return new Promise((resolve, reject) => {
+		if (!connection) {
+			reject('connection is null');
+			return;
+		}
+		connection.destroy({
+			success: () => {
+				resolve('successfully hangup primary connection')
+			},
+			failure: (data) => {
+				reject(data)
+			}
+		});
+	});
+};
