@@ -19,6 +19,7 @@ import {
 import {
 	acceptCall,
 	rejectCall,
+	dialContact,
 } from './manager/contact'
 
 import {
@@ -139,6 +140,10 @@ class SessionManager {
 		return rejectCall(currentContact);
 	}
 
+	dialContact(selectedContact = undefined) {
+		const currentContact = acManager.getCurrentContact();
+		return dialContact(currentContact, selectedContact);
+	}
 }
 
 const sessionManage = new SessionManager();

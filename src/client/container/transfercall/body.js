@@ -1,9 +1,11 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import agentHandler from './../../api/agentHandler';
-import contactHandler from './../../api/contactHandler';
 import styles from './transfercall.css';
+
+
+import sessionManager from './../../api/sessionManager';
+import contactHandler from './../../api/contactHandler';
 
 import {
 	onRequestShowTransferCall,
@@ -31,7 +33,7 @@ class Body extends Component {
 	}
 
 	componentDidMount() {
-		agentHandler.getTransferConnList().then(quickContacts => {
+		sessionManager.getTransferConnList().then(quickContacts => {
 			this.defaultContactList = quickContacts;
 			this.setState({
 				contactList: [...this.defaultContactList],
@@ -65,11 +67,8 @@ class Body extends Component {
 		this.updateContactList(value);
 	}
 
-	//
 	dialContact(selectedContact = undefined) {
-		const {phoneNumber} = selectedContact;
-		console.warn('-> selected contact', selectedContact);
-		contactHandler.dialContact(selectedContact).then(success => {
+		sessionManager.dialContact(selectedContact).then(success => {
 			this.close();
 		}, err => {
 			console.error(err)
