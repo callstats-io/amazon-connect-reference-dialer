@@ -2,14 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from './../agentview.css';
 
-import resumeIcon from '../../../../res/images/fa-resume.svg';
+import joinIcon from '../../../../res/images/fa-ico-join.svg';
 
 const Join = ({joinConnection, marginTop = ""}) => (
 	<div className={`col-md-6 ${marginTop}`}>
 		<a className={`btn ${styles.buttonCommon}`}
 		   onClick={joinConnection}
 		   href="#">
-			<img src={resumeIcon}/> &nbsp; Resume all
+			<img src={joinIcon}/> &nbsp; Join
 		</a>
 	</div>
 );

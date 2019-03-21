@@ -2,14 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from './../agentview.css';
 
-import resumeIcon from '../../../../res/images/fa-resume.svg';
+import swapIcon from '../../../../res/images/fa-ico-swap.svg';
 
 const Swap = ({swapConnection, marginTop = ""}) => (
 	<div className={`col-md-6 ${marginTop}`}>
 		<a className={`btn ${styles.buttonCommon}`}
 		   onClick={swapConnection}
 		   href="#">
-			<img src={resumeIcon}/> &nbsp; Swap
+			<img src={swapIcon}/> &nbsp; Swap
 		</a>
 	</div>
 );
