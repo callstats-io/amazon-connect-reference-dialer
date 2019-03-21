@@ -1,3 +1,5 @@
+import agentHandler from "../agentHandler";
+
 export const getQuickConnectionList = (agent = undefined) => {
 	return new Promise((resolve, reject) => {
 		if (!agent) {
@@ -76,7 +78,7 @@ export const unmute = (agent = undefined) => {
 	}
 };
 
-export const setAgentState = (agent, agentState) => {
+export const setAgentState = (agent = undefined, agentState) => {
 	return new Promise((resolve, reject) => {
 		agentState && agent && agent.setState(agentState, {
 			success: (data) => {
@@ -87,4 +89,76 @@ export const setAgentState = (agent, agentState) => {
 			}
 		})
 	});
+};
+
+
+export const getAgentDeskphoneNumber = (agent = undefined) => {
+	if (!agent) {
+		return "";
+	}
+	const agentConfig = agent.getConfiguration();
+	const extension = agentConfig && agentConfig.extension;
+	return extension;
+};
+
+export const isAgentSoftphoneEnabled = (agent = undefined) => {
+	if (!agent) {
+		return false;
+	}
+	const agentConfig = agent.getConfiguration();
+	const softphoneEnabled = agentConfig && agentConfig.softphoneEnabled;
+	return softphoneEnabled;
+};
+
+export const changeToSoftPhone = (agent = undefined) => {
+	return new Promise((resolve, reject) => {
+		if (!agent) {
+			reject('agent cannot be undefined');
+			return;
+		}
+		let newConfig = agent && agent.getConfiguration();
+		newConfig.softphoneEnabled = true;
+		agent.setConfiguration(newConfig, {
+			success: function () {
+				resolve(newConfig);
+			},
+			failure: function () {
+				reject("Failed to change to softphone");
+			}
+		});
+	});
+};
+
+export const changeToDeskphone = (agent = undefined, phoneNumber = null) => {
+	return new Promise((resolve, reject) => {
+		if (!phoneNumber) {
+			reject('empty number');
+			return;
+		}
+		if (!agent) {
+			reject('agent cannot be undefined');
+			return;
+		}
+		let newConfig = agent.getConfiguration();
+		newConfig.softphoneEnabled = false;
+		newConfig.extension = phoneNumber;
+		agent.setConfiguration(newConfig, {
+			success: function () {
+				resolve(newConfig);
+			},
+			failure: function () {
+				reject("Failed to change to hardphone");
+			}
+		})
+	});
+};
+
+
+export const getDialableCountries = (agent = undefined) => {
+	if (!agent) {
+		return [];
+	}
+	let agentConfig = agent.getConfiguration();
+	const dialableCountries = agentConfig && agentConfig.dialableCountries;
+	return dialableCountries;
 };

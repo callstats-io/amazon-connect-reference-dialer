@@ -8,6 +8,11 @@ import {
 	mute,
 	unmute,
 	setAgentState,
+	getAgentDeskphoneNumber,
+	isAgentSoftphoneEnabled,
+	changeToSoftPhone,
+	changeToDeskphone,
+	getDialableCountries,
 } from './manager/agent';
 
 import {
@@ -79,6 +84,31 @@ class SessionManager {
 	setAgentState(agentState = undefined) {
 		let agent = agentHandler.getAgent();
 		return setAgentState(agent, agentState);
+	}
+
+	getAgentDeskphoneNumber() {
+		let agent = agentHandler.getAgent();
+		return getAgentDeskphoneNumber(agent);
+	}
+
+	isAgentSoftphoneEnabled() {
+		let agent = agentHandler.getAgent();
+		return isAgentSoftphoneEnabled(agent);
+	}
+
+	changeToSoftPhone() {
+		let agent = agentHandler.getAgent();
+		return changeToSoftPhone(agent);
+	}
+
+	changeToDeskphone(phoneNumber = null) {
+		let agent = agentHandler.getAgent();
+		return changeToDeskphone(agent, phoneNumber);
+	}
+
+	getDialableCountries() {
+		let agent = agentHandler.getAgent();
+		return getDialableCountries(agent);
 	}
 
 }

@@ -2,8 +2,8 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
-import agentConfigManager from './../../api/agentConfigManager';
-import agentMediaManager from '../../api/mediaManager';
+import sessionManager from './../../api/sessionManager';
+import mediaManager from '../../api/mediaManager';
 
 import Settings from './components/settings';
 
@@ -23,8 +23,8 @@ class Body extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			phoneNumber: agentConfigManager.getDeskphoneNumber() || '+358',
-			softphoneEnabled: agentConfigManager.isSoftphoneEnabled(),
+			phoneNumber: sessionManager.getAgentDeskphoneNumber() || '+358',
+			softphoneEnabled: sessionManager.isAgentSoftphoneEnabled(),
 			defaultAudioOutputDevice: {},
 			defaultAudioInputDevice: {},
 			inputDeviceList: [],
@@ -41,7 +41,7 @@ class Body extends Component {
 	}
 
 	componentDidMount() {
-		agentMediaManager.getDefaultAudioInputAndOutputDeviceDetails().then(success => {
+		mediaManager.getDefaultAudioInputAndOutputDeviceDetails().then(success => {
 			const {inputDevice, outputDevice, inputDeviceList} = success;
 			this.updateMediaSource(inputDevice, {
 				defaultAudioInputDevice: inputDevice,
@@ -54,34 +54,26 @@ class Body extends Component {
 	}
 
 	updateMediaSource(selectedDevice, options) {
-		agentMediaManager.getUserMedia(selectedDevice).then(success => {
-			this.setState({stream: success, ...options});
-		}, err => {
-			console.error('none');
-		})
+		mediaManager.getUserMedia(selectedDevice).then(
+			success => this.setState({stream: success, ...options}),
+			err => console.error('none'));
 	}
 
 	changeToSoftphone() {
-		agentConfigManager.updateAgentConfig(true).then(success => {
-			agentConfigManager.setCurrentConfig(success);
-			agentMediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
-				this.updateMediaSource(selectedDevice, {softphoneEnabled: true});
-			});
-		}, err => {
-			console.error(err);
-		})
+		sessionManager.changeToSoftPhone().then(
+			success => {
+				mediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
+					this.updateMediaSource(selectedDevice, {softphoneEnabled: true});
+				});
+			},
+			err => console.error(err));
 	}
 
 	changeToDeskphone() {
 		const {phoneNumber} = this.state;
-		agentConfigManager.updateAgentConfig(false, phoneNumber).then(success => {
-			agentConfigManager.setCurrentConfig(success);
-			this.setState({
-				softphoneEnabled: false,
-			})
-		}, err => {
-			console.error(err);
-		})
+		sessionManager.changeToDeskphone(phoneNumber).then(
+			success => this.setState({softphoneEnabled: false}),
+			err => console.error(err));
 	}
 
 	toggleMenuItem() {
@@ -92,8 +84,8 @@ class Body extends Component {
 	}
 
 	changeAudioInputDevice(selectedDevice) {
-		agentMediaManager.setPreferedAudioInputDevice(selectedDevice);
-		agentMediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
+		mediaManager.setPreferedAudioInputDevice(selectedDevice);
+		mediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
 			this.updateMediaSource(selectedDevice, {
 				defaultAudioInputDevice: selectedDevice,
 				showMenuItem: false,
@@ -102,7 +94,7 @@ class Body extends Component {
 	}
 
 	componentWillUnmount() {
-		agentMediaManager.dispose();
+		mediaManager.dispose();
 	}
 
 	handleInputChange(value) {
@@ -143,7 +135,7 @@ class Body extends Component {
 					!this.state.softphoneEnabled &&
 					<DeskPhoneSettings handleInputChange={this.handleInputChange}
 									   changeToDeskphone={this.changeToDeskphone}
-									   dialableCountries={agentConfigManager.getDialableCountries()}
+									   dialableCountries={sessionManager.getDialableCountries()}
 									   phoneNumber={this.state.phoneNumber}/>
 				}
 			</div>
