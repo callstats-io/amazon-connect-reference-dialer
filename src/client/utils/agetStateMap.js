@@ -10,6 +10,7 @@ const colorSchema = {
 	joined: '#0f9a28',
 	onhold: '#e07724',
 	hold: '#e07724',
+	missed: '#e07724',
 	inboundcall: '#9a62cf',
 	incomingcall: '#9a62cf',
 	missedcallagent: '#e07724',

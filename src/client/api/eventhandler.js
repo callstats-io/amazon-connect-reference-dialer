@@ -45,13 +45,28 @@ const isOutbound = (connection) => {
 		connection.isConnecting() === true && connection.getType() === 'outbound'
 };
 
+
+// if (status.type === "connected" && type === "inbound" && $rootScope.agentState !== 'Connected') {
+// 	return "PendingBusy";
+// }
+
+
 const isInbound = (connection) => {
 	return connection && connection.isActive() && connection.isConnected() &&
-		connection.isConnecting() === false && connection.getType() === 'inbound';
+		connection.getType() === 'inbound' &&
+		currentAgent.agent.getState().name === 'PendingBusy';
+};
+
+const isMissedCall = (connection) => {
+	return connection && connection.isActive() && connection.isConnected() &&
+		connection.getType() === 'inbound' &&
+		currentAgent.agent.getState().name === 'MissedCallAgent';
 };
 
 const isConnected = (connection) => {
-	return connection && connection.isActive() && connection.isConnected();
+	return connection && connection.isActive() && connection.isConnected() &&
+		currentAgent.agent.getState().name === 'Busy';
+
 };
 
 const isJoined = (primaryConnectionState, thirdPartyConnectionState) => {
@@ -75,12 +90,14 @@ const getConnectionState = (contact = undefined, isPrimary = true) => {
 	if (!connection) {
 		return undefined;
 	}
-	console.warn('!!', connection.isActive(), connection.isConnected(), connection.isConnecting(), connection.getType());
+	console.warn('~', connection.isActive(), connection.isConnected(), connection.isConnecting(), connection.getType(), currentAgent.agent.getState());
 	let state = undefined;
 	if (isOutbound(connection)) {
 		state = 'Outbound call';
 	} else if (isInbound(connection)) {
 		state = 'Inbound call';
+	} else if (isMissedCall(connection)) {
+		state = 'Missed';
 	} else if (isConnected(connection)) {
 		state = 'Connected';
 	} else if (isHold(connection)) {
@@ -167,10 +184,14 @@ class EventHandler {
 			bus.subscribe(connect.ContactEvents.ENDED, () => {
 				currentContact = undefined;
 			});
+			bus.subscribe(connect.ContactEvents.MISSED, (e) => {
+				console.warn('~MISSED', e);
+			});
 			bus.subscribe(connect.ContactEvents.DESTROYED, () => {
 				currentContact = undefined;
 			});
 			bus.subscribe(connect.ContactEvents.CONNECTED, e => {
+				console.warn('~CONNECTED', e);
 				const session = agentHandler.getSession();
 				if (session._remoteAudioStream) {
 					this.dispatch(onRemoteStream(session._remoteAudioStream))
