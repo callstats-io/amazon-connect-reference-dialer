@@ -8,6 +8,7 @@ import sessionManager from "../../../api/sessionManager";
 
 import BothHoldView from './components/bothhold';
 import BothJoined from "./components/bothjoined";
+import {onRequestShowDialPad} from "../../../reducers/acReducer";
 
 // two participant in the conference are both in hold state
 const isBothHold = (currentState = undefined) => {
@@ -53,7 +54,7 @@ class LowerBody extends Component {
 	}
 
 	dialNumber() {
-		console.warn('~dial number');
+		this.props.requestDialPad();
 	}
 
 	render() {
@@ -83,12 +84,17 @@ class LowerBody extends Component {
 LowerBody.propTypes = {
 	currentState: PropTypes.object,
 	muted: PropTypes.bool,
+	requestDialPad: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
 	currentState: state.acReducer.currentState,
 	muted: state.acReducer.muted || false,
 });
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+	requestDialPad: () => {
+		dispatch(onRequestShowDialPad('pending'));
+	},
+});
 
 export default connect(
 	mapStateToProps,
