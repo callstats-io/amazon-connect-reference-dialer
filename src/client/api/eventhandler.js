@@ -45,12 +45,6 @@ const isOutbound = (connection) => {
 		connection.isConnecting() === true && connection.getType() === 'outbound'
 };
 
-
-// if (status.type === "connected" && type === "inbound" && $rootScope.agentState !== 'Connected') {
-// 	return "PendingBusy";
-// }
-
-
 const isInbound = (connection) => {
 	return connection && connection.isActive() && connection.isConnected() &&
 		connection.getType() === 'inbound' &&
@@ -184,14 +178,10 @@ class EventHandler {
 			bus.subscribe(connect.ContactEvents.ENDED, () => {
 				currentContact = undefined;
 			});
-			bus.subscribe(connect.ContactEvents.MISSED, (e) => {
-				console.warn('~MISSED', e);
-			});
 			bus.subscribe(connect.ContactEvents.DESTROYED, () => {
 				currentContact = undefined;
 			});
 			bus.subscribe(connect.ContactEvents.CONNECTED, e => {
-				console.warn('~CONNECTED', e);
 				const session = agentHandler.getSession();
 				if (session._remoteAudioStream) {
 					this.dispatch(onRemoteStream(session._remoteAudioStream))
