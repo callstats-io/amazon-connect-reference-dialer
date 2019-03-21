@@ -1,3 +1,5 @@
+import {sleep} from './../../utils/acutils';
+
 export const isNeedToTransferCall = (contact = undefined) => {
 	return contact && contact.isConnected();
 };
@@ -77,4 +79,20 @@ export const resumeAll = (contact = undefined) => {
 		});
 
 	});
+};
+
+export const holdAll = (hold, ...connections) => {
+	const holdConnections = async () => {
+		for (let currentConnection of connections) {
+			try {
+				if (currentConnection) {
+					await hold(currentConnection);
+					sleep(200);
+				}
+			} catch (err) {
+				console.error(err);
+			}
+		}
+	};
+	return holdConnections();
 };

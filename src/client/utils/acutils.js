@@ -11,3 +11,9 @@ export const toHMS = (durationInMs = 0) => {
 	minutes = minutes % 60;
 	return `${toStr(hours)}:${toStr(minutes)}:${toStr(seconds)}`;
 };
+
+export const sleep = (ms = 0) => {
+	return new Promise((resolve) => {
+		setTimeout(() => resolve(), ms);
+	});
+};

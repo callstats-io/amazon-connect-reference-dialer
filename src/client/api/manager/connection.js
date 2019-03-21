@@ -92,3 +92,22 @@ export const hangupPrimaryConnection = (currentState = undefined) => {
 		});
 	});
 };
+
+
+export const getPrimaryConnection = (currentState = undefined) => {
+	if (!currentState) {
+		return undefined;
+	}
+
+	const connection = lo.get(currentState, 'primaryConnectionState.connection', undefined);
+	return connection;
+};
+
+export const getThirdPartyConnectionState = (currentState = undefined) => {
+	if (!currentState) {
+		return undefined;
+	}
+
+	const connection = lo.get(currentState, 'thirdPartyConnectionState.connection', undefined);
+	return connection;
+};

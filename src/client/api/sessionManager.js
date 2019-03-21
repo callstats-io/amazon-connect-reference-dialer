@@ -22,6 +22,7 @@ import {
 	acceptCall,
 	rejectCall,
 	dialContact,
+	holdAll,
 	resumeAll,
 } from './manager/contact'
 
@@ -32,6 +33,8 @@ import {
 	getPrimaryConnectionDuration,
 	getPrimaryConnectionPhone,
 	hangupPrimaryConnection,
+	getPrimaryConnection,
+	getThirdPartyConnectionState,
 } from './manager/connection';
 
 
@@ -168,6 +171,13 @@ class SessionManager {
 	dialContact(selectedContact = undefined) {
 		const currentContact = acManager.getCurrentContact();
 		return dialContact(currentContact, selectedContact);
+	}
+
+	holdAll() {
+		const currentState = acManager.getCurrentState();
+		const primaryConnection = getPrimaryConnection(currentState);
+		const thirdPartyConnection = getThirdPartyConnectionState(currentState);
+		return holdAll(holdConnection, primaryConnection, thirdPartyConnection);
 	}
 
 	resumeAll() {

@@ -48,7 +48,8 @@ class LowerBody extends Component {
 	}
 
 	holdAll() {
-		console.warn('~hold all');
+		sessionManager.holdAll().then(s => {
+		}, e => console.error(e));
 	}
 
 	dialNumber() {
