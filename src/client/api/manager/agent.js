@@ -162,3 +162,22 @@ export const getDialableCountries = (agent = undefined) => {
 	const dialableCountries = agentConfig && agentConfig.dialableCountries;
 	return dialableCountries;
 };
+
+export const setAgentAvailable = (agent = undefined) => {
+	return new Promise((resolve, reject) => {
+		if (!agent) {
+			reject('agent cannot be undefined');
+			return;
+		}
+		const agentState = agent.getAgentStates().find(item => item.name === 'Available');
+		agent && agent.setState(agentState, {
+			success: (data) => {
+				console.warn('-> setAgentState', data);
+			},
+			failure: (data) => {
+				console.error('-> setAgentState', data);
+			}
+		})
+	});
+
+};

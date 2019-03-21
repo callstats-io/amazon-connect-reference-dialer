@@ -2,11 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
-import agentStateManager from '../../api/agentStateManager';
+
 import AcceptOrReject from "../footer/components/acceptOrReject";
 import AvailableOrEnd from "../footer/components/availableOrEnd";
 import connectionHandler from "../../api/connectionHandler";
 import contactHandler from "../../api/contactHandler";
+
+import sessionManager from '../../api/sessionManager';
 import lo from "lodash";
 
 const AgentViewStyle = {
@@ -69,9 +71,8 @@ const getCurrentStateString = (currentState = undefined) => {
 	return state;
 };
 
-const requestAgentStateChange = () => {
-	let currentState = agentStateManager.getStateAsObject('Available');
-	currentState && agentStateManager.setAgentState(currentState);
+const setAvailable = () => {
+	sessionManager.setAgentAvailable();
 };
 
 const hangupCall = () => {
@@ -108,7 +109,7 @@ const Footer = ({currentState = {}}) => (
 				linkClass={AgentViewStyle.available.linkClass}
 				style={AgentViewStyle.available.style}
 				text={'Set to Available'}
-				onClickHandler={requestAgentStateChange}/>
+				onClickHandler={setAvailable}/>
 		}
 		{
 			_showEndCall(currentState) &&

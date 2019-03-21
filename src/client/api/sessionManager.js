@@ -13,6 +13,7 @@ import {
 	changeToSoftPhone,
 	changeToDeskphone,
 	getDialableCountries,
+	setAgentAvailable,
 } from './manager/agent';
 
 import {
@@ -109,6 +110,11 @@ class SessionManager {
 	getDialableCountries() {
 		let agent = agentHandler.getAgent();
 		return getDialableCountries(agent);
+	}
+
+	setAgentAvailable() {
+		let agent = agentHandler.getAgent();
+		return setAgentAvailable(agent);
 	}
 
 }
