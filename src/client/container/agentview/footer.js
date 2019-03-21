@@ -7,6 +7,7 @@ import AcceptOrReject from "../footer/components/acceptOrReject";
 import AvailableOrEnd from "../footer/components/availableOrEnd";
 import connectionHandler from "../../api/connectionHandler";
 import contactHandler from "../../api/contactHandler";
+import lo from "lodash";
 
 const AgentViewStyle = {
 	accept: {
@@ -19,7 +20,7 @@ const AgentViewStyle = {
 			fontFamily: 'AmazonEmber',
 			textAlign: 'center',
 			color: '#ffffff',
-			borderRadius:'0px',
+			borderRadius: '0px',
 		},
 	},
 	reject: {
@@ -32,7 +33,7 @@ const AgentViewStyle = {
 			fontFamily: 'AmazonEmber',
 			textAlign: 'center',
 			color: '#ffffff',
-			borderRadius:'0px',
+			borderRadius: '0px',
 		},
 	},
 	available: {
@@ -45,7 +46,7 @@ const AgentViewStyle = {
 			color: '#ffffff',
 			fontFamily: 'AmazonEmber',
 			fontSize: '14px',
-			borderRadius:'0px',
+			borderRadius: '0px',
 		}
 	},
 	end: {
@@ -58,17 +59,22 @@ const AgentViewStyle = {
 			color: '#ffffff',
 			fontFamily: 'AmazonEmber',
 			fontSize: '14px',
-			borderRadius:'0px',
+			borderRadius: '0px',
 		},
 	},
+};
+
+const getCurrentStateString = (currentState = undefined) => {
+	const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
+	return state;
 };
 
 const requestAgentStateChange = () => {
 	let currentState = agentStateManager.getStateAsObject('Available');
 	currentState && agentStateManager.setAgentState(currentState);
 };
+
 const hangupCall = () => {
-	console.warn('->', 'hangupCall');
 	connectionHandler.hangupCall();
 };
 
@@ -76,24 +82,27 @@ const acceptCall = () => {
 	contactHandler.acceptCall();
 };
 
-const _showAvailable = (agentState = null) => {
-	return agentState && agentState.toLowerCase() !== 'available' &&
-		!_showEndCall(agentState) &&
-		!_acceptRejectCall(agentState);
+const _showAvailable = (currentState = undefined) => {
+	const agentState = getCurrentStateString(currentState);
+	return !_showEndCall(currentState) &&
+		!_acceptRejectCall(currentState) &&
+		agentState !== 'Available';
 };
 
-const _showEndCall = (agentState = null) => {
-	return ['Connected',  'Joined', 'Outbound Call', 'On hold'].includes(agentState);
+const _showEndCall = (currentState = undefined) => {
+	const agentState = getCurrentStateString(currentState);
+	return ['Connected', 'Joined', 'Outbound Call', 'Outbound call', 'On hold', 'Hold'].includes(agentState);
 };
 
-const _acceptRejectCall = (agentState = null) => {
-	return ['Inbound Call'].includes(agentState)
+const _acceptRejectCall = (currentState = undefined) => {
+	const agentState = getCurrentStateString(currentState);
+	return ['Inbound Call', 'Inbound call'].includes(agentState)
 };
 
-const Footer = ({agentState = 'unknown'}) => (
+const Footer = ({currentState = {}}) => (
 	<div className="card-footer" style={{backgroundColor: 'inherit', borderTop: 0}}>
 		{
-			_showAvailable(agentState) &&
+			_showAvailable(currentState) &&
 			<AvailableOrEnd
 				divClass={AgentViewStyle.available.divClass}
 				linkClass={AgentViewStyle.available.linkClass}
@@ -102,7 +111,7 @@ const Footer = ({agentState = 'unknown'}) => (
 				onClickHandler={requestAgentStateChange}/>
 		}
 		{
-			_showEndCall(agentState) &&
+			_showEndCall(currentState) &&
 			<AvailableOrEnd divClass={AgentViewStyle.end.divClass}
 							linkClass={AgentViewStyle.end.linkClass}
 							style={AgentViewStyle.end.style}
@@ -112,7 +121,7 @@ const Footer = ({agentState = 'unknown'}) => (
 
 		}
 		{
-			_acceptRejectCall(agentState) &&
+			_acceptRejectCall(currentState) &&
 			<div className="row">
 				<AcceptOrReject
 					divClass={AgentViewStyle.accept.divClass}
@@ -133,10 +142,10 @@ const Footer = ({agentState = 'unknown'}) => (
 );
 
 Footer.propTypes = {
-	agentState: PropTypes.string,
+	currentState: PropTypes.object,
 };
 const mapStateToProps = state => ({
-	agentState: state.acReducer.agentState,
+	currentState: state.acReducer.currentState,
 });
 const mapDispatchToProps = dispatch => ({});
 

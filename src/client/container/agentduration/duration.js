@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-import agentHandler from './../../api/agentHandler';
+import sessionManager from './../../api/sessionManager';
+import PropTypes from "prop-types";
 
 const DURATION_MS = 1 * 1000;
 
@@ -32,7 +33,7 @@ class Duration extends Component {
 	componentDidMount() {
 		this._dispose();
 		this.intervalId = setInterval(() => {
-			let duration = agentHandler.stateDuration();
+			let duration = sessionManager.getPrimaryConnectionDuration();
 			this.setState({
 				duration: duration,
 			});
@@ -52,5 +53,9 @@ class Duration extends Component {
 		);
 	}
 }
+
+Duration.propTypes = {
+	currentState: PropTypes.string,
+};
 
 export default Duration;

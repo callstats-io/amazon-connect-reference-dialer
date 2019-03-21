@@ -129,6 +129,13 @@ export const onAvailableStream = (stream = undefined, isLocal = true) => {
 	}
 };
 
+export const onRemoteStream = (remoteStream = undefined) => {
+	return {
+		type: 'onRemoteStream',
+		remoteStream,
+	}
+};
+
 const acReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case 'onInitializationStateChange':
@@ -249,6 +256,11 @@ const acReducer = (state = INITIAL_STATE, action) => {
 				...state,
 				stream: action.stream,
 				isLocal: action.isLocal,
+			};
+		case 'onRemoteStream':
+			return {
+				...state,
+				remoteStream: action.onRemoteStream,
 			};
 		case 'onCCPError':
 			return {

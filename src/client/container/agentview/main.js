@@ -11,6 +11,7 @@ const isSingle = (currentState = undefined) => {
 	return currentState && !currentState.thirdPartyConnectionState;
 };
 
+
 const AgentView = ({initialized = false, currentState = undefined}) => (
 	initialized &&
 	<div className={`row h-100`}>

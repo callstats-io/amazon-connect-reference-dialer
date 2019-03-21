@@ -1,5 +1,6 @@
 import {
 	onCCPError,
+	onRemoteStream,
 	onStateChange,
 } from "../reducers/acReducer";
 
@@ -130,6 +131,7 @@ class EventHandler {
 					thirdPartyConnectionState: undefined,
 				};
 				currentState = payload;
+				window.currentState = currentState;
 				this.dispatch(onStateChange(payload));
 			});
 			bus.subscribe(connect.ContactEvents.REFRESH, e => {
@@ -146,6 +148,7 @@ class EventHandler {
 				//in that case use agent state
 				if (primaryConnectionState || thirdPartyConnectionState) {
 					currentState = payload;
+					window.currentState = currentState;
 					this.dispatch(onStateChange(payload));
 				} else {
 					let payload = {
@@ -153,6 +156,7 @@ class EventHandler {
 						thirdPartyConnectionState: undefined,
 					};
 					currentState = payload;
+					window.currentState = currentState;
 					this.dispatch(onStateChange(payload));
 				}
 
@@ -166,6 +170,7 @@ class EventHandler {
 			bus.subscribe(connect.ContactEvents.SESSION, (session) => {
 				const remoteStream = session._remoteAudioStream;
 				console.warn('~', 'onRemoteStream', remoteStream);
+				this.dispatch(onRemoteStream(remoteStream));
 			});
 		}
 	}

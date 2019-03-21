@@ -72,9 +72,7 @@ class UpperBody extends Component {
 				<AgentMutedLabel muted={this.props.muted}/>}
 
 				{!hasError &&
-				<PeerAndAgentDuration currentState={this.props.agentState}
-									  phoneNumber={this.props.phoneNumber}
-									  duration={this.props.duration}
+				<PeerAndAgentDuration currentState={state}
 									  remoteStream={this.props.remoteStream}/>}
 				{hasError &&
 				<Error errorMessage={this.props.errorMessage}/>}
@@ -93,7 +91,7 @@ UpperBody.propTypes = {
 const mapStateToProps = state => ({
 	currentState: state.acReducer.currentState,
 	muted: state.acReducer.muted,
-	remoteStream: state.acReducer.stream,
+	remoteStream: state.acReducer.remoteStream,
 	errorMessage: state.acReducer.errorMessage,
 });
 const mapDispatchToProps = dispatch => ({});

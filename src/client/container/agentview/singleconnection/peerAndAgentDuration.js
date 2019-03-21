@@ -1,26 +1,31 @@
 import React from "react";
 import PropTypes from "prop-types";
+import sessionManager from './../../../api/sessionManager';
 
-
-const isConnected = (agentState) => {
-	return ['Connected', 'Joined', 'On hold'].includes(agentState);
+const isConnected = (currentState = "") => {
+	return ['Connected', 'Joined', 'On hold', 'Hold'].includes(currentState);
 };
 
-const showPhoneNumber = (agentState) => {
-	return ['Connected',  'Joined', 'Inbound Call', 'Outbound Call', 'On hold'].includes(agentState);
+const showPhoneNumber = (currentState = "") => {
+	console.warn('~', currentState);
+	return ['Connected', 'Joined', 'Inbound call', 'Outbound call', 'On hold', 'Hold'].includes(currentState);
+};
+
+const getPhoneNumber = (currentState = "") => {
+	return sessionManager.getPrimaryConnectionPhone();
 };
 
 import RemoteAudioLevel from '../../audiolabelview/audiolevelRemote';
 import Duration from "../../agentduration/duration";
 import styles from './agentview.css';
 
-const PeerAndAgentDuration = ({agentState = 'unknown', phoneNumber = '', remoteStream = undefined}) => (
+const PeerAndAgentDuration = ({currentState = undefined, remoteStream = undefined}) => (
 	<div className={`col-md-12`}>
 		<div className={`row`}>
 			<div className={`col-md-6`}>
-				{showPhoneNumber(agentState) &&
+				{showPhoneNumber(currentState) &&
 				<span className={`m-0 ${styles.peerAndAgentDurationText}`}>
-					{isConnected(agentState) ? 'With' : 'To'}
+					{isConnected(currentState) ? 'With' : 'To'}
 				</span>
 				}
 			</div>
@@ -29,22 +34,21 @@ const PeerAndAgentDuration = ({agentState = 'unknown', phoneNumber = '', remoteS
 			</div>
 			<div className={`col-md-6 align-self-center pr-0 mr-0`}>
 				{
-					showPhoneNumber(agentState) &&
-					<span className={`m-0 ${styles.peerAndAgentDurationText}`}>{phoneNumber}</span>
+					showPhoneNumber(currentState) &&
+					<span className={`m-0 ${styles.peerAndAgentDurationText}`}>{getPhoneNumber(currentState)}</span>
 				}
 			</div>
 			<div className={`col-md-2 pl-0 ml-0 text-center`}>
-					{showPhoneNumber(agentState) &&
-					<RemoteAudioLevel remoteStream={remoteStream}/>}
+				{showPhoneNumber(currentState) &&
+				<RemoteAudioLevel remoteStream={remoteStream}/>}
 			</div>
-			<Duration/>
+			<Duration currentState={currentState}/>
 		</div>
 	</div>
 );
 
 PeerAndAgentDuration.propTypes = {
-	agentState: PropTypes.string,
-	phoneNumber: PropTypes.string,
+	currentState: PropTypes.string,
 	remoteStream: PropTypes.object,
 };
 

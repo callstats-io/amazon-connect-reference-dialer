@@ -13,6 +13,8 @@ import {
 	holdConnection,
 	resumeConnection,
 	getPrimaryAgentState,
+	getPrimaryConnectionDuration,
+	getPrimaryConnectionPhone,
 } from './manager/connection';
 
 class SessionManager {
@@ -56,6 +58,16 @@ class SessionManager {
 	getPrimaryAgentState() {
 		const currentState = acManager.getCurrentState();
 		return getPrimaryAgentState(currentState);
+	}
+
+	getPrimaryConnectionDuration() {
+		const currentState = acManager.getCurrentState();
+		return getPrimaryConnectionDuration(currentState);
+	}
+
+	getPrimaryConnectionPhone() {
+		const currentState = acManager.getCurrentState();
+		return getPrimaryConnectionPhone(currentState);
 	}
 
 }
