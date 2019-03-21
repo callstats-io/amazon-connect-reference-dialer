@@ -15,6 +15,7 @@ const durationCSS = {
 };
 
 // Will show the duration of current agent state duration
+// todo might need to update for conference
 class Duration extends Component {
 	constructor(props) {
 		super(props);

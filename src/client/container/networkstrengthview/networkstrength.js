@@ -1,6 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
-import {connect} from "react-redux";
 
 import networkStrength1 from '../../res/images/fa-network-strength-1.svg';
 import networkStrength2 from '../../res/images/fa-network-strength-2.svg';
