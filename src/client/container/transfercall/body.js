@@ -5,7 +5,6 @@ import styles from './transfercall.css';
 
 
 import sessionManager from './../../api/sessionManager';
-import contactHandler from './../../api/contactHandler';
 
 import {
 	onRequestShowTransferCall,

@@ -5,8 +5,6 @@ import {connect} from "react-redux";
 
 import AcceptOrReject from "../footer/components/acceptOrReject";
 import AvailableOrEnd from "../footer/components/availableOrEnd";
-import connectionHandler from "../../api/connectionHandler";
-import contactHandler from "../../api/contactHandler";
 
 import sessionManager from '../../api/sessionManager';
 import lo from "lodash";

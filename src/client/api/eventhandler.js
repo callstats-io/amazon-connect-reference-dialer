@@ -4,10 +4,6 @@ import {
 	onStateChange,
 } from "../reducers/acReducer";
 
-import {
-	isError
-} from "./agenetevents";
-
 import agentHandler from './agentHandler';
 
 // Outbound call = connection.isActive() && connection.isConnecting() && connection.getType() === 'outbound'
@@ -23,6 +19,12 @@ let currentContact;
 let currentState;
 
 const agentStates = ['Init', 'Available', 'Offline', 'AfterCallWork', 'FailedConnectCustomer', 'FailedConnectAgent', 'Quality Issue'];
+
+const isError = (e) => {
+	if (e && e.errorType && e.errorMessage) {
+		return true;
+	}
+};
 const getAgentState = (e) => {
 	const {agent, newState} = e;
 	if (!agentStates.includes(newState)) {
