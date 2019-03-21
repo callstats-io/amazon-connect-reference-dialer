@@ -42,6 +42,22 @@ export const getTransferConnList = (agent = undefined) => {
 	});
 };
 
+export const getEndpointByPhone = (agent = undefined, phoneNumber = null) => {
+	return new Promise((resolve, reject) => {
+		if (!agent) {
+			reject('agent can not be undefined');
+			return;
+		}
+		if (!phoneNumber) {
+			reject('phone number required');
+			return;
+		}
+		phoneNumber = phoneNumber.replace(/\s/g, "");
+		let endpoint = connect.Endpoint.byPhoneNumber(phoneNumber);
+		resolve(endpoint);
+	});
+};
+
 export const dialNumber = (agent = undefined, phoneNumber = null) => {
 	return new Promise((resolve, reject) => {
 		if (!phoneNumber) {

@@ -1,3 +1,7 @@
+export const isNeedToTransferCall = (contact = undefined) => {
+	return contact && contact.isConnected();
+};
+
 export const acceptCall = (contact = undefined) => {
 	return new Promise((resolve, reject) => {
 		if (!contact) {
@@ -43,7 +47,7 @@ export const dialContact = (contact = undefined, selectedContact = undefined) =>
 			return;
 		}
 		if (!selectedContact) {
-			reject('dialed contact is undefined');
+			reject('dialed selected contact is undefined');
 			return;
 		}
 		contact.addConnection(selectedContact, {
@@ -54,5 +58,23 @@ export const dialContact = (contact = undefined, selectedContact = undefined) =>
 				reject({err, data});
 			}
 		});
+	});
+};
+
+export const resumeAll = (contact = undefined) => {
+	return new Promise((resolve, reject) => {
+		if (!contact) {
+			reject('contact is undefined');
+			return;
+		}
+		contact.conferenceConnections({
+			success: (success) => {
+				resolve(success);
+			},
+			failure: (err) => {
+				reject(err);
+			}
+		});
+
 	});
 };

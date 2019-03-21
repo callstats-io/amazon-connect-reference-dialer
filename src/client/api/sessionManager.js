@@ -14,12 +14,15 @@ import {
 	changeToDeskphone,
 	getDialableCountries,
 	setAgentAvailable,
+	getEndpointByPhone,
 } from './manager/agent';
 
 import {
+	isNeedToTransferCall,
 	acceptCall,
 	rejectCall,
 	dialContact,
+	resumeAll,
 } from './manager/contact'
 
 import {
@@ -37,9 +40,31 @@ class SessionManager {
 
 	}
 
+	isNeedToTransferCall() {
+		const contact = acManager.getCurrentContact();
+		return isNeedToTransferCall(contact);
+	}
+
+	// it can be simply just dialing a number
+	// or can be a transfer call to another number
 	dialNumber(phoneNumber = null) {
-		const agent = agentHandler.getAgent();
-		return dialNumber(agent, phoneNumber);
+		if (!this.isNeedToTransferCall()) {
+			// simply dial the number
+			const agent = agentHandler.getAgent();
+			return dialNumber(agent, phoneNumber);
+		} else {
+			// get the contact (endpoint) by phone number, and transfer it
+			// by using addConnection method of contact using dialContact wrapper
+			const agent = agentHandler.getAgent();
+			return getEndpointByPhone(agent, phoneNumber).then(endpoint => {
+				const currentContact = acManager.getCurrentContact();
+				return dialContact(currentContact, endpoint);
+			}).catch(err => {
+				return new Promise((resolve, reject) => {
+					reject(err);
+				});
+			});
+		}
 	}
 
 	getQuickConnectionList() {
@@ -143,6 +168,11 @@ class SessionManager {
 	dialContact(selectedContact = undefined) {
 		const currentContact = acManager.getCurrentContact();
 		return dialContact(currentContact, selectedContact);
+	}
+
+	resumeAll() {
+		const currentContact = acManager.getCurrentContact();
+		return resumeAll(currentContact);
 	}
 }
 

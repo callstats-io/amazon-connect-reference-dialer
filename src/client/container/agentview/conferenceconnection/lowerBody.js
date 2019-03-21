@@ -43,7 +43,8 @@ class LowerBody extends Component {
 	}
 
 	resumeAll() {
-		console.warn('~resumed all');
+		sessionManager.resumeAll().then(s => {
+		}, e => console.error(e));
 	}
 
 	holdAll() {
