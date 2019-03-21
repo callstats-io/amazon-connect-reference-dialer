@@ -39,14 +39,14 @@ const isBothJoined = (currentState = undefined) => {
 };
 
 // one is connected, and another one is on hold
+// or some other scenario where both have different connection state
 const isOneHoldOtherConnected = (currentState = undefined) => {
 	if (!currentState) {
 		return false;
 	}
 	const primaryConnectionState = lo.get(currentState, 'primaryConnectionState.state', 'none');
 	const thirdPartyConnectionState = lo.get(currentState, 'thirdPartyConnectionState.state', 'none');
-	return primaryConnectionState !== thirdPartyConnectionState &&
-		(isConnected(primaryConnectionState) || isConnected(thirdPartyConnectionState));
+	return primaryConnectionState !== thirdPartyConnectionState;
 };
 
 class LowerBody extends Component {
