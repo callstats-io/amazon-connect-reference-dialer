@@ -12,7 +12,7 @@ const BothJoined = ({muted = false, dialNumber, holdAll, toggleMuteUnmute}) => (
 		<HoldAll holdAll={holdAll}/>
 		<MuteUnmute muted={muted}
 					toggleMuteUnmute={toggleMuteUnmute}
-					marginTop={'mt-3'}/>
+					marginTop={'mt-1'}/>
 	</div>
 );
 

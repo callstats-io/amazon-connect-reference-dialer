@@ -39,7 +39,6 @@ const isBothJoined = (currentState = undefined) => {
 };
 
 // one is connected, and another one is on hold
-
 const isOneHoldOtherConnected = (currentState = undefined) => {
 	if (!currentState) {
 		return false;
@@ -47,7 +46,6 @@ const isOneHoldOtherConnected = (currentState = undefined) => {
 	const primaryConnectionState = lo.get(currentState, 'primaryConnectionState.state', 'none');
 	const thirdPartyConnectionState = lo.get(currentState, 'thirdPartyConnectionState.state', 'none');
 	return primaryConnectionState !== thirdPartyConnectionState &&
-		(isHold(primaryConnectionState) || isHold(thirdPartyConnectionState)) &&
 		(isConnected(primaryConnectionState) || isConnected(thirdPartyConnectionState));
 };
 

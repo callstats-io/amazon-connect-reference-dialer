@@ -19,10 +19,10 @@ const OneHoldOtherConnected = ({muted = false, joinConnection, swapConnection, h
 		<Join joinConnection={joinConnection}/>
 		<Swap swapConnection={swapConnection}/>
 
-		<HoldAll holdAll={holdAll} marginTop={'mt-3'}/>
-		<DialNumber dialNumber={dialNumber} marginTop={'mt-3'}/>
+		<HoldAll holdAll={holdAll} marginTop={'mt-1'}/>
+		<DialNumber dialNumber={dialNumber} marginTop={'mt-1'}/>
 
-		<MuteUnmute muted={muted} toggleMuteUnmute={toggleMuteUnmute} marginTop={'mt-3'}/>
+		<MuteUnmute muted={muted} toggleMuteUnmute={toggleMuteUnmute} marginTop={'mt-1'}/>
 	</div>
 );
 
