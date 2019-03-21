@@ -3,40 +3,43 @@ import {connect} from "react-redux";
 
 import activeIcon from '../../res/images/fa-tick-mark.svg'
 import PropTypes from "prop-types";
+import lo from 'lodash';
+
 import styles from './statuschange.css';
 
 import {
 	onRequestAgentStateChange
 } from "../../reducers/acReducer";
 
-import agentStateManager from './../../api/agentStateManager';
+import sessionManage from "../../api/sessionManager";
 
 // get list of states using api
 const getAgentStates = () => {
-	let agentStates = agentStateManager.getAgentStates();
-	return agentStates || [];
+	let agentStates = sessionManage.getAgentStates() || [];
+	return agentStates
 };
 
 // change state using api
-const changeAgentState = (currentState) => {
-	agentStateManager.setAgentState(currentState);
+const changeAgentState = (currentAgentState) => {
+	sessionManage.setAgentState(currentAgentState).then(success => _, err => console.error('->', err));
 };
 
-const isCurrentState = (currentState, agentState) => {
-	return currentState && currentState.name === agentState;
+const isCurrentState = (currentAgentState, currentState) => {
+	const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
+	return currentAgentState && currentAgentState.name === state;
 };
 
-const Body = ({agentState = 'unknown', requestAgentStateChange}) => (
+const Body = ({currentState = {}, requestAgentStateChange}) => (
 	<div className={`card-body`}>
-		{getAgentStates().map((currentState) => (
-			<div key={`agent-state-${currentState.name}`} className={`row ${styles.acPointer} ${styles.acList}`}
-				 onClick={() => requestAgentStateChange(currentState)}>
+		{getAgentStates().map((currentAgentState) => (
+			<div key={`agent-state-${currentAgentState.name}`} className={`row ${styles.acPointer} ${styles.acList}`}
+				 onClick={() => requestAgentStateChange(currentAgentState)}>
 				<div className="col-md-2">
-					{isCurrentState(currentState, agentState) && <img src={activeIcon}/>}
+					{isCurrentState(currentAgentState, currentState) && <img src={activeIcon}/>}
 				</div>
 				<div className="col-md-10">
 					<span
-						className={`${ isCurrentState(currentState, agentState) ? styles.acSpanSelected : styles.acSpanNormal}`}> {currentState.name}</span>
+						className={`${ isCurrentState(currentAgentState, currentState) ? styles.acSpanSelected : styles.acSpanNormal}`}> {currentAgentState.name}</span>
 				</div>
 			</div>
 		))}
@@ -44,16 +47,16 @@ const Body = ({agentState = 'unknown', requestAgentStateChange}) => (
 );
 
 Body.propTypes = {
-	agentState: PropTypes.string,
+	currentState: PropTypes.object,
 	requestAgentStateChange: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
-	agentState: state.acReducer.agentState || 'unknown',
+	currentState: state.acReducer.currentState,
 });
 
 const mapDispatchToProps = dispatch => ({
-	requestAgentStateChange: (currentState) => {
-		changeAgentState(currentState);
+	requestAgentStateChange: (currentAgentState) => {
+		changeAgentState(currentAgentState);
 		dispatch(onRequestAgentStateChange('complete'));
 	}
 });

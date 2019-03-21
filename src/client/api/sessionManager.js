@@ -6,7 +6,8 @@ import {
 	getQuickConnectionList,
 	getTransferConnList,
 	mute,
-	unmute
+	unmute,
+	setAgentState,
 } from './manager/agent';
 
 import {
@@ -68,6 +69,16 @@ class SessionManager {
 	getPrimaryConnectionPhone() {
 		const currentState = acManager.getCurrentState();
 		return getPrimaryConnectionPhone(currentState);
+	}
+
+	getAgentStates() {
+		const agent = agentHandler.getAgent();
+		return agent.getAgentStates() || [];
+	}
+
+	setAgentState(agentState = undefined) {
+		let agent = agentHandler.getAgent();
+		return setAgentState(agent, agentState);
 	}
 
 }

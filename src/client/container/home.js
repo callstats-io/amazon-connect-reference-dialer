@@ -67,7 +67,7 @@ class Home extends Component {
 						requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects,
 						requestShowTransferCall) &&
 					<AgentView/>}
-				{/*{
+				{
 					this.showStateChangeView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
 						requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects,
 						requestShowTransferCall) &&
@@ -100,7 +100,7 @@ class Home extends Component {
 				{
 					this.showTransferCall(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
 						requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
-					<TransferCallView/>}*/}
+					<TransferCallView/>}
 
 			</div>
 		);

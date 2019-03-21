@@ -75,3 +75,16 @@ export const unmute = (agent = undefined) => {
 		agent.unmute();
 	}
 };
+
+export const setAgentState = (agent, agentState) => {
+	return new Promise((resolve, reject) => {
+		agentState && agent && agent.setState(agentState, {
+			success: (data) => {
+				resolve('success');
+			},
+			failure: (data) => {
+				reject(data);
+			}
+		})
+	});
+};
