@@ -11,11 +11,9 @@ import {
 
 import styles from './dialpad.css';
 
-import agentConfigManager from './../../api/agentConfigManager';
+import sessionManager from './../../api/sessionManager';
 import DialPad from './dialpad';
 import lo from 'lodash';
-import agentHandler from "../../api/agentHandler";
-
 
 class Body extends Component {
 	constructor(props) {
@@ -50,7 +48,7 @@ class Body extends Component {
 
 	dialNumber() {
 		const {phoneNumber} = this.state;
-		agentHandler.dialNumber(phoneNumber).then(success => {
+		sessionManager.dialNumber(phoneNumber).then(success => {
 			this.closeDialPad();
 		}, err => {
 			console.error(err);
@@ -58,7 +56,7 @@ class Body extends Component {
 	}
 
 	render() {
-		const dialableCountries = agentConfigManager.getDialableCountries();
+		const dialableCountries = sessionManager.getDialableCountries();
 		return (
 			<div className="card-body" style={{backgroundColor: '#ffffff'}}>
 				<div className="row">
