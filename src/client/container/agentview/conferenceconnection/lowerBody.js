@@ -8,8 +8,16 @@ import sessionManager from "../../../api/sessionManager";
 
 import BothHoldView from './components/bothhold';
 import BothJoined from "./components/bothjoined";
+import OneHoldOtherConnected from "./components/oneHoldOtherConnected";
+
 import {onRequestShowDialPad} from "../../../reducers/acReducer";
 
+const isHold = (state) => {
+	return ['Hold', 'hold'].includes(state);
+};
+const isConnected = (state) => {
+	return ['Join', 'Joined', 'Connected'].includes(state);
+};
 // two participant in the conference are both in hold state
 const isBothHold = (currentState = undefined) => {
 	if (!currentState) {
@@ -17,7 +25,7 @@ const isBothHold = (currentState = undefined) => {
 	}
 	const primaryConnectionState = lo.get(currentState, 'primaryConnectionState.state', 'none');
 	const thirdPartyConnectionState = lo.get(currentState, 'thirdPartyConnectionState.state', 'none');
-	return primaryConnectionState === thirdPartyConnectionState && ['Hold', 'hold'].includes(primaryConnectionState);
+	return primaryConnectionState === thirdPartyConnectionState && isHold(primaryConnectionState);
 };
 
 // both are joined state
@@ -27,7 +35,20 @@ const isBothJoined = (currentState = undefined) => {
 	}
 	const primaryConnectionState = lo.get(currentState, 'primaryConnectionState.state', 'none');
 	const thirdPartyConnectionState = lo.get(currentState, 'thirdPartyConnectionState.state', 'none');
-	return primaryConnectionState === thirdPartyConnectionState && ['Join', 'Joined', 'Connected'].includes(primaryConnectionState);
+	return primaryConnectionState === thirdPartyConnectionState && isConnected(primaryConnectionState);
+};
+
+// one is connected, and another one is on hold
+
+const isOneHoldOtherConnected = (currentState = undefined) => {
+	if (!currentState) {
+		return false;
+	}
+	const primaryConnectionState = lo.get(currentState, 'primaryConnectionState.state', 'none');
+	const thirdPartyConnectionState = lo.get(currentState, 'thirdPartyConnectionState.state', 'none');
+	return primaryConnectionState !== thirdPartyConnectionState &&
+		(isHold(primaryConnectionState) || isHold(thirdPartyConnectionState)) &&
+		(isConnected(primaryConnectionState) || isConnected(thirdPartyConnectionState));
 };
 
 class LowerBody extends Component {
@@ -37,6 +58,8 @@ class LowerBody extends Component {
 		this.resumeAll = this.resumeAll.bind(this);
 		this.holdAll = this.holdAll.bind(this);
 		this.dialNumber = this.dialNumber.bind(this);
+		this.joinConnection = this.joinConnection.bind(this);
+		this.swapConnection = this.swapConnection.bind(this);
 	}
 
 	toggleMuteUnmute() {
@@ -57,6 +80,18 @@ class LowerBody extends Component {
 		this.props.requestDialPad();
 	}
 
+	joinConnection() {
+		console.warn('~joinConnection');
+	}
+
+	swapConnection() {
+		console.warn('~swapConnection');
+	}
+
+	swapConnection() {
+		console.warn('~swapConnection');
+	}
+
 	render() {
 		const currentState = this.props.currentState;
 		const muted = this.props.muted;
@@ -73,6 +108,15 @@ class LowerBody extends Component {
 																  dialNumber={this.dialNumber}
 																  toggleMuteUnmute={this.toggleMuteUnmute}
 																  holdAll={this.holdAll}/>
+					}
+					{
+						isOneHoldOtherConnected(currentState) &&
+						<OneHoldOtherConnected joinConnection={this.joinConnection}
+											   swapConnection={this.swapConnection}
+											   holdAll={this.holdAll}
+											   dialNumber={this.dialNumber}
+											   toggleMuteUnmute={this.toggleMuteUnmute}
+											   muted={muted}/>
 					}
 
 				</div>

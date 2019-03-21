@@ -1,24 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styles from './../agentview.css';
 
-import holdIcon from '../../../../res/images/fa-hold.svg';
 
 import DialNumber from './dialnumber';
 import MuteUnmute from './togglemute';
-
-const HoldAll = ({holdAll}) => (
-	<div className="col-md-6">
-		<a className={`btn ${styles.buttonCommon}`}
-		   onClick={holdAll}
-		   href="#">
-			<img src={holdIcon}/> &nbsp; Hold all
-		</a>
-	</div>
-);
-HoldAll.propTypes = {
-	holdAll: PropTypes.func
-};
+import HoldAll from './holdall';
 
 const BothJoined = ({muted = false, dialNumber, holdAll, toggleMuteUnmute}) => (
 	<div className={`row mt-3`}>
