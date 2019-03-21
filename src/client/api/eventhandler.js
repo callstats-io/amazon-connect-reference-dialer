@@ -41,11 +41,13 @@ const isMultipartyCall = (contact) => {
 };
 
 const isOutbound = (connection) => {
-	return connection && connection.isActive() && connection.isConnecting() && connection.getType() === 'outbound'
+	return connection && connection.isActive() && connection.isConnected() === false &&
+		connection.isConnecting() === true && connection.getType() === 'outbound'
 };
 
 const isInbound = (connection) => {
-	return connection && connection.isActive() && connection.isConnecting() && connection.getType() === 'inbound'
+	return connection && connection.isActive() && connection.isConnected() &&
+		connection.isConnecting() === false && connection.getType() === 'inbound';
 };
 
 const isConnected = (connection) => {
@@ -73,7 +75,7 @@ const getConnectionState = (contact = undefined, isPrimary = true) => {
 	if (!connection) {
 		return undefined;
 	}
-
+	console.warn('!!', connection.isActive(), connection.isConnected(), connection.isConnecting(), connection.getType());
 	let state = undefined;
 	if (isOutbound(connection)) {
 		state = 'Outbound call';
