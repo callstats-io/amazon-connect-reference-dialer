@@ -11,6 +11,11 @@ const showPhoneNumber = (currentState = "") => {
 	return ['Connected', 'Joined', 'Inbound call', 'Outbound call', 'On hold', 'Hold'].includes(currentState);
 };
 
+const showRemoteAudio = (currentState = "") => {
+	console.warn('~showRemoteAudio', currentState);
+	return ['Connected', 'Joined', 'On hold', 'Hold'].includes(currentState);
+};
+
 const getPhoneNumber = (currentState = "") => {
 	return sessionManager.getPrimaryConnectionPhone();
 };
@@ -39,8 +44,9 @@ const PeerAndAgentDuration = ({currentState = undefined, remoteStream = undefine
 				}
 			</div>
 			<div className={`col-md-2 pl-0 ml-0 text-center`}>
-				{showPhoneNumber(currentState) &&
-				<RemoteAudioLevel remoteStream={remoteStream}/>}
+				{showRemoteAudio(currentState) &&
+				<RemoteAudioLevel remoteStream={remoteStream}
+								  agentStateFn={sessionManager.getPrimaryAgentState}/>}
 			</div>
 			<Duration currentState={currentState}/>
 		</div>

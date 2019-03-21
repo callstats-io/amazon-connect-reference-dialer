@@ -19,7 +19,7 @@ class RemoteAudioLevel extends React.Component {
 		}
 		const canvas = this.refs.canvas;
 		const canvasCtx = canvas.getContext("2d");
-		this.audioMeter.startVisualization(remoteStream, canvasCtx, canvas);
+		this.audioMeter.startVisualization(remoteStream, canvasCtx, canvas, nextProps.backgroundColor, nextProps.agentStateFn);
 		return true;
 	}
 
@@ -30,7 +30,7 @@ class RemoteAudioLevel extends React.Component {
 		}
 		const canvas = this.refs.canvas;
 		const canvasCtx = canvas.getContext("2d");
-		this.audioMeter.startVisualization(remoteStream, canvasCtx, canvas);
+		this.audioMeter.startVisualization(remoteStream, canvasCtx, canvas, this.props.backgroundColor, this.props.agentStateFn);
 	}
 
 	componentWillUnmount() {
@@ -50,6 +50,7 @@ class RemoteAudioLevel extends React.Component {
 
 RemoteAudioLevel.propTypes = {
 	remoteStream: PropTypes.object,
+	agentStateFn: PropTypes.func,
 };
 
 export default RemoteAudioLevel;

@@ -8,6 +8,8 @@ import {
 	isError
 } from "./agenetevents";
 
+import agentHandler from './agentHandler';
+
 // Outbound call = connection.isActive() && connection.isConnecting() && connection.getType() === 'outbound'
 // Incoming call = connection.isActive() && connection.isConnecting() && connection.getType() === 'inbound'
 // Connected = connection.isActive() && connection.isConnected() && isMultipartyCall() === false;
@@ -159,7 +161,6 @@ class EventHandler {
 					window.currentState = currentState;
 					this.dispatch(onStateChange(payload));
 				}
-
 			});
 			bus.subscribe(connect.ContactEvents.ENDED, () => {
 				currentContact = undefined;
@@ -167,10 +168,11 @@ class EventHandler {
 			bus.subscribe(connect.ContactEvents.DESTROYED, () => {
 				currentContact = undefined;
 			});
-			bus.subscribe(connect.ContactEvents.SESSION, (session) => {
-				const remoteStream = session._remoteAudioStream;
-				console.warn('~', 'onRemoteStream', remoteStream);
-				this.dispatch(onRemoteStream(remoteStream));
+			bus.subscribe(connect.ContactEvents.CONNECTED, e => {
+				const session = agentHandler.getSession();
+				if (session._remoteAudioStream) {
+					this.dispatch(onRemoteStream(session._remoteAudioStream))
+				}
 			});
 		}
 	}

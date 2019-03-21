@@ -260,7 +260,7 @@ const acReducer = (state = INITIAL_STATE, action) => {
 		case 'onRemoteStream':
 			return {
 				...state,
-				remoteStream: action.onRemoteStream,
+				remoteStream: action.remoteStream,
 			};
 		case 'onCCPError':
 			return {

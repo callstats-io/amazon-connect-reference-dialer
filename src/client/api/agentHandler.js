@@ -1,8 +1,10 @@
-import {onInitializationStateChange, onMuteToggle} from "../reducers/acReducer";
+import {onInitializationStateChange, onMuteToggle, onRemoteStream} from "../reducers/acReducer";
+
 class AgentHandler {
 	constructor() {
 		this.dispatch = undefined;
 		this.agent = undefined;
+		this.session = undefined;
 	}
 
 	dispose() {
@@ -20,12 +22,21 @@ class AgentHandler {
 		agent.onMuteToggle((e) => {
 			this.dispatch(onMuteToggle(e && e.muted))
 		});
+		//hack to get remote stream
+		connect.contact(contact => {
+			contact && contact.onSession(session => {
+				this.session = session;
+			});
+		});
 	}
 
 	getAgent() {
 		return this.agent;
 	}
 
+	getSession() {
+		return this.session;
+	}
 }
 
 const agentHandler = new AgentHandler();
