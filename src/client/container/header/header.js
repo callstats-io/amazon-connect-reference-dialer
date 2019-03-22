@@ -33,7 +33,7 @@ const NetworkStrengthChange = () => (
 );
 
 const DialerSettings = ({onClickHandler}) => (
-	<div className={`col-md-2 border-left ${styles.acPointer}`}
+	<div className={`col-md-2 border-left ${styles.acPointer} ${styles.leftBorder}`}
 		 onClick={onClickHandler}>
 		<img src={dialerSettingIcon} className={styles.dialerImage}/>
 	</div>

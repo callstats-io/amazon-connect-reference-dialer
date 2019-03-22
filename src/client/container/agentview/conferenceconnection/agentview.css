@@ -36,15 +36,15 @@
 }
 
 .agentState {
-    font-family: AmazonEmber;
+    font-family: AmazonEmber-light;
     color: #ffffff;
-    font-size: 24px;
+    font-size: 26px;
 }
 
 .agentStateMini {
-    font-family: AmazonEmber;
+    font-family: AmazonEmber-light;
     color: #ffffff;
-    font-size: 20px;
+    font-size: 26px;
 }
 
 .phoneAndDurationMini {
@@ -81,7 +81,10 @@
     background-size: 24px 24px;
     width: 24px;
     height: 24px;
-    margin-left: 7%;
+    /*margin-left: 7%;*/
+
+    margin-right: 5% !important;
+    margin-top: 10% !important;
     cursor: pointer;
 }
 
@@ -91,4 +94,5 @@
     height: 24px;
     /*margin-left: 5% !important;*/
     cursor: pointer;
+    margin-top: 10% !important;
 }

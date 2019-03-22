@@ -96,19 +96,17 @@ class ThirdPartyConnection extends Component {
 					<div className={`col-md-8 mt-2 ${styles.agentStateMini}`}>
 						<span> {stateString} </span>
 					</div>
-					<div className="col-md-4 mt-2"
-						 style={!isJoined(currentState) && !isBothHold(currentState) ? {paddingLeft: '15%'} : {}}>
+					<div className="col-md-4 mt-2 text-right">
 						{isJoined(currentState) &&
 						<img className={styles.miniHoldResume} onClick={this.holdConnection} src={holdIcon}/>}
 						{isBothHold(currentState) &&
 						<img className={styles.miniHoldResume} onClick={this.resumeConnection} src={resumeIcon}/>}
-						<img className={styles.miniEnd} style={
-							isJoined(currentState) || isBothHold(currentState) ? {marginLeft: '5%'} : {}}
+						<img className={styles.miniEnd}
 							 onClick={this.endConnection}
 							 src={endIcon}/>
 					</div>
 					<div className={`col-md-8 mt-1 ${styles.phoneAndDurationMini}`}><span>{getNumber()}</span></div>
-					<div className={`col-md-4 mt-1 ${styles.phoneAndDurationMini}`}><span>{this.state.duration}</span>
+					<div className={`col-md-4 mt-1 text-right ${styles.phoneAndDurationMini}`}><span>{this.state.duration}</span>
 					</div>
 				</div>
 			</div>

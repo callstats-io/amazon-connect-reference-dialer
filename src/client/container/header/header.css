@@ -16,7 +16,11 @@
 .csioHeaderText {
     font-family: AmazonEmber;
     color: #ffffff;
-    font-size: 15px;
+    font-size: 14px;
+}
+
+.leftBorder {
+    border-left: 1px solid #8a8a8a !important;
 }
 
 .acPointer {

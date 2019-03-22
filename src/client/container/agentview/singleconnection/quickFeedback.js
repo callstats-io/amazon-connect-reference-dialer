@@ -37,21 +37,13 @@ class QuickFeedback extends Component {
 	render() {
 		return (
 			<div className="row mt-3">
-				<div className="col-md-7">
+				<div className="col-md-7 pr-0 mr-0">
 					<a className="text-left"
-					   style={{opacity: '0.6', fontFamily: 'AmazonEmber', fontSize: '12px', color: '#000000'}}>How was
+					   style={{opacity: '0.6', fontFamily: 'AmazonEmber', fontSize: '14px', color: '#000000'}}>How was
 						the call quality?
 					</a></div>
-				<a className="text-left"
-				   style={{opacity: '0.6', fontFamily: 'AmazonEmber', fontSize: '12px', color: '#000000'}}>
-				</a>
-				<div className="col-md-5"><a className="text-left" style={{
-					opacity: '0.6',
-					fontFamily: 'AmazonEmber',
-					fontSize: '12px',
-					color: '#000000'
-				}}>
-				</a><a className="text-left" style={{fontFamily: 'AmazonEmber', fontSize: '12px', color: '#3885de'}}
+				<div className="col-md-5 pl-0 ml-0">
+					<a className="text-left" style={{fontFamily: 'AmazonEmber', fontSize: '14px', color: '#3885de'}}
 					   href="#"
 					   onClick={() => this.requestReportACallIssue()}
 				>Report a call issue</a>
@@ -60,7 +52,7 @@ class QuickFeedback extends Component {
 					{
 						feedbackRatings.map((currentFeedback,) => (
 							<a key={`feedback-rating-${currentFeedback}`}
-							   style={{cursor: 'pointer'}}
+							   style={{cursor: 'pointer', paddingRight: '2%'}}
 							   onClick={() => this.feedbackChange(currentFeedback)}>
 								<img src={currentFeedback <= this.state.feedback ? starYellowIcon : starWhiteIcon}/>
 							</a>

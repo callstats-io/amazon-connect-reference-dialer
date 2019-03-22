@@ -36,9 +36,9 @@
 }
 
 .agentState {
-    font-family: AmazonEmber;
+    font-family: AmazonEmber-light;
     color: #ffffff;
-    font-size: 24px;
+    font-size: 26px;
 }
 
 .agentMutedState {

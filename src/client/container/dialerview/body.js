@@ -70,7 +70,7 @@ class Body extends Component {
 				</div>
 				<div className="row mt-2">
 					<div className="col-md-9">
-						<ReactPhoneInput inputStyle={{minWidth: '15.5em', maxWidth: '15.5em'}}
+						<ReactPhoneInput inputStyle={{minWidth: '15.5em', maxWidth: '15.5em', boxShadow: 'none'}}
 										 onlyCountries={dialableCountries}
 										 defaultCountry={'fi'}
 										 enableSearchField={true}
