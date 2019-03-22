@@ -69,14 +69,16 @@ const getCurrentStateString = (currentState = undefined) => {
 	return state;
 };
 
+const isSingle = (currentState = undefined) => {
+	return currentState && !currentState.thirdPartyConnectionState;
+};
+
 const setAvailable = () => {
 	sessionManager.setAgentAvailable();
 };
 
-// this is a agent hangup type/ customer hangup type.
-// we will disconnect the primary connection asscociated with current session
 const hangupCall = () => {
-	sessionManager.hangupPrimaryConnection();
+	sessionManager.hangupContact();
 };
 
 const rejectCall = () => {
@@ -120,7 +122,7 @@ const Footer = ({currentState = {}}) => (
 			<AvailableOrEnd divClass={AgentViewStyle.end.divClass}
 							linkClass={AgentViewStyle.end.linkClass}
 							style={AgentViewStyle.end.style}
-							text={' End call'}
+							text={isSingle(currentState) ? ' End call' : ' Leave call'}
 							isEnded={true}
 							onClickHandler={hangupCall}/>
 

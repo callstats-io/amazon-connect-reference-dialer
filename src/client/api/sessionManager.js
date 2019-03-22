@@ -186,6 +186,12 @@ class SessionManager {
 		return rejectCall(currentContact);
 	}
 
+	// hangup contact, and reject are basically same
+	hangupContact(){
+		const currentContact = acManager.getCurrentContact();
+		return rejectCall(currentContact);
+	}
+
 	dialContact(selectedContact = undefined) {
 		const currentContact = acManager.getCurrentContact();
 		return dialContact(currentContact, selectedContact);
