@@ -39,6 +39,24 @@ export const resumeConnection = (connection) => {
 	});
 };
 
+export const endConnection = (connection) => {
+	return new Promise((resolve, reject) => {
+		if (!connection) {
+			reject('connection is empty');
+			return;
+		}
+		connection.destroy({
+			success: () => {
+				resolve('successfully close connection')
+			},
+			failure: (data) => {
+				reject(data)
+			}
+		});
+
+	});
+};
+
 export const getPrimaryAgentState = (currentState = undefined) => {
 	const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
 	return state;
@@ -129,7 +147,7 @@ export const getPrimaryConnection = (currentState = undefined) => {
 	return connection;
 };
 
-export const getThirdPartyConnectionState = (currentState = undefined) => {
+export const getThirdPartyConnection = (currentState = undefined) => {
 	if (!currentState) {
 		return undefined;
 	}

@@ -37,7 +37,8 @@ import {
 	getThirdPartyConnectionPhone,
 	hangupPrimaryConnection,
 	getPrimaryConnection,
-	getThirdPartyConnectionState,
+	getThirdPartyConnection,
+	endConnection,
 } from './manager/connection';
 
 
@@ -101,6 +102,10 @@ class SessionManager {
 		return resumeConnection(connection);
 	}
 
+	endConnection(connection = undefined) {
+		return endConnection(connection);
+	}
+
 	getPrimaryAgentState() {
 		const currentState = acManager.getCurrentState();
 		return getPrimaryAgentState(currentState);
@@ -110,6 +115,7 @@ class SessionManager {
 		const currentState = acManager.getCurrentState();
 		return getPrimaryConnectionDuration(currentState);
 	}
+
 	getThirdPartyConnectionDuration() {
 		const currentState = acManager.getCurrentState();
 		return getThirdPartyConnectionDuration(currentState);
@@ -188,7 +194,7 @@ class SessionManager {
 	holdAll() {
 		const currentState = acManager.getCurrentState();
 		const primaryConnection = getPrimaryConnection(currentState);
-		const thirdPartyConnection = getThirdPartyConnectionState(currentState);
+		const thirdPartyConnection = getThirdPartyConnection(currentState);
 		return holdAll(holdConnection, primaryConnection, thirdPartyConnection);
 	}
 
@@ -201,6 +207,18 @@ class SessionManager {
 		const currentContact = acManager.getCurrentContact();
 		return swapCall(currentContact);
 	}
+
+	getPrimaryConnection() {
+		const currentState = acManager.getCurrentState();
+		return getPrimaryConnection(currentState);
+	}
+
+	getThirdPartyConnection() {
+		const currentState = acManager.getCurrentState();
+		return getThirdPartyConnection(currentState);
+	}
+
+
 }
 
 const sessionManage = new SessionManager();

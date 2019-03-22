@@ -46,7 +46,10 @@ class ThirdPartyConnection extends Component {
 		this.intervalId = undefined;
 		this.state = {
 			duration: '00:00:00',
-		}
+		};
+		this.endConnection = this.endConnection.bind(this);
+		this.holdConnection = this.holdConnection.bind(this);
+		this.resumeConnection = this.resumeConnection.bind(this);
 	}
 
 	_dispose() {
@@ -69,6 +72,21 @@ class ThirdPartyConnection extends Component {
 		this._dispose();
 	}
 
+	endConnection() {
+		let connection = sessionManager.getThirdPartyConnection();
+		sessionManager.endConnection(connection).then(success => _, err => console.error(err));
+	}
+
+	holdConnection() {
+		let connection = sessionManager.getThirdPartyConnection();
+		sessionManager.holdConnection(connection).then(success => _, err => console.error(err));
+	}
+
+	resumeConnection() {
+		let connection = sessionManager.getThirdPartyConnection();
+		sessionManager.resumeConnection(connection).then(success => _, err => console.error(err));
+	}
+
 	render() {
 		const {currentState} = this.props;
 		const stateString = getState(currentState);
@@ -80,10 +98,13 @@ class ThirdPartyConnection extends Component {
 					</div>
 					<div className="col-md-4 mt-2"
 						 style={!isJoined(currentState) && !isBothHold(currentState) ? {paddingLeft: '15%'} : {}}>
-						{isJoined(currentState) && <img className={styles.miniHoldResume} src={holdIcon}/>}
-						{isBothHold(currentState) && <img className={styles.miniHoldResume} src={resumeIcon}/>}
+						{isJoined(currentState) &&
+						<img className={styles.miniHoldResume} onClick={this.holdConnection} src={holdIcon}/>}
+						{isBothHold(currentState) &&
+						<img className={styles.miniHoldResume} onClick={this.resumeConnection} src={resumeIcon}/>}
 						<img className={styles.miniEnd} style={
 							isJoined(currentState) || isBothHold(currentState) ? {marginLeft: '5%'} : {}}
+							 onClick={this.endConnection}
 							 src={endIcon}/>
 					</div>
 					<div className={`col-md-8 mt-1 ${styles.phoneAndDurationMini}`}><span>{getNumber()}</span></div>
