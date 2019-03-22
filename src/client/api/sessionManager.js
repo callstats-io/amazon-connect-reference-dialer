@@ -32,7 +32,9 @@ import {
 	resumeConnection,
 	getPrimaryAgentState,
 	getPrimaryConnectionDuration,
+	getThirdPartyConnectionDuration,
 	getPrimaryConnectionPhone,
+	getThirdPartyConnectionPhone,
 	hangupPrimaryConnection,
 	getPrimaryConnection,
 	getThirdPartyConnectionState,
@@ -108,10 +110,19 @@ class SessionManager {
 		const currentState = acManager.getCurrentState();
 		return getPrimaryConnectionDuration(currentState);
 	}
+	getThirdPartyConnectionDuration() {
+		const currentState = acManager.getCurrentState();
+		return getThirdPartyConnectionDuration(currentState);
+	}
 
 	getPrimaryConnectionPhone() {
 		const currentState = acManager.getCurrentState();
 		return getPrimaryConnectionPhone(currentState);
+	}
+
+	getThirdPartyConnectionPhone() {
+		const currentState = acManager.getCurrentState();
+		return getThirdPartyConnectionPhone(currentState);
 	}
 
 	getAgentStates() {

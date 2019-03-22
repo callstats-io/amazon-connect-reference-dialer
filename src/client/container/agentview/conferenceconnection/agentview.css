@@ -41,6 +41,18 @@
     font-size: 24px;
 }
 
+.agentStateMini {
+    font-family: AmazonEmber;
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.phoneAndDurationMini {
+    font-family: AmazonEmber;
+    color: #ffffff;
+    font-size: 14px;
+}
+
 .agentMutedState {
     /*max-height: 0em;*/
 }
@@ -65,3 +77,18 @@
     font-size: 14px;
 }
 
+.miniHoldResume {
+    background-size: 24px 24px;
+    width: 24px;
+    height: 24px;
+    margin-left: 7%;
+    cursor: pointer;
+}
+
+.miniEnd {
+    background-size: 24px 24px;
+    width: 24px;
+    height: 24px;
+    /*margin-left: 5% !important;*/
+    cursor: pointer;
+}

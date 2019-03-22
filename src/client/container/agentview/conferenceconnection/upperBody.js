@@ -2,18 +2,21 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
+import PrimaryConnection from './primaryconnection';
+import ThirdPartyConnection from './ThirdPartyConnection';
+
 class UpperBody extends Component {
 	constructor(props) {
 		super(props);
 
 	}
-
 	render() {
-
+		const {currentState} = this.props;
 		return (
 			<div className={`row`}
-				 style={{height: '182px', paddingTop: '5%'}}>
-
+				 style={{height: '182px'}}>
+				<PrimaryConnection currentState={currentState}/>
+				<ThirdPartyConnection currentState={currentState}/>
 			</div>
 		);
 	}

@@ -67,7 +67,7 @@ const isConnected = (connection) => {
 
 const isJoined = (primaryConnectionState, thirdPartyConnectionState) => {
 	return primaryConnectionState && thirdPartyConnectionState &&
-		primaryConnectionState.state === 'connected' &&
+		['connected', 'Connected'].includes(primaryConnectionState.state) &&
 		primaryConnectionState.state === thirdPartyConnectionState.state;
 
 };

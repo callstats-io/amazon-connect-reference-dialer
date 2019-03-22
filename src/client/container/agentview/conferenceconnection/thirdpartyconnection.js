@@ -1,0 +1,102 @@
+import React, {Component} from "react";
+import PropTypes from "prop-types";
+import lo from "lodash";
+import sessionManager from "../../../api/sessionManager";
+
+import {getColorSchema} from '../../../utils/agetStateMap';
+import styles from './agentview.css';
+import holdIcon from '../../../res/images/fa-mini-hold.svg';
+import endIcon from '../../../res/images/fa-mini-endcall.svg';
+import resumeIcon from '../../../res/images/fa-mini-resume.svg';
+
+const isHold = (currentState) => {
+	const state = lo.get(currentState, 'thirdPartyConnectionState.state', 'none');
+	return ['Hold', 'hold'].includes(state);
+};
+
+const isConnected = (currentState) => {
+	const state = lo.get(currentState, 'thirdPartyConnectionState.state', 'none');
+	return ['Join', 'Joined', 'Connected'].includes(state);
+};
+
+const isJoined = (currentState) => {
+	const state = lo.get(currentState, 'thirdPartyConnectionState.state', 'none');
+	return ['Join', 'Joined'].includes(state);
+};
+const getState = (currentState) => {
+	const state = lo.get(currentState, 'thirdPartyConnectionState.state', 'none');
+	return state;
+};
+
+const isBothHold = (currentState) => {
+	const state1 = lo.get(currentState, 'primaryConnectionState.state', 'none');
+	const state2 = lo.get(currentState, 'thirdPartyConnectionState.state', 'none');
+	return state1 === state2 && ['Hold', 'hold'].includes(state1);
+};
+
+const getNumber = () => {
+	return sessionManager.getThirdPartyConnectionPhone();
+};
+
+const DURATION_MS = 1 * 1000;
+
+class ThirdPartyConnection extends Component {
+	constructor(props) {
+		super(props);
+		this.intervalId = undefined;
+		this.state = {
+			duration: '00:00:00',
+		}
+	}
+
+	_dispose() {
+		if (this.intervalId) {
+			clearInterval(this.intervalId);
+		}
+	}
+
+	componentDidMount() {
+		this._dispose();
+		this.intervalId = setInterval(() => {
+			let duration = sessionManager.getThirdPartyConnectionDuration();
+			this.setState({
+				duration: duration,
+			});
+		}, DURATION_MS);
+	}
+
+	componentWillUnmount() {
+		this._dispose();
+	}
+
+	render() {
+		const {currentState} = this.props;
+		const stateString = getState(currentState);
+		return (
+			<div className="col-md-12 h-50" style={{backgroundColor: getColorSchema(stateString)}}>
+				<div className="row">
+					<div className={`col-md-8 mt-2 ${styles.agentStateMini}`}>
+						<span> {stateString} </span>
+					</div>
+					<div className="col-md-4 mt-2"
+						 style={!isJoined(currentState) && !isBothHold(currentState) ? {paddingLeft: '15%'} : {}}>
+						{isJoined(currentState) && <img className={styles.miniHoldResume} src={holdIcon}/>}
+						{isBothHold(currentState) && <img className={styles.miniHoldResume} src={resumeIcon}/>}
+						<img className={styles.miniEnd} style={
+							isJoined(currentState) || isBothHold(currentState) ? {marginLeft: '5%'} : {}}
+							 src={endIcon}/>
+					</div>
+					<div className={`col-md-8 mt-1 ${styles.phoneAndDurationMini}`}><span>{getNumber()}</span></div>
+					<div className={`col-md-4 mt-1 ${styles.phoneAndDurationMini}`}><span>{this.state.duration}</span>
+					</div>
+				</div>
+			</div>
+		)
+	}
+}
+
+ThirdPartyConnection.propTypes = {
+	currentState: PropTypes.object,
+};
+
+export default ThirdPartyConnection;
