@@ -20,18 +20,8 @@ class AudioLevel extends React.Component {
 	}
 
 	componentDidMount() {
-		// const {stream, audioInputDevice, backgroundColor, agentStateFn} = this.props;
-		// const same = isSame(this.audioInputDevice, audioInputDevice);
-		// console.warn('~componentDidMount',stream, audioInputDevice, agentStateFn, same, this.props);
-		// if (same) {
-		// 	return;
-		// }
-		//
-		//
-		// // dispose previous audio source if there is any
-		// this.audioControler.dispose();
-		//
-		const barList = [this.refs.bar1, this.refs.bar2, this.refs.bar3, this.refs.bar4, this.refs.bar5, this.refs.bar6];
+
+		const barList = [this.refs.bar1, this.refs.bar2, this.refs.bar3, this.refs.bar4, this.refs.bar5, this.refs.bar6, this.refs.bar7];
 		this.audioControler.register(barList, sessionManager.getPrimaryAgentState);
 
 		mediaManager.dispose();
