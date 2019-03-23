@@ -28,34 +28,7 @@ const shouldCaptureMediaSource = (currentState = undefined, muted) => {
 class UpperBody extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			localStream: undefined,
-			audioInputDevice: undefined,
-		}
-	}
-
-	componentDidMount() {
-		const {currentState, muted} = this.props;
-		const state = getCurrentStateString(currentState);
-		if (!shouldCaptureMediaSource(state, muted)) {
-			return;
-		}
-		mediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
-			mediaManager.getUserMedia(selectedDevice).then(success => {
-				this.setState({
-					localStream: success,
-					audioInputDevice: selectedDevice,
-				});
-			}, err => {
-				console.error('none ', err);
-			})
-		});
-	}
-
-	componentWillUnmount() {
-		mediaManager.dispose();
-	}
-
+``	}
 	render() {
 		const hasError = this.props.errorMessage && this.props.errorMessage.errorType;
 		const state = getCurrentStateString(this.props.currentState);
@@ -65,9 +38,7 @@ class UpperBody extends Component {
 				 style={{height: '182px', backgroundColor: getColorSchema(state), paddingTop: '5%'}}>
 				{!hasError &&
 				<AgentStatusAndAudioLabel currentState={state}
-										  stream={this.state.localStream}
-										  muted={this.props.muted}
-										  audioInputDevice={this.state.audioInputDevice}/>}
+										  muted={this.props.muted}/>}
 				{!hasError &&
 				<AgentMutedLabel muted={this.props.muted}/>}
 

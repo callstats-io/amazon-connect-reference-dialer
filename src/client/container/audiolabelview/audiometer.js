@@ -42,6 +42,7 @@ class AudioMeter {
 			canvasCtx.stroke();
 			this.id = window.requestAnimationFrame(draw);
 		};
+
 		this.id = window.requestAnimationFrame(draw)
 	}
 
