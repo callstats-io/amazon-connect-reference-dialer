@@ -2,12 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import DropDownOptions from "./dropdown-options";
-import AudioLevel from './../../audiolabelview/index';
+import AudioLevel from './../../audiolabelview2/index';
 import AudioOutputDevice from "./audiooutputdevice";
 
 import styles from './../settings.css';
 
-const SoftPhoneSettings = ({toggleMenuItem, changeAudioInputDevice, showMenuItem, inputDeviceList, audioInputDevice, audioOutputDevice, stream, backgroundColor}) => (
+const SoftPhoneSettings = ({toggleMenuItem, changeAudioInputDevice, showMenuItem, inputDeviceList, audioInputDevice, audioOutputDevice}) => (
 	<div className="row mt-1">
 		<DropDownOptions toggleMenuItem={toggleMenuItem}
 						 changeAudioInputDevice={changeAudioInputDevice}
@@ -15,9 +15,7 @@ const SoftPhoneSettings = ({toggleMenuItem, changeAudioInputDevice, showMenuItem
 						 inputDeviceList={inputDeviceList}
 						 audioInputDevice={audioInputDevice}/>
 		<div className={`col-md-2 pl-0 pr-0 ${styles.audioLabel}`}>
-			<AudioLevel stream={stream}
-						backgroundColor={backgroundColor}
-						audioInputDevice={audioInputDevice}/>
+			<AudioLevel viewBox={'0 100 1400 1000'}/>
 		</div>
 
 		<AudioOutputDevice audioOutputDevice={audioOutputDevice}/>
@@ -32,9 +30,6 @@ SoftPhoneSettings.propTypes = {
 	inputDeviceList: PropTypes.array.isRequired,
 	audioInputDevice: PropTypes.object.isRequired,
 	audioOutputDevice: PropTypes.object.isRequired,
-
-	stream: PropTypes.object,
-	backgroundColor: PropTypes.string,
 };
 
 export default SoftPhoneSettings;

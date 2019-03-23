@@ -17,7 +17,7 @@ const AgentStatusAndAudioLabel = ({currentState, muted = false}) => (
 			</div>
 			<div className={`col-md-3 mr-0`}>
 				{showAudioLabel(currentState, muted) ?
-					<AudioLevel muted={muted}/> : <NoAudioLabel/>
+					<AudioLevel viewBox={'0 200 1000 1000'}/> : <NoAudioLabel/>
 				}
 			</div>
 		</div>

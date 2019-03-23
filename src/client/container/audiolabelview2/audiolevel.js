@@ -20,7 +20,7 @@ class AudioLevel extends React.Component {
 	}
 
 	componentDidMount() {
-
+		console.warn('~componentDidMount');
 		const barList = [this.refs.bar1, this.refs.bar2, this.refs.bar3, this.refs.bar4, this.refs.bar5, this.refs.bar6, this.refs.bar7];
 		this.audioControler.register(barList, sessionManager.getPrimaryAgentState);
 
@@ -36,13 +36,15 @@ class AudioLevel extends React.Component {
 	}
 
 	componentWillUnmount() {
+		console.warn('~componentWillUnmount');
 		mediaManager.dispose();
 		this.audioControler.dispose();
 	}
 
 	render() {
+		const viewBox = this.props.viewBox || '0 200 1000 1000';
 		return (
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 200 1000 1000"
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox={viewBox}
 				 x="0"
 				 y="0"
 				 width="100%"
@@ -102,7 +104,7 @@ class AudioLevel extends React.Component {
 }
 
 AudioLevel.propTypes = {
-	muted: PropTypes.bool
+	viewBox: PropTypes.string,
 };
 
 export default AudioLevel;

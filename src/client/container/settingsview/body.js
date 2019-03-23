@@ -29,7 +29,6 @@ class Body extends Component {
 			defaultAudioInputDevice: {},
 			inputDeviceList: [],
 			showMenuItem: false,
-			stream: undefined,
 		};
 
 		this.handleInputChange = this.handleInputChange.bind(this);
@@ -43,7 +42,7 @@ class Body extends Component {
 	componentDidMount() {
 		mediaManager.getDefaultAudioInputAndOutputDeviceDetails().then(success => {
 			const {inputDevice, outputDevice, inputDeviceList} = success;
-			this.updateMediaSource(inputDevice, {
+			this.setState({
 				defaultAudioInputDevice: inputDevice,
 				defaultAudioOutputDevice: outputDevice,
 				inputDeviceList: inputDeviceList
@@ -53,17 +52,13 @@ class Body extends Component {
 		});
 	}
 
-	updateMediaSource(selectedDevice, options) {
-		mediaManager.getUserMedia(selectedDevice).then(
-			success => this.setState({stream: success, ...options}),
-			err => console.error('none'));
-	}
-
 	changeToSoftphone() {
 		sessionManager.changeToSoftPhone().then(
 			success => {
 				mediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
-					this.updateMediaSource(selectedDevice, {softphoneEnabled: true});
+					this.setState({
+						softphoneEnabled: true
+					});
 				});
 			},
 			err => console.error(err));
@@ -86,7 +81,7 @@ class Body extends Component {
 	changeAudioInputDevice(selectedDevice) {
 		mediaManager.setPreferedAudioInputDevice(selectedDevice);
 		mediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
-			this.updateMediaSource(selectedDevice, {
+			this.setState({
 				defaultAudioInputDevice: selectedDevice,
 				showMenuItem: false,
 			});
@@ -123,9 +118,7 @@ class Body extends Component {
 									   showMenuItem={this.state.showMenuItem}
 									   inputDeviceList={this.state.inputDeviceList}
 									   audioInputDevice={this.state.defaultAudioInputDevice}
-									   audioOutputDevice={this.state.defaultAudioOutputDevice}
-									   stream={this.state.stream}
-									   backgroundColor={'#ffffff'}/>
+									   audioOutputDevice={this.state.defaultAudioOutputDevice}/>
 				}
 
 				<DeskPhone changeToDeskphone={this.changeToDeskphone}
