@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import DropDownOptions from "./dropdown-options";
-import AudioLevel from './../../audiolabelview2/index';
+import LocalAudiolevel from './../../audiolabelview2/localaudiolevel';
 import AudioOutputDevice from "./audiooutputdevice";
 
 import styles from './../settings.css';
@@ -15,7 +15,7 @@ const SoftPhoneSettings = ({toggleMenuItem, changeAudioInputDevice, showMenuItem
 						 inputDeviceList={inputDeviceList}
 						 audioInputDevice={audioInputDevice}/>
 		<div className={`col-md-2 pl-0 pr-0 ${styles.audioLabel}`}>
-			<AudioLevel viewBox={'0 100 1400 1000'}/>
+			<LocalAudiolevel viewBox={'0 100 1400 1000'}/>
 		</div>
 
 		<AudioOutputDevice audioOutputDevice={audioOutputDevice}/>

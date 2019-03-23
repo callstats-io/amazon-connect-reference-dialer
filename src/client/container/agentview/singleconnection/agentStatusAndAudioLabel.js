@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import AudioLevel from '../../audiolabelview2/index';
+import LocalAudiolevel from '../../audiolabelview2/localaudiolevel';
 import NoAudioLabel from '../../audiolabelview/noaudio';
 import styles from './agentview.css';
 
@@ -17,7 +17,7 @@ const AgentStatusAndAudioLabel = ({currentState, muted = false}) => (
 			</div>
 			<div className={`col-md-3 mr-0`}>
 				{showAudioLabel(currentState, muted) ?
-					<AudioLevel viewBox={'0 200 1000 1000'}/> : <NoAudioLabel/>
+					<LocalAudiolevel viewBox={'0 200 1000 1000'}/> : <NoAudioLabel/>
 				}
 			</div>
 		</div>
