@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import DropDownOptions from "./dropdown-options";
-import LocalAudiolevel from './../../audiolabelview2/localaudiolevel';
+import LocalAudiolevel from './../../audiolabelview/localaudiolevel';
 import AudioOutputDevice from "./audiooutputdevice";
 
 import styles from './../settings.css';

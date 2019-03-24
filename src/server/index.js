@@ -5,7 +5,7 @@ const logger = require("./logger");
 const helmet = require('helmet');
 
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
-process.env.HTTP_PORT = process.env.PORT || 8082;
+process.env.HTTP_PORT = process.env.PORT || 8080;
 
 function onUnhandledError(err) {
 	try {

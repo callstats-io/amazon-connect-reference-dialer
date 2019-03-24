@@ -20,7 +20,7 @@ const getPhoneNumber = (currentState = "") => {
 	return sessionManager.getPrimaryConnectionPhone();
 };
 
-import RemoteAudioLevel from '../../audiolabelview2/remoteaudiolevel';
+import RemoteAudioLevel from '../../audiolabelview/remoteaudiolevel';
 import Duration from "../../agentduration/duration";
 import styles from './agentview.css';
 
