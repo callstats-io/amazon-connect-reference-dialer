@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import UpperBody from './upperBody';
 import LowerBody from './lowerBody';
 
-const SingleConnection = () => (
+const ThirdPartyConnection = () => (
 	<div className={`card-body`}
 		 style={{paddingLeft: '0.95em', paddingRight: '0.9em', paddingTop: '0'}}>
 		<UpperBody/>
@@ -12,11 +12,11 @@ const SingleConnection = () => (
 	</div>
 );
 
-SingleConnection.propTypes = {};
+ThirdPartyConnection.propTypes = {};
 const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({});
 
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(SingleConnection);
+)(ThirdPartyConnection);

@@ -3,12 +3,17 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import Header from '../header/index';
 
-import SingleConnection from './singleconnection/index';
 import ConferenceConnection from './conferenceconnection/index';
+import PrimaryConnection from './primaryconnection/index';
+import ThirdPartyConnection from './thirdparyconnection/index';
 import Footer from './footer';
 
-const isSingle = (currentState = undefined) => {
-	return currentState && !currentState.thirdPartyConnectionState;
+const isConference = (currentState = undefined) => {
+	return currentState && currentState.primaryConnectionState && currentState.thirdPartyConnectionState;
+};
+
+const isPrimaryConnection = (currentState = undefined) => {
+	return currentState && currentState.primaryConnectionState && !currentState.thirdPartyConnectionState;
 };
 
 
@@ -18,7 +23,9 @@ const AgentView = ({initialized = false, currentState = undefined}) => (
 		<div className={`col-md-12`} style={{padding: '0'}}>
 			<div className={`card h-100`} style={{backgroundColor: '#f2f2f2'}}>
 				<Header/>
-				{isSingle(currentState) ? <SingleConnection/> : <ConferenceConnection/>}
+				{isConference(currentState) ? <ConferenceConnection/> : isPrimaryConnection(currentState) ?
+					<PrimaryConnection/> :
+					<ThirdPartyConnection/>}
 				<Footer/>
 			</div>
 		</div>

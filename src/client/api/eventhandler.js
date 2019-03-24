@@ -155,11 +155,11 @@ class EventHandler {
 				const connection1 = getConnectionState(e, true);
 				const connection2 = getConnectionState(e, false);
 				const {primaryConnectionState, thirdPartyConnectionState} = mayBeUpdateToJoined(connection1, connection2);
-				console.warn('~REFRESH', primaryConnectionState, thirdPartyConnectionState, isMultipartyCall(e));
 				let payload = {
 					primaryConnectionState: primaryConnectionState,
 					thirdPartyConnectionState: thirdPartyConnectionState,
 				};
+				console.warn('~REFRESH', primaryConnectionState, thirdPartyConnectionState, isMultipartyCall(e));
 				//donot send state change for connection when both are null.
 				//in that case use agent state
 				if (primaryConnectionState || thirdPartyConnectionState) {
