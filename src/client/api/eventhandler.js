@@ -39,7 +39,7 @@ const getAgentState = (e) => {
 };
 
 const isMultipartyCall = (contact) => {
-	return contact && contact.getActiveInitialConnection() && contact.getSingleActiveThirdPartyConnection();
+	return (contact && contact.getActiveInitialConnection() && contact.getSingleActiveThirdPartyConnection()) ? true : false;
 };
 
 const isOutbound = (connection) => {
@@ -148,7 +148,6 @@ class EventHandler {
 					thirdPartyConnectionState: undefined,
 				};
 				currentState = payload;
-				window.currentState = currentState;
 				this.dispatch(onStateChange(payload));
 			});
 			bus.subscribe(connect.ContactEvents.REFRESH, e => {
@@ -156,7 +155,7 @@ class EventHandler {
 				const connection1 = getConnectionState(e, true);
 				const connection2 = getConnectionState(e, false);
 				const {primaryConnectionState, thirdPartyConnectionState} = mayBeUpdateToJoined(connection1, connection2);
-				console.warn('~REFRESH', primaryConnectionState, thirdPartyConnectionState);
+				console.warn('~REFRESH', primaryConnectionState, thirdPartyConnectionState, isMultipartyCall(e));
 				let payload = {
 					primaryConnectionState: primaryConnectionState,
 					thirdPartyConnectionState: thirdPartyConnectionState,
@@ -165,7 +164,6 @@ class EventHandler {
 				//in that case use agent state
 				if (primaryConnectionState || thirdPartyConnectionState) {
 					currentState = payload;
-					window.currentState = currentState;
 					this.dispatch(onStateChange(payload));
 				} else {
 					let payload = {
@@ -173,7 +171,6 @@ class EventHandler {
 						thirdPartyConnectionState: undefined,
 					};
 					currentState = payload;
-					window.currentState = currentState;
 					this.dispatch(onStateChange(payload));
 				}
 			});

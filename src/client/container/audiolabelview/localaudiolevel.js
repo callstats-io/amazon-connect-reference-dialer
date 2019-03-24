@@ -20,7 +20,7 @@ class LocalAudiolevel extends React.Component {
 	}
 
 	componentDidMount() {
-		console.warn('~componentDidMount');
+		// console.warn('~componentDidMount');
 		const barList = [this.refs.bar1, this.refs.bar2, this.refs.bar3, this.refs.bar4, this.refs.bar5, this.refs.bar6, this.refs.bar7];
 		this.audioControler.register(barList, sessionManager.getPrimaryAgentState);
 
@@ -35,7 +35,7 @@ class LocalAudiolevel extends React.Component {
 	}
 
 	componentWillUnmount() {
-		console.warn('~componentWillUnmount');
+		// console.warn('~componentWillUnmount');
 		mediaManager.dispose();
 		this.audioControler.dispose();
 	}

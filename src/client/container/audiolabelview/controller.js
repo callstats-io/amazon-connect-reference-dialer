@@ -74,7 +74,7 @@ class AudioFrequencyMonitor {
 			if (!stream) {
 				return;
 			}
-			console.warn('~audiolabel.controller.renderStream', stream);
+			// console.warn('~audiolabel.controller.renderStream', stream);
 			this.sourceNode = this.context.createMediaStreamSource(stream);
 			this.sourceNode.connect(this.analyser);
 			this.visualize(this.analyser);
@@ -85,7 +85,7 @@ class AudioFrequencyMonitor {
 
 
 	async dispose() {
-		console.warn('~audiolabel.controller.dispose');
+		// console.warn('~audiolabel.controller.dispose');
 		if (this.id) {
 			window.cancelAnimationFrame(this.id);
 			this.id = null;

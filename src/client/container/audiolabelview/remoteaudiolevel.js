@@ -20,7 +20,7 @@ class RemoteAudioLevel extends React.Component {
 	}
 
 	componentDidMount() {
-		console.warn('~componentDidMount>remote');
+		// console.warn('~componentDidMount>remote');
 		const remoteStream = this.props.remoteStream;
 
 		const barList = [this.refs.bar1, this.refs.bar2, this.refs.bar3, this.refs.bar4, this.refs.bar5, this.refs.bar6, this.refs.bar7];
@@ -30,7 +30,7 @@ class RemoteAudioLevel extends React.Component {
 	}
 
 	componentWillUnmount() {
-		console.warn('~componentWillUnmount>remote');
+		// console.warn('~componentWillUnmount>remote');
 		this.audioControler.dispose();
 	}
 

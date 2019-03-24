@@ -7,12 +7,12 @@ const isConnected = (currentState = "") => {
 };
 
 const showPhoneNumber = (currentState = "") => {
-	console.warn('~', currentState);
+	// console.warn('~', currentState);
 	return ['Connected', 'Joined', 'Inbound call', 'Outbound call', 'On hold', 'Hold'].includes(currentState);
 };
 
 const showRemoteAudio = (currentState = "") => {
-	console.warn('~showRemoteAudio', currentState);
+	// console.warn('~showRemoteAudio', currentState);
 	return ['Connected', 'Joined', 'On hold', 'Hold'].includes(currentState);
 };
 
