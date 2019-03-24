@@ -34,17 +34,12 @@ class LowerBody extends Component {
 	}
 
 	_showHoldOrMute(currentState = undefined) {
-		const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
-		return ['Connected', 'Joined', 'On hold', 'Hold'].includes(state);
-	}
-
-	_transferCall(currentState = undefined) {
-		const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
+		const state = lo.get(currentState, 'thirdPartyConnectionState.state', 'none');
 		return ['Connected', 'Joined', 'On hold', 'Hold'].includes(state);
 	}
 
 	_dialOrQuickConnectOrTransfer(currentState = undefined) {
-		const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
+		const state = lo.get(currentState, 'thirdPartyConnectionState.state', 'none');
 		return ['Inbound call', 'Outbound call'].includes(state) === false;
 	}
 
@@ -54,13 +49,13 @@ class LowerBody extends Component {
 	}
 
 	_isHold(currentState = undefined) {
-		const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
+		const state = lo.get(currentState, 'thirdPartyConnectionState.state', 'none');
 		return ['On hold', 'Hold'].includes(state);
 	}
 
 	toggleHold(currentState = undefined) {
 		let isOnHold = this._isHold(currentState);
-		let connection = lo.get(currentState, "primaryConnectionState.connection", undefined);
+		let connection = lo.get(currentState, "thirdPartyConnectionState.connection", undefined);
 		let promise = isOnHold ? sessionManager.resumeConnection(connection) :
 			sessionManager.holdConnection(connection);
 		promise.then(() => _, err => console.error(err))
@@ -115,22 +110,6 @@ class LowerBody extends Component {
 								   onClick={() => this.requestDialPad()}>
 									<img src={dialNumberIcon}/> &nbsp;Dial number </a>
 							</div>
-
-							<div className="col-md-6">
-								{
-									this._transferCall(currentState) ?
-										<a className={`btn pl-0 pr-0 ${styles.quickConnectOrTransfer}`}
-										   href="#"
-										   onClick={() => this.requestTransferCall()}>
-											<img src={transferIcon}/> &nbsp;Transfer </a> :
-										<a className={`btn pl-0 pr-0 ${styles.quickConnectOrTransfer}`}
-										   href="#"
-										   onClick={() => this.requestQuickConnect()}>
-											<img src={quickConnect}/> &nbsp;Quick connects </a>
-
-								}
-							</div>
-
 						</div>
 					}
 					{
