@@ -34,7 +34,7 @@ class Duration extends Component {
 	componentDidMount() {
 		this._dispose();
 		this.intervalId = setInterval(() => {
-			let duration = sessionManager.getPrimaryConnectionDuration();
+			let duration = sessionManager.getThirdPartyConnectionDuration();
 			this.setState({
 				duration: duration,
 			});

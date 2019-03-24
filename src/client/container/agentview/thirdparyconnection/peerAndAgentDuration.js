@@ -17,7 +17,7 @@ const showRemoteAudio = (currentState = "") => {
 };
 
 const getPhoneNumber = (currentState = "") => {
-	return sessionManager.getPrimaryConnectionPhone();
+	return sessionManager.getThirdPartyConnectionPhone();
 };
 
 import RemoteAudioLevel from '../../audiolabelview/remoteaudiolevel';

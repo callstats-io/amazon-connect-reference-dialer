@@ -65,12 +65,26 @@ const AgentViewStyle = {
 };
 
 const getCurrentStateString = (currentState = undefined) => {
-	const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
+	let state = lo.get(currentState, 'primaryConnectionState.state', 'none');
+	if (state === 'none') {
+		state = lo.get(currentState, 'thirdPartyConnectionState.state', 'none')
+	}
 	return state;
 };
 
+const isConference = (currentState = undefined) => {
+	return currentState && currentState.primaryConnectionState && currentState.thirdPartyConnectionState;
+};
+
+const isPrimaryConnection = (currentState = undefined) => {
+	return currentState && currentState.primaryConnectionState && !currentState.thirdPartyConnectionState;
+};
+
 const isSingle = (currentState = undefined) => {
-	return currentState && !currentState.thirdPartyConnectionState;
+	let callCount = 0;
+	callCount += currentState && currentState.primaryConnectionState ? 1 : 0;
+	callCount += currentState && currentState.thirdPartyConnectionState ? 1 : 0;
+	return callCount === 1;
 };
 
 const setAvailable = () => {

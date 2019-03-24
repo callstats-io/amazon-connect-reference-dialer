@@ -15,7 +15,7 @@ import lo from "lodash";
 
 
 const getCurrentStateString = (currentState = undefined) => {
-	const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
+	const state = lo.get(currentState, 'thirdPartyConnectionState.state', 'none');
 	return state;
 };
 
