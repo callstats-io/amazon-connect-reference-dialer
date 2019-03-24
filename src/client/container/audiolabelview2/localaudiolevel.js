@@ -27,7 +27,6 @@ class LocalAudiolevel extends React.Component {
 		mediaManager.dispose();
 		mediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
 			mediaManager.getUserMedia(selectedDevice).then(localStream => {
-				console.warn('~maybeRenderStream', localStream);
 				this.audioControler.renderStream(localStream);
 			}, err => {
 				console.error('none ', err);

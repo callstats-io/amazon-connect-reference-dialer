@@ -20,12 +20,12 @@ const getPhoneNumber = (currentState = "") => {
 	return sessionManager.getPrimaryConnectionPhone();
 };
 
-import RemoteAudioLevel from '../../audiolabelview/audiolevelRemote';
+import RemoteAudioLevel from '../../audiolabelview2/remoteaudiolevel';
 import Duration from "../../agentduration/duration";
 import styles from './agentview.css';
 
 const PeerAndAgentDuration = ({currentState = undefined, remoteStream = undefined}) => (
-	<div className={`col-md-12`}>
+	<div className={`col-md-12 ${styles.peerDurationHeight}`}>
 		<div className={`row`}>
 			<div className={`col-md-6`}>
 				{showPhoneNumber(currentState) &&
@@ -45,8 +45,7 @@ const PeerAndAgentDuration = ({currentState = undefined, remoteStream = undefine
 			</div>
 			<div className={`col-md-2 pl-0 ml-0 text-center`}>
 				{showRemoteAudio(currentState) &&
-				<RemoteAudioLevel remoteStream={remoteStream}
-								  agentStateFn={sessionManager.getPrimaryAgentState}/>}
+				<RemoteAudioLevel remoteStream={remoteStream} viewBox={'0 100 1300 950'}/>}
 			</div>
 			<Duration currentState={currentState}/>
 		</div>

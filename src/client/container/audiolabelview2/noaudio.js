@@ -13,25 +13,9 @@ const style = {
 	stroke: "none"
 };
 
-class RemoteAudioLevel extends React.Component {
+class NoAudio extends React.Component {
 	constructor(props) {
 		super(props);
-		this.audioControler = new AudioFrequencyMonitor();
-	}
-
-	componentDidMount() {
-		console.warn('~componentDidMount>remote');
-		const remoteStream = this.props.remoteStream;
-
-		const barList = [this.refs.bar1, this.refs.bar2, this.refs.bar3, this.refs.bar4, this.refs.bar5, this.refs.bar6, this.refs.bar7];
-		this.audioControler.register(barList, sessionManager.getPrimaryAgentState);
-
-		this.audioControler.renderStream(remoteStream);
-	}
-
-	componentWillUnmount() {
-		console.warn('~componentWillUnmount>remote');
-		this.audioControler.dispose();
 	}
 
 	render() {
@@ -96,9 +80,8 @@ class RemoteAudioLevel extends React.Component {
 	}
 }
 
-RemoteAudioLevel.propTypes = {
+NoAudio.propTypes = {
 	viewBox: PropTypes.string,
-	remoteStream: PropTypes.object,
 };
 
-export default RemoteAudioLevel;
+export default NoAudio;
