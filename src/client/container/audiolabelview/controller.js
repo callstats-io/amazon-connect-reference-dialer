@@ -19,9 +19,8 @@ class AudioFrequencyMonitor {
 		this.agentStateFn = undefined;
 
 		// audio
-		this.context = new AudioContext();
-		this.analyser = this.context.createAnalyser();
-		this.analyser.fftSize = 1024;
+		this.context = undefined;
+		this.analyser = undefined;
 		this.sourceNode = undefined;
 	}
 
@@ -74,7 +73,10 @@ class AudioFrequencyMonitor {
 			if (!stream) {
 				return;
 			}
-			// console.warn('~audiolabel.controller.renderStream', stream);
+			this.context = new AudioContext();
+			this.analyser = this.context.createAnalyser();
+			this.analyser.fftSize = 1024;
+
 			this.sourceNode = this.context.createMediaStreamSource(stream);
 			this.sourceNode.connect(this.analyser);
 			this.visualize(this.analyser);
@@ -90,9 +92,13 @@ class AudioFrequencyMonitor {
 			window.cancelAnimationFrame(this.id);
 			this.id = null;
 		}
-		if (this.sourceNode) {
-			this.sourceNode = undefined;
+		if (this.context) {
+			await this.context.close();
+			this.context = undefined;
+			this.analyser = undefined;
 		}
+
+		this.sourceNode = undefined;
 	}
 
 }
