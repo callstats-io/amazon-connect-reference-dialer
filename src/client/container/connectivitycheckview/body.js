@@ -60,7 +60,6 @@ class Body extends Component {
 					</div>
 					<div className="col-md-3 p-0 m-0">
 						<a className={`btn text-left p-0 m-0 ${this.state.inProgress && 'disabled'} ${styles.reRunButton}`}
-						   href="#"
 						   onClick={() => this.doPrecalTest()}>
 							<img className="fa-dial-button" src={rerunIcon}/> Rerun </a>
 					</div>

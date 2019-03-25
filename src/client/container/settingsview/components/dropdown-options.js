@@ -21,8 +21,7 @@ const DropDownOptions = ({toggleMenuItem, changeAudioInputDevice, showMenuItem, 
 				{
 					inputDeviceList.map((item, indx) => (
 						<a key={`${item.deviceId}-${indx}`} className={`dropdown-item ${styles.dropdownItem}`}
-						   onClick={() => changeAudioInputDevice(item)}
-						   href="#">{item.label}</a>
+						   onClick={() => changeAudioInputDevice(item)}>{item.label}</a>
 					))
 				}
 			</div>

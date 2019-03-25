@@ -2,9 +2,12 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import lo from 'lodash';
 
+
 import starYellowIcon from '../../../res/images/star-yellow.svg';
 import starWhiteIcon from '../../../res/images/star-white.svg';
 import PropTypes from "prop-types";
+import ConfirmReport from './../../popups/confirmreport/confirmreport';
+
 import {
 	onRequestReportCallIssue
 } from "../../../reducers/acReducer";
@@ -37,16 +40,16 @@ class QuickFeedback extends Component {
 	render() {
 		return (
 			<div className="row mt-3">
+				<ConfirmReport/>
 				<div className="col-md-7 pr-0 mr-0">
 					<a className="text-left"
 					   style={{opacity: '0.6', fontFamily: 'AmazonEmber', fontSize: '14px', color: '#000000'}}>How was
 						the call quality?
 					</a></div>
 				<div className="col-md-5 pl-0 ml-0">
-					<a className="text-left" style={{fontFamily: 'AmazonEmber', fontSize: '14px', color: '#3885de'}}
-					   href="#"
+					<a className="text-left" style={{fontFamily: 'AmazonEmber', fontSize: '14px', color: '#3885de', cursor: 'pointer'}}
 					   onClick={() => this.requestReportACallIssue()}
-				>Report a call issue</a>
+					>Report a call issue</a>
 				</div>
 				<div className="col-md-12 mt-1">
 					{

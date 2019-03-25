@@ -4,6 +4,7 @@
 }
 
 .footerSubmit {
+    cursor: pointer;
     height: 36px;
     box-shadow: rgba(0, 0, 0, 0.2) 0 2px 4px 0;
     background-color: rgb(56, 133, 222);

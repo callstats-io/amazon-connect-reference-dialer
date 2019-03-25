@@ -13,6 +13,7 @@ import {connect} from "react-redux";
 import styles from './header.css';
 import Quality from "../popups/quality/quality";
 import networkStrengthMonitor from "../../api/networkStrengthMonitor";
+import {sleep} from './../../utils/acutils';
 
 const CSIOLogo = () => (
 	<div className={`col-md-2 m-0 p-0 text-center`}>
@@ -51,6 +52,7 @@ class Header extends React.Component {
 			isOpen: false,
 			showNetworkStatus: false,
 		};
+		this.show = false;
 		this.requestAgentStateChangeFunc = this.requestAgentStateChangeFunc.bind(this);
 		this.toggleShowNetworkStatus = this.toggleShowNetworkStatus.bind(this);
 	}
@@ -65,11 +67,12 @@ class Header extends React.Component {
 
 	}
 
-	toggleShowNetworkStatus() {
-		let {showNetworkStatus} = this.state;
-		console.warn('~', 'toggleShowNetworkStatus', showNetworkStatus);
-		this.setState({
-			showNetworkStatus: !showNetworkStatus,
+	toggleShowNetworkStatus(show) {
+		this.show = show;
+		sleep(show ? 0 : 500).then(() => {
+			this.setState({
+				showNetworkStatus: this.show,
+			});
 		});
 	}
 
@@ -88,7 +91,9 @@ class Header extends React.Component {
 				</div>
 				{
 					this.state.showNetworkStatus &&
-					<div className={`row text-center justify-content-end`}>
+					<div className={`row text-center justify-content-end`}
+						 onMouseEnter={() => this.toggleShowNetworkStatus(true)}
+						 onMouseLeave={() => this.toggleShowNetworkStatus(false)}>
 						<Quality qualityValue={networkStrengthMonitor.getNetworkStrength()}/>
 					</div>
 				}

@@ -8,7 +8,6 @@ const Footer = ({submitIssue}) => (
 		<div className="row">
 			<div className="col-md-12">
 				<a className={`btn w-100 ${styles.footerSubmit}`}
-				   href="#"
 				   onClick={submitIssue}> Submit</a>
 			</div>
 		</div>

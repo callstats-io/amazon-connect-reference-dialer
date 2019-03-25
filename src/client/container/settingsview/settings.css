@@ -92,6 +92,7 @@
 }
 
 .dropdownItem {
+    cursor: pointer;
     font-family: AmazonEmber;
     font-size: 14px;
 }

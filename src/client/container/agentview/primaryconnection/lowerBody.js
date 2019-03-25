@@ -92,7 +92,7 @@ class LowerBody extends Component {
 						<div className="row mt-3">
 							<div className="col-md-6">
 								<a className={`btn ${styles.toggleHold}`}
-								   href="#" onClick={() => this.toggleHold(currentState)}>
+								   onClick={() => this.toggleHold(currentState)}>
 									<img
 										src={this._isHold(currentState) ? resumeIcon : holdIcon}/> &nbsp; {this._isHold(currentState) ? 'Resume' : 'Hold'}
 								</a>
@@ -101,7 +101,7 @@ class LowerBody extends Component {
 							<div className="col-md-6">
 								<a onClick={this.toggleMuteUnmute}
 								   className={`btn pl-0 pr-0 ${styles.toggleMute}`}
-								   href="#"> {muted ? <img src={unMuteIcon}/> : <img src={muteIcon}/>}
+								   > {muted ? <img src={unMuteIcon}/> : <img src={muteIcon}/>}
 									{muted ? ' Unmute' : ' Mute'}
 								</a>
 							</div>
@@ -111,7 +111,7 @@ class LowerBody extends Component {
 						this._dialOrQuickConnectOrTransfer(currentState) &&
 						<div className="row mt-3">
 							<div className="col-md-6">
-								<a className={`btn ${styles.quickConnectOrTransfer}`} href="#"
+								<a className={`btn ${styles.quickConnectOrTransfer}`}
 								   onClick={() => this.requestDialPad()}>
 									<img src={dialNumberIcon}/> &nbsp;Dial number </a>
 							</div>
@@ -120,11 +120,9 @@ class LowerBody extends Component {
 								{
 									this._transferCall(currentState) ?
 										<a className={`btn pl-0 pr-0 ${styles.quickConnectOrTransfer}`}
-										   href="#"
 										   onClick={() => this.requestTransferCall()}>
 											<img src={transferIcon}/> &nbsp;Transfer </a> :
 										<a className={`btn pl-0 pr-0 ${styles.quickConnectOrTransfer}`}
-										   href="#"
 										   onClick={() => this.requestQuickConnect()}>
 											<img src={quickConnect}/> &nbsp;Quick connects </a>
 

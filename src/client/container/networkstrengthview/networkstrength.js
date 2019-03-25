@@ -96,7 +96,8 @@ class NetworkStrength extends React.Component {
 	render() {
 		return (
 			<img style={{cursor: 'pointer'}}
-				 onClick={this.props.toggleShowNetworkStatus}
+				 onMouseEnter={() => this.props.toggleShowNetworkStatus(true)}
+				 onMouseLeave={() => this.props.toggleShowNetworkStatus(false)}
 				 src={getStrengthIcon(this.state.networkStrength)}/>
 		);
 	}

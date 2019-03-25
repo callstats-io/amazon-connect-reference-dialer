@@ -3,67 +3,40 @@
 }
 
 .reportBox {
+    margin-top: -6em;
     position: absolute;
     z-index: 1023456789;
-
-    width: 301px;
-    height: 166px;
+    height: 170px;
     border-radius: 2px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
     background-color: #ffffff;
 }
 
 .reportText {
-    width: 239px;
     height: 40px;
     font-family: AmazonEmber;
     font-size: 16px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
     color: #000000;
 }
 
 .issueReportText {
-    width: 269px;
     height: 34px;
     font-family: AmazonEmber;
     font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
     color: #000000;
 }
 
 .skip {
-    width: 29px;
-    height: 17px;
     opacity: 0.6;
     font-family: AmazonEmber;
     font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
     text-align: center;
     color: #000000;
 }
 
 .report {
-    width: 53px;
-    height: 17px;
     font-family: AmazonEmber;
     font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
     text-align: center;
     color: #3885de;
 }

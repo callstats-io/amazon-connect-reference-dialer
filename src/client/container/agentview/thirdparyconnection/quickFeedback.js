@@ -43,10 +43,10 @@ class QuickFeedback extends Component {
 						the call quality?
 					</a></div>
 				<div className="col-md-5 pl-0 ml-0">
-					<a className="text-left" style={{fontFamily: 'AmazonEmber', fontSize: '14px', color: '#3885de'}}
-					   href="#"
+					<a className="text-left"
+					   style={{fontFamily: 'AmazonEmber', fontSize: '14px', color: '#3885de', cursor: 'pointer'}}
 					   onClick={() => this.requestReportACallIssue()}
-				>Report a call issue</a>
+					>Report a call issue</a>
 				</div>
 				<div className="col-md-12 mt-1">
 					{

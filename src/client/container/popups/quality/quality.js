@@ -9,8 +9,8 @@ import {
 import {connect} from "react-redux";
 
 const Quality = ({qualityValue = 0, requestConnectivityCheck}) => (
-	<div className={`col-md-7 ${styles.qualityBox}`}>
-		<div className={`row`}>
+	<div className={`col-md-6 p-0 ${styles.qualityBox}`}>
+		<div className={`row no-gutters`}>
 			<span className={`col-md-12 ${styles.bandwidthQuality}`}> Bandwidth quality: <span
 				className={styles.qualityText}> {qualityAsString(qualityValue)}
 				</span>
