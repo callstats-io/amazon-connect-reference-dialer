@@ -11,7 +11,7 @@ import {onRequestAgentSettingsChange, onRequestAgentStateChange} from "../../red
 import {connect} from "react-redux";
 
 import styles from './header.css';
-import Quality from "../popups/quality";
+import Quality from "../popups/quality/quality";
 import networkStrengthMonitor from "../../api/networkStrengthMonitor";
 
 const CSIOLogo = () => (

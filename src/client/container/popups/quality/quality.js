@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import styles from './quality.css';
-import {onRequestConnectivityCheck} from "../../reducers/acReducer";
+import {onRequestConnectivityCheck} from "../../../reducers/acReducer";
 import {
 	qualityAsString
-} from './../../configs/consts';
+} from '../../../configs/consts';
 import {connect} from "react-redux";
 
 const Quality = ({qualityValue = 0, requestConnectivityCheck}) => (
