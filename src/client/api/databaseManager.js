@@ -1,6 +1,6 @@
 'use strict';
 
-const maxElement = 200;
+const maxElement = 500;
 
 class DatabaseManager {
 	constructor() {

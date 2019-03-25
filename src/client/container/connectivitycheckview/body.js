@@ -21,6 +21,7 @@ import databaseManager from "../../api/databaseManager";
 
 
 import styles from './connectivitycheck.css';
+import Loading from "./loading/loading";
 
 class Body extends Component {
 	constructor(props) {
@@ -59,9 +60,11 @@ class Body extends Component {
 						<p className={`m-0 p-0 ${styles.connectivityCheck}`}>Connectivity check</p>
 					</div>
 					<div className="col-md-3 p-0 m-0">
-						<a className={`btn text-left p-0 m-0 ${this.state.inProgress && 'disabled'} ${styles.reRunButton} ${styles.cursor}`}
-						   onClick={() => this.doPrecalTest()}>
-							<img className="fa-dial-button" src={rerunIcon}/> Rerun </a>
+						{this.state.inProgress ? <Loading/> :
+							<a className={`btn text-left p-0 m-0 ${styles.reRunButton} ${styles.cursor}`}
+							   onClick={() => this.doPrecalTest()}>
+								<img className="fa-dial-button" src={rerunIcon}/> Rerun </a>
+						}
 					</div>
 					<div className={`col-md-2 ${styles.cursor}`}
 						 onClick={() => this.closeSetting()}>

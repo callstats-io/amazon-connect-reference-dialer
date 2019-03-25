@@ -17,27 +17,28 @@ const chartOptions = {
 	tooltips: {
 		callbacks: {
 			label: function (tooltipItem) {
-				return tooltipItem.yLabel;
+				return `${tooltipItem.yLabel.toFixed(2)} ms`;
 			}
 		}
 	},
 	scales: {
 		xAxes: [{
 			type: 'time',
+			distribution: 'series',
 			time: {
+				unit: 'day',
 				displayFormats: {
-					'millisecond': 'MMM DD',
-					'second': 'MMM DD',
-					'minute': 'MMM DD',
-					'hour': 'MMM DD',
-					'day': 'MMM DD',
-					'week': 'MMM DD',
-					'month': 'MMM DD',
-					'quarter': 'MMM DD',
-					'year': 'MMM DD',
-				}
+					day: 'D MMM'
+				},
 			}
 		}],
+		yAxes: [{
+			display: true,
+			scaleLabel: {
+				display: true,
+				labelString: 'RTT/ms'
+			}
+		}]
 	},
 };
 
