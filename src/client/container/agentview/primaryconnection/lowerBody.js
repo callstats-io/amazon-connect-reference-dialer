@@ -101,7 +101,7 @@ class LowerBody extends Component {
 							<div className="col-md-6">
 								<a onClick={this.toggleMuteUnmute}
 								   className={`btn pl-0 pr-0 ${styles.toggleMute}`}
-								   > {muted ? <img src={unMuteIcon}/> : <img src={muteIcon}/>}
+								> {muted ? <img src={unMuteIcon}/> : <img src={muteIcon}/>}
 									{muted ? ' Unmute' : ' Mute'}
 								</a>
 							</div>

@@ -9,7 +9,7 @@ const DialNumber = ({dialNumber, marginTop = ""}) => (
 	<div className={`col-md-6 ${marginTop}`}>
 		<a className={`btn ${styles.buttonCommon}`}
 		   onClick={dialNumber}
-		   href="#">
+		>
 			<img src={dialNumberIcon}/> &nbsp; Dial number
 		</a>
 	</div>

@@ -6,7 +6,7 @@ const ConnectivityCheck = ({divClass = '', linkClass = '', style = {}, onClickHa
 		<a className={linkClass}
 		   style={style}
 		   onClick={onClickHandler}
-		   href="#"> Connectivity
+		> Connectivity
 			check </a>
 	</div>
 );

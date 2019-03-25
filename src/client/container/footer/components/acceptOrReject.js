@@ -7,7 +7,6 @@ const AcceptOrReject = ({divClass = '', linkClass = '', style = {}, onClickHandl
 	<div className={divClass}>
 		<a className={linkClass}
 		   style={style}
-		   href="#"
 		   onClick={onClickHandler}>
 			{isReject && <img src={dialButton}/>}
 			{text}

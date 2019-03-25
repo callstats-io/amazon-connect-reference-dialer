@@ -10,7 +10,7 @@ const MuteUnmute = ({toggleMuteUnmute, muted = false, marginTop = ""}) => (
 	<div className={`col-md-6 ${marginTop}`}>
 		<a className={`btn ${styles.buttonCommon}`}
 		   onClick={toggleMuteUnmute}
-		   href="#">
+		>
 			<img src={muted ? unMuteIcon : muteIcon}/> {muted ? ' Unmute' : ' Mute'}
 		</a>
 	</div>

@@ -15,7 +15,7 @@ const ContactField = ({contactList = [], dialContact}) => (
 							</a>
 						</div>
 						<div className={`col-md-4 text-right`}>
-							<a className={`btn ${styles.dialButton}`} onClick={ ()=> dialContact(currentContact) }>
+							<a className={`btn ${styles.dialButton}`} onClick={() => dialContact(currentContact)}>
 								Dial
 							</a>
 						</div>

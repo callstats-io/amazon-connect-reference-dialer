@@ -10,6 +10,7 @@ class UpperBody extends Component {
 		super(props);
 
 	}
+
 	render() {
 		const {currentState} = this.props;
 		return (

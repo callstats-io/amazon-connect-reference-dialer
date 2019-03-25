@@ -20,6 +20,6 @@ const FindContact = ({contactChange, contactValue = ""}) => (
 
 FindContact.propTypes = {
 	contactChange: PropTypes.func.isRequired,
-	contactValue : PropTypes.string
+	contactValue: PropTypes.string
 };
 export default FindContact;

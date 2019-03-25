@@ -8,7 +8,7 @@ const Language = ({divClass = '', linkClass = '', style = {}, onClickHandler}) =
 		<a className={linkClass}
 		   style={style}
 		   onClick={onClickHandler}
-		   href="#"> <img src={languageIcon}/> English </a>
+		> <img src={languageIcon}/> English </a>
 	</div>
 );
 

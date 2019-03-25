@@ -8,7 +8,7 @@ const Swap = ({swapConnection, marginTop = ""}) => (
 	<div className={`col-md-6 ${marginTop}`}>
 		<a className={`btn ${styles.buttonCommon}`}
 		   onClick={swapConnection}
-		   href="#">
+		>
 			<img src={swapIcon}/> &nbsp; Swap
 		</a>
 	</div>

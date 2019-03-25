@@ -27,7 +27,7 @@
     box-shadow: none;
 }
 
-.quickConnectSearch:focus{
+.quickConnectSearch:focus {
     border: 1px solid #000000;
     border-top: 0 !important;
     border-left: 0 !important;
@@ -57,12 +57,12 @@
     color: #FFFFFF;
 }
 
-.contactItem:hover .dialButton{
+.contactItem:hover .dialButton {
     visibility: visible;
     color: #FFFFFF !important;
 }
 
-.contactItem:hover .contactName{
+.contactItem:hover .contactName {
     color: #FFFFFF !important;
 }
 

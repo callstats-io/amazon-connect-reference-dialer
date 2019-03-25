@@ -28,7 +28,9 @@ const shouldCaptureMediaSource = (currentState = undefined, muted) => {
 class UpperBody extends Component {
 	constructor(props) {
 		super(props);
-``	}
+		``
+	}
+
 	render() {
 		const hasError = this.props.errorMessage && this.props.errorMessage.errorType;
 		const state = getCurrentStateString(this.props.currentState);

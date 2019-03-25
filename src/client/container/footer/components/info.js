@@ -8,7 +8,7 @@ const Info = ({divClass = '', linkClass = '', style = {}, onClickHandler}) => (
 		<a className={linkClass}
 		   style={style}
 		   onClick={onClickHandler}
-		   href="#"> <img src={infoIcon}/> Info </a>
+		> <img src={infoIcon}/> Info </a>
 	</div>
 );
 

@@ -8,7 +8,7 @@ const Join = ({joinConnection, marginTop = ""}) => (
 	<div className={`col-md-6 ${marginTop}`}>
 		<a className={`btn ${styles.buttonCommon}`}
 		   onClick={joinConnection}
-		   href="#">
+		>
 			<img src={joinIcon}/> &nbsp; Join
 		</a>
 	</div>

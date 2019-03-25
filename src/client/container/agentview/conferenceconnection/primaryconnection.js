@@ -112,7 +112,8 @@ class PrimaryConnection extends Component {
 							 src={endIcon}/>
 					</div>
 					<div className={`col-md-8 mt-1 ${styles.phoneAndDurationMini}`}><span>{getNumber()}</span></div>
-					<div className={`col-md-4 mt-1 text-right ${styles.phoneAndDurationMini}`}><span>{this.state.duration}</span>
+					<div className={`col-md-4 mt-1 text-right ${styles.phoneAndDurationMini}`}>
+						<span>{this.state.duration}</span>
 					</div>
 				</div>
 			</div>

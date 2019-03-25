@@ -8,7 +8,7 @@ const DownloadLogs = ({divClass = '', linkClass = '', style = {}, onClickHandler
 		<a className={linkClass}
 		   style={style}
 		   onClick={onClickHandler}
-		   href="#"> <img src={downloadIcon}/> Download logs </a>
+		> <img src={downloadIcon}/> Download logs </a>
 	</div>
 );
 

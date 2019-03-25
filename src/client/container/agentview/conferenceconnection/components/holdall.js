@@ -7,7 +7,7 @@ const HoldAll = ({holdAll, marginTop = ""}) => (
 	<div className={`col-md-6 ${marginTop}`}>
 		<a className={`btn ${styles.buttonCommon}`}
 		   onClick={holdAll}
-		   href="#">
+		>
 			<img src={holdIcon}/> &nbsp; Hold all
 		</a>
 	</div>

@@ -8,7 +8,7 @@ const ResumeAll = ({resumeAll, marginTop = ""}) => (
 	<div className={`col-md-6 ${marginTop}`}>
 		<a className={`btn ${styles.buttonCommon}`}
 		   onClick={resumeAll}
-		   href="#">
+		>
 			<img src={resumeIcon}/> &nbsp; Resume all
 		</a>
 	</div>

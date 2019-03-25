@@ -5,6 +5,7 @@ import Body from './body';
 import Footer from './footer';
 
 import styles from './statuschange.css';
+
 const StateChangeView = ({}) => (
 	<div className={`row h-100 border-right border-top border-bottom`}>
 		<div className={`${styles.acZeroPadding} col-md-12`}>

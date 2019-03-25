@@ -54,7 +54,7 @@
     box-shadow: none;
 }
 
-.btnGroup:focus{
+.btnGroup:focus {
     box-shadow: none;
 }
 
@@ -73,7 +73,7 @@
     box-shadow: none;
 }
 
-.btnDropDown:focus{
+.btnDropDown:focus {
     box-shadow: none;
 }
 
@@ -87,7 +87,8 @@
     border-radius: 0 !important;
     box-shadow: none;
 }
-.dropDownMenu:focus{
+
+.dropDownMenu:focus {
     box-shadow: none;
 }
 

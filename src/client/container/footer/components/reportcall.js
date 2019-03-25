@@ -6,7 +6,7 @@ const ReportACall = ({divClass = '', linkClass = '', style = {}, onClickHandler}
 		<a className={linkClass}
 		   style={style}
 		   onClick={onClickHandler}
-		   href="#"> Report a call
+		> Report a call
 			issue </a>
 	</div>
 );

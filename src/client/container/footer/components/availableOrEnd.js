@@ -8,7 +8,6 @@ const AvailableOrEnd = ({divClass = '', linkClass = '', style = {}, onClickHandl
 		<div className={divClass}>
 			<a className={linkClass}
 			   style={style}
-			   href="#"
 			   onClick={onClickHandler}>
 				{isEnded && <img src={dialButton}/>}
 				{text}
