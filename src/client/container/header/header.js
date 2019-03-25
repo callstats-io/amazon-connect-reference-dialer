@@ -11,6 +11,8 @@ import {onRequestAgentSettingsChange, onRequestAgentStateChange} from "../../red
 import {connect} from "react-redux";
 
 import styles from './header.css';
+import Quality from "../popups/quality";
+import networkStrengthMonitor from "../../api/networkStrengthMonitor";
 
 const CSIOLogo = () => (
 	<div className={`col-md-2 m-0 p-0 text-center`}>
@@ -26,11 +28,14 @@ const ChangeStatus = ({onClickHandler}) => (
 	</div>
 );
 
-const NetworkStrengthChange = () => (
+const NetworkStrengthChange = ({toggleShowNetworkStatus}) => (
 	<div className={`col-md-2 pl-0 ml-0 pr-0 mr-0 my-auto text-center`}>
-		<NetworkStrength/>
+		<NetworkStrength toggleShowNetworkStatus={toggleShowNetworkStatus}/>
 	</div>
 );
+NetworkStrengthChange.propTypes = {
+	toggleShowNetworkStatus: PropTypes.func.isRequired,
+};
 
 const DialerSettings = ({onClickHandler}) => (
 	<div className={`col-md-2 border-left ${styles.acPointer} ${styles.leftBorder}`}
@@ -43,9 +48,11 @@ class Header extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isOpen: false
+			isOpen: false,
+			showNetworkStatus: false,
 		};
 		this.requestAgentStateChangeFunc = this.requestAgentStateChangeFunc.bind(this);
+		this.toggleShowNetworkStatus = this.toggleShowNetworkStatus.bind(this);
 	}
 
 	requestAgentStateChangeFunc() {
@@ -58,6 +65,14 @@ class Header extends React.Component {
 
 	}
 
+	toggleShowNetworkStatus() {
+		let {showNetworkStatus} = this.state;
+		console.warn('~', 'toggleShowNetworkStatus', showNetworkStatus);
+		this.setState({
+			showNetworkStatus: !showNetworkStatus,
+		});
+	}
+
 	render() {
 		return (
 			<div className={`card-header pt-0 pb-0 mt-0 mb-0 ${styles.acHeader}`}>
@@ -68,9 +83,15 @@ class Header extends React.Component {
 							<ChangeStatus onClickHandler={this.requestAgentStateChangeFunc}/>
 						</div>
 					</div>
-					<NetworkStrengthChange/>
+					<NetworkStrengthChange toggleShowNetworkStatus={this.toggleShowNetworkStatus}/>
 					<DialerSettings onClickHandler={this.props.requestAgentSettingsChange}/>
 				</div>
+				{
+					this.state.showNetworkStatus &&
+					<div className={`row text-center justify-content-end`}>
+						<Quality qualityValue={1}/>
+					</div>
+				}
 			</div>
 		)
 	}

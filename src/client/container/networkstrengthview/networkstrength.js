@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import networkStrength1 from '../../res/images/fa-network-strength-1.svg';
 import networkStrength2 from '../../res/images/fa-network-strength-2.svg';
@@ -9,6 +10,7 @@ import networkStrengthUnknown from '../../res/images/fa-network-strength-unknown
 import agentHandler from "../../api/agentHandler";
 import csioHandler from "../../api/csioHandler";
 import networkStrengthMonitor from "../../api/networkStrengthMonitor";
+
 
 const networkStrengthIcon = [networkStrengthUnknown, networkStrength1, networkStrength2, networkStrength3, networkStrength4, networkStrength5];
 
@@ -32,6 +34,7 @@ class NetworkStrength extends React.Component {
 		this.lastTimestamp = Date.now();
 		this.state = {
 			networkStrength: 0,
+			// networkStrengthAsString: "Unknown",
 		}
 	}
 
@@ -68,6 +71,7 @@ class NetworkStrength extends React.Component {
 		let networkStrength = networkStrengthMonitor.getNetworkStrength();
 		this.setState({
 			networkStrength: networkStrength,
+			// networkStrengthAsString: qualityAsString(networkStrength),
 		});
 
 		this.doPrecallTest().then(() => {
@@ -91,9 +95,15 @@ class NetworkStrength extends React.Component {
 
 	render() {
 		return (
-			<img src={getStrengthIcon(this.state.networkStrength)}/>
+			<img style={{cursor: 'pointer'}}
+				 onClick={this.props.toggleShowNetworkStatus}
+				 src={getStrengthIcon(this.state.networkStrength)}/>
 		);
 	}
 }
+
+NetworkStrength.propTypes = {
+	toggleShowNetworkStatus: PropTypes.func.isRequired,
+};
 
 export default NetworkStrength;

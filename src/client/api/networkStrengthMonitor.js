@@ -1,4 +1,7 @@
-import {throughputThreshold} from './../configs/consts';
+import {
+	throughputThreshold,
+	qualityAsString,
+} from './../configs/consts';
 
 const HASH = 10000009;
 const MAX_ITERATION_COUNT = 5;
@@ -34,6 +37,11 @@ class NetworkStrengthMonitor {
 
 		this.hashLastPulled = this.hash;
 		return throughputThreshold(this.curBitrate);
+	}
+
+	getNetworkStrengthAsString(){
+		const networkStrength = this.getNetworkStrength();
+		return qualityAsString(networkStrength);
 	}
 
 }

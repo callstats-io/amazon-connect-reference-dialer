@@ -1,0 +1,32 @@
+.qualityBox {
+    /*height: 31px;*/
+    position: absolute;
+    z-index: 1023456789;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.9);
+    margin-left: 0.3em;
+    min-height: 22px;
+}
+
+.bandwidthQuality {
+    opacity: 0.6;
+    font-family: AmazonEmber;
+    font-size: 12px;
+    color: #000000;
+    margin-top: 1%;
+}
+
+.qualityText {
+    font-family: AmazonEmber;
+    font-size: 12px;
+    font-weight: bold !important;
+    color: #000000;
+}
+
+.reportACall {
+    font-family: AmazonEmber;
+    font-size: 10px;
+    color: #3885de !important;
+    cursor: pointer;
+}

@@ -13,10 +13,6 @@ const throughputthreshold = [
 	{threshold: 25, qualityRating: 3,},
 	{threshold: 30, qualityRating: 4,},
 	{threshold: MAX_VALUE, qualityRating: 5},
-
-	/*	{threshold: 8, qualityRating: 1,},
-		{threshold: 30, qualityRating: 2,},
-		{threshold: MAX_VALUE, qualityRating: 3}*/
 ];
 
 export const throughputThreshold = (audioThroughput) => {
@@ -29,3 +25,18 @@ export const throughputThreshold = (audioThroughput) => {
 	return 0; // unknown quality
 };
 
+export const qualityAsString = (nextworkStrength) => {
+	switch (nextworkStrength) {
+		case 1:
+			return 'bad';
+		case 2:
+			return 'poor';
+		case 3:
+			return 'fair';
+		case 4:
+			return 'good';
+		case 5:
+			return 'excellent';
+	}
+	return 'Unknown';
+};
