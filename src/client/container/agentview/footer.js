@@ -21,6 +21,7 @@ const AgentViewStyle = {
 			textAlign: 'center',
 			color: '#ffffff',
 			borderRadius: '0px',
+			cursor: 'pointer',
 		},
 	},
 	reject: {
@@ -34,6 +35,7 @@ const AgentViewStyle = {
 			textAlign: 'center',
 			color: '#ffffff',
 			borderRadius: '0px',
+			cursor: 'pointer',
 		},
 	},
 	available: {
@@ -47,6 +49,7 @@ const AgentViewStyle = {
 			fontFamily: 'AmazonEmber',
 			fontSize: '14px',
 			borderRadius: '0px',
+			cursor: 'pointer',
 		}
 	},
 	end: {
@@ -60,6 +63,7 @@ const AgentViewStyle = {
 			fontFamily: 'AmazonEmber',
 			fontSize: '14px',
 			borderRadius: '0px',
+			cursor: 'pointer',
 		},
 	},
 };
