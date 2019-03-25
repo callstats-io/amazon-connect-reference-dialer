@@ -47,7 +47,8 @@ const PeerAndAgentDuration = ({currentState = undefined, remoteStream = undefine
 				{showRemoteAudio(currentState) &&
 				<RemoteAudioLevel remoteStream={remoteStream} viewBox={'0 100 1300 950'}/>}
 			</div>
-			<Duration currentState={currentState}/>
+			<Duration currentState={currentState}
+					  isPrimary={false}/>
 		</div>
 	</div>
 );

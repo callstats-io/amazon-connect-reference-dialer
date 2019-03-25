@@ -34,7 +34,7 @@ class Duration extends Component {
 	componentDidMount() {
 		this._dispose();
 		this.intervalId = setInterval(() => {
-			let duration = sessionManager.getThirdPartyConnectionDuration();
+			let duration = this.props.isPrimary ? sessionManager.getPrimaryConnectionDuration() : sessionManager.getThirdPartyConnectionDuration();
 			this.setState({
 				duration: duration,
 			});
@@ -57,6 +57,7 @@ class Duration extends Component {
 
 Duration.propTypes = {
 	currentState: PropTypes.string,
+	isPrimary: PropTypes.bool.isRequired,
 };
 
 export default Duration;

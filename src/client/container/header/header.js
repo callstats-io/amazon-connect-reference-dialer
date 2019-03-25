@@ -89,7 +89,7 @@ class Header extends React.Component {
 				{
 					this.state.showNetworkStatus &&
 					<div className={`row text-center justify-content-end`}>
-						<Quality qualityValue={1}/>
+						<Quality qualityValue={networkStrengthMonitor.getNetworkStrength()}/>
 					</div>
 				}
 			</div>
