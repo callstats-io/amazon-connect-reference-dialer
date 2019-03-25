@@ -43,7 +43,7 @@ class QuickFeedback extends Component {
 				<ConfirmReport/>
 				<div className="col-md-7 pr-0 mr-0">
 					<a className="text-left"
-					   style={{opacity: '0.6', fontFamily: 'AmazonEmber', fontSize: '14px', color: '#000000'}}>How was
+					   style={{cursor: 'pointer', opacity: '0.6', fontFamily: 'AmazonEmber', fontSize: '14px', color: '#000000'}}>How was
 						the call quality?
 					</a></div>
 				<div className="col-md-5 pl-0 ml-0">

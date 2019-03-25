@@ -8,13 +8,14 @@
     height: 36px;
     box-shadow: rgba(0, 0, 0, 0.2) 0 2px 4px 0;
     background-color: rgb(56, 133, 222);
-    color: rgb(255, 255, 255);
+    color: rgb(255, 255, 255) !important;
     font-family: AmazonEmber;
     font-size: 14px;
     border-radius: 0 !important;
 }
 
 .textArea {
+    outline: none !important;
     max-height: 55px;
     min-height: 10px;
     background-color: #f7f7f7;

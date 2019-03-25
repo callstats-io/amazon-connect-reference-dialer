@@ -14,7 +14,7 @@ const Footer = ({requestReportACallIssue}) => (
 			<ReportACall
 				divClass={'col-md-6 p-0 text-left'}
 				linkClass={'btn'}
-				style={{color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px', borderRadius: '0'}}
+				style={{cursor: 'pointer', color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px', borderRadius: '0'}}
 				onClickHandler={requestReportACallIssue}/>
 
 			<Info divClass={'col-md-6 text-right'}
