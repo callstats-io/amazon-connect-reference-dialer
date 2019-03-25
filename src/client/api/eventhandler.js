@@ -162,7 +162,7 @@ class EventHandler {
 				console.warn('~REFRESH', primaryConnectionState, thirdPartyConnectionState, isMultipartyCall(e));
 				//donot send state change for connection when both are null.
 				//in that case use agent state
-				if (primaryConnectionState || thirdPartyConnectionState) {
+				if ((primaryConnectionState && primaryConnectionState.state) || (thirdPartyConnectionState && thirdPartyConnectionState.state)) {
 					currentState = payload;
 					this.dispatch(onStateChange(payload));
 				} else {
