@@ -1,5 +1,6 @@
 .reportBoxMain {
-
+    max-width: 96% !important;
+    margin-left: 2% !important;
 }
 
 .reportBox {
@@ -39,4 +40,8 @@
     font-size: 14px;
     text-align: center;
     color: #3885de;
+}
+
+.cursor{
+    cursor: pointer;
 }

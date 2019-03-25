@@ -5,10 +5,9 @@ import {connect} from "react-redux";
 import closeBtn from './../../../res/images/fa-close-or-dismiss.svg';
 import styles from './confirmreport.css';
 
-import {onRequestConnectivityCheck} from "../../../reducers/acReducer";
 
-const ConfirmReport = ({}) => (
-	<div className={`col-md-12`}>
+const ConfirmReport = ({requestReportACallIssue, closeReport, skipReport}) => (
+	<div className={`col-md-12 ${styles.reportBoxMain}`}>
 		<div className={'row'}>
 			<div className={`col-md-12 ${styles.reportBox}`}>
 				<div className="row mt-2">
@@ -16,7 +15,7 @@ const ConfirmReport = ({}) => (
 						<span className={styles.reportText}>Would you like to report a call issue?</span>
 					</div>
 					<div className="col-md-2 text-right">
-						<img className="p-0 m-0" src={closeBtn}/>
+						<img onClick={closeReport} className={`p-0 m-0 ${styles.cursor}`} src={closeBtn}/>
 					</div>
 				</div>
 				<div className="row mt-1">
@@ -27,9 +26,11 @@ const ConfirmReport = ({}) => (
 				<div className="row mt-2">
 					<div className="col-md-6">
 					</div>
-					<div className={`col-md-3 text-right ${styles.skip}`}> SKIP
+					<div onClick={skipReport}
+						 className={`col-md-3 text-right ${styles.skip} ${styles.cursor}`}> SKIP
 					</div>
-					<div className={`col-md-3 text-right ${styles.report}`}> Report
+					<div onClick={requestReportACallIssue}
+						 className={`col-md-3 text-right ${styles.report} ${styles.cursor}`}> Report
 					</div>
 				</div>
 			</div>
@@ -38,16 +39,9 @@ const ConfirmReport = ({}) => (
 );
 
 
-ConfirmReport.propTypes = {};
-
-
-const mapStateToProps = state => ({});
-const mapDispatchToProps = dispatch => ({
-	requestConnectivityCheck: () => {
-		dispatch(onRequestConnectivityCheck('pending'))
-	},
-});
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(ConfirmReport);
+ConfirmReport.propTypes = {
+	requestReportACallIssue: PropTypes.func.isRequired,
+	closeReport: PropTypes.func.isRequired,
+	skipReport: PropTypes.func.isRequired,
+};
+export default ConfirmReport;

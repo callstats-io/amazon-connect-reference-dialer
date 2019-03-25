@@ -2,9 +2,12 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import lo from 'lodash';
 
+
 import starYellowIcon from '../../../res/images/star-yellow.svg';
 import starWhiteIcon from '../../../res/images/star-white.svg';
 import PropTypes from "prop-types";
+import ConfirmReport from './../../popups/confirmreport/confirmreport';
+
 import {
 	onRequestReportCallIssue
 } from "../../../reducers/acReducer";
@@ -20,13 +23,31 @@ class QuickFeedback extends Component {
 		super(props);
 		this.state = {
 			feedback: defaultFeedback,
+			showReport: false,
+			skipReport: false,
 		};
+		this.closeReport = this.closeReport.bind(this);
+		this.skipReport = this.skipReport.bind(this);
 	}
 
 	feedbackChange(currentFeedback) {
 		//todo submit feedback, and vanish
+		let showReport = currentFeedback < 3 ? true : false;
 		this.setState({
-			feedback: currentFeedback
+			feedback: currentFeedback,
+			showReport: showReport,
+		});
+	}
+
+	closeReport() {
+		this.setState({
+			showReport: false,
+		});
+	}
+
+	skipReport() {
+		this.setState({
+			skipReport: true,
 		});
 	}
 
@@ -37,9 +58,22 @@ class QuickFeedback extends Component {
 	render() {
 		return (
 			<div className="row mt-3">
+				{
+					!this.state.skipReport && this.state.showReport &&
+					<ConfirmReport requestReportACallIssue={() => this.requestReportACallIssue()}
+								   closeReport={this.closeReport}
+								   skipReport={this.skipReport}/>
+				}
+
 				<div className="col-md-7 pr-0 mr-0">
 					<a className="text-left"
-					   style={{cursor: 'pointer', opacity: '0.6', fontFamily: 'AmazonEmber', fontSize: '14px', color: '#000000'}}>How was
+					   style={{
+						   cursor: 'pointer',
+						   opacity: '0.6',
+						   fontFamily: 'AmazonEmber',
+						   fontSize: '14px',
+						   color: '#000000'
+					   }}>How was
 						the call quality?
 					</a></div>
 				<div className="col-md-5 pl-0 ml-0">

@@ -2,9 +2,6 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
-import mediaManager from "../../../api/mediaManager";
-
-
 import AgentStatusAndAudioLabel from "./agentStatusAndAudioLabel";
 import AgentMutedLabel from './AgentMutedLabel';
 import PeerAndAgentDuration from './PeerAndAgentDuration';
@@ -28,7 +25,6 @@ const shouldCaptureMediaSource = (currentState = undefined, muted) => {
 class UpperBody extends Component {
 	constructor(props) {
 		super(props);
-		``
 	}
 
 	render() {

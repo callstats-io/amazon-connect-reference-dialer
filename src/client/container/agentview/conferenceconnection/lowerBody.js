@@ -85,6 +85,11 @@ class LowerBody extends Component {
 		}, e => console.error(e));
 	}
 
+	isAfterCallWork(currentState = undefined) {
+		const primaryState = lo.get(currentState, 'primaryConnectionState.state', 'none');
+		const thirdPartyState = lo.get(currentState, 'primaryConnectionState.state', 'none');
+		return [primaryState, thirdPartyState].includes('AfterCallWork');
+	}
 	swapConnection() {
 		sessionManager.swapCall().then(s => {
 		}, e => console.error(e));
@@ -115,6 +120,9 @@ class LowerBody extends Component {
 											   dialNumber={this.dialNumber}
 											   toggleMuteUnmute={this.toggleMuteUnmute}
 											   muted={muted}/>
+					}
+					{
+						this.isAfterCallWork(currentState) && <QuickFeedback/>
 					}
 
 				</div>
