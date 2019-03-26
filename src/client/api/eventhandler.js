@@ -93,7 +93,7 @@ const getConnectionState = (contact = undefined, isPrimary = true) => {
 	} else if (isInbound(connection)) {
 		state = 'Inbound call';
 	} else if (isMissedCall(connection)) {
-		state = 'Missed';
+		state = 'Missed call';
 	} else if (isConnected(connection)) {
 		state = 'Connected';
 	} else if (isHold(connection)) {

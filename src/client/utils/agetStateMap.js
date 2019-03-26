@@ -11,6 +11,7 @@ const colorSchema = {
 	onhold: '#e07724',
 	hold: '#e07724',
 	missed: '#e07724',
+	missedcall: '#e07724',
 	inboundcall: '#9a62cf',
 	incomingcall: '#9a62cf',
 	missedcallagent: '#e07724',
