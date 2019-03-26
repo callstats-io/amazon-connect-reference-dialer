@@ -7,7 +7,7 @@ import AudioFrequencyMonitor from './controller';
 
 
 const style = {
-	fill: "rgba(0, 0, 0, 0.5)",
+	fill: "#ffffff",
 	fillOpacity: 1,
 	fillRule: "nonzero",
 	stroke: "none"

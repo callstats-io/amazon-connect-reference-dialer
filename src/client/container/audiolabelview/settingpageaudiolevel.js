@@ -7,26 +7,37 @@ import AudioFrequencyMonitor from './controller';
 
 
 const style = {
-	fill: "#ffffff",
+	fill: "rgba(0, 0, 0, 0.5)",
 	fillOpacity: 1,
 	fillRule: "nonzero",
 	stroke: "none"
 };
 
-class RemoteAudioLevel extends React.Component {
+class LocalAudiolevel extends React.Component {
 	constructor(props) {
 		super(props);
 		this.audioControler = new AudioFrequencyMonitor();
+		this.localStream = undefined;
 	}
 
 	componentDidMount() {
-		// console.warn('~componentDidMount>remote');
+		// console.warn('~componentDidMount');
 		const barList = [this.refs.bar1, this.refs.bar2, this.refs.bar3, this.refs.bar4, this.refs.bar5, this.refs.bar6, this.refs.bar7];
 		this.audioControler.register(barList, sessionManager.getPrimaryAgentState);
+
+		mediaManager.dispose();
+		mediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
+			mediaManager.getUserMedia(selectedDevice).then(localStream => {
+				this.localStream = localStream;
+			}, err => {
+				console.error('none ', err);
+			})
+		});
 	}
 
 	componentWillUnmount() {
-		// console.warn('~componentWillUnmount>remote');
+		// console.warn('~componentWillUnmount');
+		mediaManager.dispose();
 		this.audioControler.dispose();
 	}
 
@@ -39,8 +50,9 @@ class RemoteAudioLevel extends React.Component {
 	render() {
 		const viewBox = this.props.viewBox || '0 200 1000 1000';
 		return (
-			<span ref={this.dummyClick} onClick={() => this.audioControler.renderStream(this.props.remoteStream)}>
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox={viewBox}
+			<span ref={this.dummyClick} onClick={() => this.audioControler.renderStream(this.localStream)}>
+				<svg xmlns="http://www.w3.org/2000/svg"
+					 viewBox={viewBox}
 					 x="0"
 					 y="0"
 					 width="100%"
@@ -99,9 +111,8 @@ class RemoteAudioLevel extends React.Component {
 	}
 }
 
-RemoteAudioLevel.propTypes = {
+LocalAudiolevel.propTypes = {
 	viewBox: PropTypes.string,
-	remoteStream: PropTypes.object,
 };
 
-export default RemoteAudioLevel;
+export default LocalAudiolevel;
