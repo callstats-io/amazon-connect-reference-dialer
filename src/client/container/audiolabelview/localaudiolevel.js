@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 import mediaManager from './../../api/mediaManager';
 import sessionManager from './../../api/sessionManager';
 import AudioFrequencyMonitor from './controller';
-
+import {
+	sleep
+} from './../../utils/acutils';
 
 const style = {
 	fill: "#ffffff",
@@ -13,30 +15,46 @@ const style = {
 	stroke: "none"
 };
 
+const MEDIA_RETRY_INTERVAL_MS = 2 * 1000;
+const MAX_MEDIA_RETRY_COUNT = 30;
+
 class LocalAudiolevel extends React.Component {
 	constructor(props) {
 		super(props);
 		this.audioControler = new AudioFrequencyMonitor();
-		this.localStream = undefined;
+		this.intervalId = undefined;
+	}
+
+	fetchMedia(mediaRetryCount = 0) {
+		this.intervalId = setInterval(async () => {
+			console.warn('~', 'trying to fetch local media', mediaRetryCount);
+			let selectedDevice = await mediaManager.getDefaultOrPreferredAudioInputDevice();
+			try {
+				const localStream = await mediaManager.getUserMedia(selectedDevice);
+				this.clearInterval();
+				this.audioControler.renderStream(localStream);
+			} catch (err) {
+				if (mediaRetryCount < 1) {
+					// console.warn('maximum media recover count exceeded');
+					this.clearInterval();
+				}
+				mediaRetryCount -= 1;
+			}
+		}, MEDIA_RETRY_INTERVAL_MS);
+
 	}
 
 	componentDidMount() {
 		// console.warn('~componentDidMount');
 		const barList = [this.refs.bar1, this.refs.bar2, this.refs.bar3, this.refs.bar4, this.refs.bar5, this.refs.bar6, this.refs.bar7];
 		this.audioControler.register(barList, sessionManager.getPrimaryAgentState);
-
+		this.clearInterval();
 		mediaManager.dispose();
-		mediaManager.getDefaultOrPreferredAudioInputDevice().then(selectedDevice => {
-			mediaManager.getUserMedia(selectedDevice).then(localStream => {
-				this.localStream = localStream;
-			}, err => {
-				console.error('none ', err);
-			})
-		});
 	}
 
 	componentWillUnmount() {
 		// console.warn('~componentWillUnmount');
+		this.clearInterval();
 		mediaManager.dispose();
 		this.audioControler.dispose();
 	}
@@ -47,10 +65,18 @@ class LocalAudiolevel extends React.Component {
 		}, 1000);
 	}
 
+	clearInterval() {
+		if (!this.intervalId) {
+			return;
+		}
+		clearInterval(this.intervalId);
+		this.intervalId = undefined;
+	}
+
 	render() {
 		const viewBox = this.props.viewBox || '0 200 1000 1000';
 		return (
-			<span ref={this.dummyClick} onClick={() => this.audioControler.renderStream(this.localStream)}>
+			<span ref={this.dummyClick} onClick={() => this.fetchMedia(MAX_MEDIA_RETRY_COUNT)}>
 				<svg xmlns="http://www.w3.org/2000/svg"
 					 viewBox={viewBox}
 					 x="0"
