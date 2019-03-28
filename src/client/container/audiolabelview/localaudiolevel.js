@@ -4,9 +4,6 @@ import PropTypes from "prop-types";
 import mediaManager from './../../api/mediaManager';
 import sessionManager from './../../api/sessionManager';
 import AudioFrequencyMonitor from './controller';
-import {
-	sleep
-} from './../../utils/acutils';
 
 const style = {
 	fill: "#ffffff",
