@@ -16,6 +16,9 @@ const SoftPhone = ({changeToSoftphone, enabled = false}) => (
 		<div className="col-md-10 pl-0">
 			<span className={styles.softphoneText}>Softphone</span>
 		</div>
+		<div className={`col-md-12 ml-1 mt-1 ${styles.outputDeviceText}`}>
+			Microphone
+		</div>
 	</div>
 );
 

@@ -8,7 +8,7 @@ import AudioOutputDevice from "./audiooutputdevice";
 import styles from './../settings.css';
 
 const SoftPhoneSettings = ({toggleMenuItem, changeAudioInputDevice, showMenuItem, inputDeviceList, audioInputDevice, audioOutputDevice}) => (
-	<div className="row mt-1">
+	<div className="row mt-2">
 		<DropDownOptions toggleMenuItem={toggleMenuItem}
 						 changeAudioInputDevice={changeAudioInputDevice}
 						 showMenuItem={showMenuItem}
