@@ -12,8 +12,8 @@ const style = {
 	stroke: "none"
 };
 
-const MEDIA_RETRY_INTERVAL_MS = 2 * 1000;
-const MAX_MEDIA_RETRY_COUNT = 30;
+const MEDIA_RETRY_INTERVAL_MS = 1 * 1000;
+const MAX_MEDIA_RETRY_COUNT = 60;
 
 class LocalAudiolevel extends React.Component {
 	constructor(props) {

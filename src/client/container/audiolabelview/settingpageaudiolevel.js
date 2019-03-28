@@ -13,8 +13,8 @@ const style = {
 	stroke: "none"
 };
 
-const MEDIA_RETRY_INTERVAL_MS = 2 * 1000;
-const MAX_MEDIA_RETRY_COUNT = 30;
+const MEDIA_RETRY_INTERVAL_MS = 1 * 1000;
+const MAX_MEDIA_RETRY_COUNT = 60;
 
 class LocalAudiolevel extends React.Component {
 	constructor(props) {
@@ -40,6 +40,14 @@ class LocalAudiolevel extends React.Component {
 			}
 		}, MEDIA_RETRY_INTERVAL_MS);
 
+	}
+
+	componentDidMount() {
+		// console.warn('~componentDidMount');
+		const barList = [this.refs.bar1, this.refs.bar2, this.refs.bar3, this.refs.bar4, this.refs.bar5, this.refs.bar6, this.refs.bar7];
+		this.audioControler.register(barList, sessionManager.getPrimaryAgentState);
+		this.clearInterval();
+		mediaManager.dispose();
 	}
 
 	componentWillUnmount() {
