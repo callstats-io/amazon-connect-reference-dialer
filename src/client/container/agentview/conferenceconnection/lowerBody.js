@@ -13,7 +13,7 @@ import OneHoldOtherConnected from "./components/oneHoldOtherConnected";
 import {onRequestShowDialPad} from "../../../reducers/acReducer";
 
 const isHold = (state) => {
-	return ['Hold', 'hold'].includes(state);
+	return ['Hold', 'hold', 'On hold'].includes(state);
 };
 const isConnected = (state) => {
 	return ['Join', 'Joined', 'Connected'].includes(state);

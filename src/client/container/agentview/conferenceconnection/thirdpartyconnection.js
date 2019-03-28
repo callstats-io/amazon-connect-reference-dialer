@@ -11,7 +11,7 @@ import resumeIcon from '../../../res/images/fa-mini-resume.svg';
 
 const isHold = (currentState) => {
 	const state = lo.get(currentState, 'thirdPartyConnectionState.state', 'none');
-	return ['Hold', 'hold'].includes(state);
+	return ['Hold', 'hold','On hold'].includes(state);
 };
 
 const isConnected = (currentState) => {
@@ -31,7 +31,7 @@ const getState = (currentState) => {
 const isBothHold = (currentState) => {
 	const state1 = lo.get(currentState, 'primaryConnectionState.state', 'none');
 	const state2 = lo.get(currentState, 'thirdPartyConnectionState.state', 'none');
-	return state1 === state2 && ['Hold', 'hold'].includes(state1);
+	return state1 === state2 && ['Hold', 'hold', 'On hold'].includes(state1);
 };
 
 const getNumber = () => {

@@ -19,7 +19,6 @@ let currentContact;
 let currentState;
 
 const agentStates = ['Init', 'Available', 'Offline', 'AfterCallWork', 'FailedConnectCustomer', 'FailedConnectAgent', 'Quality Issue', 'AgentHungUp'];
-
 const isError = (e) => {
 	if (e && e.errorType && e.errorMessage) {
 		return true;
@@ -101,7 +100,7 @@ const getConnectionState = (contact = undefined, isPrimary = true) => {
 	} else if (isConnected(connection)) {
 		state = 'Connected';
 	} else if (isHold(connection)) {
-		state = 'Hold';
+		state = 'On hold';
 	}
 
 	let duration = getStateDuration(connection);
@@ -162,34 +161,45 @@ class EventHandler {
 				const connection1 = getConnectionState(e, true);
 				const connection2 = getConnectionState(e, false);
 				const {primaryConnectionState, thirdPartyConnectionState} = mayBeUpdateToJoined(connection1, connection2);
-				let payload = {
-					primaryConnectionState: primaryConnectionState,
-					thirdPartyConnectionState: thirdPartyConnectionState,
-				};
 				console.warn('~REFRESH', primaryConnectionState, thirdPartyConnectionState, isMultipartyCall(e));
 				// if there is a agent side error
 				// ignore checking connections
-				if (isAgentError(currentAgent.agent)) {
+				const parseAgentState = () => {
+					if (isAgentError(currentAgent.agent)) {
+						const agentState = getAgentState(currentAgent);
+						if (!agentState) {
+							return undefined;
+						}
+						let payload = {
+							primaryConnectionState: agentState,
+							thirdPartyConnectionState: undefined,
+						};
+						return payload;
+					}
+					return undefined;
+				};
+				const parseConnectState = () => {
+					let payload = {
+						primaryConnectionState: primaryConnectionState,
+						thirdPartyConnectionState: thirdPartyConnectionState,
+					};
+					if ((primaryConnectionState && primaryConnectionState.state) || (thirdPartyConnectionState && thirdPartyConnectionState.state)) {
+						return payload;
+					}
+					return undefined;
+				};
+
+				const parseRest = () => {
 					let payload = {
 						primaryConnectionState: getAgentState(currentAgent),
 						thirdPartyConnectionState: undefined,
 					};
-					currentState = payload;
-					this.dispatch(onStateChange(payload));
-				}
-				//donot send state change for connection when both are null.
-				//in that case use agent state
-				else if ((primaryConnectionState && primaryConnectionState.state) || (thirdPartyConnectionState && thirdPartyConnectionState.state)) {
-					currentState = payload;
-					this.dispatch(onStateChange(payload));
-				} else {
-					let payload = {
-						primaryConnectionState: getAgentState(currentAgent),
-						thirdPartyConnectionState: undefined,
-					};
-					currentState = payload;
-					this.dispatch(onStateChange(payload));
-				}
+					return payload;
+				};
+				let payload = parseAgentState() || parseConnectState() || parseRest();
+				currentState = payload;
+				this.dispatch(onStateChange(payload));
+
 			});
 			bus.subscribe(connect.ContactEvents.ENDED, () => {
 				currentContact = undefined;
