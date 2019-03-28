@@ -71,7 +71,6 @@ class NetworkStrength extends React.Component {
 		let networkStrength = networkStrengthMonitor.getNetworkStrength();
 		this.setState({
 			networkStrength: networkStrength,
-			// networkStrengthAsString: qualityAsString(networkStrength),
 		});
 
 		this.doPrecallTest().then(() => {

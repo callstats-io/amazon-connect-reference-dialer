@@ -18,7 +18,7 @@ let currentAgent;
 let currentContact;
 let currentState;
 
-const agentStates = ['Init', 'Available', 'Offline', 'AfterCallWork', 'FailedConnectCustomer', 'FailedConnectAgent', 'Quality Issue'];
+const agentStates = ['Init', 'Available', 'Offline', 'AfterCallWork', 'FailedConnectCustomer', 'FailedConnectAgent', 'Quality Issue', 'AgentHungUp'];
 
 const isError = (e) => {
 	if (e && e.errorType && e.errorMessage) {
@@ -42,6 +42,10 @@ const isMultipartyCall = (contact) => {
 	return (contact && contact.getActiveInitialConnection() && contact.getSingleActiveThirdPartyConnection()) ? true : false;
 };
 
+const isAgentError = (agent = undefined) => {
+	const agentState = agent && agent.getState();
+	return agentState && agentState.type === 'error';
+};
 const isOutbound = (connection) => {
 	return connection && connection.isActive() && connection.isConnected() === false &&
 		connection.isConnecting() === true && connection.getType() === 'outbound'
@@ -140,6 +144,9 @@ class EventHandler {
 					this.dispatch(onCCPError({...e}));
 				}
 			});
+			bus.subscribe(connect.AgentEvents.ERROR, e => {
+				console.warn('~', e);
+			});
 			bus.subscribe(connect.AgentEvents.STATE_CHANGE, e => {
 				currentAgent = e;
 				console.warn('~agent state change ', getAgentState(e));
@@ -160,9 +167,19 @@ class EventHandler {
 					thirdPartyConnectionState: thirdPartyConnectionState,
 				};
 				console.warn('~REFRESH', primaryConnectionState, thirdPartyConnectionState, isMultipartyCall(e));
+				// if there is a agent side error
+				// ignore checking connections
+				if (isAgentError(currentAgent.agent)) {
+					let payload = {
+						primaryConnectionState: getAgentState(currentAgent),
+						thirdPartyConnectionState: undefined,
+					};
+					currentState = payload;
+					this.dispatch(onStateChange(payload));
+				}
 				//donot send state change for connection when both are null.
 				//in that case use agent state
-				if ((primaryConnectionState && primaryConnectionState.state) || (thirdPartyConnectionState && thirdPartyConnectionState.state)) {
+				else if ((primaryConnectionState && primaryConnectionState.state) || (thirdPartyConnectionState && thirdPartyConnectionState.state)) {
 					currentState = payload;
 					this.dispatch(onStateChange(payload));
 				} else {
