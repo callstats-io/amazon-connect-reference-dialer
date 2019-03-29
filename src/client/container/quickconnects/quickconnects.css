@@ -53,8 +53,8 @@
 }
 
 .contactItem:hover {
-    background: #3388DD;
-    color: #FFFFFF;
+    background: #d8d8d8;
+    color: #000000;
 }
 
 .contactItem:hover .dialButton {
@@ -73,14 +73,11 @@
 
 .dialButton {
     visibility: hidden;
-    background-color: #46596E;
+    background-color: #46596e;
     font-family: AmazonEmber;
     color: #ffffff !important;
     cursor: pointer;
-    /*border-radius: 0 !important;*/
-    /*border: 15em;*/
-    /*border-top: 15em;*/
-    /*border-bottom: 15em;*/
+    border-radius: 0 !important;
 }
 
 .cursor {
