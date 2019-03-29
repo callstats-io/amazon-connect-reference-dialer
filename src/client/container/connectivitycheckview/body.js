@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
+import lo from 'lodash';
 
 import closeIcon from '../../res/images/fa-close-or-dismiss.svg';
 import rerunIcon from '../../res/images/fa-return.svg';
@@ -16,8 +17,12 @@ import RoundTripTime from "./components/roundTripTime";
 import FractionalLoss from "./components/fractionalLoss";
 import Throughput from "./components/throughput";
 import ThroughputMessage from "./components/throughputMessage";
-import RTTGraph from "./components/rttgraph";
 import databaseManager from "../../api/databaseManager";
+
+import RTTGraph from "./components/rttgraph/rttgraph";
+import {
+	postProcess
+} from "./components/rttgraph/utils";
 
 
 import styles from './connectivitycheck.css';
@@ -76,7 +81,8 @@ class Body extends Component {
 				<FractionalLoss pctResult={this.state.pctResult}/>
 				<Throughput pctResult={this.state.pctResult}/>
 				<ThroughputMessage pctResult={this.state.pctResult}/>
-				<RTTGraph pctResult={this.state.pctResult}/>
+				<RTTGraph pctResult={postProcess(this.state.pctResult)}
+						  lastSCT={lo.last(this.state.pctResult)}/>
 			</div>
 		);
 	}

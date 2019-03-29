@@ -7,13 +7,13 @@ class DatabaseManager {
 	}
 
 	savePrecalltestResult(result) {
-		const isoTime = new Date().toISOString();
+		const epochTime = (new Date).getTime();
 		let retval = this.getPrecallTestResult();
 		if (retval) {
 			if (retval.length > maxElement) {
 				retval.shift();
 			}
-			retval.push({...result, isoTime});
+			retval.push({...result, epochTime});
 		}
 
 		window.localStorage.setItem('rttResult', JSON.stringify(retval));
