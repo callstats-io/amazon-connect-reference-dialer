@@ -7,6 +7,7 @@ import starYellowIcon from '../../../res/images/star-yellow.svg';
 import starWhiteIcon from '../../../res/images/star-white.svg';
 import PropTypes from "prop-types";
 import ConfirmReport from './../../popups/confirmreport/confirmreport';
+import feedbackHandler from './../../../api/feedbackHandler';
 
 import {
 	onRequestReportCallIssue
@@ -17,53 +18,48 @@ import {
 	feedbackRatingsText,
 	defaultFeedback
 } from '../../../utils/feedback'
+import sessionManager from "../../../api/sessionManager";
 
 class QuickFeedback extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			feedback: defaultFeedback,
-			showReport: false,
-			skipReport: false,
 		};
+		this.requestReportACallIssue = this.requestReportACallIssue.bind(this);
 		this.closeReport = this.closeReport.bind(this);
 		this.skipReport = this.skipReport.bind(this);
 	}
 
-	feedbackChange(currentFeedback) {
-		//todo submit feedback, and vanish
-		let showReport = currentFeedback < 3 ? true : false;
-		this.setState({
-			feedback: currentFeedback,
-			showReport: showReport,
-		});
-	}
-
 	closeReport() {
-		this.setState({
-			showReport: false,
-		});
+		jQuery("#confirmReportIssue").modal('hide');
 	}
 
 	skipReport() {
-		this.setState({
-			skipReport: true,
-		});
+		this.closeReport();
+		feedbackHandler.updateFeedback(0);
+		sessionManager.setAgentAvailable();
 	}
 
 	requestReportACallIssue() {
+		this.closeReport();
+		feedbackHandler.updateFeedback(0);
 		this.props.requestReportACallIssue();
+	}
+
+	feedbackChange(currentFeedback) {
+		const feedback = feedbackHandler.updateFeedback(currentFeedback);
+		this.setState({
+			feedback: feedback,
+		});
 	}
 
 	render() {
 		return (
 			<div className="row mt-3">
-				{
-					!this.state.skipReport && this.state.showReport &&
-					<ConfirmReport requestReportACallIssue={() => this.requestReportACallIssue()}
-								   closeReport={this.closeReport}
-								   skipReport={this.skipReport}/>
-				}
+				<ConfirmReport requestReportACallIssue={this.requestReportACallIssue}
+							   closeReport={this.closeReport}
+							   skipReport={this.skipReport}/>
 
 				<div className="col-md-7 pr-0 mr-0">
 					<a className="text-left"
@@ -79,7 +75,7 @@ class QuickFeedback extends Component {
 				<div className="col-md-5 pl-0 ml-0">
 					<a className="text-left"
 					   style={{fontFamily: 'AmazonEmber', fontSize: '14px', color: '#3885de', cursor: 'pointer'}}
-					   onClick={() => this.requestReportACallIssue()}
+					   onClick={this.props.requestReportACallIssue}
 					>Report a call issue</a>
 				</div>
 				<div className="col-md-12 mt-1">

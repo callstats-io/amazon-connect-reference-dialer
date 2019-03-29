@@ -7,6 +7,9 @@ import Footer from './footer';
 import issueList from "./issues";
 import {onRequestReportCallIssue} from "../../reducers/acReducer";
 import {defaultFeedback} from './../../utils/feedback'
+
+import sessionManager from './../../api/sessionManager';
+
 import styles from './reportissue.css';
 
 class ReportCallIssueView extends Component {
@@ -49,6 +52,7 @@ class ReportCallIssueView extends Component {
 
 	//todo call csio sdk to submit feedback summary
 	submitIssue() {
+		sessionManager.setAgentAvailable();
 		this.closeReportCallIssue();
 	}
 

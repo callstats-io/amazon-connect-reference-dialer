@@ -7,6 +7,7 @@ import AcceptOrReject from "../footer/components/acceptOrReject";
 import AvailableOrEnd from "../footer/components/availableOrEnd";
 
 import sessionManager from '../../api/sessionManager';
+import feedbackHandler from '../../api/feedbackHandler';
 import lo from "lodash";
 
 const AgentViewStyle = {
@@ -92,7 +93,12 @@ const isSingle = (currentState = undefined) => {
 };
 
 const setAvailable = () => {
-	sessionManager.setAgentAvailable();
+	if (!feedbackHandler.showFeedbackReports()) {
+		feedbackHandler.updateFeedback(0);
+		sessionManager.setAgentAvailable();
+		return;
+	}
+	jQuery("#confirmReportIssue").modal('show');
 };
 
 const hangupCall = () => {
@@ -163,6 +169,7 @@ const Footer = ({currentState = {}}) => (
 								onClickHandler={rejectCall}/>
 			</div>
 		}
+
 	</div>
 );
 

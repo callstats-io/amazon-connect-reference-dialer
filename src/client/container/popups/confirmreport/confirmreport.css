@@ -1,16 +1,14 @@
 .reportBoxMain {
+    margin-top: -10.5em;
     max-width: 96% !important;
     margin-left: 2% !important;
+    position: absolute !important;
+    height: 15em !important;
 }
 
 .reportBox {
-    margin-top: -6em;
-    position: absolute;
-    z-index: 1023456789;
-    height: 170px;
-    border-radius: 2px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-    background-color: #ffffff;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
 }
 
 .reportText {
@@ -40,6 +38,8 @@
     font-size: 14px;
     text-align: center;
     color: #3885de;
+    padding-left: 0;
+    margin-left: 0;
 }
 
 .cursor{
