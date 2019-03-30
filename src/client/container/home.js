@@ -10,44 +10,26 @@ import DialPadView from './dialerview/index'
 import QuickConnectsView from './quickconnects/index'
 import TransferCallView from './transfercall/index'
 
+const maybeShowThisView = (currentView, ...others) => {
+	// current view needs to be pending
+	let isPending = ['pending'].includes(currentView);
+	if (!isPending) {
+		return false;
+	}
+	isPending = others.some(viewItem => {
+		return ['pending'].includes(viewItem);
+	});
+	// none of other view can be in pending state
+	if (isPending) {
+		return false;
+	}
+	return true;
+};
 
 class Home extends Component {
 	constructor(props) {
 		super(props);
 	}
-
-	showAgentView(agentStateChange, agentSetting, repotCallIssue, connectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) {
-		return [agentStateChange, agentSetting, repotCallIssue, connectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall].includes('pending') === false;
-	}
-
-	showStateChangeView(agentStateChange, agentSetting, reportCallIssue, connectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) {
-		return agentStateChange === 'pending' && [agentSetting, reportCallIssue, connectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall].includes('pending') === false;
-	}
-
-	showSettingPageView(agentStateChange, agentSetting, reportCallIssue, connectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) {
-		return agentSetting === 'pending' && [agentStateChange, reportCallIssue, connectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall].includes('pending') === false;
-	}
-
-	showReportCallIssueView(agentStateChange, agentSetting, reportCallIssue, connectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) {
-		return reportCallIssue === 'pending' && [agentStateChange, agentSetting, connectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall].includes('pending') === false;
-	}
-
-	showConnectivityCheckView(agentStateChange, agentSetting, reportCallIssue, connectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) {
-		return connectivityCheck === 'pending' && [agentStateChange, agentSetting, reportCallIssue, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall].includes('pending') === false;
-	}
-
-	showDialPadView(agentStateChange, agentSetting, reportCallIssue, connectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) {
-		return requestShowDialPad === 'pending' && [agentStateChange, agentSetting, reportCallIssue, connectivityCheck, requestShowQuickConnects, requestShowTransferCall].includes('pending') === false;
-	}
-
-	showQuickConnects(agentStateChange, agentSetting, reportCallIssue, connectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) {
-		return requestShowQuickConnects === 'pending' && [agentStateChange, agentSetting, reportCallIssue, connectivityCheck, requestShowDialPad, requestShowTransferCall].includes('pending') === false;
-	}
-
-	showTransferCall(agentStateChange, agentSetting, reportCallIssue, connectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) {
-		return requestShowTransferCall === 'pending' && [agentStateChange, agentSetting, reportCallIssue, connectivityCheck, requestShowDialPad, requestShowQuickConnects].includes('pending') === false;
-	}
-
 
 	render() {
 		const initialized = this.props.initialized;
@@ -63,42 +45,42 @@ class Home extends Component {
 			initialized &&
 			<div className={`container`} style={{width: '320px', height: '480px'}}>
 				{
-					this.showAgentView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
+					maybeShowThisView('pending', requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
 						requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects,
 						requestShowTransferCall) &&
 					<AgentView/>}
 				{
-					this.showStateChangeView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
+					maybeShowThisView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
 						requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects,
 						requestShowTransferCall) &&
 					<StateChangeView/>}
 				{
-					this.showSettingPageView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
+					maybeShowThisView(requestAgentSettingsChange, requestAgentStateChange, requestReportCallIssue,
 						requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
 					<SettingPageView/>}
 
 				{
-					this.showReportCallIssueView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
+					maybeShowThisView(requestReportCallIssue, requestAgentStateChange, requestAgentSettingsChange,
 						requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
 					<ReportCallIssueView/>}
 
 				{
-					this.showConnectivityCheckView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
-						requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
+					maybeShowThisView(requestConnectivityCheck, requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
+						requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
 					<ConnectivityCheckView/>}
 
 				{
-					this.showDialPadView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
-						requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
+					maybeShowThisView(requestShowDialPad, requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
+						requestConnectivityCheck, requestShowQuickConnects, requestShowTransferCall) &&
 					<DialPadView/>}
 
 				{
-					this.showQuickConnects(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
-						requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
+					maybeShowThisView(requestShowQuickConnects, requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
+						requestConnectivityCheck, requestShowDialPad, requestShowTransferCall) &&
 					<QuickConnectsView/>}
 
 				{
-					this.showTransferCall(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
+					maybeShowThisView(requestShowTransferCall, requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
 						requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
 					<TransferCallView/>}
 
