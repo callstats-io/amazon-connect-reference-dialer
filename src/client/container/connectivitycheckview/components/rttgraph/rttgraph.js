@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 import {Line} from 'react-chartjs-2';
 import lo from 'lodash';
 
-const TOTAL_SEGMENT = 3;
+const TOTAL_SEGMENT = 4;
 const ONE_MINUTE_IN_MS = 60000;
-const ONE_HOUR_IN_MS = 3600000;
+const ONE_HOUR_IN_MS = 12*3600000;
 const ONE_DAY_IN_MS = 86400000;
 
 const getStepSize = (first = {}, last = {}) => {
@@ -36,12 +36,12 @@ const getChartOptions = (pctResult = []) => {
 				display: true,
 				type: 'time',
 				time: {
-					tooltipFormat: 'h:mm a',
+					tooltipFormat: 'MMM D, h:mm:ss a',
 					unit: 'hour',
 					stepSize: stepSize,
 					displayFormats: {
-						// 'millisecond': 'hA',
-						// 'second': 'hA',
+						'millisecond': 'HH:MM',
+						'second': 'HH:MM',
 						'minute': 'HH:MM',
 						'hour': 'DD MMM',
 						'day': 'DD MMM',
