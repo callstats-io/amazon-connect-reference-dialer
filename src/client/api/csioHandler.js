@@ -6,8 +6,8 @@ import lo from 'lodash';
 import databaseManager from "./databaseManager";
 
 
-const appId = "821179284";
-const appSecret = "IgR4qo4cNUrP:qxkQFJYb0ITsgJHv5DZYG+Bih7tCPfmb9XlixwvlVcE=";
+const appId = `${__appid__}`;
+const appSecret = `${__appsecret__}`;
 
 class CSIOHandler {
 	constructor() {

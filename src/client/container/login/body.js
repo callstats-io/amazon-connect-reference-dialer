@@ -1,8 +1,7 @@
 import React from "react";
 import styles from './login.css';
 
-const loginURL = 'https://callstatsio.awsapps.com/connect/login?landat=%2Fconnect%2Fccp#/';
-
+const loginURL = `https://${__connect_url__}/connect/login?landat=%2Fconnect%2Fccp#/`;
 
 const Body = ({}) => (
 	<div className={`card-body ${styles.cardBodyMain}`}>

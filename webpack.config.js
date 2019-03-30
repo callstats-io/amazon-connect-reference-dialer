@@ -1,8 +1,10 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const config = require("./config/config");
 const serverConfig = config.getServerConfig();
+const clientConfig = config.getClientConfig();
 
 const outputDirectory = 'dist';
 process.env.HTTP_PORT = serverConfig.HTTP_PORT;
@@ -45,6 +47,11 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			template: './public/index.html',
 			favicon: './public/favicon.ico'
+		}),
+		new webpack.DefinePlugin({
+			__appid__: JSON.stringify(clientConfig.APP_ID),
+			__appsecret__: JSON.stringify(clientConfig.APP_SECRET),
+			__connect_url__: JSON.stringify(clientConfig.CONNECT_URL),
 		})
 	],
 	devServer: {

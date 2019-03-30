@@ -13,5 +13,5 @@ exports.getServerConfig = () => {
 exports.getClientConfig = () => {
 	const config = fs.readFileSync(this.filePath);
 	const payload = JSON.parse(config);
-	return payload;
+	return {APP_ID: payload.APP_ID, APP_SECRET: payload.APP_SECRET, CONNECT_URL: payload.CONNECT_URL};
 };

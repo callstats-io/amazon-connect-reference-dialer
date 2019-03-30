@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import styles from './statuschange.css';
 import {sleep} from './../../utils/acutils';
 
-const logoutURL = 'https://callstatsio.awsapps.com/connect/logout';
+const logoutURL = `https://${__connect_url__}/connect/logout`;
 
 class Footer extends Component {
 	constructor(props) {
