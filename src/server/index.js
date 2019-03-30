@@ -2,10 +2,11 @@ const http = require("http");
 const express = require("express");
 const bodyParser = require("body-parser");
 const logger = require("./logger");
-const helmet = require('helmet');
+const config = require("./../../config/config");
 
-process.env.NODE_ENV = process.env.NODE_ENV || "development";
-process.env.HTTP_PORT = process.env.PORT || 8080;
+const serverConfig = config.getServerConfig();
+process.env.NODE_ENV = serverConfig.NODE_ENV;
+process.env.HTTP_PORT = serverConfig.HTTP_PORT;
 
 function onUnhandledError(err) {
 	try {
@@ -21,9 +22,6 @@ process.on("unhandledRejection", onUnhandledError);
 process.on("uncaughtException", onUnhandledError);
 
 const app = express();
-app.use(helmet({
-	frameguard: false,
-}));
 app.set("env", process.env.NODE_ENV);
 logger.info(`Application env: ${process.env.NODE_ENV}`);
 

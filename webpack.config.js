@@ -1,9 +1,11 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const config = require("./config/config");
+const serverConfig = config.getServerConfig();
 
 const outputDirectory = 'dist';
-process.env.HTTP_PORT = process.env.PORT || 8080;
+process.env.HTTP_PORT = serverConfig.HTTP_PORT;
 
 module.exports = {
 	entry: ['babel-polyfill', './src/client/index.js'],

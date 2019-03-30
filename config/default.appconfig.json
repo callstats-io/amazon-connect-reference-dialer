@@ -1,6 +1,7 @@
 {
   "APP_ID": "CSIO_APPLICATION_ID",
   "APP_SECRET": "CSIO_APPLICATION_SECRET",
-  "SERVER_PORT": "8082",
-  "CCP_URL": "https://callstatsio.awsapps.com/connect/ccp#/"
+  "HTTP_PORT": "8082",
+  "NODE_ENV": "development",
+  "CONNECT_URL": "callstatsio.awsapps.com"
 }
