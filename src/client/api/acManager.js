@@ -41,7 +41,7 @@ class ACManager {
 		const containerDiv = document.getElementById('containerDiv');
 		connect.core.initCCP(containerDiv, {
 			ccpUrl: ccpUrl,
-			loginPopup: true,
+			loginPopup: false,
 			softphone: {
 				allowFramedSoftphone: false,
 			}

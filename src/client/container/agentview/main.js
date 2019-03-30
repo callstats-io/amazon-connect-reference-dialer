@@ -17,8 +17,7 @@ const isPrimaryConnection = (currentState = undefined) => {
 };
 
 
-const AgentView = ({initialized = false, currentState = undefined}) => (
-	initialized &&
+const AgentView = ({currentState = undefined}) => (
 	<div className={`row h-100`}>
 		<div className={`col-md-12`} style={{padding: '0'}}>
 			<div className={`card h-100`} style={{backgroundColor: '#f2f2f2'}}>
@@ -33,11 +32,9 @@ const AgentView = ({initialized = false, currentState = undefined}) => (
 );
 
 AgentView.propTypes = {
-	initialized: PropTypes.bool.isRequired,
 	currentState: PropTypes.object,
 };
 const mapStateToProps = state => ({
-	initialized: state.acReducer.initialized,
 	currentState: state.acReducer.currentState,
 });
 const mapDispatchToProps = dispatch => ({});

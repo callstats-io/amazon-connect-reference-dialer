@@ -77,8 +77,10 @@ class Header extends React.Component {
 	}
 
 	render() {
+		const {emptyBody} = this.props;
 		return (
-			<div className={`card-header pt-0 pb-0 mt-0 mb-0 ${styles.acHeader}`}>
+			<div
+				className={`card-header pt-0 pb-0 mt-0 mb-0 ${styles.acHeader} ${emptyBody === true && styles.disable}`}>
 				<div className={`row h-100`}>
 					<div className={'col-md-8 my-auto'}>
 						<div className={`row`}>
@@ -90,7 +92,7 @@ class Header extends React.Component {
 					<DialerSettings onClickHandler={this.props.requestAgentSettingsChange}/>
 				</div>
 				{
-					this.state.showNetworkStatus &&
+					emptyBody!==true && this.state.showNetworkStatus &&
 					<div className={`row text-center justify-content-end`}
 						 onMouseEnter={() => this.toggleShowNetworkStatus(true)}
 						 onMouseLeave={() => this.toggleShowNetworkStatus(false)}>

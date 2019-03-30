@@ -1,6 +1,6 @@
 import React, {Component} from "react";
-
 import styles from './statuschange.css';
+import {sleep} from './../../utils/acutils';
 
 const logoutURL = 'https://callstatsio.awsapps.com/connect/logout';
 
@@ -17,7 +17,7 @@ class Footer extends Component {
 		this.setState({
 			loggedOut: true
 		});
-		window.location.reload();
+		sleep(1000).then(() => window.location.reload());
 	}
 
 	render() {
