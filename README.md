@@ -4,6 +4,24 @@ Amazon connect reference dialer application by CALLSTATS I/O
 
 #### Quick Start
 
+##### Note: 
+- The application use appconfig to parse application specific configuration. Without proper configuration parameter the application
+will not run.
+
+- After cloning the application, please change the /config/appconfig.json file with your configuration. 
+ 
+    ```bash
+    {
+      "APP_ID": "callstats application ID",
+      "APP_SECRET": "callstats application secret",
+      "CONNECT_URL": "amazon connect ccp url. The CCP domain name only. For example, "callstatsio.awsapps.com",
+      "HTTP_PORT": "8080",
+      "NODE_ENV": "development"
+    }
+    ```
+
+
+##### How to build, and run:
 ```bash
 
 # Clone the repository

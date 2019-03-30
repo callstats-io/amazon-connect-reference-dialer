@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const FILE_NAME = 'appconfig.json';
-const DEFAULT_FILE_NAME = 'default.appconfig.json';
 
 exports.getServerConfig = () => {
 	this.filePath = path.join(__dirname, FILE_NAME);

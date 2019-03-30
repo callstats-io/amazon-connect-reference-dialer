@@ -1,7 +1,0 @@
-{
-  "APP_ID": "CSIO_APPLICATION_ID",
-  "APP_SECRET": "CSIO_APPLICATION_SECRET",
-  "HTTP_PORT": "8082",
-  "NODE_ENV": "development",
-  "CONNECT_URL": "callstatsio.awsapps.com"
-}
