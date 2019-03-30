@@ -24,7 +24,7 @@ class AgentHandler {
 		});
 		//hack to get remote stream
 		connect.contact(contact => {
-			contact && contact.onSession(session => {
+			contact.onSession(session => {
 				this.session = session;
 			});
 		});
