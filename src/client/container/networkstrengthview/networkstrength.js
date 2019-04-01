@@ -33,7 +33,7 @@ class NetworkStrength extends React.Component {
         super(props);
         this.intervalId = undefined;
         this.inProgress = false;
-        this.lastTimestamp = Date.now();
+        this.lastTimestamp = 0;
         this.state = {
             networkStrength: 0,
             // networkStrengthAsString: "Unknown",
@@ -41,6 +41,8 @@ class NetworkStrength extends React.Component {
     }
 
     _dispose() {
+        this.lastTimestamp = 0;
+        this.inProgress = false;
         if (this.intervalId) {
             clearInterval(this.intervalId);
         }
@@ -71,6 +73,7 @@ class NetworkStrength extends React.Component {
 
     updateNetworkStrength() {
         let networkStrength = networkStrengthMonitor.getNetworkStrength();
+        // console.warn('~updateNetworkStrength', networkStrength);
         this.setState({
             networkStrength: networkStrength,
         });
