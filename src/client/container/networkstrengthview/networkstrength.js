@@ -15,95 +15,97 @@ import networkStrengthMonitor from "../../api/networkStrengthMonitor";
 const networkStrengthIcon = [networkStrengthUnknown, networkStrength1, networkStrength2, networkStrength3, networkStrength4, networkStrength5];
 
 const getStrengthIcon = (networkStrength = 0) => {
-	return networkStrengthIcon[networkStrength];
+    return networkStrengthIcon[networkStrength];
 };
 
 const shouldRunPCT = () => {
-	let currentState = agentHandler.getState();
-	return currentState === 'Available' || currentState === 'Offline';
+    let agent = agentHandler && agentHandler.getAgent();
+    let currentState = agent && agent.getState().name;
+    // console.warn('~shouldRunPCT', currentState);
+    return currentState === 'Available' || currentState === 'Offline';
 };
 
 const DURATION_MS = 1 * 1000; // Every two minutes
 const PCT_INTERVAL_MS = 2 * 60 * 1000; // Every two minutes
 
 class NetworkStrength extends React.Component {
-	constructor(props) {
-		super(props);
-		this.intervalId = undefined;
-		this.inProgress = false;
-		this.lastTimestamp = Date.now();
-		this.state = {
-			networkStrength: 0,
-			// networkStrengthAsString: "Unknown",
-		}
-	}
+    constructor(props) {
+        super(props);
+        this.intervalId = undefined;
+        this.inProgress = false;
+        this.lastTimestamp = Date.now();
+        this.state = {
+            networkStrength: 0,
+            // networkStrengthAsString: "Unknown",
+        }
+    }
 
-	_dispose() {
-		if (this.intervalId) {
-			clearInterval(this.intervalId);
-		}
-	}
+    _dispose() {
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+        }
+    }
 
-	// only run precall test when agent state is available, or offline
-	async doPrecallTest() {
-		let runTimeStamp = Date.now();
-		if (runTimeStamp - this.lastTimestamp < PCT_INTERVAL_MS) {
-			return;
-		}
-		if (this.inProgress) {
-			return;
-		}
-		if (!shouldRunPCT()) {
-			return;
-		}
-		this.inProgress = true;
-		try {
-			await csioHandler.doPrecallTest();
-		} catch (err) {
-			console.warn('->', err);
-		}
-		this.inProgress = false;
-		this.lastTimestamp = runTimeStamp;
+    // only run precall test when agent state is available, or offline
+    async doPrecallTest() {
+        let runTimeStamp = Date.now();
+        if (runTimeStamp - this.lastTimestamp < PCT_INTERVAL_MS) {
+            return;
+        }
+        if (this.inProgress) {
+            return;
+        }
+        if (!shouldRunPCT()) {
+            return;
+        }
+        this.inProgress = true;
+        try {
+            await csioHandler.doPrecallTest();
+        } catch (err) {
+            console.warn('->', err);
+        }
+        this.inProgress = false;
+        this.lastTimestamp = runTimeStamp;
 
-	}
+    }
 
-	updateNetworkStrength() {
-		let networkStrength = networkStrengthMonitor.getNetworkStrength();
-		this.setState({
-			networkStrength: networkStrength,
-		});
+    updateNetworkStrength() {
+        let networkStrength = networkStrengthMonitor.getNetworkStrength();
+        this.setState({
+            networkStrength: networkStrength,
+        });
 
-		this.doPrecallTest().then(() => {
-		}).catch(err => {
-		});
+        this.doPrecallTest().then(() => {
+        }).catch(err => {
+        });
 
-	}
+    }
 
-	componentDidMount() {
-		this._dispose();
-		this.updateNetworkStrength();
+    componentDidMount() {
+        this._dispose();
+        this.updateNetworkStrength();
 
-		this.intervalId = setInterval(() => {
-			this.updateNetworkStrength();
-		}, DURATION_MS);
-	}
+        this.intervalId = setInterval(() => {
+            this.updateNetworkStrength();
+        }, DURATION_MS);
+    }
 
-	componentWillUnmount() {
-		this._dispose();
-	}
+    componentWillUnmount() {
+        this._dispose();
+    }
 
-	render() {
-		return (
-			<img style={{cursor: 'pointer'}}
-				 onMouseEnter={() => this.props.toggleShowNetworkStatus(true)}
-				 onMouseLeave={() => this.props.toggleShowNetworkStatus(false)}
-				 src={getStrengthIcon(this.state.networkStrength)}/>
-		);
-	}
+    render() {
+        return (
+            <img style={{cursor: 'pointer'}}
+                 onMouseEnter={() => this.props.toggleShowNetworkStatus(true)}
+                 onMouseLeave={() => this.props.toggleShowNetworkStatus(false)}
+                 src={getStrengthIcon(this.state.networkStrength)}/>
+        );
+    }
 }
 
 NetworkStrength.propTypes = {
-	toggleShowNetworkStatus: PropTypes.func.isRequired,
+    toggleShowNetworkStatus: PropTypes.func.isRequired,
 };
 
 export default NetworkStrength;
