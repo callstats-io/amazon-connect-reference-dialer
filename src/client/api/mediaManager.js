@@ -1,10 +1,13 @@
 import databaseManager from "./databaseManager";
 
-const isDefault = (device = undefined) => {
+const isDefault = (device = undefined, deviceList = []) => {
     if (device && device.deviceId === 'default') {
         return true;
     }
     if (device && device.label && device.label.includes('default')) {
+        return true;
+    }
+    if (deviceList.length === 1) {
         return true;
     }
     return false;
@@ -40,7 +43,7 @@ class MediaManager {
             return preferedDevice;
         }
 
-        let defaultAudioDevice = deviceList.find(device => device.kind === 'audioinput' && isDefault(device));
+        let defaultAudioDevice = deviceList.find(device => device.kind === 'audioinput' && isDefault(device, deviceList));
         return defaultAudioDevice;
     }
 
@@ -55,7 +58,7 @@ class MediaManager {
         const outputDevice = await this.getDefaultAudioOutputDevice();
         const inputDeviceList = await this.getInputDeviceList();
 
-        // console.warn('~getInputDeviceList', inputDevice, outputDevice, inputDeviceList);
+        console.warn('~getInputDeviceList', inputDevice, outputDevice, inputDeviceList);
         return {inputDevice, outputDevice, inputDeviceList};
     }
 

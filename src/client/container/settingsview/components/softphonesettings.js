@@ -27,8 +27,8 @@ SoftPhoneSettings.propTypes = {
 	toggleMenuItem: PropTypes.func.isRequired,
 	changeAudioInputDevice: PropTypes.func.isRequired,
 	showMenuItem: PropTypes.bool.isRequired,
-	inputDeviceList: PropTypes.array.isRequired,
-	audioInputDevice: PropTypes.object.isRequired,
+	inputDeviceList: PropTypes.array,
+	audioInputDevice: PropTypes.object,
 	audioOutputDevice: PropTypes.object.isRequired,
 };
 

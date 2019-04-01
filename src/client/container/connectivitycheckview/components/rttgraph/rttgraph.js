@@ -22,7 +22,7 @@ const getStepSize = (first = {}, last = {}) => {
 // will distributed to 50 points
 const getChartOptions = (pctResult = []) => {
     const stepSize = getStepSize(lo.first(pctResult), lo.last(pctResult));
-    console.warn('~getChartOptions', pctResult, stepSize);
+    // console.warn('~getChartOptions', pctResult, stepSize);
     const chartOptions = {
         legend: {
             display: false
