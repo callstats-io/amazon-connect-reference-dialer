@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {Line} from 'react-chartjs-2';
 import lo from 'lodash';
 
-const TOTAL_SEGMENT = 10;
+const TOTAL_SEGMENT = 2;
 const ONE_MINUTE_IN_MS = 60000;
 const ONE_HOUR_IN_MS = 3600000;
 const ONE_DAY_IN_MS = 86400000;
@@ -38,11 +38,17 @@ const getChartOptions = (pctResult = []) => {
             xAxes: [{
                 display: true,
                 type: 'time',
-                stepSize: stepSize,
+                distribution: 'series',
+                autoSkip: false,
+                // stepSize: stepSize,
+                // ticks: {
+                //     stepSize: stepSize // <----- This prop sets the stepSize
+                // },
                 time: {
                     tooltipFormat: 'MMM D, h:mm:ss a',
-                    unit: 'millisecond',
-                    stepSize: stepSize,
+                    unit: 'day',
+                    unitStepSize: 1,
+                    autoSkip: false,
                     displayFormats: {
                         'millisecond': 'DD MMM',
                         'second': 'DD MMM',
@@ -58,9 +64,14 @@ const getChartOptions = (pctResult = []) => {
                     display: false,
                 },
                 ticks: {
-                    callback: function (label) {
-                        return `${label} ms`
+                    callback: function (value) {
+                        return `${value} ms`
+                        // return Math.round(value);
                     },
+                    // min: 0,
+                    // max: 3000,
+                    autoSkip: true,
+                    // stepSize: 150
                 }
             }]
         }
@@ -92,7 +103,7 @@ const getChartData = (pctRecords) => {
             // backgroundColor: '#6c757d',
             // borderColor: '#6c757d',
             borderWidth: 0,
-            pointRadius: 0,
+            pointRadius: 1,
             lineTension: 0,
             // hoverBackgroundColor: 'rgba(255,99,132,0.4)',
             // hoverBorderColor: 'rgba(255,99,132,1)',
