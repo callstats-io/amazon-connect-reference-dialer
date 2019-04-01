@@ -63,7 +63,7 @@
 }
 
 .contactItem:hover .contactName {
-    color: #FFFFFF !important;
+    color: #000000 !important;
 }
 
 .contactName {
