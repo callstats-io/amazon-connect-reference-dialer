@@ -23,7 +23,8 @@ const FeedbackRatings = ({onFeedbackRatingChange, feedbackRating}) => (
 				))
 			}
 		</div>
-		<div className={`col-md-12 ${styles.feedbackRatingText}`}>{lo.get(feedbackRatingsText, feedbackRating - 1)}
+		<div className={`col-md-12 ${styles.feedbackRatingText}`}>
+			&nbsp;{lo.get(feedbackRatingsText, feedbackRating - 1)}
 		</div>
 	</div>
 );

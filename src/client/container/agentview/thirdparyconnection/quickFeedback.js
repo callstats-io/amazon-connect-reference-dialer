@@ -94,7 +94,8 @@ class QuickFeedback extends Component {
 					fontSize: '12px',
 					letterSpacing: 'normal',
 					color: '#000000'
-				}}>{lo.get(feedbackRatingsText, this.state.feedback - 1)}
+				}}>
+					&nbsp;{lo.get(feedbackRatingsText, this.state.feedback - 1)}
 				</div>
 			</div>
 		);
