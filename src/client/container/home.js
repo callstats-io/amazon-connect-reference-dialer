@@ -85,7 +85,7 @@ class Home extends Component {
 
 					{
 						maybeShowThisView(requestShowTransferCall, requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
-							requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
+							requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects) &&
 						<TransferCallView/>}
 				</div>
 		);
