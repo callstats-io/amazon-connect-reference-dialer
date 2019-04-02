@@ -11,90 +11,94 @@ import {defaultFeedback} from './../../utils/feedback'
 import sessionManager from './../../api/sessionManager';
 
 import styles from './reportissue.css';
+import csioHandler from "../../api/csioHandler";
+import agentHandler from "../../api/agentHandler";
 
 class ReportCallIssueView extends Component {
-	constructor(props) {
-		super(props);
+    constructor(props) {
+        super(props);
 
-		this.state = {
-			feedbackRatings: defaultFeedback,
-			feedbackText: '',
-			issueList: [...issueList],
-		};
-		this.onFeedbackTextChange = this.onFeedbackTextChange.bind(this);
-		this.onFeedbackRatingChange = this.onFeedbackRatingChange.bind(this);
-		this.onIssueListSelectionChange = this.onIssueListSelectionChange.bind(this);
-		this.closeReportCallIssue = this.closeReportCallIssue.bind(this);
-		this.submitIssue = this.submitIssue.bind(this);
-	}
+        this.state = {
+            feedbackRatings: defaultFeedback,
+            feedbackText: '',
+            issueList: [...issueList],
+        };
+        this.onFeedbackTextChange = this.onFeedbackTextChange.bind(this);
+        this.onFeedbackRatingChange = this.onFeedbackRatingChange.bind(this);
+        this.onIssueListSelectionChange = this.onIssueListSelectionChange.bind(this);
+        this.closeReportCallIssue = this.closeReportCallIssue.bind(this);
+        this.submitIssue = this.submitIssue.bind(this);
+    }
 
-	onFeedbackTextChange(event) {
-		this.setState({
-			feedbackText: event.target.value
-		});
-	}
+    onFeedbackTextChange(event) {
+        this.setState({
+            feedbackText: event.target.value
+        });
+    }
 
-	onFeedbackRatingChange(currentFeedback) {
-		this.setState({
-			feedbackRatings: currentFeedback
-		});
-	}
+    onFeedbackRatingChange(currentFeedback) {
+        this.setState({
+            feedbackRatings: currentFeedback
+        });
+    }
 
-	onIssueListSelectionChange(issueIndex, itemIndex) {
-		let issueList = [...this.state.issueList];
-		let currentItem = issueList[issueIndex].items[itemIndex];
-		currentItem.marked = !currentItem.marked;
+    onIssueListSelectionChange(issueIndex, itemIndex) {
+        let issueList = [...this.state.issueList];
+        let currentItem = issueList[issueIndex].items[itemIndex];
+        currentItem.marked = !currentItem.marked;
 
-		this.setState({
-			issueList: issueList,
-		});
-	}
+        this.setState({
+            issueList: issueList,
+        });
+    }
 
-	//todo call csio sdk to submit feedback summary
-	submitIssue() {
-		sessionManager.setAgentAvailable();
-		this.closeReportCallIssue();
-	}
+    //todo call csio sdk to submit feedback summary
+    submitIssue() {
+        sessionManager.setAgentAvailable();
+        let {feedbackRatings, feedbackText, issueList} = this.state;
+        csioHandler.sendFeedback({feedbackRatings, feedbackText, issueList});
+        this.closeReportCallIssue();
+    }
 
-	closeReportCallIssue() {
-		this.props.closeReportCallIssue();
-	}
+    closeReportCallIssue() {
+        this.props.closeReportCallIssue();
+    }
 
-	render() {
-		return (
-			<div className={`row h-100`}>
-				<div className={`col-md-12 ${styles.zeroPadding}`}>
-					<div className={`card h-100 ${styles.cardBody}`}>
-						<Header/>
-						<Body
-							feedbackRatings={this.state.feedbackRatings}
-							feedbackText={this.state.feedbackText}
-							issueList={this.state.issueList}
-							onFeedbackTextChange={this.onFeedbackTextChange}
-							onFeedbackRatingChange={this.onFeedbackRatingChange}
-							onIssueListSelectionChange={this.onIssueListSelectionChange}
-							closeReportCallIssue={this.closeReportCallIssue}
-						/>
-						<Footer submitIssue={this.submitIssue}/>
-					</div>
-				</div>
-			</div>
+    render() {
+        return (
+            <div className={`row h-100`}>
+                <div className={`col-md-12 ${styles.zeroPadding}`}>
+                    <div className={`card h-100 ${styles.cardBody}`}>
+                        <Header/>
+                        <Body
+                            feedbackRatings={this.state.feedbackRatings}
+                            feedbackText={this.state.feedbackText}
+                            issueList={this.state.issueList}
+                            onFeedbackTextChange={this.onFeedbackTextChange}
+                            onFeedbackRatingChange={this.onFeedbackRatingChange}
+                            onIssueListSelectionChange={this.onIssueListSelectionChange}
+                            closeReportCallIssue={this.closeReportCallIssue}
+                        />
+                        <Footer submitIssue={this.submitIssue}/>
+                    </div>
+                </div>
+            </div>
 
-		);
-	}
+        );
+    }
 }
 
 ReportCallIssueView.propTypes = {
-	closeReportCallIssue: PropTypes.func.isRequired,
+    closeReportCallIssue: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({
-	closeReportCallIssue: () => {
-		dispatch(onRequestReportCallIssue('close'));
-	}
+    closeReportCallIssue: () => {
+        dispatch(onRequestReportCallIssue('close'));
+    }
 });
 
 export default connect(
-	mapStateToProps,
-	mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(ReportCallIssueView);
