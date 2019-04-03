@@ -63,7 +63,6 @@ class ReportCallIssueView extends Component {
     }
 
     closeReportCallIssue() {
-        feedbackHandler.updateFeedback(0);
         this.props.closeReportCallIssue();
     }
 

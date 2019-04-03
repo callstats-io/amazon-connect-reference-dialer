@@ -25,7 +25,7 @@ class QuickFeedback extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            feedback: defaultFeedback,
+            feedback: feedbackHandler.getFeedbackRatings(),
         };
         this.requestReportACallIssue = this.requestReportACallIssue.bind(this);
         this.closeReport = this.closeReport.bind(this);
