@@ -12,6 +12,9 @@ const style = {
 	fillRule: "nonzero",
 	stroke: "none"
 };
+const spanStyle = {
+	marginLeft: '-2.5em'
+};
 
 class RemoteAudioLevel extends React.Component {
 	constructor(props) {
