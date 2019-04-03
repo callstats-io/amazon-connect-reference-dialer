@@ -12,7 +12,7 @@ const style = {
     stroke: "none"
 };
 
-const MEDIA_RETRY_INTERVAL_MS = 3 * 1000;
+const MEDIA_RETRY_INTERVAL_MS = 1 * 1000;
 const MAX_MEDIA_RETRY_COUNT = 60;
 
 class LocalAudiolevel extends React.Component {
@@ -20,26 +20,38 @@ class LocalAudiolevel extends React.Component {
         super(props);
         this.audioControler = new AudioFrequencyMonitor();
         this.intervalId = undefined;
+        this.lastRetry = 0;
+    }
+
+    async _fetchMediaInternals(mediaRetryCount = 0) {
+        let now = (new Date).getTime();
+        if (now - this.lastRetry < MEDIA_RETRY_INTERVAL_MS) {
+            throw new Error('Already tring to fetch media')
+        }
+        let selectedDevice = await mediaManager.getDefaultOrPreferredAudioInputDevice();
+        console.warn('~fetchMedia', 'trying to fetch local media', mediaRetryCount, selectedDevice);
+        const localStream = await mediaManager.getUserMedia(selectedDevice);
+        this.lastRetry = (new Date).getTime();
+        return localStream;
     }
 
     fetchMedia(mediaRetryCount = 0) {
-        this.intervalId = setInterval(async () => {
-            let selectedDevice = await mediaManager.getDefaultOrPreferredAudioInputDevice();
-            console.warn('~fetchMedia', 'trying to fetch local media', mediaRetryCount, selectedDevice);
-            try {
-                const localStream = await mediaManager.getUserMedia(selectedDevice);
-                this.clearInterval();
-                this.audioControler.renderStream(localStream);
-            } catch (err) {
-                // console.warn('~fetchMedia', err);
-                if (mediaRetryCount < 1) {
-                    // console.warn('maximum media recover count exceeded');
+        this._fetchMediaInternals(mediaRetryCount).then(localStream => this.audioControler.renderStream(localStream)).catch(() => {
+            this.intervalId = setInterval(async () => {
+                try {
+                    const localStream = await this._fetchMediaInternals(mediaRetryCount);
                     this.clearInterval();
+                    this.audioControler.renderStream(localStream);
+                } catch (err) {
+                    // console.warn('~fetchMedia', err);
+                    if (mediaRetryCount < 1) {
+                        // console.warn('maximum media recover count exceeded');
+                        this.clearInterval();
+                    }
+                    mediaRetryCount -= 1;
                 }
-                mediaRetryCount -= 1;
-            }
-        }, MEDIA_RETRY_INTERVAL_MS);
-
+            }, MEDIA_RETRY_INTERVAL_MS);
+        });
     }
 
     componentDidMount() {
