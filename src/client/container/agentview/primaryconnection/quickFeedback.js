@@ -47,7 +47,7 @@ class QuickFeedback extends Component {
     requestReportACallIssue() {
         this.closeReport();
 
-        feedbackHandler.updateFeedback(0);
+        // feedbackHandler.updateFeedback(0);
         this.props.requestReportACallIssue();
     }
 

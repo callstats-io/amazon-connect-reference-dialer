@@ -9,17 +9,17 @@ import {onRequestReportCallIssue} from "../../reducers/acReducer";
 import {defaultFeedback} from './../../utils/feedback'
 
 import sessionManager from './../../api/sessionManager';
+import feedbackHandler from './../../api/feedbackHandler';
 
 import styles from './reportissue.css';
 import csioHandler from "../../api/csioHandler";
-import agentHandler from "../../api/agentHandler";
 
 class ReportCallIssueView extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            feedbackRatings: defaultFeedback,
+            feedbackRatings: feedbackHandler.getFeedbackRatings(),
             feedbackText: '',
             issueList: [...issueList],
         };
@@ -37,8 +37,9 @@ class ReportCallIssueView extends Component {
     }
 
     onFeedbackRatingChange(currentFeedback) {
+        const feedback = feedbackHandler.updateFeedback(currentFeedback);
         this.setState({
-            feedbackRatings: currentFeedback
+            feedbackRatings: feedback
         });
     }
 
@@ -52,15 +53,17 @@ class ReportCallIssueView extends Component {
         });
     }
 
-    //todo call csio sdk to submit feedback summary
     submitIssue() {
         sessionManager.setAgentAvailable();
+
+        feedbackHandler.updateFeedback(0);
         let {feedbackRatings, feedbackText, issueList} = this.state;
         csioHandler.sendFeedback({feedbackRatings, feedbackText, issueList});
         this.closeReportCallIssue();
     }
 
     closeReportCallIssue() {
+        feedbackHandler.updateFeedback(0);
         this.props.closeReportCallIssue();
     }
 
