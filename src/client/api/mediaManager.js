@@ -23,7 +23,7 @@ class MediaManager {
         const deviceList = await navigator.mediaDevices.enumerateDevices();
         const defaultAudioDevice = deviceList.find(device => device.kind === 'audiooutput' && isDefault(device));
         if (!defaultAudioDevice) {
-            return {deviceId: 'Unknown', kind: 'audiooutput', label: 'Unknown'};
+            return {deviceId: 'Browser default', kind: 'audiooutput', label: 'Browser default'};
         }
         return defaultAudioDevice;
     }
@@ -42,8 +42,8 @@ class MediaManager {
         if (found) {
             return preferedDevice;
         }
-
-        let defaultAudioDevice = deviceList.find(device => device.kind === 'audioinput' && isDefault(device, deviceList));
+        let inputdevideList = deviceList.filter(device => device.kind === 'audioinput');
+        let defaultAudioDevice = inputdevideList.find(device => device.kind === 'audioinput' && isDefault(device, inputdevideList));
         return defaultAudioDevice;
     }
 
