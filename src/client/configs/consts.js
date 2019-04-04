@@ -18,7 +18,7 @@ const throughputthreshold = [
 export const throughputThreshold = (audioThroughput) => {
 	for (let i = 0; i < throughputthreshold.length; i += 1) {
 		let currentQuality = throughputthreshold[i];
-		if (audioThroughput < currentQuality.threshold) {
+		if (audioThroughput > 0 && audioThroughput < currentQuality.threshold) {
 			return currentQuality.qualityRating; // zero based indexing
 		}
 	}

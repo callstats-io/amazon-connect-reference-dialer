@@ -35,7 +35,7 @@ class NetworkStrength extends React.Component {
         this.inProgress = false;
         this.lastTimestamp = 0;
         this.state = {
-            networkStrength: 0,
+            networkStrength: networkStrengthMonitor.getNetworkStrength(),
             // networkStrengthAsString: "Unknown",
         }
     }
@@ -73,7 +73,7 @@ class NetworkStrength extends React.Component {
 
     updateNetworkStrength() {
         let networkStrength = networkStrengthMonitor.getNetworkStrength();
-        // console.warn('~updateNetworkStrength', networkStrength);
+        console.warn('~updateNetworkStrength', networkStrength);
         this.setState({
             networkStrength: networkStrength,
         });
