@@ -15,7 +15,7 @@ class NetworkStrengthMonitor {
         this.hash = getRandom();
         this.hashLastPulled = getRandom();
         this.consicutiveMissCount = 0;
-        this.curBitrate = 0;
+        this.curBitrate = -1;
         this.consicutiveZero = false;
     }
 

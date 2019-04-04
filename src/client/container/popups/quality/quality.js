@@ -17,7 +17,7 @@ const Quality = ({qualityValue = 0, requestConnectivityCheck}) => (
 			</span>
 		</div>
 		{
-			qualityValue < 3 && <div className={`row`}>
+			qualityValue >=0 && qualityValue < 3 && <div className={`row`}>
 				<a className={`btn col-md-12 align-self-left text-center mt-0 pt-0 ${styles.reportACall}`}
 				   onClick={requestConnectivityCheck}> Run connectivity check </a>
 			</div>
