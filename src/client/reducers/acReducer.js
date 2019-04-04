@@ -1,7 +1,7 @@
 import INITIAL_STATE from '../utils/initialStateManager';
 
 export const onInitializationStateChange = (initialized = false) => {
-	console.warn('-> ', 'onInitializationStateChange', initialized);
+	console.log('-> ', 'onInitializationStateChange', initialized);
 	return {
 		type: 'onInitializationStateChange',
 		initialized
@@ -10,7 +10,7 @@ export const onInitializationStateChange = (initialized = false) => {
 };
 
 export const onStateChange = (currentState = undefined) => {
-	console.warn('~', currentState);
+	console.log('~', currentState);
 	return {
 		type: 'onStateChange',
 		currentState: currentState,
@@ -49,7 +49,7 @@ export const onMuteToggle = (muted = false) => {
 
 // from UI events
 export const onRequestAgentStateChange = (requestAgentStateChange = 'complete') => {
-	console.warn('--> ', requestAgentStateChange);
+	// console.log('--> ', requestAgentStateChange);
 	return {
 		type: 'onRequestAgentStateChange',
 		requestAgentStateChange
@@ -121,7 +121,7 @@ export const onAudioLevelChange = (agentAudioLevel = 0, peerAudioLevel = 0) => {
 };
 
 export const onAvailableStream = (stream = undefined, isLocal = true) => {
-	console.warn('onAvailableStream', stream, isLocal);
+	// console.warn('onAvailableStream', stream, isLocal);
 	return {
 		type: 'onAvailableStream',
 		stream,
