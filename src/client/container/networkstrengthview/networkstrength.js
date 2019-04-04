@@ -6,7 +6,7 @@ import networkStrength2 from '../../res/images/fa-network-strength-2.svg';
 import networkStrength3 from '../../res/images/fa-network-strength-3.svg';
 import networkStrength4 from '../../res/images/fa-network-strength-4.svg';
 import networkStrength5 from '../../res/images/fa-network-strength-5.svg';
-import networkStrengthUnknown from '../../res/images/fa-network-strength-unknown.svg';
+import networkStrengthUnknown from '../../res/images/fa-network-strength-unknown-2.svg';
 import agentHandler from "../../api/agentHandler";
 import precallTest from "../../api/precalltest";
 import networkStrengthMonitor from "../../api/networkStrengthMonitor";
