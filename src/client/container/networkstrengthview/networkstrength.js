@@ -8,7 +8,7 @@ import networkStrength4 from '../../res/images/fa-network-strength-4.svg';
 import networkStrength5 from '../../res/images/fa-network-strength-5.svg';
 import networkStrengthUnknown from '../../res/images/fa-network-strength-unknown.svg';
 import agentHandler from "../../api/agentHandler";
-import csioHandler from "../../api/csioHandler";
+import precallTest from "../../api/precalltest";
 import networkStrengthMonitor from "../../api/networkStrengthMonitor";
 
 
@@ -26,23 +26,16 @@ const shouldRunPCT = () => {
 };
 
 const DURATION_MS = 1 * 1000; // Every two minutes
-const PCT_INTERVAL_MS = 2 * 60 * 1000; // Every two minutes
-
 class NetworkStrength extends React.Component {
     constructor(props) {
         super(props);
         this.intervalId = undefined;
-        this.inProgress = false;
-        this.lastTimestamp = 0;
         this.state = {
             networkStrength: networkStrengthMonitor.getNetworkStrength(),
-            // networkStrengthAsString: "Unknown",
         }
     }
 
     _dispose() {
-        this.lastTimestamp = 0;
-        this.inProgress = false;
         if (this.intervalId) {
             clearInterval(this.intervalId);
         }
@@ -50,30 +43,19 @@ class NetworkStrength extends React.Component {
 
     // only run precall test when agent state is available, or offline
     async doPrecallTest() {
-        let runTimeStamp = Date.now();
-        if (runTimeStamp - this.lastTimestamp < PCT_INTERVAL_MS) {
-            return;
-        }
-        if (this.inProgress) {
-            return;
-        }
         if (!shouldRunPCT()) {
             return;
         }
-        this.inProgress = true;
-        try {
-            await csioHandler.doPrecallTest();
-        } catch (err) {
-            console.warn('->', err);
+        if (!precallTest.shouldRun()) {
+            return;
         }
-        this.inProgress = false;
-        this.lastTimestamp = runTimeStamp;
+        // console.warn('doPrecallTest');
+        await precallTest.doPrecallTest();
 
     }
 
     updateNetworkStrength() {
         let networkStrength = networkStrengthMonitor.getNetworkStrength();
-        console.warn('~updateNetworkStrength', networkStrength);
         this.setState({
             networkStrength: networkStrength,
         });

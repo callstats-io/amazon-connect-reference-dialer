@@ -65,7 +65,7 @@ const getChartOptions = (pctResult = []) => {
                 },
                 ticks: {
                     callback: function (value) {
-                        return `${value} ms`
+                        return `${value} kbps`
                         // return Math.round(value);
                     },
                     // min: 0,
@@ -95,11 +95,22 @@ const getRTT = (pctRecords) => {
     // console.warn('-> total rtts', rtts.length);
     return rtts || [];
 };
+
+const getThroughput = (pctRecords) => {
+
+    let throughput = pctRecords.map((item) => {
+        let throughput = parseFloat(item.throughput || 0);
+        return throughput;
+    });
+    console.warn('data ',throughput);
+    return throughput || [];
+};
+
 const getChartData = (pctRecords) => {
     const chartData = {
         labels: getLabels(pctRecords),
         datasets: [{
-            label: 'RTT timeline',
+            label: 'Throughput timeline',
             // backgroundColor: '#6c757d',
             // borderColor: '#6c757d',
             borderWidth: 0,
@@ -107,7 +118,7 @@ const getChartData = (pctRecords) => {
             lineTension: 0,
             // hoverBackgroundColor: 'rgba(255,99,132,0.4)',
             // hoverBorderColor: 'rgba(255,99,132,1)',
-            data: getRTT(pctRecords),
+            data: getThroughput(pctRecords),
         }]
     };
     return chartData;

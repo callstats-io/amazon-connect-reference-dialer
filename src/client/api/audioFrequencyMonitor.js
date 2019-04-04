@@ -1,5 +1,3 @@
-import {throughputThreshold} from "../configs/consts";
-
 const HASH = 10000009;
 const MAX_ITERATION_COUNT = 5;
 const getRandom = () => {

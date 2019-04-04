@@ -10,41 +10,50 @@ import lo from 'lodash';
 import styles from './../connectivitycheck.css';
 
 const getLatestResultFractionalLoss = (pctResult) => {
-	let lastRecord = lo.last(pctResult) || {};
-	return lastRecord.fractionalLoss || 0;
+    let lastRecord = lo.last(pctResult) || {};
+    if ('fractionalLoss' in lastRecord) {
+        return lastRecord.fractionalLoss
+    }
+    return -1;
 };
 
 const isOK = (pctResult) => {
-	let latestResult = getLatestResultFractionalLoss(pctResult);
-	return latestResult < 0.05;
+    let latestResult = getLatestResultFractionalLoss(pctResult);
+    // console.warn('---->', latestResult, latestResult > -1 && latestResult < 0.05);
+    return latestResult > -1 && latestResult < 0.05;
+};
+
+const formatValue = (value = 0) => {
+    value = Math.max(value, 0);
+    return parseFloat(value).toFixed(2);
 };
 
 const FractionalLoss = ({pctResult = {}}) => (
-	<div className="row mt-1">
-		<div className="col-md-12">
-			<div className="row">
-				<div className="col-md-8">
+    <div className="row mt-1">
+        <div className="col-md-12">
+            <div className="row">
+                <div className="col-md-8">
 					<span className={styles.resultText}>
 						<img src={isOK(pctResult) ? tickGreenIcon : dangerIcon}/>
 					<span className="ml-1">Packet loss</span></span>
-				</div>
-				<div className="col-md-4 text-right">
+                </div>
+                <div className="col-md-4 text-right">
 					<span className={styles.resultValue}>
-						{parseFloat(getLatestResultFractionalLoss(pctResult)).toFixed(3)} % </span>
-				</div>
-			</div>
-		</div>
-	</div>
+						{formatValue(getLatestResultFractionalLoss(pctResult))} % </span>
+                </div>
+            </div>
+        </div>
+    </div>
 );
 
 FractionalLoss.propTypes = {
-	pctResult: PropTypes.array,
+    pctResult: PropTypes.array,
 };
 const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({});
 
 export default connect(
-	mapStateToProps,
-	mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(FractionalLoss);
 

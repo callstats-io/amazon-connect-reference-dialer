@@ -10,42 +10,50 @@ import lo from 'lodash';
 import styles from './../connectivitycheck.css';
 
 const getLatestResultRTT = (pctResult) => {
-	let lastRecord = lo.last(pctResult) || {};
-	return lastRecord.rtt || 0;
+    let lastRecord = lo.last(pctResult) || {};
+    if ('rtt' in lastRecord) {
+        return lastRecord.rtt;
+    }
+    return -1;
 };
 
 const isOK = (pctResult) => {
-	let latestResult = getLatestResultRTT(pctResult);
-	return latestResult < 240;
+    let latestResult = getLatestResultRTT(pctResult);
+    return latestResult >= 0 && latestResult < 240;
+};
+
+const formatValue = (value = 0) => {
+    value = Math.max(value, 0);
+    return parseFloat(value).toFixed(2);
 };
 
 const RoundTripTime = ({pctResult = {}}) => (
-	<div className="row mt-1">
-		<div className="col-md-12">
-			<div className="row">
-				<div className="col-md-8">
+    <div className="row mt-1">
+        <div className="col-md-12">
+            <div className="row">
+                <div className="col-md-8">
 					<span className={styles.resultText}>
 						<img src={isOK(pctResult) ? tickGreenIcon : dangerIcon}/>
 						<span className="ml-1">Round trip time</span>
 					</span>
-				</div>
-				<div className="col-md-4 text-right">
+                </div>
+                <div className="col-md-4 text-right">
 					<span className={styles.resultValue}>
-						{parseFloat(getLatestResultRTT(pctResult)).toFixed(2)} ms </span>
-				</div>
-			</div>
-		</div>
-	</div>
+						{formatValue(getLatestResultRTT(pctResult))} ms </span>
+                </div>
+            </div>
+        </div>
+    </div>
 );
 
 RoundTripTime.propTypes = {
-	pctResult: PropTypes.array,
+    pctResult: PropTypes.array,
 };
 const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({});
 
 export default connect(
-	mapStateToProps,
-	mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(RoundTripTime);
 

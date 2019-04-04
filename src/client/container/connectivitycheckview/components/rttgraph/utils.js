@@ -11,19 +11,19 @@ const TIME_SEGMENT_MS = UNIT_HOUR;
 const getRecords = (currentTime = 0, at, data = []) => {
     let last = currentTime - TIME_SEGMENT_MS;
 
-    let rttList = [];
+    let throughput = [];
     for (let i = at; i >= 0; i -= 1) {
         let currentResult = data[i];
         if (currentResult.epochTime && currentResult.epochTime < last) {
             return {
-                rttList: rttList,
+                throughput: throughput,
                 lastIndex: i,
             };
         }
-        rttList.push(currentResult);
+        throughput.push(currentResult);
     }
     return {
-        rttList: rttList,
+        throughput: throughput,
         lastIndex: -1,
     }
 };
@@ -37,19 +37,28 @@ const getMedianRTT = (data = []) => {
     return retval;
 };
 
-export const postProcess = (rtts = []) => {
+const getMedianThroughput = (data = []) => {
+    let len = data.length;
+    let pivot = Math.floor(len / 2);
+
+    let retval = len < 1 ? 0 : len % 2 !== 0 ? data[pivot].throughput : 0.5 * (data[pivot - 1].throughput + data[pivot].throughput);
+    // console.warn('media', data, retval);
+    return retval;
+};
+
+export const postProcess = (pctResults = []) => {
     let now = (new Date).getTime();
     let upto = now - THREE_DAYS_MS;
     let retval = [];
-    for (let currentTime = now, at = rtts.length - 1; currentTime >= upto && at >= 0; currentTime -= TIME_SEGMENT_MS) {
-        let result = getRecords(currentTime, at, rtts);
+    for (let currentTime = now, at = pctResults.length - 1; currentTime >= upto && at >= 0; currentTime -= TIME_SEGMENT_MS) {
+        let result = getRecords(currentTime, at, pctResults);
 
-        let {rttList, lastIndex} = result;
+        let {throughput, lastIndex} = result;
 
         at = lastIndex;
-        let rtt = getMedianRTT(rttList);
+        let medianThroughput = getMedianThroughput(throughput);
         let epochTime = currentTime;
-        retval.push({rtt, epochTime})
+        retval.push({throughput: medianThroughput, epochTime})
     }
 
     return retval;

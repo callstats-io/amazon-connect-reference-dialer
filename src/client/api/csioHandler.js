@@ -31,7 +31,7 @@ class CSIOHandler {
             let track1 = lo.first(stats.mediaStreamTracks);
             let track2 = lo.last(stats.mediaStreamTracks);
 
-
+            // console.warn('~', stats);
             let audioIntputLevel = parseInt(track1.audioIntputLevel || track2.audioIntputLevel || 0);
             let audioOutputLevel = parseInt(track1.audioOutputLevel || track2.audioOutputLevel || 0);
 
@@ -113,7 +113,7 @@ class CSIOHandler {
     sendFeedbackRating(feedbackRating = 1) {
         const feedback = {
             userId: this.localUserId,
-            overall: Math.max(feedbackRating,1),
+            overall: Math.max(feedbackRating, 1),
         };
         CallstatsAmazonShim.sendUserFeedback(feedback, msg => {
             console.warn('on submitted rating ', msg);
