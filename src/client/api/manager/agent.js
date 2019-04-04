@@ -186,7 +186,7 @@ export const setAgentAvailable = (agent = undefined) => {
 		const agentState = agent.getAgentStates().find(item => item.name === 'Available');
 		agent && agent.setState(agentState, {
 			success: (data) => {
-				console.warn('-> setAgentState', data);
+				// console.warn('-> setAgentState', data);
 			},
 			failure: (data) => {
 				console.error('-> setAgentState', data);

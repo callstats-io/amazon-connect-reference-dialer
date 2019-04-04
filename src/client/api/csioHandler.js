@@ -61,11 +61,11 @@ class CSIOHandler {
     }
 
     onCSIORecommendedConfigCallback(config) {
-        console.warn('->', 'onCSIORecommendedConfigCallback', new Date(), config);
+        // console.warn('->', 'onCSIORecommendedConfigCallback', new Date(), config);
     }
 
     onCSIOPrecalltestCallback(status, result) {
-        console.warn('->onCSIOPrecalltestCallback', status, result);
+        // console.warn('->onCSIOPrecalltestCallback', status, result);
         databaseManager.savePrecalltestResult(result);
         let throughput = lo.get(result, 'throughput', 0);
         networkStrengthMonitor.addThroughput(throughput, throughput);
@@ -80,11 +80,11 @@ class CSIOHandler {
         this.dispatch = dispatch;
 
         if (!agent) {
-            console.error('agent object cannot be empty');
+            // console.error('agent object cannot be empty');
             return;
         }
         if (!CallstatsAmazonShim) {
-            console.error('CallstatsAmazonShim object cannot be empty');
+            // console.error('CallstatsAmazonShim object cannot be empty');
             return;
         }
         const localUserId = agent.getName();
@@ -106,7 +106,7 @@ class CSIOHandler {
             comment: JSON.stringify(feedbackJSON)
         };
         CallstatsAmazonShim.sendUserFeedback(feedback, msg => {
-            console.warn('on submitted feedback ', msg);
+            // console.warn('on submitted feedback ', msg);
         });
     }
 

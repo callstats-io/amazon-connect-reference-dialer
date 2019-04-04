@@ -144,7 +144,7 @@ class EventHandler {
 				}
 			});
 			bus.subscribe(connect.AgentEvents.ERROR, e => {
-				console.warn('~', e);
+				// console.warn('~', e);
 			});
 			bus.subscribe(connect.AgentEvents.STATE_CHANGE, e => {
 				currentAgent = e;
@@ -161,7 +161,7 @@ class EventHandler {
 				const connection1 = getConnectionState(e, true);
 				const connection2 = getConnectionState(e, false);
 				const {primaryConnectionState, thirdPartyConnectionState} = mayBeUpdateToJoined(connection1, connection2);
-				console.warn('~REFRESH', primaryConnectionState, thirdPartyConnectionState, isMultipartyCall(e));
+				// console.warn('~REFRESH', primaryConnectionState, thirdPartyConnectionState, isMultipartyCall(e));
 				// if there is a agent side error
 				// ignore checking connections
 				const parseAgentState = () => {
