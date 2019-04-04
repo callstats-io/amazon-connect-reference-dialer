@@ -58,7 +58,7 @@ class MediaManager {
         const outputDevice = await this.getDefaultAudioOutputDevice();
         const inputDeviceList = await this.getInputDeviceList();
 
-        console.warn('~getInputDeviceList', inputDevice, outputDevice, inputDeviceList);
+        // console.warn('~getInputDeviceList', inputDevice, outputDevice, inputDeviceList);
         return {inputDevice, outputDevice, inputDeviceList};
     }
 

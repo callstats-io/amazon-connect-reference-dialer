@@ -89,7 +89,7 @@ const getConnectionState = (contact = undefined, isPrimary = true) => {
 	if (!connection) {
 		return undefined;
 	}
-	console.warn('~', connection.isActive(), connection.isConnected(), connection.isConnecting(), connection.getType(), currentAgent.agent.getState());
+	// console.warn('~', connection.isActive(), connection.isConnected(), connection.isConnecting(), connection.getType(), currentAgent.agent.getState());
 	let state = undefined;
 	if (isOutbound(connection)) {
 		state = 'Outbound call';
@@ -148,7 +148,7 @@ class EventHandler {
 			});
 			bus.subscribe(connect.AgentEvents.STATE_CHANGE, e => {
 				currentAgent = e;
-				console.warn('~agent state change ', getAgentState(e));
+				// console.warn('~agent state change ', getAgentState(e));
 				let payload = {
 					primaryConnectionState: getAgentState(e),
 					thirdPartyConnectionState: undefined,
