@@ -16,7 +16,6 @@ import {
 import {
 	feedbackRatings,
 	feedbackRatingsText,
-	defaultFeedback
 } from '../../../utils/feedback'
 import sessionManager from "../../../api/sessionManager";
 

@@ -12,6 +12,14 @@ import quickConnect from '../../../res/images/fa-quick-connect.svg';
 import transferIcon from '../../../res/images/fa-transfer.svg';
 import {onRequestShowDialPad, onRequestShowQuickConnects, onRequestShowTransferCall} from "../../../reducers/acReducer";
 import sessionManager from './../../../api/sessionManager';
+import {
+    isHold,
+    showHoldOrMute,
+    dialOrQuickConnectOrTransfer,
+    isAfterCallWork,
+    transferCall,
+} from './../../../utils/acutils';
+
 
 import lo from 'lodash';
 import styles from './agentview.css';
@@ -26,148 +34,125 @@ import styles from './agentview.css';
 */
 
 class LowerBody extends Component {
-	constructor(props) {
-		super(props);
+    constructor(props) {
+        super(props);
 
-		this.toggleHold = this.toggleHold.bind(this);
-		this.toggleMuteUnmute = this.toggleMuteUnmute.bind(this);
-	}
+        this.toggleHold = this.toggleHold.bind(this);
+        this.toggleMuteUnmute = this.toggleMuteUnmute.bind(this);
+    }
 
-	_showHoldOrMute(currentState = undefined) {
-		const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
-		return ['Connected', 'Joined', 'On hold', 'Hold'].includes(state);
-	}
+    toggleHold(currentStateAsString = null) {
+        let isOnHold = isHold(currentStateAsString);
 
-	_transferCall(currentState = undefined) {
-		const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
-		return ['Connected', 'Joined', 'On hold', 'Hold'].includes(state);
-	}
+        let connection = sessionManager.getPrimaryConnection();
+        let promise = isOnHold ? sessionManager.resumeConnection(connection) :
+            sessionManager.holdConnection(connection);
+        promise.then(() => _, err => console.error(err))
+    }
 
-	_dialOrQuickConnectOrTransfer(currentState = undefined) {
-		const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
-		return ['Inbound call', 'Outbound call'].includes(state) === false;
-	}
+    toggleMuteUnmute() {
+        this.props.muted ? sessionManager.unmute() : sessionManager.mute();
+    }
 
-	_isAfterCallWork(currentState = undefined) {
-		const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
-		return ['AfterCallWork'].includes(state);
-	}
+    requestDialPad() {
+        this.props.requestDialPad();
+    }
 
-	_isHold(currentState = undefined) {
-		const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
-		return ['On hold', 'Hold'].includes(state);
-	}
+    requestTransferCall() {
+        this.props.requestTransferCall();
+    }
 
-	toggleHold(currentState = undefined) {
-		let isOnHold = this._isHold(currentState);
-		let connection = lo.get(currentState, "primaryConnectionState.connection", undefined);
-		let promise = isOnHold ? sessionManager.resumeConnection(connection) :
-			sessionManager.holdConnection(connection);
-		promise.then(() => _, err => console.error(err))
-	}
+    requestQuickConnect() {
+        this.props.requestQuickConnect();
+    }
 
-	toggleMuteUnmute() {
-		this.props.muted ? sessionManager.unmute() : sessionManager.mute();
-	}
+    render() {
+        const {currentState, muted} = this.props;
+        const currentStateAsString = sessionManager.getCurrentStateString(currentState, true);
+        return (
+            <div className="row">
+                <div className="col-md-12">
+                    {
+                        showHoldOrMute(currentStateAsString) &&
+                        <div className="row mt-3">
+                            <div className="col-md-6">
+                                <a className={`btn ${styles.toggleHold}`}
+                                   onClick={() => this.toggleHold(currentStateAsString)}>
+                                    <img
+                                        src={isHold(currentStateAsString) ? resumeIcon : holdIcon}/> &nbsp; {isHold(currentStateAsString) ? 'Resume' : 'Hold'}
+                                </a>
+                            </div>
 
-	requestDialPad() {
-		this.props.requestDialPad();
-	}
+                            <div className="col-md-6">
+                                <a onClick={this.toggleMuteUnmute}
+                                   className={`btn pl-0 pr-0 ${styles.toggleMute}`}
+                                > {muted ? <img src={unMuteIcon}/> : <img src={muteIcon}/>}
+                                    {muted ? ' Unmute' : ' Mute'}
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    {
+                        dialOrQuickConnectOrTransfer(currentStateAsString) &&
+                        <div className="row mt-3">
+                            <div className="col-md-6">
+                                <a className={`btn ${styles.quickConnectOrTransfer}`}
+                                   onClick={() => this.requestDialPad()}>
+                                    <img src={dialNumberIcon}/> &nbsp;Dial number </a>
+                            </div>
 
-	requestTransferCall() {
-		this.props.requestTransferCall();
-	}
+                            <div className="col-md-6">
+                                {
+                                    transferCall(currentStateAsString) ?
+                                        <a className={`btn pl-0 pr-0 ${styles.quickConnectOrTransfer}`}
+                                           onClick={() => this.requestTransferCall()}>
+                                            <img src={transferIcon}/> &nbsp;Transfer </a> :
+                                        <a className={`btn pl-0 pr-0 ${styles.quickConnectOrTransfer}`}
+                                           onClick={() => this.requestQuickConnect()}>
+                                            <img src={quickConnect}/> &nbsp;Quick connects </a>
 
-	requestQuickConnect() {
-		this.props.requestQuickConnect();
-	}
+                                }
+                            </div>
 
-	render() {
-		const {currentState, muted} = this.props;
-		return (
-			<div className="row">
-				<div className="col-md-12">
-					{
-						this._showHoldOrMute(currentState) &&
-						<div className="row mt-3">
-							<div className="col-md-6">
-								<a className={`btn ${styles.toggleHold}`}
-								   onClick={() => this.toggleHold(currentState)}>
-									<img
-										src={this._isHold(currentState) ? resumeIcon : holdIcon}/> &nbsp; {this._isHold(currentState) ? 'Resume' : 'Hold'}
-								</a>
-							</div>
+                        </div>
+                    }
+                    {
+                        isAfterCallWork(currentStateAsString) && <QuickFeedback/>
+                    }
 
-							<div className="col-md-6">
-								<a onClick={this.toggleMuteUnmute}
-								   className={`btn pl-0 pr-0 ${styles.toggleMute}`}
-								> {muted ? <img src={unMuteIcon}/> : <img src={muteIcon}/>}
-									{muted ? ' Unmute' : ' Mute'}
-								</a>
-							</div>
-						</div>
-					}
-					{
-						this._dialOrQuickConnectOrTransfer(currentState) &&
-						<div className="row mt-3">
-							<div className="col-md-6">
-								<a className={`btn ${styles.quickConnectOrTransfer}`}
-								   onClick={() => this.requestDialPad()}>
-									<img src={dialNumberIcon}/> &nbsp;Dial number </a>
-							</div>
-
-							<div className="col-md-6">
-								{
-									this._transferCall(currentState) ?
-										<a className={`btn pl-0 pr-0 ${styles.quickConnectOrTransfer}`}
-										   onClick={() => this.requestTransferCall()}>
-											<img src={transferIcon}/> &nbsp;Transfer </a> :
-										<a className={`btn pl-0 pr-0 ${styles.quickConnectOrTransfer}`}
-										   onClick={() => this.requestQuickConnect()}>
-											<img src={quickConnect}/> &nbsp;Quick connects </a>
-
-								}
-							</div>
-
-						</div>
-					}
-					{
-						this._isAfterCallWork(currentState) && <QuickFeedback/>
-					}
-
-				</div>
-			</div>
-		);
-	}
+                </div>
+            </div>
+        );
+    }
 }
 
 LowerBody.propTypes = {
-	currentState: PropTypes.object,
+    currentState: PropTypes.object,
 
 
-	muted: PropTypes.bool.isRequired,
-	requestDialPad: PropTypes.func.isRequired,
-	requestQuickConnect: PropTypes.func.isRequired,
-	requestTransferCall: PropTypes.func.isRequired,
+    muted: PropTypes.bool.isRequired,
+    requestDialPad: PropTypes.func.isRequired,
+    requestQuickConnect: PropTypes.func.isRequired,
+    requestTransferCall: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
-	currentState: state.acReducer.currentState,
+    currentState: state.acReducer.currentState,
 
-	muted: state.acReducer.muted || false,
+    muted: state.acReducer.muted || false,
 });
 const mapDispatchToProps = dispatch => ({
-	requestDialPad: () => {
-		dispatch(onRequestShowDialPad('pending'));
-	},
-	requestQuickConnect: () => {
-		dispatch(onRequestShowQuickConnects('pending'));
-	},
-	requestTransferCall: () => {
-		dispatch(onRequestShowTransferCall('pending'));
-	}
+    requestDialPad: () => {
+        dispatch(onRequestShowDialPad('pending'));
+    },
+    requestQuickConnect: () => {
+        dispatch(onRequestShowQuickConnects('pending'));
+    },
+    requestTransferCall: () => {
+        dispatch(onRequestShowTransferCall('pending'));
+    }
 });
 
 export default connect(
-	mapStateToProps,
-	mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(LowerBody);

@@ -11,6 +11,7 @@ import networkStrengthLoading from '../../res/images/fa-network-strength-unknown
 import agentHandler from "../../api/agentHandler";
 import precallTest from "../../api/precalltest";
 import networkStrengthMonitor from "../../api/networkStrengthMonitor";
+import {runPCT} from './../../utils/acutils';
 
 
 const networkStrengthIcon = [networkStrengthLoading, networkStrengthUnknown, networkStrength1, networkStrength2, networkStrength3, networkStrength4, networkStrength5];
@@ -21,9 +22,8 @@ const getStrengthIcon = (networkStrength = -1) => {
 
 const shouldRunPCT = () => {
     let agent = agentHandler && agentHandler.getAgent();
-    let currentState = agent && agent.getState().name;
-    // console.warn('~shouldRunPCT', currentState);
-    return currentState === 'Available' || currentState === 'Offline';
+    let currentAgentStateName = agent && agent.getState().name;
+    return runPCT(currentAgentStateName);
 };
 
 const DURATION_MS = 1 * 1000; // Every two minutes

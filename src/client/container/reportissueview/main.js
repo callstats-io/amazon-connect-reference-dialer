@@ -6,7 +6,6 @@ import Body from './body';
 import Footer from './footer';
 import issueList from "./issues";
 import {onRequestReportCallIssue} from "../../reducers/acReducer";
-import {defaultFeedback} from './../../utils/feedback'
 
 import sessionManager from './../../api/sessionManager';
 import feedbackHandler from './../../api/feedbackHandler';

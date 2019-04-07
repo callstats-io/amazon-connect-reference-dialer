@@ -16,8 +16,7 @@ import {
 import {
     feedbackRatings,
     feedbackRatingsText,
-    defaultFeedback
-} from '../../../utils/feedback'
+} from '../../../utils/feedback';
 import sessionManager from "../../../api/sessionManager";
 import csioHandler from "../../../api/csioHandler";
 

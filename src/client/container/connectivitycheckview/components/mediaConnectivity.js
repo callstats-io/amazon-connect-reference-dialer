@@ -11,7 +11,7 @@ import styles from './../connectivitycheck.css';
 
 const isOK = (pctResult) => {
 	let latestResult = lo.last(pctResult);
-	console.warn('media connectivity ', latestResult);
+	// console.warn('media connectivity ', latestResult);
 	return latestResult && latestResult.mediaConnectivity === true;
 };
 

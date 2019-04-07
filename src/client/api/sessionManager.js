@@ -41,12 +41,14 @@ import {
     getThirdPartyConnection,
     endConnection,
 } from './manager/connection';
+import lo from "lodash";
 
 
 class SessionManager {
     constructor() {
         this.phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
         this.PNF = libphonenumber.PhoneNumberFormat;
+        this.lastStateAsString = null;
     }
 
     isNeedToTransferCall() {
@@ -240,6 +242,20 @@ class SessionManager {
         return getThirdPartyConnection(currentState);
     }
 
+    isConference(currentState = undefined) {
+        return currentState && currentState.primaryConnectionState && currentState.thirdPartyConnectionState;
+    }
+
+    isOnlyPrimary(currentState = undefined) {
+        return currentState && currentState.primaryConnectionState && !currentState.thirdPartyConnectionState;
+    }
+
+    getCurrentStateString(currentState = undefined, isPrimary = true) {
+        const stateAsString = lo.get(currentState,
+            isPrimary ? 'primaryConnectionState.state' : 'thirdPartyConnectionState.state', this.lastStateAsString);
+        this.lastStateAsString = stateAsString;
+        return stateAsString;
+    }
 
 }
 

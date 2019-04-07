@@ -15,7 +15,7 @@ const getStepSize = (first = {}, last = {}) => {
 
     let totalDayInMillis = Math.max(Math.abs(startTimeInMs - endTimeInMs), ONE_DAY_IN_MS);
     let stepSizeInMillis = Math.round(totalDayInMillis / TOTAL_SEGMENT);
-    console.warn('->', first, last, totalDayInMillis, stepSizeInMillis);
+    // console.warn('->', first, last, totalDayInMillis, stepSizeInMillis);
     return stepSizeInMillis;
 };
 
@@ -102,7 +102,7 @@ const getThroughput = (pctRecords) => {
         let throughput = parseFloat(item.throughput || 0);
         return throughput;
     });
-    console.warn('data ',throughput);
+    // console.warn('data ',throughput);
     return throughput || [];
 };
 

@@ -8,12 +8,16 @@ import resumeIcon from '../../../res/images/fa-resume.svg';
 import muteIcon from '../../../res/images/fa-mute.svg';
 import unMuteIcon from '../../../res/images/fa-mic.svg';
 import dialNumberIcon from '../../../res/images/fa-dial-number.svg';
-import quickConnect from '../../../res/images/fa-quick-connect.svg';
-import transferIcon from '../../../res/images/fa-transfer.svg';
 import {onRequestShowDialPad, onRequestShowQuickConnects, onRequestShowTransferCall} from "../../../reducers/acReducer";
 import sessionManager from './../../../api/sessionManager';
 
-import lo from 'lodash';
+import {
+    isHold,
+    showHoldOrMute,
+    dialOrQuickConnectOrTransfer,
+    isAfterCallWork,
+} from './../../../utils/acutils';
+
 import styles from './agentview.css';
 
 /*
@@ -26,129 +30,111 @@ import styles from './agentview.css';
 */
 
 class LowerBody extends Component {
-	constructor(props) {
-		super(props);
+    constructor(props) {
+        super(props);
 
-		this.toggleHold = this.toggleHold.bind(this);
-		this.toggleMuteUnmute = this.toggleMuteUnmute.bind(this);
-	}
+        this.toggleHold = this.toggleHold.bind(this);
+        this.toggleMuteUnmute = this.toggleMuteUnmute.bind(this);
+    }
 
-	_showHoldOrMute(currentState = undefined) {
-		const state = lo.get(currentState, 'thirdPartyConnectionState.state', 'none');
-		return ['Connected', 'Joined', 'On hold', 'Hold'].includes(state);
-	}
+    toggleHold(currentStateAsString = null) {
+        let isOnHold = isHold(currentStateAsString);
 
-	_dialOrQuickConnectOrTransfer(currentState = undefined) {
-		const state = lo.get(currentState, 'thirdPartyConnectionState.state', 'none');
-		return ['Inbound call', 'Outbound call'].includes(state) === false;
-	}
+        let connection = sessionManager.getThirdPartyConnection();
+        let promise = isOnHold ? sessionManager.resumeConnection(connection) :
+            sessionManager.holdConnection(connection);
+        promise.then(() => _, err => console.error(err))
+    }
 
-	_isAfterCallWork(currentState = undefined) {
-		const state = lo.get(currentState, 'primaryConnectionState.state', 'none');
-		return ['AfterCallWork'].includes(state);
-	}
+    toggleMuteUnmute() {
+        this.props.muted ? sessionManager.unmute() : sessionManager.mute();
+    }
 
-	_isHold(currentState = undefined) {
-		const state = lo.get(currentState, 'thirdPartyConnectionState.state', 'none');
-		return ['On hold', 'Hold'].includes(state);
-	}
+    requestDialPad() {
+        this.props.requestDialPad();
+    }
 
-	toggleHold(currentState = undefined) {
-		let isOnHold = this._isHold(currentState);
-		let connection = lo.get(currentState, "thirdPartyConnectionState.connection", undefined);
-		let promise = isOnHold ? sessionManager.resumeConnection(connection) :
-			sessionManager.holdConnection(connection);
-		promise.then(() => _, err => console.error(err))
-	}
+    requestTransferCall() {
+        this.props.requestTransferCall();
+    }
 
-	toggleMuteUnmute() {
-		this.props.muted ? sessionManager.unmute() : sessionManager.mute();
-	}
+    requestQuickConnect() {
+        this.props.requestQuickConnect();
+    }
 
-	requestDialPad() {
-		this.props.requestDialPad();
-	}
+    render() {
+        const {currentState, muted} = this.props;
+        const currentStateAsString = sessionManager.getCurrentStateString(currentState, false);
+        return (
+            <div className="row">
+                <div className="col-md-12">
+                    {
+                        showHoldOrMute(currentStateAsString) &&
+                        <div className="row mt-3">
+                            <div className="col-md-6">
+                                <a className={`btn ${styles.toggleHold}`}
+                                   onClick={() => this.toggleHold(currentStateAsString)}>
+                                    <img
+                                        src={isHold(currentStateAsString) ? resumeIcon : holdIcon}/> &nbsp; {isHold(currentStateAsString) ? 'Resume' : 'Hold'}
+                                </a>
+                            </div>
 
-	requestTransferCall() {
-		this.props.requestTransferCall();
-	}
+                            <div className="col-md-6">
+                                <a onClick={this.toggleMuteUnmute}
+                                   className={`btn pl-0 pr-0 ${styles.toggleMute}`}
+                                > {muted ? <img src={unMuteIcon}/> : <img src={muteIcon}/>}
+                                    {muted ? ' Unmute' : ' Mute'}
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    {
+                        dialOrQuickConnectOrTransfer(currentStateAsString) &&
+                        <div className="row mt-3">
+                            <div className="col-md-6">
+                                <a className={`btn ${styles.quickConnectOrTransfer}`}
+                                   onClick={() => this.requestDialPad()}>
+                                    <img src={dialNumberIcon}/> &nbsp;Dial number </a>
+                            </div>
+                        </div>
+                    }
+                    {
+                        isAfterCallWork(currentStateAsString) && <QuickFeedback/>
+                    }
 
-	requestQuickConnect() {
-		this.props.requestQuickConnect();
-	}
-
-	render() {
-		const {currentState, muted} = this.props;
-		return (
-			<div className="row">
-				<div className="col-md-12">
-					{
-						this._showHoldOrMute(currentState) &&
-						<div className="row mt-3">
-							<div className="col-md-6">
-								<a className={`btn ${styles.toggleHold}`}
-								   onClick={() => this.toggleHold(currentState)}>
-									<img
-										src={this._isHold(currentState) ? resumeIcon : holdIcon}/> &nbsp; {this._isHold(currentState) ? 'Resume' : 'Hold'}
-								</a>
-							</div>
-
-							<div className="col-md-6">
-								<a onClick={this.toggleMuteUnmute}
-								   className={`btn pl-0 pr-0 ${styles.toggleMute}`}
-								> {muted ? <img src={unMuteIcon}/> : <img src={muteIcon}/>}
-									{muted ? ' Unmute' : ' Mute'}
-								</a>
-							</div>
-						</div>
-					}
-					{
-						this._dialOrQuickConnectOrTransfer(currentState) &&
-						<div className="row mt-3">
-							<div className="col-md-6">
-								<a className={`btn ${styles.quickConnectOrTransfer}`}
-								   onClick={() => this.requestDialPad()}>
-									<img src={dialNumberIcon}/> &nbsp;Dial number </a>
-							</div>
-						</div>
-					}
-					{
-						this._isAfterCallWork(currentState) && <QuickFeedback/>
-					}
-
-				</div>
-			</div>
-		);
-	}
+                </div>
+            </div>
+        );
+    }
 }
 
 LowerBody.propTypes = {
-	currentState: PropTypes.object,
+    currentState: PropTypes.object,
 
 
-	muted: PropTypes.bool.isRequired,
-	requestDialPad: PropTypes.func.isRequired,
-	requestQuickConnect: PropTypes.func.isRequired,
-	requestTransferCall: PropTypes.func.isRequired,
+    muted: PropTypes.bool.isRequired,
+    requestDialPad: PropTypes.func.isRequired,
+    requestQuickConnect: PropTypes.func.isRequired,
+    requestTransferCall: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
-	currentState: state.acReducer.currentState,
+    currentState: state.acReducer.currentState,
 
-	muted: state.acReducer.muted || false,
+    muted: state.acReducer.muted || false,
 });
 const mapDispatchToProps = dispatch => ({
-	requestDialPad: () => {
-		dispatch(onRequestShowDialPad('pending'));
-	},
-	requestQuickConnect: () => {
-		dispatch(onRequestShowQuickConnects('pending'));
-	},
-	requestTransferCall: () => {
-		dispatch(onRequestShowTransferCall('pending'));
-	}
+    requestDialPad: () => {
+        dispatch(onRequestShowDialPad('pending'));
+    },
+    requestQuickConnect: () => {
+        dispatch(onRequestShowQuickConnects('pending'));
+    },
+    requestTransferCall: () => {
+        dispatch(onRequestShowTransferCall('pending'));
+    }
 });
 
 export default connect(
-	mapStateToProps,
-	mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(LowerBody);
