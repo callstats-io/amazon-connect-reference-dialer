@@ -257,6 +257,13 @@ class SessionManager {
         return stateAsString;
     }
 
+    isActive(currentState = undefined) {
+        const primaryConnection = this.getPrimaryConnection();
+        const thirdParyConnection = this.getThirdPartyConnection();
+
+        return (primaryConnection && primaryConnection.isActive()) || (thirdParyConnection && thirdParyConnection.isActive());
+    }
+
 }
 
 const sessionManage = new SessionManager();

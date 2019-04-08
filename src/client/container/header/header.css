@@ -34,3 +34,13 @@
 .dialerImage {
     margin-top: 0.5em;
 }
+
+.disabledDiv {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.nope {
+
+
+}
