@@ -1,15 +1,13 @@
-const THREE_DAYS_MS = 259200000;
-const ONE_HOUR = 3600000;
-const UNIT_HOUR = 1 * 3600000;
-const FIFTEEN_MINUTED = 15 * 60 * 1000;
-// const FIVE_MINUTED = 5 * 60 * 1000;
-const EVERY_THIRTY_MINUTED = 30 * 60 * 1000;
-// const EVERY_MINUTED = 60 * 1000;
-// const EVERY_SECOND = 2 * 60 * 1000;
-const TIME_SEGMENT_MS = UNIT_HOUR;
+import lo from "lodash";
 
-const getRecords = (currentTime = 0, at, data = []) => {
-    let last = currentTime - TIME_SEGMENT_MS;
+const ONE_MINUTE_IN_MS = 60000;
+const ONE_HOUR_IN_MS = 3600000;
+const ONE_DAY_IN_MS = 86400000;
+const THREE_DAYS_MS = 259200000;
+const STEP_SIZE = 5;
+
+const getRecords = (currentTime = 0, at, data = [], timeSegmentInMs = ONE_DAY_IN_MS) => {
+    let last = currentTime - timeSegmentInMs;
 
     let throughput = [];
     for (let i = at; i >= 0; i -= 1) {
@@ -22,6 +20,7 @@ const getRecords = (currentTime = 0, at, data = []) => {
         }
         throughput.push(currentResult);
     }
+    // console.warn('-> ', throughput);
     return {
         throughput: throughput,
         lastIndex: -1,
@@ -46,20 +45,53 @@ const getMedianThroughput = (data = []) => {
     return retval;
 };
 
-export const postProcess = (pctResults = []) => {
-    let now = (new Date).getTime();
-    let upto = now - THREE_DAYS_MS;
+
+const getTimeRange = (first = {}, last = {}) => {
+    let startTimeInMs = lo.get(first, 'epochTime', 0);
+    let endTimeInMs = lo.get(last, 'epochTime', 0);
+    let diffInMs = Math.abs(startTimeInMs - endTimeInMs);
+    let unit = 'day';
+    if (diffInMs <= ONE_HOUR_IN_MS) {
+        unit = 'minute';
+    } else if (diffInMs <= ONE_DAY_IN_MS) {
+        unit = 'hour';
+    }
+    return {now: endTimeInMs, upto: startTimeInMs, unit};
+};
+
+export const postProcess = (pctResult = []) => {
+    // let now = (new Date).getTime();
     let retval = [];
-    for (let currentTime = now, at = pctResults.length - 1; currentTime >= upto && at >= 0; currentTime -= TIME_SEGMENT_MS) {
-        let result = getRecords(currentTime, at, pctResults);
+
+    let {now, upto, unit} = getTimeRange(lo.first(pctResult), lo.last(pctResult));
+    // console.warn(now, upto, now-THREE_DAYS_MS)
+    upto = Math.max(now - THREE_DAYS_MS, upto);
+
+    let diffInMs = Math.abs(now - upto);
+    let timeSegmentInMs = diffInMs / 15;
+
+    // console.warn('-> ', timeSegmentInMs);
+    let prvIndex = pctResult.length;
+    retval.push({throughput: lo.first(pctResult).throughput || 0, epochTime: now});
+    for (let currentTime = now, at = prvIndex - 1; currentTime >= upto && at >= 0; currentTime -= timeSegmentInMs) {
+        let result = getRecords(currentTime, at, pctResult, timeSegmentInMs);
 
         let {throughput, lastIndex} = result;
 
+        // if (prvIndex === lastIndex) {
+        //     continue;
+        // }
+        prvIndex = lastIndex;
         at = lastIndex;
         let medianThroughput = getMedianThroughput(throughput);
         let epochTime = currentTime;
+
+        // console.warn('->', result, medianThroughput, epochTime, medianThroughput);
         retval.push({throughput: medianThroughput, epochTime})
     }
+    retval = retval.sort((l, r) => {
+        return l.epochTime < r.epochTime ? -1 : l.epochTime > r.epochTime ? 1 : 0;
+    });
 
-    return retval;
+    return {pctResult: retval, unit, stepSize: timeSegmentInMs};
 };

@@ -4,10 +4,11 @@ import PropTypes from "prop-types";
 import {Line} from 'react-chartjs-2';
 import lo from 'lodash';
 
-const TOTAL_SEGMENT = 2;
+const TOTAL_SEGMENT = 3;
 const ONE_MINUTE_IN_MS = 60000;
 const ONE_HOUR_IN_MS = 3600000;
 const ONE_DAY_IN_MS = 86400000;
+
 
 const getStepSize = (first = {}, last = {}) => {
     let startTimeInMs = lo.get(first, 'epochTime', 0);
@@ -19,18 +20,37 @@ const getStepSize = (first = {}, last = {}) => {
     return stepSizeInMillis;
 };
 
+const getUnit = (first = {}, last = {}) => {
+    let startTimeInMs = lo.get(first, 'epochTime', 0);
+    let endTimeInMs = lo.get(last, 'epochTime', 0);
+    let diffInMs = Math.abs(startTimeInMs - endTimeInMs);
+    if (diffInMs < ONE_HOUR_IN_MS) {
+        let stepSize = Math.floor(diffInMs / 1000 / 60 / 3);
+        return {unit: 'minute', stepSize};
+    }
+    if (diffInMs < ONE_DAY_IN_MS) {
+        let stepSize = Math.floor(diffInMs / 1000 / 60 / 60 / 3);
+        return {unit: 'minute', stepSize};
+    }
+    let stepSize = Math.floor(diffInMs / 1000 / 60 / 60 / 24 / 3);
+    return {unit: 'day', stepSize};
+};
+
 // will distributed to 50 points
-const getChartOptions = (pctResult = []) => {
-    const stepSize = getStepSize(lo.first(pctResult), lo.last(pctResult));
+const getChartOptions = (pctResult = [], unit = undefined, stepSize) => {
+    // const stepSize = getStepSize(lo.first(pctResult), lo.last(pctResult));
     // console.warn('~getChartOptions', pctResult, stepSize);
+    // const {unit, stepSize} = getUnit(lo.first(pctResult), lo.last(pctResult));
+    // console.warn('->', 'pctResult', pctResult, unit);
     const chartOptions = {
+        scaleShowValues: true,
         legend: {
             display: false
         },
         tooltips: {
             callbacks: {
                 label: function (tooltipItem) {
-                    return `${tooltipItem.yLabel.toFixed(2)} ms`;
+                    return `${tooltipItem.yLabel.toFixed(2)} kbps`;
                 }
             }
         },
@@ -40,20 +60,22 @@ const getChartOptions = (pctResult = []) => {
                 type: 'time',
                 distribution: 'series',
                 autoSkip: false,
+                beginAtZero: true,
                 // stepSize: stepSize,
-                // ticks: {
-                //     stepSize: stepSize // <----- This prop sets the stepSize
-                // },
+                // unitStepSize: stepSize,
+                // unit: 'hour',
                 time: {
                     tooltipFormat: 'MMM D, h:mm:ss a',
-                    unit: 'day',
-                    unitStepSize: 1,
+                    // unit: unit,
+                    // unitStepSize: stepSize,
+                    // stepSize: stepSize,
+                    beginAtZero: true,
                     autoSkip: false,
                     displayFormats: {
-                        'millisecond': 'DD MMM',
-                        'second': 'DD MMM',
-                        'minute': 'DD MMM',
-                        'hour': 'DD MMM',
+                        'millisecond': 'HH:mm:ss',
+                        'second': 'HH:mm:ss',
+                        'minute': 'HH:mm:ss',
+                        'hour': 'HH:mm',
                         'day': 'DD MMM',
                     }
                 }
@@ -133,10 +155,10 @@ const isBad = (pctResult) => {
     return latestResult < 20;
 };
 
-const RTTGraph = ({pctResult = {}, lastSCT = {}}) => (
+const RTTGraph = ({pctResult = {}, lastSCT = {}, unit = undefined, stepSize = 0}) => (
     <div className={`row mt-${isBad(lastSCT) ? 1 : 3}`}>
         <div className="col-md-12" style={{position: 'relative', height: '100px'}}>
-            <Line data={getChartData(pctResult)} options={getChartOptions(pctResult)}/>
+            <Line data={getChartData(pctResult)} options={getChartOptions(pctResult, unit, stepSize)}/>
         </div>
     </div>
 );
@@ -144,6 +166,8 @@ const RTTGraph = ({pctResult = {}, lastSCT = {}}) => (
 RTTGraph.propTypes = {
     pctResult: PropTypes.array,
     lastSCT: PropTypes.object,
+    unit: PropTypes.string,
+    stepSize: PropTypes.number,
 };
 const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({});
