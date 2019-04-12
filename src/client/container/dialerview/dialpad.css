@@ -1,0 +1,104 @@
+
+.dialPadKeyboard {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.dialPadKeyboard li {
+    float: left;
+    margin: 0 5px 5px 0;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    line-height: 60px;
+    text-align: center;
+    background: #e9ecef;
+    border: 1px solid #f9f9f9;
+    border-radius: 5px;
+}
+
+.capslock, .tab, .left-shift, .clearl, .switch {
+    clear: left;
+}
+
+.dialPadKeyboard .tab, .dialPadKeyboard .delete {
+    width: 70px;
+}
+
+.dialPadKeyboard .capslock {
+    width: 80px;
+}
+
+.dialPadKeyboard .return {
+    width: 90px;
+}
+
+.dialPadKeyboard .left-shift {
+    width: 70px;
+}
+
+.dialPadKeyboard .switch {
+    width: 90px;
+}
+
+.dialPadKeyboard .rightright-shift {
+    width: 109px;
+}
+
+.lastitem {
+    margin-right: 0;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.dialPadKeyboard .space {
+    float: left;
+    width: 556px;
+}
+
+.dialPadKeyboard .switch, .dialPadKeyboard .space, .dialPadKeyboard .return {
+    font-size: 16px;
+}
+
+.on {
+    display: none;
+}
+
+.dialPadKeyboard li:hover {
+    position: relative;
+    top: 1px;
+    left: 1px;
+    border-color: #e5e5e5;
+    cursor: pointer;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.zeroPadding {
+    padding: 0;
+}
+
+.cardMain {
+    background-color: #f2f2f2;
+}
+
+.dialNumber {
+    color: #000000;
+    font-size: 18px;
+    font-family: AmazonEmber;
+}
+
+.dialButton {
+    background-color: #a3acb6;
+    font-family: AmazonEmber;
+    color: #ffffff !important;
+    height: 35px;
+    line-height: 1.3em;
+    cursor: pointer;
+    border-radius: 0 !important;
+}

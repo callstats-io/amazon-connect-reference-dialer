@@ -1,0 +1,100 @@
+.buttonCommon {
+    cursor: pointer;
+    width: 132px;
+    height: 36px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    color: #000000;
+    font-family: AmazonEmber;
+    font-size: 14px;
+    border-radius: 0 !important;
+
+}
+
+.toggleMute {
+    width: 132px;
+    height: 36px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    color: #000000;
+    font-family: AmazonEmber;
+    font-size: 14px;
+    border-radius: 0 !important;
+}
+
+.quickConnectOrTransfer {
+    width: 132px;
+    height: 36px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    color: #000000;
+    font-family: AmazonEmber;
+    font-size: 14px;
+    border-radius: 0 !important;
+}
+
+.agentStateDiv {
+    max-height: 0em;
+}
+
+.agentState {
+    font-family: AmazonEmber-light;
+    color: #ffffff;
+    font-size: 26px;
+}
+
+.agentStateMini {
+    font-family: AmazonEmber-light;
+    color: #ffffff;
+    font-size: 26px;
+}
+
+.phoneAndDurationMini {
+    font-family: AmazonEmber;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.agentMutedState {
+    /*max-height: 0em;*/
+}
+
+.agentMutedText {
+    font-family: AmazonEmber;
+    color: #ffffff;
+    font-size: 12px;
+}
+
+.agentMutedSpan {
+    margin-left: 2%;
+}
+
+.agentMutedIcon {
+    margin-top: -1%;
+}
+
+.peerAndAgentDurationText {
+    font-family: AmazonEmber;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.miniHoldResume {
+    background-size: 24px 24px;
+    width: 24px;
+    height: 24px;
+    /*margin-left: 7%;*/
+
+    margin-right: 5% !important;
+    margin-top: 10% !important;
+    cursor: pointer;
+}
+
+.miniEnd {
+    background-size: 24px 24px;
+    width: 24px;
+    height: 24px;
+    /*margin-left: 5% !important;*/
+    cursor: pointer;
+    margin-top: 10% !important;
+}

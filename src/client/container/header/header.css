@@ -1,0 +1,46 @@
+.acHeader {
+    background-color: #525252;
+    height: 42px;
+    width: 319px;
+}
+
+.disable {
+    opacity: 0.4;
+}
+
+.csioLogo {
+    width: 24px;
+    height: 24px;
+}
+
+.csioChangeStatus {
+    cursor: pointer;
+}
+
+.csioHeaderText {
+    font-family: AmazonEmber;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.leftBorder {
+    border-left: 1px solid #8a8a8a !important;
+}
+
+.acPointer {
+    cursor: pointer;
+}
+
+.dialerImage {
+    margin-top: 0.5em;
+}
+
+.disabledDiv {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.nope {
+
+
+}

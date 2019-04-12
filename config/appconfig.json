@@ -1,0 +1,7 @@
+{
+  "APP_ID": "821179284",
+  "APP_SECRET": "IgR4qo4cNUrP:qxkQFJYb0ITsgJHv5DZYG+Bih7tCPfmb9XlixwvlVcE=",
+  "CONNECT_URL": "callstatsio.awsapps.com",
+  "HTTP_PORT": "8080",
+  "NODE_ENV": "development"
+}

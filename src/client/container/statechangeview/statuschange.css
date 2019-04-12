@@ -1,0 +1,47 @@
+.acCard {
+    margin-right: 17%;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+    background-color: #ffffff
+}
+
+.acFooter {
+    background-color: inherit;
+    margin-right: 8%;
+    margin-left: 8%;
+    min-height: 12%;
+}
+
+.acFooterChild {
+    margin-left: -18%;
+}
+
+.acPointer {
+    cursor: pointer;
+}
+
+.acLink {
+    font-family: AmazonEmber;
+    color: #3885de !important;
+}
+
+.acSpanSelected {
+    font-family: AmazonEmber;
+    color: #3885de !important;
+}
+
+.acSpanNormal {
+    font-family: AmazonEmber;
+    color: #000000 !important;
+}
+
+.acList {
+    margin-bottom: 5%;
+}
+
+.acNoDisplay {
+    display: none;
+}
+
+.acZeroPadding {
+    padding: 0;
+}

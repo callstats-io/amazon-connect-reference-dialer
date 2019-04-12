@@ -1,0 +1,126 @@
+.zeroPadding {
+    padding: 0 !important;
+}
+
+.cardBodyMain {
+    background: #f2f2f2;
+}
+
+.cardBody {
+    background-color: #ffffff;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.settingsText {
+    color: #000000;
+    font-size: 18px;
+    font-family: AmazonEmber;
+}
+
+.phoneTypeText {
+    color: #000000;
+    font-size: 14px;
+    font-family: AmazonEmber;
+}
+
+.deskphoneText {
+    color: #000000;
+    font-size: 14px;
+    font-family: AmazonEmber;
+}
+
+.softphoneText {
+    color: #000000;
+    font-size: 14px;
+    font-family: AmazonEmber;
+}
+
+.deskphoneSave {
+    background-color: #a3acb6;
+    font-family: AmazonEmber;
+    color: #ffffff !important;
+    height: 35px;
+    line-height: 1.3em;
+    cursor: pointer;
+    border-radius: 0 !important;
+}
+
+.btnGroup {
+    max-width: 220px;
+    border-radius: 0 !important;
+    box-shadow: none;
+}
+
+.btnGroup:focus {
+    box-shadow: none;
+}
+
+.dropDownButton {
+    border: solid 1px #cfcfcf;
+    font-family: AmazonEmber;
+    font-size: 13px;
+    max-height: 40px;
+    min-width: 200px;
+    border-radius: 0 !important;
+}
+
+.dropDownButton:focus{
+    box-shadow: none;
+}
+
+.btnDropDown {
+    border: solid 1px #cfcfcf;
+    border-radius: 0 !important;
+    box-shadow: none;
+}
+
+.btnDropDown:focus {
+    box-shadow: none;
+}
+
+.dropDownMenu {
+    position: absolute;
+    will-change: transform;
+    top: 0;
+    left: 0;
+    transform: translate3d(0px, 38px, 0px);
+    border: solid 1px #cfcfcf;
+    border-radius: 0 !important;
+    box-shadow: none;
+}
+
+.dropDownMenu:focus {
+    box-shadow: none;
+}
+
+.dropdownItem {
+    cursor: pointer;
+    font-family: AmazonEmber;
+    font-size: 14px;
+}
+
+.dropdownItem:focus{
+    box-shadow: none;
+}
+
+.audioLabel {
+    max-height: 42px;
+}
+
+.outputDeviceText {
+    height: 15px;
+    opacity: 0.6;
+    font-family: AmazonEmber;
+    font-size: 12px;
+    color: #000000
+}
+
+.outputDeviceNameText {
+    height: 17px;
+    font-size: 14px;
+    font-family: AmazonEmber;
+    color: #000000;
+}

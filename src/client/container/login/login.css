@@ -1,0 +1,101 @@
+.footerMain {
+    background-color: rgb(255, 255, 255);
+    border-top: 0;
+}
+
+.footerLogin {
+    cursor: pointer;
+    height: 36px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 2px 4px 0;
+    background-color: rgb(56, 133, 222);
+    color: rgb(255, 255, 255) !important;
+    font-family: AmazonEmber;
+    font-size: 14px;
+    border-radius: 0 !important;
+}
+
+.textArea {
+    outline: none !important;
+    max-height: 55px;
+    min-height: 10px;
+    background-color: #f7f7f7;
+    resize: none;
+    font-family: AmazonEmber;
+    font-size: 14px;
+    color: #000000;
+}
+
+.feedbackRatingText {
+    font-family: AmazonEmber;
+    font-size: 12px;
+    letter-spacing: normal;
+    color: #000000;
+}
+
+.callQualityText {
+    font-family: AmazonEmber;
+    font-size: 12px;
+    color: #000000;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.zeroPadding {
+    padding: 0;
+}
+
+.cardBody {
+    background-color: #f2f2f2;
+}
+
+.predefinedIssueDivMain {
+    /*max-height: 117px;*/
+    /*min-height: 20%;*/
+    /*border: solid 1px #cfcfcf;*/
+    /*background-color: #f7f7f7;*/
+    /*overflow-y: scroll;*/
+}
+
+.predefinedIssueName {
+    opacity: 0.6;
+    font-family: AmazonEmber;
+    font-size: 12px;
+    letter-spacing: normal;
+    color: #000000;
+}
+
+.predefinedIssueList {
+    font-family: AmazonEmber;
+    font-size: 14px;
+    color: #000000;
+}
+
+.loginText {
+    font-family: AmazonEmber;
+    font-size: 1.5em;
+    letter-spacing: normal;
+    color: #000000;
+}
+
+.bodyIssueSelect {
+    opacity: 0.6;
+    font-family: AmazonEmber;
+    font-size: 12px;
+    letter-spacing: normal;
+    color: #000000;
+}
+
+.cardBodyMain {
+    background-color: #ffffff;
+    /*background-color: #f7f7f7;*/
+    overflow-y: scroll;
+    height: 0em;
+}
+
+.cardBodyHeader {
+    color: #000000;
+    font-size: 18px;
+    font-family: AmazonEmber;
+}
