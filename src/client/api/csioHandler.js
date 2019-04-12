@@ -99,11 +99,26 @@ class CSIOHandler {
         this.callstats.on('preCallTestResults', this.onCSIOPrecalltestCallback.bind(this));
     }
 
+    // Quick hack to send feedback in structural way before we have a API for that
+    postProcessFeedback(feedbackJSON = {}) {
+        let markedFeedback = [];
+        for (let currentIssue of feedbackJSON.issueList || []) {
+            for (let issue of currentIssue.items || []) {
+                if (issue.marked === true) {
+                    markedFeedback.push(issue.text);
+                }
+            }
+        }
+        return markedFeedback;
+    }
+
     sendFeedback(feedbackJSON = {}) {
+        let markedFeedbackList = this.postProcessFeedback(feedbackJSON);
+        let feedbackText = `${[feedbackJSON.feedbackText, ...markedFeedbackList].join(' ,')}`;
         const feedback = {
             userId: this.localUserId,
-            overall: 1,
-            comment: JSON.stringify(feedbackJSON)
+            overall: Math.max(feedbackJSON.feedbackRatings, 1),
+            comment: feedbackText,
         };
         CallstatsAmazonShim.sendUserFeedback(feedback, msg => {
             // console.warn('on submitted feedback ', msg);

@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import Header from '../header/index';
 import Body from './body';
 import Footer from './footer';
-import issueList from "./issues";
+import {getIssueList} from "./issues";
 import {onRequestReportCallIssue} from "../../reducers/acReducer";
 
 import sessionManager from './../../api/sessionManager';
@@ -20,7 +20,7 @@ class ReportCallIssueView extends Component {
         this.state = {
             feedbackRatings: feedbackHandler.getFeedbackRatings(),
             feedbackText: '',
-            issueList: [...issueList],
+            issueList: getIssueList(),
         };
         this.onFeedbackTextChange = this.onFeedbackTextChange.bind(this);
         this.onFeedbackRatingChange = this.onFeedbackRatingChange.bind(this);
@@ -53,11 +53,11 @@ class ReportCallIssueView extends Component {
     }
 
     submitIssue() {
-        sessionManager.setAgentAvailable();
+        let {feedbackRatings, feedbackText, issueList: currentIssue} = this.state;
+        csioHandler.sendFeedback({feedbackRatings, feedbackText, issueList:currentIssue});
 
+        sessionManager.setAgentAvailable();
         feedbackHandler.updateFeedback(0);
-        let {feedbackRatings, feedbackText, issueList} = this.state;
-        csioHandler.sendFeedback({feedbackRatings, feedbackText, issueList});
         this.closeReportCallIssue();
     }
 
