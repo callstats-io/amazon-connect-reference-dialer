@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
 import AgentStatusAndAudioLabel from "./agentStatusAndAudioLabel";
-import AgentMutedLabel from './AgentMutedLabel';
-import PeerAndAgentDuration from './PeerAndAgentDuration';
+import AgentMutedLabel from './agentMutedLabel';
+import PeerAndAgentDuration from './peerAndAgentDuration';
 
 import sessionManager from './../../../api/sessionManager';
 import {getColorSchema} from '../../../utils/agetStateMap';

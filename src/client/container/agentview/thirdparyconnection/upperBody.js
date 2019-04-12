@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
 import AgentStatusAndAudioLabel from "./agentStatusAndAudioLabel";
-import AgentMutedLabel from './AgentMutedLabel';
+import AgentMutedLabel from './agentMutedLabel';
 import PeerAndAgentDuration from './PeerAndAgentDuration';
 
 import {getColorSchema} from '../../../utils/agetStateMap';

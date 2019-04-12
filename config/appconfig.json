@@ -3,5 +3,5 @@
   "APP_SECRET": "callstats application secret",
   "CONNECT_URL": "amazon connect ccp url. The CCP domain name only. For example, callstatsio.awsapps.com",
   "HTTP_PORT": "8080",
-  "NODE_ENV": "development"
+  "NODE_ENV": "production"
 }
