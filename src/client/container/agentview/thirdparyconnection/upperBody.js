@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 
 import AgentStatusAndAudioLabel from "./agentStatusAndAudioLabel";
 import AgentMutedLabel from './agentMutedLabel';
-import PeerAndAgentDuration from './PeerAndAgentDuration';
+import PeerAndAgentDuration from './peerAndAgentDuration';
 
 import {getColorSchema} from '../../../utils/agetStateMap';
 import sessionManager from './../../../api/sessionManager';

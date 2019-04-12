@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
 import PrimaryConnection from './primaryconnection';
-import ThirdPartyConnection from './ThirdPartyConnection';
+import ThirdPartyConnection from './thirdPartyConnection';
 
 class UpperBody extends Component {
 	constructor(props) {
