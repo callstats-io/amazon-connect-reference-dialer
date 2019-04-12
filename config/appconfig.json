@@ -1,7 +1,7 @@
 {
-  "APP_ID": "821179284",
-  "APP_SECRET": "IgR4qo4cNUrP:qxkQFJYb0ITsgJHv5DZYG+Bih7tCPfmb9XlixwvlVcE=",
-  "CONNECT_URL": "callstatsio.awsapps.com",
+  "APP_ID": "callstats application ID",
+  "APP_SECRET": "callstats application secret",
+  "CONNECT_URL": "amazon connect ccp url. The CCP domain name only. For example, callstatsio.awsapps.com",
   "HTTP_PORT": "8080",
   "NODE_ENV": "development"
 }
