@@ -28,6 +28,7 @@ class Body extends Component {
 		this.updateContactList = this.updateContactList.bind(this);
 		this.contactChange = this.contactChange.bind(this);
 		this.dialContact = this.dialContact.bind(this);
+        this.dialNumber = this.dialNumber.bind(this);
 		this.close = this.close.bind(this);
 	}
 
@@ -77,6 +78,18 @@ class Body extends Component {
 			contactValue: "",
 		});
 	}
+    dialNumber() {
+        const {contactValue} = this.state;
+        sessionManager.dialNumber(contactValue).then(success => {
+            this.close();
+        }, err => {
+            console.error(err);
+        });
+        this.setState({
+            contactList: [...this.defaultContactList],
+            contactValue: "",
+        });
+    }
 
 	close() {
 		this.props.close();
@@ -87,6 +100,7 @@ class Body extends Component {
 			<div className={`card-body ${styles.cardBody}`}>
 				<CloseQuickConnect close={this.close}/>
 				<FindContact contactChange={this.contactChange}
+                             dialNumber={this.dialNumber}
 							 contactValue={this.state.contactValue}/>
 				<ContactField contactList={this.state.contactList}
 							  dialContact={this.dialContact}/>

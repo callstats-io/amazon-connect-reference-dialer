@@ -36,6 +36,14 @@
     box-shadow: inset 0 0 1px 0 rgba(0, 0, 0, 0.29);
 }
 
+.callPhoneDialButton{
+    background-color: #46596e;
+    font-family: AmazonEmber;
+    color: #ffffff !important;
+    cursor: pointer;
+    border-radius: 0 !important;
+}
+
 .contactListBox {
     margin-top: 14px;
     background: #FFFFFF;

@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from './transfercall.css';
 
-const FindContact = ({contactChange, contactValue = ""}) => (
+const FindContact = ({contactChange, dialNumber, contactValue = ""}) => (
 	<div className="row mt-3">
-		<div className="col-md-12">
+		<div className="col-md-9 pr-0 mr-0">
 			<div className="input-group flex-nowrap">
 				<input type="text"
 					   className={`form-control ${styles.quickConnectSearch}`}
@@ -15,11 +15,17 @@ const FindContact = ({contactChange, contactValue = ""}) => (
 					   aria-describedby="addon-wrapping"/>
 			</div>
 		</div>
+		<div className={`col-md-3 text-right pl-0 mr-0`}>
+			<a className={`btn ${styles.callPhoneDialButton}`} onClick={dialNumber}>
+				Dial
+			</a>
+		</div>
 	</div>
 );
 
 FindContact.propTypes = {
 	contactChange: PropTypes.func.isRequired,
+	dialNumber: PropTypes.func.isRequired,
 	contactValue: PropTypes.string
 };
 export default FindContact;

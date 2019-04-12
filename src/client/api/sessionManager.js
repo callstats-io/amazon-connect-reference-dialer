@@ -129,9 +129,14 @@ class SessionManager {
         const currentState = acManager.getCurrentState();
         const phoneNumber = getPrimaryConnectionPhone(currentState);
         if (phoneNumber && phoneNumber.length > 0) {
-            const temp = this.phoneUtil.parse(phoneNumber, "");
-            const formatPhoneNumber = this.phoneUtil.format(temp, this.PNF.INTERNATIONAL);
-            return formatPhoneNumber;
+            try {
+                const temp = this.phoneUtil.parse(phoneNumber, "");
+                const formatPhoneNumber = this.phoneUtil.format(temp, this.PNF.INTERNATIONAL);
+                return formatPhoneNumber;
+            } catch (err) {
+                console.warn('~', phoneNumber, err && err.message);
+                return phoneNumber;
+            }
         } else {
             return phoneNumber;
         }
@@ -141,9 +146,14 @@ class SessionManager {
         const currentState = acManager.getCurrentState();
         const phoneNumber = getThirdPartyConnectionPhone(currentState);
         if (phoneNumber && phoneNumber.length > 0) {
-            const temp = this.phoneUtil.parse(phoneNumber, "");
-            const formatPhoneNumber = this.phoneUtil.format(temp, this.PNF.INTERNATIONAL);
-            return formatPhoneNumber;
+            try {
+                const temp = this.phoneUtil.parse(phoneNumber, "");
+                const formatPhoneNumber = this.phoneUtil.format(temp, this.PNF.INTERNATIONAL);
+                return formatPhoneNumber;
+            } catch (err) {
+                console.warn('~', phoneNumber, err && err.message);
+                return phoneNumber;
+            }
         } else {
             return phoneNumber;
         }
