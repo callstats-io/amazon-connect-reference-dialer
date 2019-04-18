@@ -10,6 +10,8 @@ import DialPadView from './dialerview/index'
 import QuickConnectsView from './quickconnects/index'
 import TransferCallView from './transfercall/index'
 import Login from './login/index';
+import acManager from "../api/acManager";
+import AppStore from "../store";
 
 const maybeShowThisView = (currentView, ...others) => {
 	// current view needs to be pending
@@ -30,6 +32,11 @@ const maybeShowThisView = (currentView, ...others) => {
 class Home extends Component {
 	constructor(props) {
 		super(props);
+	}
+
+	componentDidMount() {
+		// register ac manager
+		acManager.register(AppStore.dispatch);
 	}
 
 	render() {

@@ -13,7 +13,7 @@ const ccpUrl = `https://${__connect_url__}/connect/ccp#/`;
 
 class ACManager {
 	constructor() {
-		console.log('ACManager initialized!');
+		console.info('ACManager initialized!');
 
 		this.isInitialized = false;
 		this.dispatch = undefined;
