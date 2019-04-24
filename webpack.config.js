@@ -56,14 +56,14 @@ module.exports = {
         }),
         new HtmlWebpackExternalsPlugin({
             externals: [{
-                    module: 'callstats',
-                    entry: clientConfig.CS_JS_SDK_URL || 'https://api.callstats.io/static/callstats.min.js',
-                    global: 'callstats'
-                },{
-                    module: 'CallstatsAmazonShim',
-                    entry: clientConfig.CS_AC_SHIM_URL || 'https://api.callstats.io/static/callstats-amazon-shim.js',
-                    global: 'CallstatsAmazonShim'
-                },
+                module: 'callstats',
+                entry: clientConfig.CS_JS_SDK_URL || 'https://api.callstats.io/static/callstats.min.js',
+                global: 'callstats'
+            }, {
+                module: 'CallstatsAmazonShim',
+                entry: clientConfig.CS_AC_SHIM_URL || 'https://api.callstats.io/static/callstats-amazon-shim.js',
+                global: 'CallstatsAmazonShim'
+            },
             ]
         })
     ],
