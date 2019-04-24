@@ -34,12 +34,20 @@ const maybeShowThisView = (currentView, ...others) => {
 class CompareView extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            showLogin: false
+        }
     }
 
     componentDidMount() {
         $("#basic-dialer").css('display', 'block');
         // register ac manager
         acManager.register(AppStore.dispatch);
+        setTimeout(() => {
+            this.setState({
+                showLogin: acManager.getIsLoggedIn() === false
+            });
+        }, 2000);
     }
 
     render() {
@@ -55,7 +63,7 @@ class CompareView extends Component {
         return (
             !initialized ?
                 <div className={`container`} style={{width: '320px', height: '480px'}}>
-                    <Login/>
+                    <Login showLogin={this.state.showLogin}/>
                 </div> :
                 <div className={`container`} style={{width: '320px', height: '480px'}}>
                     {

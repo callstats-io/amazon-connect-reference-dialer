@@ -6,26 +6,19 @@ import Header from './../header/index';
 import Body from './body';
 import styles from './login.css';
 
-const Login = ({}) => (
-	<div className={`row h-100`}>
-		<div className={`col-md-12 ${styles.zeroPadding}`}>
-			<div className={`card h-100 ${styles.cardBody}`}>
-				<Header emptyBody={true}/>
-				<Body/>
-			</div>
-		</div>
-	</div>
+const Login = ({showLogin}) => (
+    <div className={`row h-100`}>
+        <div className={`col-md-12 ${styles.zeroPadding}`}>
+            <div className={`card h-100 ${styles.cardBody}`}>
+                <Header emptyBody={true}/>
+                {showLogin && <Body/>}
+            </div>
+        </div>
+    </div>
 );
 
 Login.propTypes = {
-	initialized: PropTypes.bool.isRequired,
+    showLogin: PropTypes.bool.isRequired,
 };
-const mapStateToProps = state => ({
-	initialized: state.acReducer.initialized,
-});
-const mapDispatchToProps = dispatch => ({});
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(Login);
+export default Login;

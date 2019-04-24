@@ -3,8 +3,12 @@ import React, {Component} from "react";
 import * as connectRTC from './../api/thirdparty/connect-rtc';
 import * as amazonConnect from './../api/thirdparty/amazon-connect';
 import csioHandler from "../api/csioHandler";
+import databaseManager from "../api/databaseManager";
 
-const ccpUrl = `https://${__connect_url__}/connect/ccp#/`;
+const ccpUrl = () => {
+    const connectURL = databaseManager.getDefaultConnectURL(__connect_url__);
+    return `https://${connectURL}/connect/ccp#/`;
+};
 
 class BasicDemoHome extends Component {
     constructor(props) {
@@ -18,7 +22,7 @@ class BasicDemoHome extends Component {
 
         const containerDiv = document.getElementById('containerDiv');
         connect.core.initCCP(containerDiv, {
-            ccpUrl: ccpUrl,
+            ccpUrl: ccpUrl(),
             loginPopup: true,
             softphone: {
                 allowFramedSoftphone: false,

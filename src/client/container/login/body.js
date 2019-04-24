@@ -1,17 +1,68 @@
-import React from "react";
+import React, {Component} from "react";
 import styles from './login.css';
+import databaseManager from "../../api/databaseManager";
+import sessionManage from "../../api/sessionManager";
 
-const loginURL = `https://${__connect_url__}/connect/login?landat=%2Fconnect%2Fccp#/`;
+import CCPInputBox from './ccpinputbox';
 
-const Body = ({}) => (
-	<div className={`card-body ${styles.cardBodyMain}`}>
-		<div className="row h-100">
-			<div className={`col-md-12 text-center my-auto`}>
-				<a href={loginURL} target="_blank" className={styles.loginText}>Please login ... </a>
-			</div>
-		</div>
-	</div>
-);
+const getCCPUrl = () => {
+    const connectURL = databaseManager.getDefaultConnectURL(__connect_url__);
+    return connectURL;
+};
+
+const loginURL = () => {
+    const connectURL = databaseManager.getDefaultConnectURL(__connect_url__);
+    return `https://${connectURL}/connect/login?landat=%2Fconnect%2Fccp#/`;
+};
+
+class Body extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            ccpURL: getCCPUrl(),
+        };
+        this.ccpURLChange = this.ccpURLChange.bind(this);
+        this.trySignIn = this.trySignIn.bind(this);
+    }
+
+    ccpURLChange(event) {
+        let {value} = event.target;
+        this.setState({
+            ccpURL: value
+        });
+    }
+
+    trySignIn() {
+        // set the current CCP URL as current one
+        databaseManager.setDefaultConnectURL(this.state.ccpURL || '');
+
+        //fetch the newly set loginIN URL
+        let loginWindow = window.open(loginURL());
+        sessionManage.setLoginWindow(loginWindow);
+    }
+
+    render() {
+        return (
+            <div className={`card-body ${styles.cardBodyMain}`}>
+                <div className="row h-100">
+                    <div className={`col-md-12 my-auto`}>
+                        <div className={`row`}>
+                            <div className="col-md-12">
+                                <span className={styles.ccpInputBoxText}>Amazon Connect CCP URL</span>
+                            </div>
+                            <CCPInputBox ccpURL={this.state.ccpURL}
+                                         ccpURLChange={this.ccpURLChange}
+                            />
+                            <div className="col-md-12 mt-4 text-center">
+                                <a className={`btn w-50 ${styles.loginText}`} onClick={this.trySignIn}> Sign in </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
 
 Body.propTypes = {};
 export default Body;

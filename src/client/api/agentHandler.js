@@ -5,6 +5,7 @@ class AgentHandler {
         this.dispatch = undefined;
         this.agent = undefined;
         this.session = undefined;
+        this.loginWindow = undefined;
     }
 
     dispose() {
@@ -18,6 +19,7 @@ class AgentHandler {
         this.dispatch = dispath;
         this.agent = agent;
 
+        this.disposeLoginWindow();
         this.dispatch(onInitializationStateChange(true));
         agent.onMuteToggle((e) => {
             this.dispatch(onMuteToggle(e && e.muted))
@@ -40,6 +42,19 @@ class AgentHandler {
 
     getPc() {
         return this.session && this.session._pc;
+    }
+
+    setLoginWindow(loginWindow = undefined) {
+        this.loginWindow = loginWindow;
+    }
+
+    disposeLoginWindow() {
+        if (this.loginWindow) {
+            if (typeof this.loginWindow.close === 'function') {
+                this.loginWindow.close();
+            }
+            this.loginWindow = undefined;
+        }
     }
 }
 
