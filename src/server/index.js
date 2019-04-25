@@ -32,6 +32,10 @@ app.use(bodyParser.json());
 app.use("/", express.static('dist'));
 app.use("/compare", express.static('dist'));
 app.use("/stock", express.static('dist'));
+
+// status check endpoint
+app.get("/status", (req, res) => res.status(200).send(''));
+
 http.createServer(app).listen(process.env.HTTP_PORT, () => {
     logger.info(
         `HTTP server is now running on http://localhost:${process.env.HTTP_PORT}`

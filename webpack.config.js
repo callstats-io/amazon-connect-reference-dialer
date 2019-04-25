@@ -6,6 +6,7 @@ const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const config = require("./config/config");
 const clientConfig = config.getClientConfig();
+const serverConfig = config.getServerConfig();
 
 
 const outputDirectory = 'dist';
@@ -71,8 +72,8 @@ module.exports = {
         port: 8082,
         open: true,
         disableHostCheck: true,
-        /*proxy: {
-            '/api': `http://localhost:${process.env.HTTP_PORT}`
-        }*/
+        proxy: {
+            '/api': `http://localhost:${serverConfig.NODE_ENV}`
+        }
     },
 };
