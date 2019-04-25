@@ -14,9 +14,11 @@ will not run.
     {
       "APP_ID": "callstats application ID",
       "APP_SECRET": "callstats application secret",
-      "CONNECT_URL": "amazon connect ccp url. The CCP domain name only. For example, "callstatsio.awsapps.com",
+      "CONNECT_URL": "amazon connect ccp url. The CCP domain name only. For example, callstatsio.awsapps.com",
       "HTTP_PORT": "8080",
-      "NODE_ENV": "development"
+      "NODE_ENV": "development",
+      "CS_JS_SDK_URL": "https://api.callstats.io/static/callstats.min.js",
+      "CS_AC_SHIM_URL": "https://api.callstats.io/static/callstats-amazon-shim.js"
     }
     ```
 
@@ -43,3 +45,25 @@ yarn build (or npm run build)
 yarn start (or npm start)
 
 ```
+
+#### Docker version of the application
+
+- Change your docker-compose build arguments. It is similar to previous configuration
+
+    ```bash
+    - APP_ID=callstats application ID
+    - APP_SECRET=callstats application secret
+    - CONNECT_URL=amazon connect ccp url. The CCP domain name only. For example, callstatsio.awsapps.com
+    - HTTP_PORT=8082
+    - NODE_ENV=production
+    - CS_JS_SDK_URL=https://api.callstats.io/static/callstats.min.js
+    - CS_AC_SHIM_URL=https://api.callstats.io/static/callstats-amazon-shim.js
+    ```
+- Build image 
+     ```bash
+       docker-compose build
+     ``` 
+- Run instance
+     ```bash
+       docker-compose up
+     ```     

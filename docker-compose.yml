@@ -1,0 +1,16 @@
+version: '3'
+services:
+  amazon-connect-reference-dialer:
+    build:
+      context: ../amazon-connect-reference-dialer
+      args:
+        - APP_ID=callstats application ID
+        - APP_SECRET=callstats application secret
+        - CONNECT_URL=amazon connect ccp url. The CCP domain name only. For example, callstatsio.awsapps.com
+        - HTTP_PORT=8082
+        - NODE_ENV=production
+        - CS_JS_SDK_URL=https://api.callstats.io/static/callstats.min.js
+        - CS_AC_SHIM_URL=https://api.callstats.io/static/callstats-amazon-shim.js
+    ports:
+      - "8082:8082"
+    command: yarn start

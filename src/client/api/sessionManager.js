@@ -274,6 +274,19 @@ class SessionManager {
         return (primaryConnection && primaryConnection.isActive()) || (thirdParyConnection && thirdParyConnection.isActive());
     }
 
+    setLoginWindow(loginWindow = undefined) {
+        // current it is disposed when initialized is success from agentHandler
+        agentHandler.setLoginWindow(loginWindow);
+    }
+
+    // not calling from anywhere for now
+    disposeLoginWindow() {
+        agentHandler.disposeLoginWindow();
+    }
+
+    getIsLoggedIn() {
+        return acManager.getIsLoggedIn();
+    }
 }
 
 const sessionManage = new SessionManager();

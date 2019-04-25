@@ -13,6 +13,8 @@ import Login from './login/index';
 import acManager from "../api/acManager";
 import AppStore from "../store";
 
+
+
 const maybeShowThisView = (currentView, ...others) => {
     // current view needs to be pending
     let isPending = ['pending'].includes(currentView);
@@ -29,7 +31,7 @@ const maybeShowThisView = (currentView, ...others) => {
     return true;
 };
 
-class Home extends Component {
+class CompareView extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -38,9 +40,9 @@ class Home extends Component {
     }
 
     componentDidMount() {
+        $("#basic-dialer").css('display', 'block');
         // register ac manager
         acManager.register(AppStore.dispatch);
-        // console.warn('-> ', this.state.isLoggedIn);
         setTimeout(() => {
             this.setState({
                 showLogin: acManager.getIsLoggedIn() === false
@@ -108,7 +110,7 @@ class Home extends Component {
     }
 }
 
-Home.propTypes = {
+CompareView.propTypes = {
     initialized: PropTypes.bool.isRequired,
     requestAgentStateChange: PropTypes.string.isRequired,
     requestAgentSettingsChange: PropTypes.string.isRequired,
@@ -133,4 +135,4 @@ const mapDispatchToProps = dispatch => ({});
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Home);
+)(CompareView);

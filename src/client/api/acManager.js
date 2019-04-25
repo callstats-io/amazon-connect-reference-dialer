@@ -5,69 +5,75 @@ import agentHandler from './agentHandler';
 import eventHandler from './eventhandler';
 
 import csioHandler from './csioHandler';
+import databaseManager from './databaseManager';
 
 import * as connectRTC from './thirdparty/connect-rtc';
 import * as amazonConnect from './thirdparty/amazon-connect';
 
-const ccpUrl = `https://${__connect_url__}/connect/ccp#/`;
+const ccpUrl = () => {
+    const connectURL = databaseManager.getDefaultConnectURL(__connect_url__);
+    return `https://${connectURL}/connect/ccp#/`;
+};
 
 class ACManager {
-	constructor() {
-		console.log('ACManager initialized!');
+    constructor() {
+        console.info('ACManager initialized!');
+        this.isInitialized = false;
+        this.dispatch = undefined;
+        this.onAgentInitialize = this.onAgentInitialize.bind(this);
+        this.onEventHandler = this.onEventHandler.bind(this);
 
-		this.isInitialized = false;
-		this.dispatch = undefined;
-		this.onAgentInitialize = this.onAgentInitialize.bind(this);
-		this.onEventHandler = this.onEventHandler.bind(this);
+    }
 
-	}
+    onAgentInitialize(agent) {
+        audioManager.overWriteGetUserMedia();
+        csioHandler.register(this.dispatch, agent);
+        agentHandler.register(this.dispatch, agent);
+    }
 
-	onAgentInitialize(agent) {
-		audioManager.overWriteGetUserMedia();
-		csioHandler.register(this.dispatch, agent);
-		agentHandler.register(this.dispatch, agent);
-	}
+    onEventHandler(connect) {
+        eventHandler.register(this.dispatch, connect);
+    }
 
-	onEventHandler(connect) {
-		eventHandler.register(this.dispatch, connect);
-	}
-
-	register(dispatch = undefined) {
-		this.dispatch = dispatch;
-		if (this.isInitialized) {
-			return;
-		}
-		this.isInitialized = true;
-		const containerDiv = document.getElementById('containerDiv');
-		connect.core.initCCP(containerDiv, {
-			ccpUrl: ccpUrl,
-			loginPopup: false,
-			softphone: {
-				allowFramedSoftphone: false,
-			}
-		});
-		connect.core.initSoftphoneManager({allowFramedSoftphone: true});
-
-		connect.agent((agent) => {
-			this.onAgentInitialize(agent);
-		});
-		this.onEventHandler(connect);
-	}
+    register(dispatch = undefined) {
+        this.dispatch = dispatch;
+        if (this.isInitialized) {
+            return;
+        }
+        this.isInitialized = true;
+        const containerDiv = document.getElementById('containerDiv');
+        connect.core.initCCP(containerDiv, {
+            ccpUrl: ccpUrl(),
+            loginPopup: false,
+            softphone: {
+                allowFramedSoftphone: false,
+            }
+        });
+        connect.core.initSoftphoneManager({allowFramedSoftphone: true});
+        connect.agent((agent) => {
+            this.onAgentInitialize(agent);
+        });
+        this.onEventHandler(connect);
+    }
 
 
-	downloadACLog() {
-		if (connect) {
-			connect.getLog().download();
-		}
-	}
+    downloadACLog() {
+        if (connect) {
+            connect.getLog().download();
+        }
+    }
 
-	getCurrentContact() {
-		return eventHandler.getCurrentContact();
-	}
+    getCurrentContact() {
+        return eventHandler.getCurrentContact();
+    }
 
-	getCurrentState() {
-		return eventHandler.getCurrentState();
-	}
+    getCurrentState() {
+        return eventHandler.getCurrentState();
+    }
+
+    getIsLoggedIn() {
+        return connect.core.initialized;
+    }
 
 }
 

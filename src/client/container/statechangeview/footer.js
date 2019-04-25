@@ -1,8 +1,12 @@
 import React, {Component} from "react";
 import styles from './statuschange.css';
 import {sleep} from './../../utils/acutils';
+import databaseManager from "../../api/databaseManager";
 
-const logoutURL = `https://${__connect_url__}/connect/logout`;
+const logoutURL = () => {
+	const connectURL = databaseManager.getDefaultConnectURL(__connect_url__);
+	return `https://${connectURL}/connect/logout`;
+};
 
 class Footer extends Component {
 	constructor(props) {
@@ -29,7 +33,7 @@ class Footer extends Component {
 					</div>
 				</div>
 				<div className={`${styles.acNoDisplay}`}>
-					{this.state.loggedOut && <iframe src={logoutURL}/>}
+					{this.state.loggedOut && <iframe src={logoutURL()}/>}
 				</div>
 			</div>
 		);

@@ -73,10 +73,15 @@
 }
 
 .loginText {
-    font-family: AmazonEmber;
-    font-size: 1.5em;
     letter-spacing: normal;
-    color: #000000;
+    cursor: pointer;
+    height: 36px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 2px 4px 0;
+    background-color: rgb(56, 133, 222);
+    color: rgb(255, 255, 255) !important;
+    font-family: AmazonEmber;
+    font-size: 14px;
+    border-radius: 0 !important;
 }
 
 .bodyIssueSelect {
@@ -99,3 +104,31 @@
     font-size: 18px;
     font-family: AmazonEmber;
 }
+
+.ccpInputBoxText {
+    color: #000000;
+    font-size: 12px;
+    font-family: AmazonEmber;
+}
+
+.ccpInputBox {
+    font-family: AmazonEmber;
+    color: #000000;
+    border: 1px solid #000000;
+    border-top: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.ccpInputBox:focus {
+    border: 1px solid #000000;
+    border-top: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-radius: 0;
+    box-shadow: inset 0 0 1px 0 rgba(0, 0, 0, 0.29);
+}
+
+
