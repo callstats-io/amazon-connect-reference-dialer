@@ -13,7 +13,7 @@ const issueList = [
         name: 'Audio related problems', items: [
             {text: 'Unable to hear customer', marked: false},
             {text: 'Customer can’t hear agent', marked: false},
-            {text: 'Customer is too quite', marked: false},
+            {text: 'Customer is too quiet', marked: false},
             {text: 'Audio dropped mid call', marked: false},
         ]
     },
