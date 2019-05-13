@@ -18155,9 +18155,12 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
          'acw',
          'ended',
          'error',
-         'accepted',
-         'session'
+         'accepted'
    ]);
+
+   var ConnectionEvents = connect.makeNamespacedEnum('connection', [
+      'session'
+  ]);
 
    /**---------------------------------------------------------------
     * class EventFactory
@@ -18346,6 +18349,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
    connect.AgentEvents = AgentEvents;
    connect.ContactEvents = ContactEvents;
    connect.MasterTopics = MasterTopics;
+   connect.ConnectionEvents = ConnectionEvents;
 })();
 /*
  * Copyright 2014-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
@@ -19660,11 +19664,6 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
    Contact.prototype.onConnected = function(f) {
       var bus = connect.core.getEventBus();
       bus.subscribe(this.getEventName(connect.ContactEvents.CONNECTED), f);
-   };
-
-   Contact.prototype.onSession = function(f) {
-      var bus = connect.core.getEventBus();
-      bus.subscribe(this.getEventName(connect.ContactEvents.SESSION), f);
    };
 
    Contact.prototype.getContactId = function() {
@@ -21150,7 +21149,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
         // Tracks the agent connection ID, so that if the same contact gets re-routed to the same agent, it'll still set up softphone
         var callsDetected = {};
 
-
+        
 
         var isContactTerminated = function(contact) {
             return contact.getStatus().type === connect.ContactStatusType.ENDED ||
@@ -21197,6 +21196,11 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
                 }
             }
         };
+
+        this.onSession = function(callback) {
+            var bus = connect.core.getEventBus();
+            bus.subscribe(connect.ConnectionEvents.SESSION, callback);
+        }
 
         var onRefreshContact = function(contact, agentConnectionId) {
                 if (rtcSessions[agentConnectionId] && isContactTerminated(contact)) {
@@ -21272,7 +21276,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
                     session.remoteAudioElement = document.getElementById('remote-audio');
                     session.connect();
                     var bus = connect.core.getEventBus();
-                    bus.trigger(contact.getEventName(connect.ContactEvents.SESSION), session);
+                    bus.trigger(connect.ConnectionEvents.SESSION, session);
                 }
         };
 
@@ -21289,7 +21293,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
 
         connect.contact(onInitContact);
 
-        // Contact already in connecting state scenario - In this case contact INIT is missed hence the OnRefresh callback is missed.
+        // Contact already in connecting state scenario - In this case contact INIT is missed hence the OnRefresh callback is missed. 
         new connect.Agent().getContacts().forEach(function(contact){
             var agentConnectionId = contact.getAgentConnection().connectionId;
             logger.info("Contact exist in the snapshot. Reinitiate the Contact and RTC session creation for contactId" + contact.getContactId(), "agent connectionId " + agentConnectionId);
@@ -21322,7 +21326,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
             logger.info("Auto-accept is disabled, ringtone will be stopped by user action.");
         }
     };
-
+    
     // Bind events for mute
     var handleSoftPhoneMuteToggle = function(){
         var bus = connect.core.getEventBus();
@@ -21339,7 +21343,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
     };
 
     // Check for the local streams if exists  -  revert it
-    // And inform other clients about the change
+    // And inform other clients about the change 
     var muteToggle = function(data){
         var status;
         if(connect.keys(localMediaStream).length === 0){
@@ -21409,7 +21413,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
         } else {
             publishError(SoftphoneErrorTypes.WEBRTC_ERROR,
                 "webrtc system error. ",
-                reason);
+                "");
         }
     };
 
@@ -21691,8 +21695,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
     };
 
     connect.SoftphoneManager = SoftphoneManager;
-})();
-/*
+})();/*
  * Copyright 2014-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
  * Licensed under the Amazon Software License (the "License"). You may not use
@@ -21885,7 +21888,7 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
          self.portConduitMap[stream.getId()] = portConduit;
 
          if (self.agent !== null) {
-            portConduit.sendDownstream(connect.AgentEvents.UPDATE, self.agent);
+            self.updateAgent();
          }
 
          portConduit.onDownstream(connect.EventType.API_REQUEST,
@@ -21912,14 +21915,19 @@ AWS.apiLoader.services['sts']['2011-06-15'] = require('../apis/sts-2011-06-15.mi
          timeout:       GET_AGENT_TIMEOUT_MS
       }, {
          success: function(data) {
-            self.agent = self.agent || {};
-            self.agent.snapshot = data.snapshot;
-            self.agent.snapshot.localTimestamp = connect.now();
-            self.agent.snapshot.skew = self.agent.snapshot.snapshotTimestamp - self.agent.snapshot.localTimestamp;
-            self.nextToken = data.nextToken;
-            connect.getLog().trace("GET_AGENT_SNAPSHOT succeeded.").withObject(data);
-            self.updateAgent();
-            global.setTimeout(connect.hitch(self, self.pollForAgent), GET_AGENT_SUCCESS_TIMEOUT_MS);
+             try {
+                 self.agent = self.agent || {};
+                 self.agent.snapshot = data.snapshot;
+                 self.agent.snapshot.localTimestamp = connect.now();
+                 self.agent.snapshot.skew = self.agent.snapshot.snapshotTimestamp - self.agent.snapshot.localTimestamp;
+                 self.nextToken = data.nextToken;
+                 connect.getLog().trace("GET_AGENT_SNAPSHOT succeeded.").withObject(data);
+                 self.updateAgent();
+             } catch(e) {
+                 connect.getLog().error("Long poll failed to update agent.").withObject(data).withException(e);
+             } finally {
+                 global.setTimeout(connect.hitch(self, self.pollForAgent), GET_AGENT_SUCCESS_TIMEOUT_MS);
+             }
          },
          failure: function(err, data) {
             try {

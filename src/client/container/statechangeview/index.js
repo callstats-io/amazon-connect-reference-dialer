@@ -1,4 +1,3 @@
-import StateChangeView from './main'
+import StateChangeView from './main';
 
 export default StateChangeView;
-

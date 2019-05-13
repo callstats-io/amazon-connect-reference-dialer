@@ -7,15 +7,25 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
           type="text/css">
-    <link rel="stylesheet" href="https://static.pingendo.com/bootstrap/bootstrap-4.3.1.css">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
     <title>Callstats.io AC Dialer</title>
+    <script>
+      CONNECT_URL = '<%= CONNECT_URL %>'
+      APP_ID = '<%= APP_ID %>'
+      APP_SECRET = '<%= APP_SECRET %>'
+    </script>
+
+    <% if(IS_PRODUCTION) { %>
+        <%- include('_hotjar_prod.ejs') -%>
+    <% } else { %>
+        <%- include('_hotjar_test.ejs') -%>
+    <% } %>
+
 </head>
-
-<body>
-
 <div class="row">
-    <div class="col-md-6" style="display: none" id="basic-dialer">
+    <div class="col-md-6" style="display: none">
         <div class="AmazonConnectDiv">
             <div id="containerDiv"
                  style="width: 320px; min-width: 200px; height: 465px; min-height: 400px;margin: auto; "></div>
@@ -37,5 +47,10 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
+<script src="/static/js/thirdparty/connect-rtc.js" type="application/javascript"></script>
+<script src="/static/js/thirdparty/amazon-connect-v1.2.0-35-g0683e8a.js" type="application/javascript"></script>
+<script src='<%= CS_JS_SDK_URL %>' type="application/javascript"></script>
+<script src='<%= CS_AC_SHIM_URL %>' type="application/javascript"></script>
+<script src="/bundle.js" defer type="application/javascript"></script>
 </body>
 </html>
