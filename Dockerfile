@@ -6,6 +6,7 @@ COPY package.json /usr/src/app/
 RUN yarn install --silent
 
 COPY . /usr/src/app
+RUN yarn build
 
 CMD ["yarn","start"]
 

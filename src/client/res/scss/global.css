@@ -1,14 +1,14 @@
 @font-face {
     font-family: 'AmazonEmber';
-    src: url('./../fonts/AmazonEmber_Rg.ttf');
+    src: url('/static/fonts/AmazonEmber_Rg.ttf');
 }
 
 @font-face {
     font-family: 'AmazonEmber-regular';
-    src: url('./../fonts/AmazonEmber_Rg.ttf');
+    src: url('/static/fonts/AmazonEmber_Rg.ttf');
 }
 
 @font-face {
     font-family: 'AmazonEmber-light';
-    src: url('./../fonts/AmazonEmber_Lt.ttf');
+    src: url('/static/fonts/AmazonEmber_Lt.ttf');
 }
