@@ -4,7 +4,7 @@ import {sleep} from './../../utils/acutils';
 import databaseManager from "../../api/databaseManager";
 
 const logoutURL = () => {
-	const connectURL = databaseManager.getDefaultConnectURL(__connect_url__);
+	const connectURL = databaseManager.getDefaultConnectURL(CONNECT_URL);
 	return `https://${connectURL}/connect/logout`;
 };
 

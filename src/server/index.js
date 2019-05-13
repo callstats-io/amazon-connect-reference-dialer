@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const logger = require("./logger");
 const config = require("./../../config/config");
 
+
 const serverConfig = config.getServerConfig();
 process.env.NODE_ENV = serverConfig.NODE_ENV;
 process.env.HTTP_PORT = serverConfig.HTTP_PORT;
@@ -26,12 +27,22 @@ const app = express();
 app.set("env", process.env.NODE_ENV);
 logger.info(`Application env: ${process.env.NODE_ENV}`);
 
+
 app.use(logger.expressMiddleware);
 app.use(bodyParser.json());
 
-app.use("/", express.static('dist'));
-app.use("/compare", express.static('dist'));
-app.use("/stock", express.static('dist'));
+app.use("/static", express.static(path.join(__dirname, 'public')));
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+const index = require('./router/index');
+const compare = require('./router/compare');
+const stock = require('./router/stock');
+app.use("/", index);
+app.use("/compare", compare);
+app.use("/stock", stock);
 
 // status check endpoint
 app.get("/status", (req, res) => res.status(200).send(''));

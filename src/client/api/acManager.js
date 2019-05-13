@@ -7,11 +7,8 @@ import eventHandler from './eventhandler';
 import csioHandler from './csioHandler';
 import databaseManager from './databaseManager';
 
-import * as connectRTC from './thirdparty/connect-rtc';
-import * as amazonConnect from './thirdparty/amazon-connect';
-
 const ccpUrl = () => {
-    const connectURL = databaseManager.getDefaultConnectURL(__connect_url__);
+    const connectURL = databaseManager.getDefaultConnectURL(CONNECT_URL);
     return `https://${connectURL}/connect/ccp#/`;
 };
 

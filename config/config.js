@@ -2,14 +2,13 @@ const fs = require('fs');
 const path = require('path');
 
 const appConfig = require('./appconfig');
-const curDIR = __dirname;
 
 exports.getServerConfig = () => {
     const payload = appConfig;
 
     let serverConfig = {
-        HTTP_PORT: payload.HTTP_PORT,
-        NODE_ENV: payload.NODE_ENV
+        HTTP_PORT: process.env.HTTP_PORT || payload.HTTP_PORT,
+        NODE_ENV: process.env.NODE_ENV || payload.NODE_ENV
     };
     console.warn('$ serverConfig', serverConfig);
     return serverConfig;
@@ -18,11 +17,11 @@ exports.getServerConfig = () => {
 exports.getClientConfig = () => {
     const payload = appConfig;
     const clientConfig = {
-        APP_ID: payload.APP_ID,
-        APP_SECRET: payload.APP_SECRET,
-        CONNECT_URL: payload.CONNECT_URL,
-        CS_JS_SDK_URL: payload.CS_JS_SDK_URL,
-        CS_AC_SHIM_URL: payload.CS_AC_SHIM_URL
+        APP_ID: process.env.APP_ID || payload.APP_ID,
+        APP_SECRET: process.env.APP_SECRET || payload.APP_SECRET,
+        CONNECT_URL: process.env.CONNECT_URL || payload.CONNECT_URL,
+        CS_JS_SDK_URL: process.env.CS_JS_SDK_URL || payload.CS_JS_SDK_URL,
+        CS_AC_SHIM_URL: process.env.CS_AC_SHIM_URL || payload.CS_AC_SHIM_URL
     };
     console.warn('$ clientConfig', clientConfig);
     return clientConfig;

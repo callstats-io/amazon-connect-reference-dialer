@@ -5,21 +5,20 @@ import sessionManage from "../../api/sessionManager";
 
 import CCPInputBox from './ccpinputbox';
 
-const getCCPUrl = () => {
-    const connectURL = databaseManager.getDefaultConnectURL(__connect_url__);
-    return connectURL;
+const getCCPScope = () => {
+    const ccpScope = databaseManager.getDefaultConnectURL(CONNECT_URL);
+    return ccpScope;
 };
 
 const loginURL = () => {
-    const connectURL = databaseManager.getDefaultConnectURL(__connect_url__);
+    const connectURL = databaseManager.getDefaultConnectURL(CONNECT_URL);
     return `https://${connectURL}/connect/login?landat=%2Fconnect%2Fccp#/`;
 };
-
 class Body extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ccpURL: getCCPUrl(),
+            ccpURL: getCCPScope(),
         };
         this.ccpURLChange = this.ccpURLChange.bind(this);
         this.trySignIn = this.trySignIn.bind(this);
