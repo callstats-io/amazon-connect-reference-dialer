@@ -1,0 +1,20 @@
+{
+  "extends": [
+    "standard",
+    "plugin:react/recommended"
+  ],
+  "rules": {
+    "semi": [
+      1,
+      "always"
+    ]
+  },
+  "globals": {
+    "connect": false,
+    "callstats": false,
+    "APP_ID": false,
+    "APP_SECRET": false,
+    "CONNECT_URL": false,
+    "CallstatsAmazonShim": false
+  }
+}

@@ -1,2 +1,2 @@
-import rootReducer from "./reducers/reducer";
+import rootReducer from './reducers/reducer';
 export default rootReducer;
