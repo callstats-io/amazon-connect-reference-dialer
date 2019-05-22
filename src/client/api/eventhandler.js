@@ -130,7 +130,9 @@ class EventHandler {
   }
 
   register (dispatch, connect) {
-    this.dispatch && this.dispose();
+    if (this.dispatch) {
+      this.dispose();
+    }
     this.dispatch = dispatch;
 
     if (connect && connect.core) {
