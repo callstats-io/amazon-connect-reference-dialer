@@ -10,7 +10,7 @@ const appSecret = APP_SECRET;
 
 class CSIOHandler {
   constructor () {
-    this.callstats = undefined;
+    this.callstatsac = undefined;
     this.dispatch = undefined;
     this.localUserId = undefined;
   }
@@ -41,6 +41,15 @@ class CSIOHandler {
       audioFrequencyMonitor.addAudioLevel(audioIntputLevel, false);
       audioFrequencyMonitor.addAudioLevel(audioOutputLevel, true);
     }
+  }
+
+  getRemoteStream () {
+    const pc = CallstatsAmazonShim && CallstatsAmazonShim.getPeerConnection();
+    if (!pc) {
+      return undefined;
+    }
+    const remoteStreams = pc.getRemoteStreams();
+    return remoteStreams && lo.get(remoteStreams, 0, undefined);
   }
 
   doPrecallTest () {
@@ -87,13 +96,13 @@ class CSIOHandler {
     const localUserId = agent.getName();
     this.localUserId = localUserId;
     const configParams = {};
-    if (this.callstats) {
-      this.callstats = undefined;
+    if (this.callstatsac) {
+      this.callstatsac = undefined;
     }
 
-    this.callstats = CallstatsAmazonShim.initialize(connect, appId, appSecret, localUserId, configParams, this.onCSIOInitialize, this.onCSIOStats);
-    this.callstats.on('recommendedConfig', this.onCSIORecommendedConfigCallback.bind(this));
-    this.callstats.on('preCallTestResults', this.onCSIOPrecalltestCallback.bind(this));
+    this.callstatsac = CallstatsAmazonShim.initialize(connect, appId, appSecret, localUserId, configParams, this.onCSIOInitialize, this.onCSIOStats);
+    this.callstatsac.on('recommendedConfig', this.onCSIORecommendedConfigCallback.bind(this));
+    this.callstatsac.on('preCallTestResults', this.onCSIOPrecalltestCallback.bind(this));
   }
 
   // Quick hack to send feedback in structural way before we have a API for that

@@ -47,11 +47,15 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
-<script src="/static/js/amazon-connect-pre-shim.js" type="application/javascript"></script>
+
 <script src="https://api.callstats.io/static/connect-rtc.min.js" type="application/javascript"></script>
-<script src="https://api.callstats.io/static/amazon-connect-csio.js" type="application/javascript"></script>
+<script src="https://api.callstats.io/static/amazon-connect.js" type="application/javascript"></script>
+
+<!--callstats libraries start-->
+<script src="https://api.callstats.io/static/callstats-amazon-connect-ff-pre-shim.js" type="application/javascript"></script>
 <script src='<%= CS_JS_SDK_URL %>' type="application/javascript"></script>
-<script src="/static/js/amazon-connect-shim.js" type="application/javascript"></script>
+<script src='<%= CS_AC_SHIM_URL %>' type="application/javascript"></script>
+<!--callstats libraries end-->
 
 <script src="/bundle.js" defer type="application/javascript"></script>
 </body>

@@ -1,10 +1,9 @@
-/*! callstats Amazon SHIM version = 1.0.6 */
+/*! callstats Amazon SHIM version = 1.1.0 */
 
 (function (global) {
   var CallstatsAmazonShim = function(callstats) {
     CallstatsAmazonShim.callstats = callstats;
-    // pc is available in this functional scope
-    var pc = null;
+    var csioPc = null;
     var confId;
     var SoftphoneErrorTypes;
     var RTCErrorTypes;
@@ -32,17 +31,17 @@
         if (pcConfig && pcConfig.iceTransportPolicy) {
           pcConfig.iceTransports = pcConfig.iceTransportPolicy;
         }
-  
+
         var pc = new origPeerConnection(pcConfig, pcConstraints);
-				console.log("*** created pc", pc);
         if(isAmazonPC(pcConfig)) {
-					console.log("******** handle session");
           handleSessionCreated(pc);
         }
         return pc;
       }
       window.RTCPeerConnection.prototype = origPeerConnection.prototype;
-      window.RTCPeerConnection.prototype.getStats = window.RTCPeerConnection.prototype.csiogetStats;
+      if (window.RTCPeerConnection.prototype.csiogetStats) {
+        window.RTCPeerConnection.prototype.getStats = window.RTCPeerConnection.prototype.csiogetStats;
+      }
     }
 
     function subscribeToAmazonContactEvents(contact) {
@@ -73,15 +72,15 @@
     }
 
     function handleOnMuteToggle(obj) {
-      if (!pc || !confId) {
+      if (!csioPc || !confId) {
         return;
       }
       if (obj) {
         if (obj.muted) {
-          CallstatsAmazonShim.callstats.sendFabricEvent(pc,
+          CallstatsAmazonShim.callstats.sendFabricEvent(csioPc,
             CallstatsAmazonShim.callstats.fabricEvent.audioMute, confId);
         } else {
-          CallstatsAmazonShim.callstats.sendFabricEvent(pc,
+          CallstatsAmazonShim.callstats.sendFabricEvent(csioPc,
             CallstatsAmazonShim.callstats.fabricEvent.audioUnmute, confId);
         }
       }
@@ -100,33 +99,36 @@
       } else if (error.errorType === SoftphoneErrorTypes.SIGNALLING_CONNECTION_FAILURE) {
         CallstatsAmazonShim.callstats.reportError(null, conferenceId, CallstatsAmazonShim.callstats.webRTCFunctions.signalingError, error);
       } else if (error.errorType === SoftphoneErrorTypes.SIGNALLING_HANDSHAKE_FAILURE) {
-        CallstatsAmazonShim.callstats.reportError(pc, conferenceId, CallstatsAmazonShim.callstats.webRTCFunctions.setLocalDescription, error);
-        CallstatsAmazonShim.callstats.sendCallDetails(pc, conferenceId, callDetails);
+        CallstatsAmazonShim.callstats.reportError(csioPc, conferenceId, CallstatsAmazonShim.callstats.webRTCFunctions.setLocalDescription, error);
+        CallstatsAmazonShim.callstats.sendCallDetails(csioPc, conferenceId, callDetails);
       } else if (error.errorType === SoftphoneErrorTypes.ICE_COLLECTION_TIMEOUT) {
-        CallstatsAmazonShim.callstats.reportError(pc, conferenceId, CallstatsAmazonShim.callstats.webRTCFunctions.iceConnectionFailure, error);
-        CallstatsAmazonShim.callstats.sendCallDetails(pc, conferenceId, callDetails);
+        CallstatsAmazonShim.callstats.reportError(csioPc, conferenceId, CallstatsAmazonShim.callstats.webRTCFunctions.iceConnectionFailure, error);
+        CallstatsAmazonShim.callstats.sendCallDetails(csioPc, conferenceId, callDetails);
       } else if (error.errorType === SoftphoneErrorTypes.WEBRTC_ERROR) {
         switch(error.endPointUrl) {
           case RTCErrorTypes.SET_REMOTE_DESCRIPTION_FAILURE:
-            CallstatsAmazonShim.callstats.reportError(pc, conferenceId, CallstatsAmazonShim.callstats.webRTCFunctions.setRemoteDescription, error);
-            CallstatsAmazonShim.callstats.sendCallDetails(pc, conferenceId, callDetails);
+            CallstatsAmazonShim.callstats.reportError(csioPc, conferenceId, CallstatsAmazonShim.callstats.webRTCFunctions.setRemoteDescription, error);
+            CallstatsAmazonShim.callstats.sendCallDetails(csioPc, conferenceId, callDetails);
             break;
         }
       }
     }
 
-    function handleSessionCreated(session) {
-      pc = session;
+    function handleSessionCreated(pc) {
+      if (!pc) {
+        return;
+      }
+      csioPc = pc;
       const fabricAttributes = {
         remoteEndpointType:   CallstatsAmazonShim.callstats.endpointType.server,
       };
       try {
-        CallstatsAmazonShim.callstats.addNewFabric(pc, CallstatsAmazonShim.remoteId, CallstatsAmazonShim.callstats.fabricUsage.multiplex, 
+        CallstatsAmazonShim.callstats.addNewFabric(csioPc, CallstatsAmazonShim.remoteId, CallstatsAmazonShim.callstats.fabricUsage.multiplex,
           confId, fabricAttributes);
       } catch(error) {
         console.log('addNewFabric error ', error);
       }
-      CallstatsAmazonShim.callstats.sendCallDetails(pc, confId, callDetails);
+      CallstatsAmazonShim.callstats.sendCallDetails(csioPc, confId, callDetails);
     }
 
     CallstatsAmazonShim.prototype.initialize = function initialize(connect, appID, appSecret, localUserID, params, csInitCallback, csCallback) {
@@ -135,9 +137,10 @@
       CallstatsAmazonShim.localUserID = localUserID;
       CallstatsAmazonShim.csInitCallback = csInitCallback;
       CallstatsAmazonShim.csCallback = csCallback;
-			initPCShim();
       CallstatsAmazonShim.callstats.initialize(appID, appSecret, localUserID, csInitCallback, csCallback, params);
       CallstatsAmazonShim.intialized = true;
+
+      initPCShim();
       connect.contact(subscribeToAmazonContactEvents);
       connect.agent(subscribeToAmazonAgentEvents);
       SoftphoneErrorTypes = connect.SoftphoneErrorTypes;
@@ -154,10 +157,10 @@
     };
 
     CallstatsAmazonShim.prototype.sendFabricEvent = function sendFabricEvent(fabricEvent, eventData) {
-      if (!pc || !confId) {
+      if (!csioPc || !confId) {
         return;
       }
-      CallstatsAmazonShim.callstats.sendFabricEvent(pc, fabricEvent, confId, eventData);
+      CallstatsAmazonShim.callstats.sendFabricEvent(csioPc, fabricEvent, confId, eventData);
     };
 
     CallstatsAmazonShim.prototype.sendLogs = function sendLogs(domError) {
@@ -165,7 +168,7 @@
         console.warn('Cannot send logs, no active conference found');
         return;
       }
-      CallstatsAmazonShim.callstats.reportError(pc, confId,
+      CallstatsAmazonShim.callstats.reportError(csioPc, confId,
         CallstatsAmazonShim.callstats.webRTCFunctions.applicationError, domError);
     };
 
@@ -182,15 +185,23 @@
       CallstatsAmazonShim.callstats.on("preCallTestResults", precallTestResultsCallback);
       CallstatsAmazonShim.callstats.makePrecallTest();
     }
+
+   // workaround to get peer connection -> remote stream
+    CallstatsAmazonShim.prototype.getPeerConnection = function getPeerConnection() {
+      if (!csioPc || !confId) {
+        console.warn('Cannot get peer connection. no active conference found');
+        return;
+      }
+      return csioPc;
+    }
   };
   if (("function" === typeof define) && (define.amd)) { /* AMD support */
-  define('callstats-amazon-client', ['callstats'], function(callstats) {
-    global.CallstatsAmazonShim = new CallstatsAmazonShim(callstats);
-    return  global.CallstatsAmazonShim;
-  });
+    define('callstats-amazon-client', ['callstats'], function(callstats) {
+      global.CallstatsAmazonShim = new CallstatsAmazonShim(callstats);
+      return  global.CallstatsAmazonShim;
+    });
   } else { /* Browsers and Web Workers*/
     var callstats = new window.callstats();
     global.CallstatsAmazonShim = new CallstatsAmazonShim(callstats);
   }
 }(this));
-

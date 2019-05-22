@@ -4,7 +4,7 @@ import {
   onStateChange
 } from '../reducers/acReducer';
 
-import agentHandler from './agentHandler';
+import csioHandler from './csioHandler';
 
 // Outbound call = connection.isActive() && connection.isConnecting() && connection.getType() === 'outbound'
 // Incoming call = connection.isActive() && connection.isConnecting() && connection.getType() === 'inbound'
@@ -36,6 +36,7 @@ const getAgentState = (e) => {
   };
 };
 
+// eslint-disable-next-line no-unused-vars
 const isMultipartyCall = (contact) => {
   return !!((contact && contact.getActiveInitialConnection() && contact.getSingleActiveThirdPartyConnection()));
 };
@@ -204,9 +205,9 @@ class EventHandler {
         currentContact = undefined;
       });
       bus.subscribe(connect.ContactEvents.CONNECTED, e => {
-        const session = agentHandler.getSession();
-        if (session._remoteAudioStream) {
-          this.dispatch(onRemoteStream(session._remoteAudioStream));
+        const remoteStream = csioHandler.getRemoteStream();
+        if (remoteStream) {
+          this.dispatch(onRemoteStream(remoteStream));
         }
       });
     }
