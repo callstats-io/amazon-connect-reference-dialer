@@ -57,6 +57,7 @@ class CSIOHandler {
       let cs = new callstats();
       cs.initialize(appId, appSecret, this.localUserId, {}, null, null);
       cs.on('preCallTestResults', (status, result) => {
+        // console.warn('-> ', 'on precall test', status, result);
         let testResult = databaseManager.savePrecalltestResult(result);
 
         let throughput = lo.get(result, 'throughput', 0);
