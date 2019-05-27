@@ -31,13 +31,22 @@ class CSIOHandler {
       let track2 = lo.last(stats.mediaStreamTracks);
 
       // console.warn('~', stats);
-      let audioIntputLevel = parseInt(track1.audioIntputLevel || track2.audioIntputLevel || 0);
-      let audioOutputLevel = parseInt(track1.audioOutputLevel || track2.audioOutputLevel || 0);
+      let audioIntputLevel = parseInt(track1.audioIntputLevel || track2.audioIntputLevel || 0, 10);
+      let audioOutputLevel = parseInt(track1.audioOutputLevel || track2.audioOutputLevel || 0, 10);
 
-      let track1Bitrate = track1.bitrate || 0;
-      let track2Bitrate = track2.bitrate || 0;
+      let track1Bitrate = parseInt(track1.bitrate || 0, 10);
+      let track2Bitrate = parseInt(track2.bitrate || 0, 10);
+      let track1RTT = parseInt(track1.rtt || 0, 10);
+      // no rtt for inbound tracks.
+      // let track2RTT = parseInt(track1.rtt || 0, 10);
 
+      let track1Fl = parseInt(track1.fractionLoss || 0, 10);
+      let track2Fl = parseInt(track2.fractionLoss || 0, 10);
+
+      // console.warn('-> ', 'on csio stats', stats);
       networkStrengthMonitor.addThroughput(track1Bitrate, track2Bitrate);
+      networkStrengthMonitor.addRTT(track1RTT, track1RTT);
+      networkStrengthMonitor.addRTT(track1Fl, track2Fl);
       audioFrequencyMonitor.addAudioLevel(audioIntputLevel, false);
       audioFrequencyMonitor.addAudioLevel(audioOutputLevel, true);
     }
@@ -61,7 +70,11 @@ class CSIOHandler {
         let testResult = databaseManager.savePrecalltestResult(result);
 
         let throughput = lo.get(result, 'throughput', 0);
+        let rtt = lo.get(result, 'rtt', 0);
+        let fractionalLoss = lo.get(result, 'fractionalLoss', 0);
         networkStrengthMonitor.addThroughput(throughput, throughput);
+        networkStrengthMonitor.addRTT(rtt, rtt);
+        networkStrengthMonitor.addFractionalLoss(fractionalLoss, fractionalLoss);
         resolve(testResult);
       });
     });
@@ -72,10 +85,14 @@ class CSIOHandler {
   }
 
   onCSIOPrecalltestCallback (status, result) {
-    // console.warn('->onCSIOPrecalltestCallback', status, result);
+    // console.warn('-> ', 'on precall test', status, result);
     databaseManager.savePrecalltestResult(result);
     let throughput = lo.get(result, 'throughput', 0);
+    let rtt = lo.get(result, 'rtt', 0);
+    let fractionalLoss = lo.get(result, 'fractionalLoss', 0);
     networkStrengthMonitor.addThroughput(throughput, throughput);
+    networkStrengthMonitor.addRTT(rtt, rtt);
+    networkStrengthMonitor.addFractionalLoss(fractionalLoss, fractionalLoss);
   }
 
   dispose () {
