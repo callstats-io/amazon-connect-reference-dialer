@@ -1,10 +1,13 @@
 import {
   onCCPError,
+  onInitializationStateChange,
   onRemoteStream,
   onStateChange
 } from '../reducers/acReducer';
 
-import agentHandler from './agentHandler';
+import csioHandler from './csioHandler';
+import acManager from './acManager';
+import sessionManage from './sessionManager';
 
 // Outbound call = connection.isActive() && connection.isConnecting() && connection.getType() === 'outbound'
 // Incoming call = connection.isActive() && connection.isConnecting() && connection.getType() === 'inbound'
@@ -36,6 +39,7 @@ const getAgentState = (e) => {
   };
 };
 
+// eslint-disable-next-line no-unused-vars
 const isMultipartyCall = (contact) => {
   return !!((contact && contact.getActiveInitialConnection() && contact.getSingleActiveThirdPartyConnection()));
 };
@@ -129,7 +133,9 @@ class EventHandler {
   }
 
   register (dispatch, connect) {
-    this.dispatch && this.dispose();
+    if (this.dispatch) {
+      this.dispose();
+    }
     this.dispatch = dispatch;
 
     if (connect && connect.core) {
@@ -140,8 +146,22 @@ class EventHandler {
           this.dispatch(onCCPError({ ...e }));
         }
       });
+
+      // get the agent init to set logged in
+      bus.subscribe(connect.AgentEvents.INIT, (e) => {
+        // close the login window, since at this stage agent is already initialized
+        sessionManage.disposeLoginWindow();
+        acManager.setIsLoggedIn(true);
+        this.dispatch(onInitializationStateChange(true));
+      });
+
+      // handle shared worker terminated to set agent logged out
+      bus.subscribe(connect.EventType.TERMINATED, (e) => {
+        acManager.setIsLoggedIn(false);
+        window.location.reload();
+      });
       bus.subscribe(connect.AgentEvents.ERROR, e => {
-        // console.warn('~', e);
+        // console.warn('error', e);
       });
       bus.subscribe(connect.AgentEvents.STATE_CHANGE, e => {
         currentAgent = e;
@@ -204,9 +224,9 @@ class EventHandler {
         currentContact = undefined;
       });
       bus.subscribe(connect.ContactEvents.CONNECTED, e => {
-        const session = agentHandler.getSession();
-        if (session._remoteAudioStream) {
-          this.dispatch(onRemoteStream(session._remoteAudioStream));
+        const remoteStream = csioHandler.getRemoteStream();
+        if (remoteStream) {
+          this.dispatch(onRemoteStream(remoteStream));
         }
       });
     }

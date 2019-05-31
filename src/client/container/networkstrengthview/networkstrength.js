@@ -33,6 +33,7 @@ class NetworkStrength extends React.Component {
     this.state = {
       networkStrength: networkStrengthMonitor.getNetworkStrength()
     };
+    this.mayBeUpdateNetworkStength = this.mayBeUpdateNetworkStength.bind(this);
   }
 
   _dispose () {
@@ -61,14 +62,13 @@ class NetworkStrength extends React.Component {
     });
 
     this.doPrecallTest().then(() => {
-    }).catch(err => {
+    }).catch(_ => {
     });
   }
 
   componentDidMount () {
     this._dispose();
     this.updateNetworkStrength();
-
     this.intervalId = setInterval(() => {
       this.updateNetworkStrength();
     }, DURATION_MS);
@@ -78,7 +78,18 @@ class NetworkStrength extends React.Component {
     this._dispose();
   }
 
+  mayBeUpdateNetworkStength (currentNetworkStrength = -1) {
+    let { networkStrength } = this.state;
+    // console.warn('-> ', networkStrength, currentNetworkStrength);
+    if (currentNetworkStrength !== networkStrength) {
+      this.setState({
+        networkStrength: currentNetworkStrength
+      });
+    }
+  }
+
   render () {
+    this.mayBeUpdateNetworkStength(networkStrengthMonitor.getNetworkStrength());
     return (
       <img style={{ cursor: 'pointer' }}
         onMouseEnter={() => this.props.toggleShowNetworkStatus(true)}

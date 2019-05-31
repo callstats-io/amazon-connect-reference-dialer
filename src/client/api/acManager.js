@@ -15,6 +15,7 @@ const ccpUrl = () => {
 class ACManager {
   constructor () {
     console.info('ACManager initialized!');
+    this.isLoggedIn = false;
     this.isInitialized = false;
     this.dispatch = undefined;
     this.onAgentInitialize = this.onAgentInitialize.bind(this);
@@ -66,8 +67,11 @@ class ACManager {
     return eventHandler.getCurrentState();
   }
 
+  setIsLoggedIn (isLoggedIn) {
+    this.isLoggedIn = isLoggedIn;
+  }
   getIsLoggedIn () {
-    return connect.core.initialized;
+    return this.isLoggedIn;
   }
 }
 

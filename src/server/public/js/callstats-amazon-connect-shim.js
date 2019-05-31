@@ -186,7 +186,7 @@
       CallstatsAmazonShim.callstats.makePrecallTest();
     }
 
-    // workaround to get peer connection -> remote stream
+   // workaround to get peer connection -> remote stream
     CallstatsAmazonShim.prototype.getPeerConnection = function getPeerConnection() {
       if (!csioPc || !confId) {
         console.warn('Cannot get peer connection. no active conference found');

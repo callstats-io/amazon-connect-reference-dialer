@@ -30,22 +30,15 @@ const maybeShowThisView = (currentView, ...others) => {
 };
 
 class Home extends Component {
+  // eslint-disable-next-line no-useless-constructor
   constructor (props) {
     super(props);
-    this.state = {
-      showLogin: false
-    };
   }
 
   componentDidMount () {
     // register ac manager
     acManager.register(AppStore.dispatch);
     // console.warn('-> ', this.state.isLoggedIn);
-    setTimeout(() => {
-      this.setState({
-        showLogin: acManager.getIsLoggedIn() === false
-      });
-    }, 2000);
   }
 
   render () {
@@ -60,9 +53,9 @@ class Home extends Component {
 
     return (
       !initialized
-        ? <div className={`container`} style={{ width: '320px', height: '480px' }}>
-          <Login showLogin={this.state.showLogin}/>
-        </div>
+        ? (<div className={`container`} style={{ width: '320px', height: '480px' }}>
+          <Login showLogin={acManager.getIsLoggedIn() === false}/>
+        </div>)
         : <div className={`container`} style={{ width: '320px', height: '480px' }}>
           {
             maybeShowThisView('pending', requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,

@@ -18,7 +18,7 @@ const getLatestResultRTT = (pctResult) => {
 
 const isOK = (pctResult) => {
   let latestResult = getLatestResultRTT(pctResult);
-  return latestResult >= 0 && latestResult < 240;
+  return latestResult > 0 && latestResult < 240;
 };
 
 const formatValue = (value = 0) => {

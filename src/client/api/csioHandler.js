@@ -10,7 +10,7 @@ const appSecret = APP_SECRET;
 
 class CSIOHandler {
   constructor () {
-    this.callstats = undefined;
+    this.callstatsac = undefined;
     this.dispatch = undefined;
     this.localUserId = undefined;
   }
@@ -31,16 +31,34 @@ class CSIOHandler {
       let track2 = lo.last(stats.mediaStreamTracks);
 
       // console.warn('~', stats);
-      let audioIntputLevel = parseInt(track1.audioIntputLevel || track2.audioIntputLevel || 0);
-      let audioOutputLevel = parseInt(track1.audioOutputLevel || track2.audioOutputLevel || 0);
+      let audioIntputLevel = parseInt(track1.audioIntputLevel || track2.audioIntputLevel || 0, 10);
+      let audioOutputLevel = parseInt(track1.audioOutputLevel || track2.audioOutputLevel || 0, 10);
 
-      let track1Bitrate = track1.bitrate || 0;
-      let track2Bitrate = track2.bitrate || 0;
+      let track1Bitrate = parseInt(track1.bitrate || 0, 10);
+      let track2Bitrate = parseInt(track2.bitrate || 0, 10);
+      let track1RTT = parseInt(track1.rtt || 0, 10);
+      // no rtt for inbound tracks.
+      // let track2RTT = parseInt(track1.rtt || 0, 10);
 
+      let track1Fl = parseInt(track1.fractionLoss || 0, 10);
+      let track2Fl = parseInt(track2.fractionLoss || 0, 10);
+
+      // console.warn('-> ', 'on csio stats', stats);
       networkStrengthMonitor.addThroughput(track1Bitrate, track2Bitrate);
+      networkStrengthMonitor.addRTT(track1RTT, track1RTT);
+      networkStrengthMonitor.addRTT(track1Fl, track2Fl);
       audioFrequencyMonitor.addAudioLevel(audioIntputLevel, false);
       audioFrequencyMonitor.addAudioLevel(audioOutputLevel, true);
     }
+  }
+
+  getRemoteStream () {
+    const pc = CallstatsAmazonShim && CallstatsAmazonShim.getPeerConnection();
+    if (!pc) {
+      return undefined;
+    }
+    const remoteStreams = pc.getRemoteStreams();
+    return remoteStreams && lo.get(remoteStreams, 0, undefined);
   }
 
   doPrecallTest () {
@@ -48,10 +66,15 @@ class CSIOHandler {
       let cs = new callstats();
       cs.initialize(appId, appSecret, this.localUserId, {}, null, null);
       cs.on('preCallTestResults', (status, result) => {
+        // console.warn('-> ', 'on precall test', status, result);
         let testResult = databaseManager.savePrecalltestResult(result);
 
         let throughput = lo.get(result, 'throughput', 0);
+        let rtt = lo.get(result, 'rtt', 0);
+        let fractionalLoss = lo.get(result, 'fractionalLoss', 0);
         networkStrengthMonitor.addThroughput(throughput, throughput);
+        networkStrengthMonitor.addRTT(rtt, rtt);
+        networkStrengthMonitor.addFractionalLoss(fractionalLoss, fractionalLoss);
         resolve(testResult);
       });
     });
@@ -62,10 +85,14 @@ class CSIOHandler {
   }
 
   onCSIOPrecalltestCallback (status, result) {
-    // console.warn('->onCSIOPrecalltestCallback', status, result);
+    // console.warn('-> ', 'on precall test', status, result);
     databaseManager.savePrecalltestResult(result);
     let throughput = lo.get(result, 'throughput', 0);
+    let rtt = lo.get(result, 'rtt', 0);
+    let fractionalLoss = lo.get(result, 'fractionalLoss', 0);
     networkStrengthMonitor.addThroughput(throughput, throughput);
+    networkStrengthMonitor.addRTT(rtt, rtt);
+    networkStrengthMonitor.addFractionalLoss(fractionalLoss, fractionalLoss);
   }
 
   dispose () {
@@ -87,13 +114,13 @@ class CSIOHandler {
     const localUserId = agent.getName();
     this.localUserId = localUserId;
     const configParams = {};
-    if (this.callstats) {
-      this.callstats = undefined;
+    if (this.callstatsac) {
+      this.callstatsac = undefined;
     }
 
-    this.callstats = CallstatsAmazonShim.initialize(connect, appId, appSecret, localUserId, configParams, this.onCSIOInitialize, this.onCSIOStats);
-    this.callstats.on('recommendedConfig', this.onCSIORecommendedConfigCallback.bind(this));
-    this.callstats.on('preCallTestResults', this.onCSIOPrecalltestCallback.bind(this));
+    this.callstatsac = CallstatsAmazonShim.initialize(connect, appId, appSecret, localUserId, configParams, this.onCSIOInitialize, this.onCSIOStats);
+    this.callstatsac.on('recommendedConfig', this.onCSIORecommendedConfigCallback.bind(this));
+    this.callstatsac.on('preCallTestResults', this.onCSIOPrecalltestCallback.bind(this));
   }
 
   // Quick hack to send feedback in structural way before we have a API for that
