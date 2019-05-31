@@ -1,10 +1,13 @@
 import {
   onCCPError,
+  onInitializationStateChange,
   onRemoteStream,
   onStateChange
 } from '../reducers/acReducer';
 
 import csioHandler from './csioHandler';
+import acManager from './acManager';
+import sessionManage from './sessionManager';
 
 // Outbound call = connection.isActive() && connection.isConnecting() && connection.getType() === 'outbound'
 // Incoming call = connection.isActive() && connection.isConnecting() && connection.getType() === 'inbound'
@@ -143,8 +146,22 @@ class EventHandler {
           this.dispatch(onCCPError({ ...e }));
         }
       });
+
+      // get the agent init to set logged in
+      bus.subscribe(connect.AgentEvents.INIT, (e) => {
+        // close the login window, since at this stage agent is already initialized
+        sessionManage.disposeLoginWindow();
+        acManager.setIsLoggedIn(true);
+        this.dispatch(onInitializationStateChange(true));
+      });
+
+      // handle shared worker terminated to set agent logged out
+      bus.subscribe(connect.EventType.TERMINATED, (e) => {
+        acManager.setIsLoggedIn(false);
+        window.location.reload();
+      });
       bus.subscribe(connect.AgentEvents.ERROR, e => {
-        // console.warn('~', e);
+        // console.warn('error', e);
       });
       bus.subscribe(connect.AgentEvents.STATE_CHANGE, e => {
         currentAgent = e;
