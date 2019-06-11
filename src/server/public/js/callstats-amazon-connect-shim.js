@@ -1,4 +1,4 @@
-/*! callstats Amazon SHIM version = 1.1.0 */
+/*! callstats Amazon SHIM version = 1.1.1 */
 
 (function (global) {
   var CallstatsAmazonShim = function(callstats) {
@@ -59,6 +59,10 @@
       if (contactQueueInfo) {
         callDetails.contactQueue = contactQueueInfo.name;
         callDetails.contactQueueID = contactQueueInfo.queueARN;
+      }
+      const attributes = contact.getAttributes();
+      if (attributes.AgentLocation){
+        callDetails.siteID = attributes.AgentLocation.value;
       }
     }
 
@@ -185,8 +189,7 @@
       CallstatsAmazonShim.callstats.on("preCallTestResults", precallTestResultsCallback);
       CallstatsAmazonShim.callstats.makePrecallTest();
     }
-
-   // workaround to get peer connection -> remote stream
+    // workaround to get peer connection -> remote stream
     CallstatsAmazonShim.prototype.getPeerConnection = function getPeerConnection() {
       if (!csioPc || !confId) {
         console.warn('Cannot get peer connection. no active conference found');
