@@ -28,10 +28,10 @@ const Body = ({ currentState = {}, requestAgentStateChange }) => (
     {sessionManage.getAgentStates().map((currentAgentState) => (
       <div key={`agent-state-${currentAgentState.name}`} className={`row ${styles.acPointer} ${styles.acList}`}
         onClick={() => requestAgentStateChange(currentAgentState)}>
-        <div className="col-md-2">
+        <div className="col-2">
           {isCurrentState(currentAgentState, currentState) && <img src={activeIcon}/>}
         </div>
-        <div className="col-md-10">
+        <div className="col-10">
           <span
             className={`${isCurrentState(currentAgentState, currentState) ? styles.acSpanSelected : styles.acSpanNormal}`}> {currentAgentState.name}</span>
         </div>

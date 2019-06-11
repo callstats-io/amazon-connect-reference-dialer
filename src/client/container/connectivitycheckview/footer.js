@@ -12,12 +12,12 @@ const Footer = ({ requestReportACallIssue }) => (
   <div className={`card-footer ${styles.footerMain}`}>
     <div className="row">
       <ReportACall
-        divClass={'col-md-6 p-0 text-left'}
+        divClass={'col-6 p-0 text-left'}
         linkClass={'btn'}
         style={{ cursor: 'pointer', color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px', borderRadius: '0' }}
         onClickHandler={requestReportACallIssue}/>
 
-      <Info divClass={'col-md-6 text-right'}
+      <Info divClass={'col-6 text-right'}
 				  linkClass={'btn disabled'}
 				  style={{ color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px' }}
         /* todo dummy click handler to pass info props required field */

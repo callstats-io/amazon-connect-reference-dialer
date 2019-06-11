@@ -63,7 +63,7 @@ class QuickFeedback extends Component {
           closeReport={this.closeReport}
           skipReport={this.skipReport}/>
 
-        <div className="col-md-7 pr-0 mr-0">
+        <div className="col-7 pr-0 mr-0">
           <a className="text-left"
             style={{
               cursor: 'pointer',
@@ -74,13 +74,13 @@ class QuickFeedback extends Component {
             }}>How was
                         the call quality?
           </a></div>
-        <div className="col-md-5 pl-0 ml-0">
+        <div className="col-5 pl-0 ml-0">
           <a className="text-left"
             style={{ fontFamily: 'AmazonEmber', fontSize: '14px', color: '#3885de', cursor: 'pointer' }}
             onClick={this.props.requestReportACallIssue}
           >Report a call issue</a>
         </div>
-        <div className="col-md-12 mt-1">
+        <div className="col-12 mt-1">
           {
             feedbackRatings.map((currentFeedback) => (
               <a key={`feedback-rating-${currentFeedback}`}
@@ -91,7 +91,7 @@ class QuickFeedback extends Component {
             ))
           }
         </div>
-        <div className="col-md-12 mt-1" style={{
+        <div className="col-12 mt-1" style={{
           opacity: '0.6',
           fontFamily: 'AmazonEmber',
           fontSize: '12px',

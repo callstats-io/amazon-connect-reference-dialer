@@ -11,7 +11,7 @@ import lo from 'lodash';
 
 const AgentViewStyle = {
   accept: {
-    divClass: 'col-md-6',
+    divClass: 'col-6',
     linkClass: 'btn',
     style: {
       height: '36px',
@@ -25,7 +25,7 @@ const AgentViewStyle = {
     }
   },
   reject: {
-    divClass: 'col-md-6',
+    divClass: 'col-6',
     linkClass: 'btn',
     style: {
       height: '36px',
@@ -39,7 +39,7 @@ const AgentViewStyle = {
     }
   },
   available: {
-    divClass: 'col-md-12',
+    divClass: 'col-12',
     linkClass: 'btn w-100',
     style: {
       height: '36px',
@@ -53,7 +53,7 @@ const AgentViewStyle = {
     }
   },
   end: {
-    divClass: 'col-md-12',
+    divClass: 'col-12',
     linkClass: 'btn w-100',
     style: {
       height: '36px',

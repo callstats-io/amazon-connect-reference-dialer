@@ -155,7 +155,7 @@ const isBad = (pctResult) => {
 
 const RTTGraph = ({ pctResult = {}, lastSCT = {}, unit = undefined, stepSize = 0 }) => (
   <div className={`row mt-${isBad(lastSCT) ? 1 : 3}`}>
-    <div className="col-md-12" style={{ position: 'relative', height: '100px' }}>
+    <div className="col-12" style={{ position: 'relative', height: '100px' }}>
       <Line data={getChartData(pctResult)} options={getChartOptions(pctResult, unit, stepSize)}/>
     </div>
   </div>

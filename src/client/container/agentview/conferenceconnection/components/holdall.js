@@ -4,7 +4,7 @@ import styles from './../agentview.css';
 import holdIcon from '../../../../res/images/fa-hold.svg';
 
 const HoldAll = ({ holdAll, marginTop = '' }) => (
-  <div className={`col-md-6 ${marginTop}`}>
+  <div className={`col-6 ${marginTop}`}>
     <a className={`btn ${styles.buttonCommon}`}
 		   onClick={holdAll}
     >

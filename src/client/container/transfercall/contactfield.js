@@ -5,16 +5,16 @@ import styles from './transfercall.css';
 
 const ContactField = ({ contactList = [], dialContact }) => (
   <div className={`row ml-0 mr-0 mt-2 ${styles.contactListBox}`}>
-    <div className={`col-md-12`}>
+    <div className={`col-12`}>
       {
         contactList.map((currentContact, index) => (
           <div className={`row ${styles.contactItem}`} key={`contact-list-${index}`}>
-            <div className={`col-md-8`}>
+            <div className={`col-8`}>
               <a className={`btn pl-0 ml-0 ${styles.contactName}`}>
                 {currentContact.name}
               </a>
             </div>
-            <div className={`col-md-4 text-right pr-0`}>
+            <div className={`col-4 text-right pr-0`}>
               <a className={`btn ${styles.dialButton}`} onClick={() => dialContact(currentContact)}>
 								Dial
               </a>

@@ -60,16 +60,16 @@ class Body extends Component {
     return (
       <div className="card-body" style={{ backgroundColor: '#ffffff' }}>
         <div className="row">
-          <div className="col-md-10">
+          <div className="col-10">
             <span className={styles.dialNumber}>Dial number</span>
           </div>
-          <div className="col-md-2"
+          <div className="col-2"
             onClick={() => this.closeDialPad()}>
             <img src={closeOrDismissIcon} className={styles.cursor}/>
           </div>
         </div>
         <div className="row mt-2">
-          <div className="col-md-9">
+          <div className="col-9">
             <ReactPhoneInput
               inputStyle={{ minWidth: '15.5em', maxWidth: '15.5em', boxShadow: 'none', borderRadius: '0' }}
               onlyCountries={dialableCountries}
@@ -83,7 +83,7 @@ class Body extends Component {
               }}
               onChange={this.handleInputChange}/>
           </div>
-          <div className="col-md-3 p-0 m-0">
+          <div className="col-3 p-0 m-0">
             <a className={`btn ${styles.dialButton}`}
               onClick={() => this.dialNumber()}>
                             Dial

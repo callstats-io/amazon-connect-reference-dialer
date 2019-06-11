@@ -14,7 +14,7 @@ const SoftPhoneSettings = ({ toggleMenuItem, changeAudioInputDevice, showMenuIte
 						 showMenuItem={showMenuItem}
 						 inputDeviceList={inputDeviceList}
 						 audioInputDevice={audioInputDevice}/>
-    <div className={`col-md-2 pl-0 pr-0 ${styles.audioLabel}`}>
+    <div className={`col-2 pl-0 pr-0 ${styles.audioLabel}`}>
       <LocalAudiolevel viewBox={'0 100 1400 1000'}/>
     </div>
 

@@ -5,7 +5,7 @@ import styles from './../agentview.css';
 import joinIcon from '../../../../res/images/fa-ico-join.svg';
 
 const Join = ({ joinConnection, marginTop = '' }) => (
-  <div className={`col-md-6 ${marginTop}`}>
+  <div className={`col-6 ${marginTop}`}>
     <a className={`btn ${styles.buttonCommon}`}
 		   onClick={joinConnection}
     >

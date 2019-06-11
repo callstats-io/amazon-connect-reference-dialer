@@ -9,12 +9,12 @@ const showAudioLabel = (state = null, muted) => {
 };
 
 const AgentStatusAndAudioLabel = ({ currentState, muted = false }) => (
-  <div className={`col-md-12 ${styles.agentStateDiv}`}>
+  <div className={`col-12 ${styles.agentStateDiv}`}>
     <div className={'row'}>
-      <div className={`col-md-9`}>
+      <div className={`col-9`}>
         <span className={`m-0 ${styles.agentState}`}> {currentState} </span>
       </div>
-      <div className={`col-md-3 mr-0`}>
+      <div className={`col-3 mr-0`}>
         <LocalAudiolevel viewBox={'0 200 1000 1000'}/>
       </div>
     </div>

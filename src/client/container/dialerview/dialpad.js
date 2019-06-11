@@ -12,7 +12,7 @@ class DialPad extends Component {
   render () {
     const handleClick = this.props.numPadHandler;
     return (
-      <div className={'col-md-12 ml-4'}>
+      <div className={'col-12 ml-4'}>
         <ul className={styles.dialPadKeyboard}>
           <li className={`letter`} onClick={handleClick.bind(this, '1')}>1</li>
           <li className={`letter`} onClick={handleClick.bind(this, '2')}>2</li>

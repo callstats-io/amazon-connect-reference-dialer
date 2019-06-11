@@ -28,15 +28,15 @@ const formatValue = (value = 0) => {
 
 const RoundTripTime = ({ pctResult = {} }) => (
   <div className="row mt-1">
-    <div className="col-md-12">
+    <div className="col-12">
       <div className="row">
-        <div className="col-md-8">
+        <div className="col-8">
           <span className={styles.resultText}>
             <img src={isOK(pctResult) ? tickGreenIcon : dangerIcon}/>
             <span className="ml-1">Round trip time</span>
           </span>
         </div>
-        <div className="col-md-4 text-right">
+        <div className="col-4 text-right">
           <span className={styles.resultValue}>
             {formatValue(getLatestResultRTT(pctResult))} ms </span>
         </div>

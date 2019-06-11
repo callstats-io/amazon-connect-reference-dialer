@@ -5,7 +5,7 @@ import styles from './../agentview.css';
 import dialNumberIcon from '../../../../res/images/fa-dial-number.svg';
 
 const DialNumber = ({ dialNumber, marginTop = '' }) => (
-  <div className={`col-md-6 ${marginTop}`}>
+  <div className={`col-6 ${marginTop}`}>
     <a className={`btn ${styles.buttonCommon}`}
 		   onClick={dialNumber}
     >

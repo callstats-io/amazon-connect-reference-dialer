@@ -21,22 +21,22 @@ const cardFooter = {
 
 const FooterStyle = {
   reportCall: {
-    divClass: 'col-md-6 p-0',
+    divClass: 'col-6 p-0',
     linkClass: 'btn align-self-left text-left',
     style: { cursor: 'pointer', color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px' }
   },
   downloadLogs: {
-    divClass: 'col-md-6 p-0',
+    divClass: 'col-6 p-0',
     linkClass: 'btn text-left',
     style: { cursor: 'pointer', color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px' }
   },
   connectivityCheck: {
-    divClass: 'col-md-6 p-0',
+    divClass: 'col-6 p-0',
     linkClass: 'btn text-left',
     style: { cursor: 'pointer', color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px' }
   },
   language: {
-    divClass: 'col-md-6 p-0',
+    divClass: 'col-6 p-0',
     linkClass: 'btn text-left disabled',
     style: { cursor: 'pointer', color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px' }
   }

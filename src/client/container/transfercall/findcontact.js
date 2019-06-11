@@ -4,7 +4,7 @@ import styles from './transfercall.css';
 
 const FindContact = ({ contactChange, dialNumber, contactValue = '' }) => (
   <div className="row mt-3">
-    <div className="col-md-9 pr-0 mr-0">
+    <div className="col-9 pr-0 mr-0">
       <div className="input-group flex-nowrap">
         <input type="text"
 					   className={`form-control ${styles.quickConnectSearch}`}
@@ -15,7 +15,7 @@ const FindContact = ({ contactChange, dialNumber, contactValue = '' }) => (
 					   aria-describedby="addon-wrapping"/>
       </div>
     </div>
-    <div className={`col-md-3 text-right pl-0 mr-0`}>
+    <div className={`col-3 text-right pl-0 mr-0`}>
       <a className={`btn ${styles.callPhoneDialButton}`} onClick={dialNumber}>
 				Dial
       </a>

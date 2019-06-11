@@ -6,7 +6,7 @@ import styles from './reportissue.css';
 const Footer = ({ submitIssue }) => (
   <div className={`card-footer m-0 p-0 ${styles.footerMain}`}>
     <div className="row">
-      <div className="col-md-12">
+      <div className="col-12">
         <a className={`btn w-100 ${styles.footerSubmit}`}
 				   onClick={submitIssue}> Submit</a>
       </div>

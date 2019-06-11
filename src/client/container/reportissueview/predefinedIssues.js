@@ -6,16 +6,16 @@ import markTrueIcon from '../../res/images/fa-mark-true.svg';
 import styles from './reportissue.css';
 
 const PredefinedIssues = ({ onIssueListSelectionChange, issueList }) => (
-  <div className="col-md-12" style={{}}>
+  <div className="col-12" style={{}}>
     {
       issueList.map((issue, issueIndex) => (
         <div className={`row mt-${issue.name === '' ? 0 : 1}`} key={`issue-${issue.name}`}>
-          <div className="col-md-12">
+          <div className="col-12">
             <a className={styles.predefinedIssueName}> {issue.name} </a>
           </div>
           {
             issue.items.map((item, itemIndex) => (
-              <div className="col-md-12" key={`issue-link-${item.text}`}>
+              <div className="col-12" key={`issue-link-${item.text}`}>
                 <a className={styles.predefinedIssueList}>
                   <img style={{ cursor: 'pointer' }}
 										 onClick={() => onIssueListSelectionChange(issueIndex, itemIndex)}

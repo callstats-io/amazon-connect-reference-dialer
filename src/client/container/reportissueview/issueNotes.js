@@ -5,11 +5,11 @@ import styles from './reportissue.css';
 
 const IssueNotes = ({ onFeedbackTextChange, feedbackText }) => (
   <div className="row mt-1">
-    <div className="col-md-12">
+    <div className="col-12">
       <textarea placeholder="Enter your notes about the issue here" rows={3}
 					  value={feedbackText}
 					  onChange={onFeedbackTextChange}
-					  className={`col-md-12 ${styles.textArea}`}/>
+					  className={`col-12 ${styles.textArea}`}/>
     </div>
   </div>
 );
