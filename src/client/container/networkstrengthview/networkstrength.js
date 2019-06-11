@@ -25,7 +25,7 @@ const shouldRunPCT = () => {
   return runPCT(currentAgentStateName);
 };
 
-const DURATION_MS = 1 * 1000; // Every two minutes
+const DURATION_MS = 3000;
 class NetworkStrength extends React.Component {
   constructor (props) {
     super(props);
@@ -42,39 +42,35 @@ class NetworkStrength extends React.Component {
     }
   }
 
-  // only run precall test when agent state is available, or offline
-  async doPrecallTest () {
+  async updateNetworkStrength () {
+    let networkStrength = networkStrengthMonitor.getNetworkStrength();
+    // console.warn('->', networkStrength);
+    this.setState({
+      networkStrength: networkStrength
+    });
     if (!shouldRunPCT()) {
       return;
     }
     if (!precallTest.shouldRun()) {
       return;
     }
-    // console.warn('doPrecallTest');
-    await precallTest.doPrecallTest();
+    try {
+      await precallTest.doPrecallTest();
+    } catch (err) {
+      ;
+    }
   }
 
-  updateNetworkStrength () {
-    let networkStrength = networkStrengthMonitor.getNetworkStrength();
-    // console.warn('->', networkStrength);
-    this.setState({
-      networkStrength: networkStrength
-    });
-
-    this.doPrecallTest().then(() => {
-    }).catch(_ => {
-    });
-  }
-
-  componentDidMount () {
+  async componentDidMount () {
     this._dispose();
-    this.updateNetworkStrength();
-    this.intervalId = setInterval(() => {
-      this.updateNetworkStrength();
+    await this.updateNetworkStrength();
+    this.intervalId = setInterval(async () => {
+      await this.updateNetworkStrength();
     }, DURATION_MS);
   }
 
   componentWillUnmount () {
+    // console.warn('component will unmount');
     this._dispose();
   }
 

@@ -1,6 +1,7 @@
 import csioHandler from './csioHandler';
 
-const PCT_INTERVAL_MS = 2 * 60 * 1000; // Every two minutes
+const PCT_INTERVAL_MS = 1 * 60 * 1000; // Every two minutes
+// const PCT_INTERVAL_MS = 15 * 1000; // Every two minutes
 
 class PrecallTest {
   constructor () {
@@ -16,12 +17,13 @@ class PrecallTest {
     if (this.inProgress) {
       return false;
     }
-    return false;
+    return true;
   }
 
   async doPrecallTest () {
     this.inProgress = true;
     try {
+      // console.warn('doPrecallTest');
       await csioHandler.doPrecallTest();
     } catch (err) {
       console.warn('->', err);
