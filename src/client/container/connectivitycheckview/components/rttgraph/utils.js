@@ -71,7 +71,7 @@ export const postProcess = (pctResult = []) => {
 
   // console.warn('-> ', timeSegmentInMs);
   let prvIndex = pctResult.length;
-  retval.push({ throughput: lo.first(pctResult).throughput || 0, epochTime: now });
+  retval.push({ throughput: lo.first(pctResult) ? (lo.first(pctResult).throughput || 0) : 0, epochTime: now });
   for (let currentTime = now, at = prvIndex - 1; currentTime >= upto && at >= 0; currentTime -= timeSegmentInMs) {
     let result = getRecords(currentTime, at, pctResult, timeSegmentInMs);
 
