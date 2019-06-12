@@ -43,7 +43,7 @@ class CSIOHandler {
       let track1Fl = parseInt(track1.fractionLoss || 0, 10);
       let track2Fl = parseInt(track2.fractionLoss || 0, 10);
 
-      // console.warn('-> ', 'on csio stats', stats);
+      //      console.warn('-> ', 'on csio stats', stats);
       networkStrengthMonitor.addThroughput(track1Bitrate, track2Bitrate);
       networkStrengthMonitor.addRTT(track1RTT, track1RTT);
       networkStrengthMonitor.addRTT(track1Fl, track2Fl);
@@ -63,20 +63,20 @@ class CSIOHandler {
 
   doPrecallTest () {
     return new Promise((resolve) => {
-      let cs = new callstats();
-      cs.initialize(appId, appSecret, this.localUserId, {}, null, null);
-      cs.on('preCallTestResults', (status, result) => {
-        // console.warn('-> ', 'on precall test', status, result);
-        let testResult = databaseManager.savePrecalltestResult(result);
+      if (CallstatsAmazonShim) {
+        CallstatsAmazonShim.makePrecallTest((status, result) => {
+          // console.warn('-> ', 'on precall test', status, result);
+          let testResult = databaseManager.savePrecalltestResult(result);
 
-        let throughput = lo.get(result, 'throughput', 0);
-        let rtt = lo.get(result, 'rtt', 0);
-        let fractionalLoss = lo.get(result, 'fractionalLoss', 0);
-        networkStrengthMonitor.addThroughput(throughput, throughput);
-        networkStrengthMonitor.addRTT(rtt, rtt);
-        networkStrengthMonitor.addFractionalLoss(fractionalLoss, fractionalLoss);
-        resolve(testResult);
-      });
+          let throughput = lo.get(result, 'throughput', 0);
+          let rtt = lo.get(result, 'rtt', 0);
+          let fractionalLoss = lo.get(result, 'fractionalLoss', 0);
+          networkStrengthMonitor.addThroughput(throughput, throughput);
+          networkStrengthMonitor.addRTT(rtt, rtt);
+          networkStrengthMonitor.addFractionalLoss(fractionalLoss, fractionalLoss);
+          resolve(testResult);
+        });
+      }
     });
   }
 
