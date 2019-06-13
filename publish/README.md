@@ -16,7 +16,7 @@
 - Click Continue if you are visiting Call Centers the first time.
 - Click on CallStats OpenCTI Adapter.
 - On Call Center Detail click 'Edit'.
-- In Connecting settings fill in your CCP URL, application ID and application Secret information from the callstats.io dashboard!
+- In Connecting settings fill in your CCP URL, application ID and application Secret information from the callstats.io Amazon Connect App settings!
 - Hit save.
 - On Call Center Users at the end of the page click 'Manage Call Center Users'
 - Click 'Add more users' button
