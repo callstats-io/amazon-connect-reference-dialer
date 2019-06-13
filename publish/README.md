@@ -12,7 +12,8 @@
 - Click on the Back button in the top-right corner (not browser’s back button).
 
 # Set Up CallStats.io Custom Dialer
-- From the Setup screen, type Call Center in Quick find filled and select Call Center.
+- From the Setup screen, type Call Centers in Quick find filled and select Call Centers.
+- Click Continue if you are visiting Call Centers the first time.
 - Click on CallStats OpenCTI Adapter.
 - On Call Center Detail click 'Edit'.
 - In Connecting settings fill in your CCP URL, application ID and application Secret information from the callstats.io dashboard!
