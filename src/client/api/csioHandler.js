@@ -13,6 +13,11 @@ const appSecret = APP_SECRET;
 
 const siteIds = ['HQ', 'Remote', 'Home'];
 
+const ccpUrl = () => {
+  const connectURL = databaseManager.getDefaultConnectURL(CONNECT_URL);
+  return `https://${connectURL}/connect/ccp#/`;
+};
+
 class CSIOHandler {
   constructor () {
     this.callstatsac = undefined;
@@ -135,6 +140,11 @@ class CSIOHandler {
     this.callstatsac = CallstatsAmazonShim.initialize(connect, appId, appSecret, localUserId, configParams, this.onCSIOInitialize, this.onCSIOStats);
     this.callstatsac.on('recommendedConfig', this.onCSIORecommendedConfigCallback.bind(this));
     this.callstatsac.on('preCallTestResults', this.onCSIOPrecalltestCallback.bind(this));
+
+    // add agent monitor
+    // eslint-disable-next-line new-cap
+    const agentMonitor = new callstatsAgentMonitor();
+    agentMonitor.initialize(connect, ccpUrl(), appId, appSecret, localUserId);
   }
 
   // Quick hack to send feedback in structural way before we have a API for that

@@ -15,6 +15,7 @@
     "APP_ID": false,
     "APP_SECRET": false,
     "CONNECT_URL": false,
-    "CallstatsAmazonShim": false
+    "CallstatsAmazonShim": false,
+    "callstatsAgentMonitor": false
   }
 }
