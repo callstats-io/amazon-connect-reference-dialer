@@ -23,6 +23,8 @@ class CSIOHandler {
     this.callstatsac = undefined;
     this.dispatch = undefined;
     this.localUserId = undefined;
+    // eslint-disable-next-line new-cap
+    this.agentMonitor = new callstatsAgentMonitor();
   }
 
   /**
@@ -142,9 +144,7 @@ class CSIOHandler {
     this.callstatsac.on('preCallTestResults', this.onCSIOPrecalltestCallback.bind(this));
 
     // add agent monitor
-    // eslint-disable-next-line new-cap
-    const agentMonitor = new callstatsAgentMonitor();
-    agentMonitor.initialize(connect, ccpUrl(), appId, appSecret, localUserId);
+    this.agentMonitor.initialize(connect, ccpUrl(), appId, appSecret, localUserId);
   }
 
   // Quick hack to send feedback in structural way before we have a API for that
