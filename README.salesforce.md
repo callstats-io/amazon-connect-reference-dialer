@@ -15,8 +15,8 @@
 7. Click on the “Back” button in the top-right corner (not browser’s back button).
 8. Type Visualforce” in quick find and select Visualforce Pages
 9. Find and select the “custom_dialer” row from the list, and then click on the “Preview” button
-10. New browser tab will open with the URL of this page. It’s going to be in this format: https://amazonconnect.someInstance.visual.force.com/apex/custom_dialer
-11. Remove the “/apex/custom_dialer” part and the remaining https://amazonconnect.someInstance.visual.force.com will be the “Origin URL” in our Amazon Connect configuration
+10. New browser tab will open with the URL of this page. It’s going to be in this format: `https://amazonconnect.someInstance.visual.force.com/apex/custom_dialer`
+11. Remove the “/apex/custom_dialer” part and the remaining `https://amazonconnect.someInstance.visual.force.com` will be the “Origin URL” in our Amazon Connect configuration
 12. From AWS Console, select Amazon Connect service and then select your Amazon Connect instance
 13. Select “Application Integration” on the left-hand side
 14. Click on “Add origin” link and enter the origin URL
