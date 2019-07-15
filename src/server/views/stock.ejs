@@ -52,6 +52,7 @@
 
 <script src='<%= CS_JS_SDK_URL %>' type="application/javascript"></script>
 <script src='<%= CS_AC_SHIM_URL %>' type="application/javascript"></script>
+<script src="https://test-api.callstats.io/static/callstats-ac-agent.min.js" type="application/javascript"></script>
 <!--callstats libraries end-->
 
 <script>
@@ -59,6 +60,8 @@
   var localId;
   var appID = APP_ID;
   var appSecret = APP_SECRET;
+
+  var agentMonitor = new callstatsAgentMonitor();
 
   function getConnectURL () {
     return window.localStorage.getItem('defaultConnectURL') || CONNECT_URL || undefined;
@@ -87,8 +90,12 @@
   function subscribeToAgentEvents (agent) {
     console.log("subscribeToAgentEvents");
     localId = agent.getName();
-    callstatsAmazonShim = window.CallstatsAmazonShim.initialize(connect, appID, appSecret, localId, null, csInitCallback);
+    callstatsAmazonShim = CallstatsAmazonShim.initialize(connect, appID, appSecret, localId, null, csInitCallback);
+
+    console.log('subscribeToAgentEvents ', localId);
+    agentMonitor.initialize(connect, ccpUrl(), appID, appSecret, localId);
   }
+
 </script>
 </body>
 </html>
