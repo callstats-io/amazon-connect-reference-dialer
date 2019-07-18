@@ -13,7 +13,6 @@ import styles from './dialpad.css';
 
 import sessionManager from './../../api/sessionManager';
 import DialPad from './dialpad';
-import lo from 'lodash';
 
 class Body extends Component {
   constructor (props) {
@@ -23,6 +22,7 @@ class Body extends Component {
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.numPadHandler = this.numPadHandler.bind(this);
+    this.inputValue = React.createRef();
   }
 
   closeDialPad () {
@@ -35,8 +35,7 @@ class Body extends Component {
     });
   }
 
-  numPadHandler (...argv) {
-    const value = lo.first(argv, null);
+  numPadHandler (value) {
     if (!value) {
       return;
     }
@@ -47,7 +46,7 @@ class Body extends Component {
   }
 
   dialNumber () {
-    const { phoneNumber } = this.state;
+    const { formattedNumber: phoneNumber } = this.inputValue.current.state;
     sessionManager.dialNumber(phoneNumber).then(success => {
       this.closeDialPad();
     }, err => {
@@ -71,6 +70,7 @@ class Body extends Component {
         <div className="row mt-2">
           <div className="col-md-9">
             <ReactPhoneInput
+              ref={this.inputValue}
               inputStyle={{ minWidth: '15.5em', maxWidth: '15.5em', boxShadow: 'none', borderRadius: '0' }}
               onlyCountries={dialableCountries}
               defaultCountry={'fi'}
@@ -81,7 +81,7 @@ class Body extends Component {
                 required: true,
                 autoFocus: true
               }}
-              onChange={this.handleInputChange}/>
+              onChange={ this.handleInputChange }/>
           </div>
           <div className="col-md-3 p-0 m-0">
             <a className={`btn ${styles.dialButton}`}
