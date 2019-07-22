@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactPhoneInput from 'react-phone-input-2';
-
+import lo from 'lodash';
 import closeOrDismissIcon from '../../res/images/fa-close-or-dismiss.svg';
 
 import {
@@ -33,6 +33,10 @@ class Body extends Component {
     this.setState({
       phoneNumber: value
     });
+    if (sessionManager.isActive()) {
+      sessionManager.sendDigit(value).then(success => {
+      }).catch(err => console.warn(err));
+    }
   }
 
   numPadHandler (value) {
