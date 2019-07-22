@@ -134,6 +134,29 @@ export const hangupPrimaryConnection = (currentState = undefined) => {
   });
 };
 
+export const sendDigit = (activeConnection, currentDigit = -1) => {
+  if (currentDigit < 0) {
+    return Promise.resolve(null);
+  }
+  if (!['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '#', '*'].includes(currentDigit)) {
+    return Promise.resolve(null);
+  }
+
+  return new Promise((resolve, reject) => {
+    if (!activeConnection) {
+      return reject(new Error('connection is undefined'));
+    }
+    activeConnection.sendDigits(currentDigit, {
+      success: function (data) {
+        resolve(data);
+      },
+      failure: function (data) {
+        reject(data);
+      }
+    });
+  });
+};
+
 export const getPrimaryConnection = (currentState = undefined) => {
   if (!currentState) {
     return undefined;

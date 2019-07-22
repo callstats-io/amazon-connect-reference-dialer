@@ -43,6 +43,10 @@ class Body extends Component {
     this.setState({
       phoneNumber: `${phoneNumber}${value}`
     });
+    if (sessionManager.isActive()) {
+      sessionManager.sendDigit(value).then(success => {
+      }).catch(err => console.warn(err));
+    }
   }
 
   dialNumber () {
