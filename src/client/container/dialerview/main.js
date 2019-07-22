@@ -4,7 +4,7 @@ import Body from './body';
 
 import styles from './dialpad.css';
 
-const DialPadView = ({}) => (
+const DialPadView = () => (
   <div className={`row h-100`}>
     <div className={`col-md-12 ${styles.zeroPadding}`}>
       <div className={`card h-100 ${styles.cardMain}`}>
