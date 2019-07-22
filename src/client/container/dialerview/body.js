@@ -34,7 +34,7 @@ class Body extends Component {
       phoneNumber: value
     });
     if (sessionManager.isActive()) {
-      sessionManager.sendDigit(value).then(success => {
+      sessionManager.sendDigit(lo.last(value)).then(success => {
       }).catch(err => console.warn(err));
     }
   }
