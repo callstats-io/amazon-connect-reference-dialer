@@ -6,12 +6,12 @@ import sessionManage from '../../api/sessionManager';
 import CCPInputBox from './ccpinputbox';
 
 const getCCPScope = () => {
-  const ccpScope = databaseManager.getDefaultConnectURL(CONNECT_URL);
+  const ccpScope = databaseManager.getDefaultConnectURL(CONNECT_URL || WEB_PACK_CONNECT_URL);
   return ccpScope;
 };
 
 const loginURL = () => {
-  const connectURL = databaseManager.getDefaultConnectURL(CONNECT_URL);
+  const connectURL = databaseManager.getDefaultConnectURL(CONNECT_URL || WEB_PACK_CONNECT_URL);
   return `https://${connectURL}/connect/login?landat=%2Fconnect%2Fccp#/`;
 };
 class Body extends Component {

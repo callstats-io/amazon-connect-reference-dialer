@@ -8,13 +8,13 @@ import {
   getRandomInt
 } from './../utils/acutils';
 
-const appId = APP_ID;
-const appSecret = APP_SECRET;
+const appId = APP_ID || WEB_PACK_APP_ID;
+const appSecret = APP_SECRET || WEB_PACK_APP_SECRET;
 
 const siteIds = ['HQ', 'Remote', 'Home'];
 
 const ccpUrl = () => {
-  const connectURL = databaseManager.getDefaultConnectURL(CONNECT_URL);
+  const connectURL = databaseManager.getDefaultConnectURL(CONNECT_URL || WEB_PACK_CONNECT_URL);
   return `https://${connectURL}/connect/ccp#/`;
 };
 
@@ -144,7 +144,9 @@ class CSIOHandler {
     this.callstatsac.on('preCallTestResults', this.onCSIOPrecalltestCallback.bind(this));
 
     // add agent monitor
-    this.agentMonitor.initialize(connect, ccpUrl(), appId, appSecret, localUserId);
+    if (this.agentMonitor && typeof this.agentMonitor.initialize === 'function') {
+      this.agentMonitor.initialize(connect, ccpUrl(), appId, appSecret, localUserId);
+    }
   }
 
   // Quick hack to send feedback in structural way before we have a API for that

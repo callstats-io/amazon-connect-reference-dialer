@@ -8,7 +8,7 @@ import csioHandler from './csioHandler';
 import databaseManager from './databaseManager';
 
 const ccpUrl = () => {
-  const connectURL = databaseManager.getDefaultConnectURL(CONNECT_URL);
+  const connectURL = databaseManager.getDefaultConnectURL(CONNECT_URL || WEB_PACK_CONNECT_URL);
   return `https://${connectURL}/connect/ccp#/`;
 };
 

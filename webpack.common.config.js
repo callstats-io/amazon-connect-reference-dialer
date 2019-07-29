@@ -1,5 +1,10 @@
 const path = require('path');
 const outputDirectory = 'dist';
+const webpack = require('webpack');
+
+const {
+  getClientConfig
+} = require('./config/config');
 module.exports = {
   entry: ['babel-polyfill', './src/client/index.js'],
   output: {
@@ -32,5 +37,12 @@ module.exports = {
         loader: 'url-loader?limit=100000'
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      WEB_PACK_APP_ID: JSON.stringify(getClientConfig().APP_ID || ''),
+      WEB_PACK_APP_SECRET: JSON.stringify(getClientConfig().APP_SECRET || ''),
+      WEB_PACK_CONNECT_URL: JSON.stringify(getClientConfig().CONNECT_URL || '')
+    })
+  ]
 };
