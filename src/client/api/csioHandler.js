@@ -145,7 +145,7 @@ class CSIOHandler {
 
     // add agent monitor
     if (this.agentMonitor && typeof this.agentMonitor.initialize === 'function') {
-      this.agentMonitor.initialize(connect, ccpUrl(), appId, appSecret, localUserId);
+      this.agentMonitor.initialize(connect, ccpUrl(), appId, appSecret, localUserId, configParams);
     }
   }
 
