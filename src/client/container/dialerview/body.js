@@ -18,10 +18,12 @@ class Body extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      phoneNumber: ''
+      phoneNumber: '',
+      hasError: false
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.numPadHandler = this.numPadHandler.bind(this);
+    this.getStyle = this.getStyle.bind(this);
     this.inputValue = React.createRef();
   }
 
@@ -31,7 +33,8 @@ class Body extends Component {
 
   handleInputChange (value) {
     this.setState({
-      phoneNumber: value
+      phoneNumber: value,
+      hasError: false
     });
     if (sessionManager.isActive()) {
       sessionManager.sendDigit(lo.last(value)).then(success => {
@@ -45,7 +48,8 @@ class Body extends Component {
     }
     const { phoneNumber } = this.state;
     this.setState({
-      phoneNumber: `${phoneNumber}${value}`
+      phoneNumber: `${phoneNumber}${value}`,
+      hasError: false
     });
     if (sessionManager.isActive()) {
       sessionManager.sendDigit(value).then(success => {
@@ -60,6 +64,19 @@ class Body extends Component {
     }, err => {
       console.error(err);
     });
+  }
+
+  // eslint-disable-next-line handle-callback-err
+  componentDidCatch (error, info) {
+    this.setState({ hasError: true, phoneNumber: '' });
+  }
+
+  getStyle () {
+    const inputStyle = { minWidth: '15.5em', maxWidth: '15.5em', boxShadow: 'none', borderRadius: '0' };
+    if (this.state.hasError) {
+      return { ...inputStyle, border: '1px solid red' };
+    }
+    return inputStyle;
   }
 
   render () {
@@ -79,9 +96,10 @@ class Body extends Component {
           <div className="col-md-9">
             <ReactPhoneInput
               ref={this.inputValue}
-              inputStyle={{ minWidth: '15.5em', maxWidth: '15.5em', boxShadow: 'none', borderRadius: '0' }}
+              placeholder={this.state.hasError ? 'invalid number...' : ''}
+              inputStyle={this.getStyle()}
               onlyCountries={dialableCountries}
-              defaultCountry={'fi'}
+              defaultCountry={''}
               enableSearchField={true}
               value={this.state.phoneNumber}
               inputExtraProps={{
