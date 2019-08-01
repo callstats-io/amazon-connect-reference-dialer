@@ -24,7 +24,7 @@ class Body extends Component {
     this.state = {
       phoneNumber: '',
       phoneNumber2: '',
-      selectedCountry: getCountryDetails(databaseManager.getDefaultCountry()),
+      selectedCountry: getCountryDetails(databaseManager.getDefaultCountry() || lo.first(sessionManager.getDialableCountries())),
       dialableCountries: sessionManager.getDialableCountries().map(currentCountry => getCountryDetails(currentCountry))
     };
     this.numPadHandler = this.numPadHandler.bind(this);
