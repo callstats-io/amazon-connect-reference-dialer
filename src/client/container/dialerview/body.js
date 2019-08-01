@@ -25,7 +25,6 @@ class Body extends Component {
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.numPadHandler = this.numPadHandler.bind(this);
-    this.onClickHandler = this.onClickHandler.bind(this);
     this.inputValue = React.createRef();
   }
 
