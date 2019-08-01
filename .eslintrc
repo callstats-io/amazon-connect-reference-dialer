@@ -16,6 +16,9 @@
     "APP_SECRET": false,
     "CONNECT_URL": false,
     "CallstatsAmazonShim": false,
-    "callstatsAgentMonitor": false
+    "callstatsAgentMonitor": false,
+    "WEB_PACK_APP_ID": false,
+    "WEB_PACK_APP_SECRET": false,
+    "WEB_PACK_CONNECT_URL": false
   }
 }
