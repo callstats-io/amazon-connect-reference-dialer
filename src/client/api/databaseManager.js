@@ -45,6 +45,14 @@ class DatabaseManager {
   getDefaultConnectURL (ccpURL = '') {
     return window.localStorage.getItem('defaultConnectURL') || ccpURL || undefined;
   }
+
+  setDefaultCountry (defaultCountry = '') {
+    window.localStorage.setItem('defaultCountry', defaultCountry);
+  }
+
+  getDefaultCountry () {
+    return window.localStorage.getItem('defaultCountry');
+  }
 }
 
 const databaseManager = new DatabaseManager();

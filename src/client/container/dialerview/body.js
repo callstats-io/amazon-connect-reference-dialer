@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import ReactPhoneInput from 'react-phone-input-2';
+import ReactPhoneInput from './phoneinput/csio.reactphone.input';
 import lo from 'lodash';
 import closeOrDismissIcon from '../../res/images/fa-close-or-dismiss.svg';
 
@@ -13,52 +13,49 @@ import styles from './dialpad.css';
 
 import sessionManager from './../../api/sessionManager';
 import DialPad from './dialpad';
+import {
+  getCountryDetails, getFormattedPhoneNumber, isPhoneNumber
+} from './phoneinput/utils';
+import databaseManager from '../../api/databaseManager';
 
 class Body extends Component {
   constructor (props) {
     super(props);
     this.state = {
       phoneNumber: '',
-      hasError: false
+      phoneNumber2: '',
+      selectedCountry: getCountryDetails(databaseManager.getDefaultCountry()),
+      dialableCountries: sessionManager.getDialableCountries().map(currentCountry => getCountryDetails(currentCountry))
     };
-    this.handleInputChange = this.handleInputChange.bind(this);
     this.numPadHandler = this.numPadHandler.bind(this);
-    this.getStyle = this.getStyle.bind(this);
-    this.inputValue = React.createRef();
+    this.onCountrySelected = this.onCountrySelected.bind(this);
+    this.onPhoneNumberChange = this.onPhoneNumberChange.bind(this);
   }
 
   closeDialPad () {
     this.props.closeDialPad();
   }
 
-  handleInputChange (value) {
-    this.setState({
-      phoneNumber: value,
-      hasError: false
-    });
-    if (sessionManager.isActive()) {
-      sessionManager.sendDigit(lo.last(value)).then(success => {
-      }).catch(err => console.warn(err));
-    }
-  }
-
   numPadHandler (value) {
     if (!value) {
       return;
     }
-    const { phoneNumber } = this.state;
-    this.setState({
-      phoneNumber: `${phoneNumber}${value}`,
-      hasError: false
-    });
     if (sessionManager.isActive()) {
       sessionManager.sendDigit(value).then(success => {
       }).catch(err => console.warn(err));
     }
+    let { phoneNumber2: number } = this.state;
+    const phoneNumber = `${number}${value}`;
+    if (!isPhoneNumber(phoneNumber)) {
+      return;
+    }
+    this.setState({
+      phoneNumber2: phoneNumber
+    });
   }
 
   dialNumber () {
-    const { formattedNumber: phoneNumber } = this.inputValue.current.state;
+    const { phoneNumber2: phoneNumber } = this.state;
     sessionManager.dialNumber(phoneNumber).then(success => {
       this.closeDialPad();
     }, err => {
@@ -66,21 +63,30 @@ class Body extends Component {
     });
   }
 
-  // eslint-disable-next-line handle-callback-err
-  componentDidCatch (error, info) {
-    this.setState({ hasError: true, phoneNumber: '' });
+  onCountrySelected (selectedCountry) {
+    const phoneNumber = getFormattedPhoneNumber(this.state.dialableCountries, selectedCountry, this.state.phoneNumber2);
+    this.setState({
+      selectedCountry: selectedCountry,
+      phoneNumber2: isPhoneNumber(phoneNumber) ? phoneNumber : ''
+    });
+    databaseManager.setDefaultCountry(lo.get(selectedCountry, 'iso2'));
   }
 
-  getStyle () {
-    const inputStyle = { minWidth: '15.5em', maxWidth: '15.5em', boxShadow: 'none', borderRadius: '0' };
-    if (this.state.hasError) {
-      return { ...inputStyle, border: '1px solid red' };
+  onPhoneNumberChange (currentPhoneNumber) {
+    const phoneNumber = lo.get(currentPhoneNumber, 'target.value', '');
+    if (sessionManager.isActive()) {
+      sessionManager.sendDigit(lo.last(phoneNumber)).then(success => {
+      }).catch(err => console.warn(err));
     }
-    return inputStyle;
+    if (!isPhoneNumber(phoneNumber)) {
+      return;
+    }
+    this.setState({
+      phoneNumber2: phoneNumber
+    });
   }
 
   render () {
-    const dialableCountries = sessionManager.getDialableCountries();
     return (
       <div className="card-body" style={{ backgroundColor: '#ffffff' }}>
         <div className="row">
@@ -93,21 +99,14 @@ class Body extends Component {
           </div>
         </div>
         <div className="row mt-2">
-          <div className="col-md-9">
+          <div className="col-md-9 pr-0">
             <ReactPhoneInput
-              ref={this.inputValue}
-              placeholder={this.state.hasError ? 'invalid number...' : ''}
-              inputStyle={this.getStyle()}
-              onlyCountries={dialableCountries}
-              defaultCountry={''}
-              enableSearchField={true}
-              value={this.state.phoneNumber}
-              inputExtraProps={{
-                name: 'phone',
-                required: true,
-                autoFocus: true
-              }}
-              onChange={ this.handleInputChange }/>
+              phoneNumber={this.state.phoneNumber2}
+              onPhoneNumberChange={this.onPhoneNumberChange}
+              selectedCountry={this.state.selectedCountry}
+              dialableCountryList={this.state.dialableCountries}
+              onCountrySelected={this.onCountrySelected}
+            />
           </div>
           <div className="col-md-3 p-0 m-0">
             <a className={`btn ${styles.dialButton}`}
