@@ -4,17 +4,36 @@ import audioFrequencyMonitor from './audioFrequencyMonitor';
 
 import lo from 'lodash';
 import databaseManager from './databaseManager';
+import {
+  getRandomInt
+} from './../utils/acutils';
 
-const appId = APP_ID;
-const appSecret = APP_SECRET;
+const appId = APP_ID || WEB_PACK_APP_ID;
+const appSecret = APP_SECRET || WEB_PACK_APP_SECRET;
+
+const siteIds = ['HQ', 'Remote', 'Home'];
+
+const ccpUrl = () => {
+  const connectURL = databaseManager.getDefaultConnectURL(CONNECT_URL || WEB_PACK_CONNECT_URL);
+  return `https://${connectURL}/connect/ccp#/`;
+};
 
 class CSIOHandler {
   constructor () {
     this.callstatsac = undefined;
     this.dispatch = undefined;
     this.localUserId = undefined;
+    // eslint-disable-next-line new-cap
+    this.agentMonitor = new callstatsAgentMonitor();
   }
 
+  /**
+   * @private
+   * @return {string} Return a site id from given site id list
+   */
+  getRandomSiteId () {
+    return siteIds[ getRandomInt(1, siteIds.length) - 1 ];
+  }
   // eslint-disable-next-line handle-callback-err
   onCSIOInitialize (err, msg) {
     // console.warn('->', 'onCSIOInitialize', new Date(), err, msg);
@@ -113,7 +132,9 @@ class CSIOHandler {
     }
     const localUserId = agent.getName();
     this.localUserId = localUserId;
-    const configParams = {};
+    const configParams = {
+      siteID: this.getRandomSiteId()
+    };
     if (this.callstatsac) {
       this.callstatsac = undefined;
     }
@@ -121,6 +142,11 @@ class CSIOHandler {
     this.callstatsac = CallstatsAmazonShim.initialize(connect, appId, appSecret, localUserId, configParams, this.onCSIOInitialize, this.onCSIOStats);
     this.callstatsac.on('recommendedConfig', this.onCSIORecommendedConfigCallback.bind(this));
     this.callstatsac.on('preCallTestResults', this.onCSIOPrecalltestCallback.bind(this));
+
+    // add agent monitor
+    if (this.agentMonitor && typeof this.agentMonitor.initialize === 'function') {
+      this.agentMonitor.initialize(connect, ccpUrl(), appId, appSecret, localUserId, configParams);
+    }
   }
 
   // Quick hack to send feedback in structural way before we have a API for that

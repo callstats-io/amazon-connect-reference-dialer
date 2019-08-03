@@ -53,8 +53,15 @@
 <script src="https://api.callstats.io/static/connect-rtc.min.js" type="application/javascript"></script>
 <script src="https://api.callstats.io/static/amazon-connect.js" type="application/javascript"></script>
 
+
 <script src='<%= CS_JS_SDK_URL %>' type="application/javascript"></script>
 <script src='<%= CS_AC_SHIM_URL %>' type="application/javascript"></script>
+
+<% if(IS_PRODUCTION) { %>
+    <script src="https://api.callstats.io/static/callstats-ac-agent.min.js" type="application/javascript"></script>
+<% } else { %>
+    <script src="https://test-api.callstats.io/static/callstats-ac-agent.min.js" type="application/javascript"></script>
+<% } %>
 <!--callstats libraries end-->
 
 <script src="/bundle.js" defer type="application/javascript"></script>

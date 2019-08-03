@@ -39,7 +39,8 @@ import {
   hangupPrimaryConnection,
   getPrimaryConnection,
   getThirdPartyConnection,
-  endConnection
+  endConnection,
+  sendDigit
 } from './manager/connection';
 import lo from 'lodash';
 
@@ -271,6 +272,19 @@ class SessionManager {
     const thirdParyConnection = this.getThirdPartyConnection();
 
     return (primaryConnection && primaryConnection.isActive()) || (thirdParyConnection && thirdParyConnection.isActive());
+  }
+
+  sendDigit (currentDigit = null) {
+    const primaryConnection = this.getPrimaryConnection();
+    const thirdParyConnection = this.getThirdPartyConnection();
+    // if primary connection is active
+    if (primaryConnection && primaryConnection.isActive()) {
+      return sendDigit(primaryConnection, currentDigit);
+    } else if (thirdParyConnection && thirdParyConnection.isActive()) {
+      return sendDigit(thirdParyConnection, currentDigit);
+    } else {
+      return Promise.reject(new Error('no active connection'));
+    }
   }
 
   setLoginWindow (loginWindow = undefined) {

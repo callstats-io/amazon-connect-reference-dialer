@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactPhoneInput from 'react-phone-input-2';
-
+import lo from 'lodash';
 import closeOrDismissIcon from '../../res/images/fa-close-or-dismiss.svg';
 
 import {
@@ -13,30 +13,39 @@ import styles from './dialpad.css';
 
 import sessionManager from './../../api/sessionManager';
 import DialPad from './dialpad';
-import lo from 'lodash';
+import databaseManager from '../../api/databaseManager';
 
 class Body extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      phoneNumber: ''
+      phoneNumber: '',
+      defaultCountry: databaseManager.getDefaultCountry() || lo.first(sessionManager.getDialableCountries(), 'fi'),
+      errorCount: 0
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.numPadHandler = this.numPadHandler.bind(this);
+    this.inputValue = React.createRef();
   }
 
   closeDialPad () {
     this.props.closeDialPad();
   }
 
-  handleInputChange (value) {
+  handleInputChange (value, countryData) {
+    if (this.state.defaultCountry !== lo.get(countryData, 'countryCode')) {
+      databaseManager.setDefaultCountry(lo.get(countryData, 'countryCode'));
+    }
     this.setState({
       phoneNumber: value
     });
+    if (sessionManager.isActive()) {
+      sessionManager.sendDigit(lo.last(value)).then(success => {
+      }).catch(err => console.warn(err));
+    }
   }
 
-  numPadHandler (...argv) {
-    const value = lo.first(argv, null);
+  numPadHandler (value) {
     if (!value) {
       return;
     }
@@ -44,14 +53,25 @@ class Body extends Component {
     this.setState({
       phoneNumber: `${phoneNumber}${value}`
     });
+    if (sessionManager.isActive()) {
+      sessionManager.sendDigit(value).then(success => {
+      }).catch(err => console.warn(err));
+    }
   }
 
   dialNumber () {
-    const { phoneNumber } = this.state;
+    const { formattedNumber: phoneNumber } = this.inputValue.current.state;
     sessionManager.dialNumber(phoneNumber).then(success => {
       this.closeDialPad();
     }, err => {
       console.error(err);
+    });
+  }
+
+  // eslint-disable-next-line handle-callback-err
+  componentDidCatch (error, info) {
+    this.setState({
+      errorCount: this.state.errorCount + 1
     });
   }
 
@@ -71,9 +91,10 @@ class Body extends Component {
         <div className="row mt-2">
           <div className="col-9">
             <ReactPhoneInput
+              ref={this.inputValue}
               inputStyle={{ minWidth: '15.5em', maxWidth: '15.5em', boxShadow: 'none', borderRadius: '0' }}
               onlyCountries={dialableCountries}
-              defaultCountry={'fi'}
+              defaultCountry={this.state.defaultCountry}
               enableSearchField={true}
               value={this.state.phoneNumber}
               inputExtraProps={{
@@ -81,7 +102,7 @@ class Body extends Component {
                 required: true,
                 autoFocus: true
               }}
-              onChange={this.handleInputChange}/>
+              onChange={ this.handleInputChange }/>
           </div>
           <div className="col-3 p-0 m-0">
             <a className={`btn ${styles.dialButton}`}
