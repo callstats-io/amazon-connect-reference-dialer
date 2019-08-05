@@ -20,7 +20,7 @@ let currentAgent;
 let currentContact;
 let currentState;
 
-const agentStates = ['Init', 'Available', 'Offline', 'AfterCallWork', 'FailedConnectCustomer', 'FailedConnectAgent', 'Quality Issue', 'AgentHungUp'];
+const knownAgentStates = ['Init', 'Available', 'Offline', 'AfterCallWork', 'FailedConnectCustomer', 'FailedConnectAgent', 'Quality Issue', 'AgentHungUp'];
 const isError = (e) => {
   if (e && e.errorType && e.errorMessage) {
     return true;
@@ -28,6 +28,9 @@ const isError = (e) => {
 };
 const getAgentState = (e) => {
   const { agent, newState } = e;
+  const currentAgentStates = sessionManage.getAgentStates();
+  // merge the known state and dynamic agent states
+  const agentStates = [ ...knownAgentStates, ...currentAgentStates.map(state => state.name) ];
   if (!agentStates.includes(newState)) {
     return undefined;
   }
