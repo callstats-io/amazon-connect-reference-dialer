@@ -4,14 +4,13 @@ import { IntlProvider } from 'react-intl';
 
 import AppStore from './store';
 import AppRouter from './router';
-import Home from './container/home';
 
 class App extends React.Component {
   render () {
     return (
       <Provider store={AppStore}>
         <IntlProvider locale="en">
-          <Home/>
+          <AppRouter/>
         </IntlProvider>
       </Provider>
     );
