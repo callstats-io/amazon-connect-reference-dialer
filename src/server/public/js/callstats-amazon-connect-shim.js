@@ -1,4 +1,4 @@
-/*! callstats Amazon SHIM version = 1.1.1 */
+/*! callstats Amazon SHIM version = 1.1.4 */
 
 (function (global) {
   var CallstatsAmazonShim = function(callstats) {
@@ -7,6 +7,8 @@
     var confId;
     var SoftphoneErrorTypes;
     var RTCErrorTypes;
+    var isCallDetailsSent = false;
+    var prvHoldState;
     var callDetails = {
       role: "agent",
     }
@@ -60,10 +62,40 @@
         callDetails.contactQueue = contactQueueInfo.name;
         callDetails.contactQueueID = contactQueueInfo.queueARN;
       }
-      const attributes = contact.getAttributes();
-      if (attributes.AgentLocation){
-        callDetails.siteID = attributes.AgentLocation.value;
-      }
+      contact.onEnded(function() {
+        if (!isCallDetailsSent) {
+          CallstatsAmazonShim.callstats.sendCallDetails(csioPc, confId, callDetails);
+          isCallDetailsSent = true;
+        }
+        prvHoldState = undefined;
+      });
+
+      contact.onConnected(function() {
+        const attributes1 = contact.getAttributes();
+        if (attributes1.AgentLocation) {
+          callDetails.siteID = attributes1.AgentLocation.value;
+        }
+        CallstatsAmazonShim.callstats.sendCallDetails(csioPc, confId, callDetails);
+        isCallDetailsSent = true;
+        prvHoldState = undefined;
+      });
+
+      contact.onRefresh(currentContact => {
+        // check the current hold state and pause or resume fabric based on current hold state
+        const connection = currentContact.getActiveInitialConnection();
+        const currentHoldState = connection && connection.isActive() && connection.isOnHold();
+        if (prvHoldState !== currentHoldState) {
+          // there is a state toggle for hold state
+          prvHoldState = currentHoldState;
+          if (currentHoldState) {
+            CallstatsAmazonShim.callstats.sendFabricEvent(csioPc,
+              CallstatsAmazonShim.callstats.fabricEvent.fabricHold, confId);
+          } else {
+            CallstatsAmazonShim.callstats.sendFabricEvent(csioPc,
+              CallstatsAmazonShim.callstats.fabricEvent.fabricResume, confId);
+          }
+        }
+      });
     }
 
     function subscribeToAmazonAgentEvents(agent) {
@@ -123,6 +155,7 @@
         return;
       }
       csioPc = pc;
+      isCallDetailsSent = false;
       const fabricAttributes = {
         remoteEndpointType:   CallstatsAmazonShim.callstats.endpointType.server,
       };
@@ -132,7 +165,6 @@
       } catch(error) {
         console.log('addNewFabric error ', error);
       }
-      CallstatsAmazonShim.callstats.sendCallDetails(csioPc, confId, callDetails);
     }
 
     CallstatsAmazonShim.prototype.initialize = function initialize(connect, appID, appSecret, localUserID, params, csInitCallback, csCallback) {
