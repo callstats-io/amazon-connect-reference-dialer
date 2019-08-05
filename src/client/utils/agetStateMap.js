@@ -18,7 +18,7 @@ const colorSchema = {
   failedconnectcustomer: '#F5A623',
   failedconnectagent: '#F5A623',
   outboundcall: '#4393CA',
-  default: '#CE0B24',
+  default: '#666666',
   error: '#ffffff'
 };
 
