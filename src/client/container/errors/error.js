@@ -21,17 +21,17 @@ const formatText = (msg) => {
 };
 
 const Error = ({ errorMessage = {}, closeError }) => (
-  <div className={`col-md-12 mr-0 ml-0`}>
+  <div className={`col-12 mr-0 ml-0`}>
     <div className={`row ml-0 mr-0 ${styles.errorDiv}`}>
-      <div className={`col-md-10 mt-2 ${styles.errorDivNext}`}>
+      <div className={`col-10 mt-2 ${styles.errorDivNext}`}>
         <p className={styles.errorText}> {formatText(errorMessage.errorType)}</p>
       </div>
-      <div className={`col-md-2 mt-2 ${styles.closeOrDissmiss}`}
+      <div className={`col-2 mt-2 ${styles.closeOrDissmiss}`}
 				 onClick={closeError}>
         <img src={closeOrDismissIcon} className={styles.cursor}/>
       </div>
 
-      <div className={'col-md-12'}>
+      <div className={'col-12'}>
         <p className={styles.errorMessage}>
           {errorMessage.errorMessage || ''}
         </p>

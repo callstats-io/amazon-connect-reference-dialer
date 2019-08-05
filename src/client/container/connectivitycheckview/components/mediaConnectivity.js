@@ -16,14 +16,14 @@ const isOK = (pctResult) => {
 
 const MediaConnectivity = ({ pctResult = {} }) => (
   <div className="row mt-3">
-    <div className="col-md-12">
+    <div className="col-12">
       <div className="row">
-        <div className="col-md-8">
+        <div className="col-8">
           <span className={styles.resultText}>
             {<img src={isOK(pctResult) ? tickGreenIcon : dangerIcon}/>}
             <span className="ml-1">Media connectivity</span></span>
         </div>
-        <div className="col-md-4"/>
+        <div className="col-4"/>
       </div>
     </div>
   </div>

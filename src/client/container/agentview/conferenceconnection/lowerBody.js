@@ -102,7 +102,7 @@ class LowerBody extends Component {
     const muted = this.props.muted;
     return (
       <div className="row">
-        <div className="col-md-12">
+        <div className="col-12">
           {
             isBothHold(currentState) && <BothHoldView muted={muted}
               toggleMuteUnmute={this.toggleMuteUnmute}

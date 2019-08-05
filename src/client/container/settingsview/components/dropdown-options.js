@@ -14,7 +14,7 @@ const truncate = (sentence = '', upto = -1) => {
   return `${sentence.substring(0, upto - 4)} ...`;
 };
 const DropDownOptions = ({ toggleMenuItem, changeAudioInputDevice, showMenuItem, inputDeviceList, audioInputDevice = {} }) => (
-  <div className="col-md-10 pr-0 mr-0">
+  <div className="col-10 pr-0 mr-0">
     <div className={`btn-group ${styles.btnGroup}`}>
       <button className={`btn text-left ${styles.dropDownButton}`}
         type="button"

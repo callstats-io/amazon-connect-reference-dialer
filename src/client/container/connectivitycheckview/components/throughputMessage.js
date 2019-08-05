@@ -17,7 +17,7 @@ const isBad = (pctResult) => {
 
 const ThroughputMessage = ({ pctResult = {} }) => (
   isBad(pctResult) && <div className="row mt-1">
-    <div className="col-md-12">
+    <div className="col-12">
       <span className={styles.resultText}> Check to
 				see if you have other devices on the network consuming bandwidth. </span>
     </div>

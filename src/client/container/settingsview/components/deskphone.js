@@ -10,10 +10,10 @@ const DeskPhone = ({ changeToDeskphone, enabled = false }) => (
   <div className={`row mt-2 ${styles.cursor}`}
 		 onClick={changeToDeskphone}>
 
-    <div className="col-md-2">
+    <div className="col-2">
       <img src={enabled ? circleMarkIcon : circleUnmarkIcon}/>
     </div>
-    <div className="col-md-10 pl-0">
+    <div className="col-10 pl-0">
       <span className={styles.deskphoneText}>Desk
 				phone</span>
     </div>

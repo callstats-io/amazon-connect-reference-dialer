@@ -24,11 +24,11 @@ const selectedIssueCount = (issueList) => {
 
 const BodyHeader = ({ closeReportCallIssue }) => (
   <div className="row ">
-    <div className="col-md-10">
+    <div className="col-10">
       <span className={styles.cardBodyHeader}>Report a
 				call issue</span>
     </div>
-    <div className="col-md-2"
+    <div className="col-2"
 			 onClick={closeReportCallIssue}>
       <img src={closeOrDismissIcon} className={styles.cursor}/></div>
   </div>
@@ -49,9 +49,9 @@ const Body = ({ closeReportCallIssue, onFeedbackTextChange, onFeedbackRatingChan
       feedbackText={feedbackText}/>
 
     <div className="row">
-      <div className={`col-md-7 text-left ${styles.bodySelectAReason}`}>Select a reason
+      <div className={`col-7 text-left ${styles.bodySelectAReason}`}>Select a reason
       </div>
-      <div className={`col-md-5 text-right ${styles.bodyIssueSelect}`}>{selectedIssueCount(issueList)} selected
+      <div className={`col-5 text-right ${styles.bodyIssueSelect}`}>{selectedIssueCount(issueList)} selected
       </div>
     </div>
     <div className={`row`}>

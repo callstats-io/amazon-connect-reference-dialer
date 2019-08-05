@@ -6,10 +6,10 @@ import styles from './../settings.css';
 
 const Settings = ({ closeSettings }) => (
   <div className="row ">
-    <div className="col-md-10">
+    <div className="col-10">
       <span className={styles.settingsText}>Settings</span>
     </div>
-    <div className="col-md-2"
+    <div className="col-2"
 			 onClick={closeSettings}>
       <img src={closeOrDismissIcon} className={styles.cursor}/>
     </div>

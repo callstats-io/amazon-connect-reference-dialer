@@ -12,7 +12,7 @@ import sessionManager from './../../api/sessionManager';
 
 const AgentView = ({ currentState = undefined }) => (
   <div className={`row h-100`}>
-    <div className={`col-md-12`} style={{ padding: '0' }}>
+    <div className={`col-12`} style={{ padding: '0' }}>
       <div className={`card h-100`} style={{ backgroundColor: '#f2f2f2' }}>
         <Header/>
         {sessionManager.isConference(currentState)

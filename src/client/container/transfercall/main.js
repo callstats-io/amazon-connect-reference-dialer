@@ -6,7 +6,7 @@ import styles from './transfercall.css';
 
 const TransferCallView = ({}) => (
   <div className={`row h-100`}>
-    <div className={`col-md-12 ${styles.zeroPadding}`}>
+    <div className={`col-12 ${styles.zeroPadding}`}>
       <div className={`card h-100 ${styles.cardBodyMain}`}>
         <Header/>
         <Body/>

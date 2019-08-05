@@ -10,10 +10,10 @@ import styles from './reportissue.css';
 
 const FeedbackRatings = ({ onFeedbackRatingChange, feedbackRating }) => (
   <div className="row mt-0">
-    <div className="col-md-12">
+    <div className="col-12">
       <a className={`text-left ${styles.callQualityText} `}>How was the call
 				quality? </a></div>
-    <div className="col-md-12">
+    <div className="col-12">
       {
         feedbackRatings.map((currentFeedback) => (
           <a key={`feedback-rating-${currentFeedback}`} className={styles.cursor}
@@ -23,7 +23,7 @@ const FeedbackRatings = ({ onFeedbackRatingChange, feedbackRating }) => (
         ))
       }
     </div>
-    <div className={`col-md-12 ${styles.feedbackRatingText}`}>
+    <div className={`col-12 ${styles.feedbackRatingText}`}>
 			&nbsp;{lo.get(feedbackRatingsText, feedbackRating - 1)}
     </div>
   </div>

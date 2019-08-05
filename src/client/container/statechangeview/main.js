@@ -8,7 +8,7 @@ import styles from './statuschange.css';
 
 const StateChangeView = ({}) => (
   <div className={`row h-100 border-right border-top border-bottom`}>
-    <div className={`${styles.acZeroPadding} col-md-12`}>
+    <div className={`${styles.acZeroPadding} col-12`}>
       <div className={`${styles.acCard} card h-100`}>
         <Header/>
         <Body/>

@@ -44,15 +44,15 @@ class Body extends Component {
     return (
       <div className={`card-body ${styles.cardBodyMain}`}>
         <div className="row h-100">
-          <div className={`col-md-12 my-auto`}>
+          <div className={`col-12 my-auto`}>
             <div className={`row`}>
-              <div className="col-md-12">
+              <div className="col-12">
                 <span className={styles.ccpInputBoxText}>Amazon Connect CCP URL</span>
               </div>
               <CCPInputBox ccpURL={this.state.ccpURL}
                 ccpURLChange={this.ccpURLChange}
               />
-              <div className="col-md-12 mt-4 text-center">
+              <div className="col-12 mt-4 text-center">
                 <a className={`btn w-50 ${styles.loginText}`} onClick={this.trySignIn}> Sign in </a>
               </div>
             </div>

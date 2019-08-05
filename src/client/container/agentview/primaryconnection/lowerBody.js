@@ -70,11 +70,11 @@ class LowerBody extends Component {
     const currentStateAsString = sessionManager.getCurrentStateString(currentState, true);
     return (
       <div className="row">
-        <div className="col-md-12">
+        <div className="col-12">
           {
             showHoldOrMute(currentStateAsString) &&
                         <div className="row mt-3">
-                          <div className="col-md-6">
+                          <div className="col-6">
                             <a className={`btn ${styles.toggleHold}`}
                               onClick={() => this.toggleHold(currentStateAsString)}>
                               <img
@@ -82,7 +82,7 @@ class LowerBody extends Component {
                             </a>
                           </div>
 
-                          <div className="col-md-6">
+                          <div className="col-6">
                             <a onClick={this.toggleMuteUnmute}
                               className={`btn pl-0 pr-0 ${styles.toggleMute}`}
                             > {muted ? <img src={unMuteIcon}/> : <img src={muteIcon}/>}
@@ -94,13 +94,13 @@ class LowerBody extends Component {
           {
             dialOrQuickConnectOrTransfer(currentStateAsString) &&
                         <div className="row mt-3">
-                          <div className="col-md-6">
+                          <div className="col-6">
                             <a className={`btn ${styles.quickConnectOrTransfer}`}
                               onClick={() => this.requestDialPad()}>
                               <img src={dialNumberIcon}/> &nbsp;Dial number </a>
                           </div>
 
-                          <div className="col-md-6">
+                          <div className="col-6">
                             {
                               transferCall(currentStateAsString)
                                 ? <a className={`btn pl-0 pr-0 ${styles.quickConnectOrTransfer}`}

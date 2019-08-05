@@ -25,14 +25,14 @@ const formatValue = (value = 0) => {
 
 const Throughput = ({ pctResult = {} }) => (
   <div className="row mt-1">
-    <div className="col-md-12">
+    <div className="col-12">
       <div className="row">
-        <div className="col-md-8">
+        <div className="col-8">
           <span className={styles.resultText}>
             <img src={isOK(pctResult) ? tickGreenIcon : dangerIcon}/>
             <span className="ml-1">Average throughput</span></span>
         </div>
-        <div className="col-md-4 text-right pl-0 ml-0">
+        <div className="col-4 text-right pl-0 ml-0">
           <span className={styles.resultValue}>
             {formatValue(getLatestResultThroughput(pctResult))} kbps </span>
         </div>

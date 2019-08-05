@@ -73,16 +73,16 @@ class PrimaryConnection extends Component {
     const { currentState } = this.props;
     const stateString = sessionManager.getCurrentStateString(currentState, true);
     return (
-      <div className="col-md-12 h-50"
+      <div className="col-12 h-50"
         style={{
           borderBottom: `1px solid rgba(255,255,255,0.50)`,
           backgroundColor: getColorSchema(stateString)
         }}>
         <div className="row">
-          <div className={`col-md-8 mt-2 ${styles.agentStateMini}`}>
+          <div className={`col-8 mt-2 ${styles.agentStateMini}`}>
             <span> {stateString} </span>
           </div>
-          <div className="col-md-4 mt-2 text-right">
+          <div className="col-4 mt-2 text-right">
             {isJoined(stateString) &&
                         <img className={styles.miniHoldResume} onClick={this.holdConnection} src={holdIcon}/>}
             {isBothHold(currentState) &&
@@ -91,9 +91,9 @@ class PrimaryConnection extends Component {
               onClick={this.endConnection}
               src={endIcon}/>
           </div>
-          <div className={`col-md-8 mt-1 ${styles.phoneAndDurationMini}`}>
+          <div className={`col-8 mt-1 ${styles.phoneAndDurationMini}`}>
             <span>{sessionManager.getPrimaryConnectionPhone()}</span></div>
-          <div className={`col-md-4 mt-1 text-right ${styles.phoneAndDurationMini}`}>
+          <div className={`col-4 mt-1 text-right ${styles.phoneAndDurationMini}`}>
             <span>{this.state.duration}</span>
           </div>
         </div>

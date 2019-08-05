@@ -5,7 +5,7 @@ import styles from './../agentview.css';
 import swapIcon from '../../../../res/images/fa-ico-swap.svg';
 
 const Swap = ({ swapConnection, marginTop = '' }) => (
-  <div className={`col-md-6 ${marginTop}`}>
+  <div className={`col-6 ${marginTop}`}>
     <a className={`btn ${styles.buttonCommon}`}
 		   onClick={swapConnection}
     >

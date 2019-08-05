@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const DURATION_MS = 1 * 1000;
 
 const durationCSS = {
-  div: 'col-md-4 align-self-center text-right',
+  div: 'col-4 align-self-center text-right',
   p: 'm-0',
   pStyle: {
     fontFamily: 'AmazonEmber',

@@ -6,10 +6,10 @@ import styles from './transfercall.css';
 
 const CloseQuickConnect = ({ close }) => (
   <div className="row ">
-    <div className="col-md-10">
+    <div className="col-10">
       <span className={styles.quickConnectText}>Transfer call</span>
     </div>
-    <div className="col-md-2"
+    <div className="col-2"
 			 onClick={close}>
       <img src={closeOrDismissIcon} className={styles.cursor}/>
     </div>

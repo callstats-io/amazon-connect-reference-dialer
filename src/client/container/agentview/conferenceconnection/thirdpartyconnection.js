@@ -72,12 +72,12 @@ class ThirdPartyConnection extends Component {
     const { currentState } = this.props;
     const stateString = sessionManager.getCurrentStateString(currentState, false);
     return (
-      <div className="col-md-12 h-50" style={{ backgroundColor: getColorSchema(stateString) }}>
+      <div className="col-12 h-50" style={{ backgroundColor: getColorSchema(stateString) }}>
         <div className="row">
-          <div className={`col-md-8 mt-2 ${styles.agentStateMini}`}>
+          <div className={`col-8 mt-2 ${styles.agentStateMini}`}>
             <span> {stateString} </span>
           </div>
-          <div className="col-md-4 mt-2 text-right">
+          <div className="col-4 mt-2 text-right">
             {isJoined(stateString) &&
                         <img className={styles.miniHoldResume} onClick={this.holdConnection} src={holdIcon}/>}
 
@@ -89,9 +89,9 @@ class ThirdPartyConnection extends Component {
               src={endIcon}/>
           </div>
 
-          <div className={`col-md-8 mt-1 ${styles.phoneAndDurationMini}`}>
+          <div className={`col-8 mt-1 ${styles.phoneAndDurationMini}`}>
             <span>{sessionManager.getThirdPartyConnectionPhone()}</span></div>
-          <div className={`col-md-4 mt-1 text-right ${styles.phoneAndDurationMini}`}>
+          <div className={`col-4 mt-1 text-right ${styles.phoneAndDurationMini}`}>
             <span>{this.state.duration}</span>
           </div>
         </div>

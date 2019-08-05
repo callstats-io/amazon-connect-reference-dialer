@@ -5,7 +5,7 @@ import styles from './../agentview.css';
 import resumeIcon from '../../../../res/images/fa-resume.svg';
 
 const ResumeAll = ({ resumeAll, marginTop = '' }) => (
-  <div className={`col-md-6 ${marginTop}`}>
+  <div className={`col-6 ${marginTop}`}>
     <a className={`btn ${styles.buttonCommon}`}
 		   onClick={resumeAll}
     >

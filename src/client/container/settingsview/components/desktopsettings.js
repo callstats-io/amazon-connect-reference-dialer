@@ -6,7 +6,7 @@ import styles from './../settings.css';
 
 const DeskPhoneSettings = ({ enabled, handleInputChange, changeToDeskphone, dialableCountries = [], phoneNumber = '' }) => (
   <div className={'row mt-1'}>
-    <div className={'col-md-9'}>
+    <div className={'col-9'}>
       <ReactPhoneInput inputStyle={{ minWidth: '15.5em', maxWidth: '15.5em', boxShadow: 'none', borderRadius: '0' }}
 							 onlyCountries={dialableCountries}
 							 defaultCountry={'fi'}
@@ -19,7 +19,7 @@ const DeskPhoneSettings = ({ enabled, handleInputChange, changeToDeskphone, dial
 							 }}
 							 onChange={handleInputChange}/>
     </div>
-    <div className="col-md-3 p-0 m-0">
+    <div className="col-3 p-0 m-0">
       <a className={`btn ${styles.deskphoneSave}`}
 			   onClick={changeToDeskphone}>
 				Save
