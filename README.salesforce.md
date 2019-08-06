@@ -2,6 +2,7 @@
 1. Login to your salesforce account and make sure your session has not timed out. 
 2. Install the unmanaged package: https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2o000000ducF
 3. If there is a conflict in the package then click on “do not install”
+   If prompt warning of app not part of Salesforce AppExchange partner select the checkbox
 4. Select install for all users. 
 5. Click “Install now”
 
