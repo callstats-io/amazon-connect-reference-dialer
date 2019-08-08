@@ -29,15 +29,15 @@
 3. Select “callstats OpenCTI Adapter” and click “Edit” when the page opens
 4. In “General Information” fill in your
     - CTI Adapter URL - The above custom dialer page URL e.g. `https://callstats.someInstance.visual.force.com/apex/custom_dialer`
-4. In “Connecting settings” fill in your 
+5. In “Connecting settings” fill in your 
     - Amazon Connect CCP URL - Your Amazon Connect CCP URL e.g. callstatsio.awsapps.com
     - application ID - Your application ID from callstats.io 
     - application Secret - Your application secret from callstats.io 
-5. Click “Save”
-6. Click on 'Manage Call Center Users' at the bottom of the page 
-7. Click on “Add more users”
-8. Apply the necessary filters and find the users you would like to add 
-9. Select the users and click on “Add to Call Center”
+6. Click “Save”
+7. Click on 'Manage Call Center Users' at the bottom of the page 
+8. Click on “Add more users”
+9. Apply the necessary filters and find the users you would like to add 
+10. Select the users and click on “Add to Call Center”
 
 # Step 4: Using callstats.io Custom Dialer
 1. On the top-left corner, click on the dot-matrix button to open the App Launcher.
