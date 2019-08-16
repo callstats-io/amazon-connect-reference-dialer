@@ -74,3 +74,14 @@ export const transferCall = (currentStateAsString = undefined) => {
 export const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
+
+export const truncate = (sentence = '', upto = -1) => {
+  if (upto < 0) {
+    return sentence;
+  }
+  if (sentence.length < upto) {
+    return sentence;
+  }
+
+  return `${sentence.substring(0, upto - 3)}...`;
+};
