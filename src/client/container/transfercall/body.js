@@ -10,7 +10,7 @@ import {
 } from '../../reducers/acReducer';
 
 import CloseQuickConnect from './close';
-import FindContact from './findcontact';
+import FindContact from '../common/findContact';
 import ContactField from '../common/contactField';
 
 const THROTTLE_TIMEOUT = 100;
@@ -22,7 +22,8 @@ class Body extends Component {
     this.state = {
       contactList: [...this.defaultContactList],
       contactValue: '',
-      lastUpdate: Date.now()
+      lastUpdate: Date.now(),
+      isContactListHover: false
     };
     this.updateContactList = this.updateContactList.bind(this);
     this.contactChange = this.contactChange.bind(this);
@@ -93,17 +94,27 @@ class Body extends Component {
   close () {
     this.props.close();
   }
+  
+  hoverHandler = (newVal) => {
+    this.setState({
+      isContactListHover: newVal
+    })
+  }
 
   render () {
+    const {contactValue, isContactListHover, contactList} = this.state
     return (
       <div className={`card-body ${styles.cardBody}`}>
         <CloseQuickConnect close={this.close} />
         <FindContact contactChange={this.contactChange}
           dialNumber={this.dialNumber}
-          contactValue={this.state.contactValue}
+          contactValue={contactValue}
+          isContactListHover={isContactListHover}
+          styles={styles}
         />
-        <ContactField contactList={this.state.contactList}
+        <ContactField contactList={contactList}
           dialContact={this.dialContact}
+          onHover={this.hoverHandler}
           styles={styles}
         />
       </div>

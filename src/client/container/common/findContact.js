@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './quickconnects.css';
 
-const FindContact = ({ contactChange, dialNumber, contactValue = '', isContactListHover }) => (
-  <div className="row mt-3">
-    <div className="col-9 pr-0 mr-0">
-      <div className="input-group flex-nowrap">
-        <input type="text"
+const FindContact = ({ contactChange, dialNumber, contactValue = '', isContactListHover, styles }) => (
+  <div className='row mt-3'>
+    <div className='col-9 pr-0 mr-0'>
+      <div className='input-group flex-nowrap'>
+        <input type='text'
           className={`form-control ${styles.quickConnectSearch}`}
-          placeholder="Find a contact"
-          aria-label="contact"
+          placeholder='Find a contact'
+          aria-label='contact'
           value={contactValue}
           onChange={contactChange}
-          aria-describedby="addon-wrapping"/>
+          aria-describedby='addon-wrapping'/>
       </div>
     </div>
     <div className={`col-3 text-right pl-0 mr-0`}>

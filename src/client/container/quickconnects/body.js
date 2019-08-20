@@ -10,7 +10,7 @@ import {
 } from '../../reducers/acReducer';
 
 import CloseQuickConnect from './close';
-import FindContact from './findcontact';
+import FindContact from '../common/findContact';
 import ContactField from '../common/contactField';
 
 const THROTTLE_TIMEOUT = 100;
@@ -112,6 +112,7 @@ class Body extends Component {
           dialNumber={this.dialNumber}
           contactValue={contactValue}
           isContactListHover={isContactListHover}
+          styles={styles}
         />
         <ContactField contactList={contactList}
           dialContact={this.dialContact}
