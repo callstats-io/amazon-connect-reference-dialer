@@ -16,7 +16,8 @@ router.get('/', function (req, res, next) {
     APP_SECRET,
     CONNECT_URL,
     CS_JS_SDK_URL,
-    CS_AC_SHIM_URL
+    CS_AC_SHIM_URL,
+    CS_VERSION
   } = getClientConfig();
   const isProduction = getServerConfig().NODE_ENV === 'production' || getServerConfig().NODE_ENV === 'prod';
   res.render('index', {
@@ -25,7 +26,8 @@ router.get('/', function (req, res, next) {
     CONNECT_URL: CONNECT_URL,
     CS_JS_SDK_URL: CS_JS_SDK_URL,
     CS_AC_SHIM_URL: CS_AC_SHIM_URL,
-    IS_PRODUCTION: isProduction
+    IS_PRODUCTION: isProduction,
+    CS_VERSION: CS_VERSION
   });
 });
 

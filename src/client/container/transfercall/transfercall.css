@@ -78,6 +78,7 @@
 .contactName {
     font-family: AmazonEmber;
     color: #000000 !important;
+    text-align: left;
 }
 
 .dialButton {
