@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './quickconnects.css';
 
-const FindContact = ({ contactChange, dialNumber, contactValue = '' }) => (
+const FindContact = ({ contactChange, dialNumber, contactValue = '', isContactListHover }) => (
   <div className="row mt-3">
     <div className="col-9 pr-0 mr-0">
       <div className="input-group flex-nowrap">
@@ -16,8 +16,8 @@ const FindContact = ({ contactChange, dialNumber, contactValue = '' }) => (
       </div>
     </div>
     <div className={`col-3 text-right pl-0 mr-0`}>
-      <a className={`btn ${styles.callPhoneDialButton}`} onClick={dialNumber}>
-                Dial
+      <a className={`btn ${styles.callPhoneDialButton} ${isContactListHover ? 'd-none' : ''}`} onClick={dialNumber}>
+        Dial
       </a>
     </div>
   </div>
@@ -26,6 +26,7 @@ const FindContact = ({ contactChange, dialNumber, contactValue = '' }) => (
 FindContact.propTypes = {
   contactChange: PropTypes.func.isRequired,
   dialNumber: PropTypes.func.isRequired,
-  contactValue: PropTypes.string
+  contactValue: PropTypes.string,
+  isContactListHover: PropTypes.bool.isRequired
 };
 export default FindContact;

@@ -14,15 +14,15 @@ class EachContact extends React.Component {
   render () {
     return (
       <div className={`row ${this.props.styles.contactItem}`}>
-        <div className={`col-8 pl-1 pr-0 ml-0 mr-0`}>
+        <div className={`col-9 pl-1 pr-0 ml-0 mr-0`}>
           <a className={`btn pl-0 ml-0 pr-0 mr-0 ${this.props.styles.contactName}`}
             ref={this.tooltipRef}
             title={this.props.currentContact.name}
             data-placement="top">
-            { truncate(`${this.props.currentContact.name}`, 22) }
+            { truncate(`${this.props.currentContact.name}`, 30) }
           </a>
         </div>
-        <div className={`col-4 text-right pr-0`}>
+        <div className={`col-3 text-right pr-0`}>
           <a className={`btn ${this.props.styles.dialButton}`} onClick={() => this.props.dialContact(this.props.currentContact)}>
             Dial
           </a>

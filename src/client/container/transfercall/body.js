@@ -11,7 +11,7 @@ import {
 
 import CloseQuickConnect from './close';
 import FindContact from './findcontact';
-import ContactField from './contactfield';
+import ContactField from '../common/contactField';
 
 const THROTTLE_TIMEOUT = 100;
 
@@ -97,12 +97,15 @@ class Body extends Component {
   render () {
     return (
       <div className={`card-body ${styles.cardBody}`}>
-        <CloseQuickConnect close={this.close}/>
+        <CloseQuickConnect close={this.close} />
         <FindContact contactChange={this.contactChange}
           dialNumber={this.dialNumber}
-							 contactValue={this.state.contactValue}/>
+          contactValue={this.state.contactValue}
+        />
         <ContactField contactList={this.state.contactList}
-							  dialContact={this.dialContact}/>
+          dialContact={this.dialContact}
+          styles={styles}
+        />
       </div>
     );
   }
