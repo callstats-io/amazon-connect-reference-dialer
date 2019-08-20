@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const appConfig = require('./appconfig');
+const version = require('../package.json').version
 
 exports.getServerConfig = () => {
   const payload = appConfig;
@@ -21,7 +22,8 @@ exports.getClientConfig = () => {
     APP_SECRET: process.env.APP_SECRET || payload.APP_SECRET,
     CONNECT_URL: process.env.CONNECT_URL || payload.CONNECT_URL,
     CS_JS_SDK_URL: process.env.CS_JS_SDK_URL || payload.CS_JS_SDK_URL,
-    CS_AC_SHIM_URL: process.env.CS_AC_SHIM_URL || payload.CS_AC_SHIM_URL
+    CS_AC_SHIM_URL: process.env.CS_AC_SHIM_URL || payload.CS_AC_SHIM_URL,
+    CS_VERSION: process.env.CS_VERSION || version
   };
   console.warn('$ clientConfig', clientConfig);
   return clientConfig;
