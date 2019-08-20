@@ -23,7 +23,8 @@ exports.getClientConfig = () => {
     CONNECT_URL: process.env.CONNECT_URL || payload.CONNECT_URL,
     CS_JS_SDK_URL: process.env.CS_JS_SDK_URL || payload.CS_JS_SDK_URL,
     CS_AC_SHIM_URL: process.env.CS_AC_SHIM_URL || payload.CS_AC_SHIM_URL,
-    CS_VERSION: process.env.CS_VERSION || version
+    CS_VERSION: process.env.CS_VERSION || version,
+    ENABLE_JABRA_COLLECTION: process.env.ENABLE_JABRA_COLLECTION || payload.ENABLE_JABRA_COLLECTION
   };
   console.warn('$ clientConfig', clientConfig);
   return clientConfig;
@@ -38,6 +39,7 @@ exports.writeConfig = () => {
   if (process.env.CS_AC_SHIM_URL) payload.CS_AC_SHIM_URL = process.env.CS_AC_SHIM_URL;
   if (process.env.HTTP_PORT) payload.HTTP_PORT = process.env.HTTP_PORT;
   if (process.env.NODE_ENV) payload.NODE_ENV = process.env.NODE_ENV;
+  if (process.env.ENABLE_JABRA_COLLECTION) payload.ENABLE_JABRA_COLLECTION = process.env.ENABLE_JABRA_COLLECTION;
   console.warn('$ >', payload);
   const fullPath = path.join(__dirname, 'appconfig.json');
   fs.writeFileSync(fullPath, JSON.stringify(payload, null, 2));

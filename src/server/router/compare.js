@@ -17,7 +17,8 @@ router.get('/', function (req, res, next) {
     CONNECT_URL,
     CS_JS_SDK_URL,
     CS_AC_SHIM_URL,
-    CS_VERSION
+    CS_VERSION,
+    ENABLE_JABRA_COLLECTION
   } = getClientConfig();
   const isProduction = getServerConfig().NODE_ENV === 'production' || getServerConfig().NODE_ENV === 'prod';
   res.render('compare', {
@@ -27,7 +28,8 @@ router.get('/', function (req, res, next) {
     CS_JS_SDK_URL: CS_JS_SDK_URL,
     CS_AC_SHIM_URL: CS_AC_SHIM_URL,
     IS_PRODUCTION: isProduction,
-    CS_VERSION: CS_VERSION
+    CS_VERSION: CS_VERSION,
+    ENABLE_JABRA_COLLECTION: ENABLE_JABRA_COLLECTION
   });
 });
 
