@@ -10,7 +10,7 @@ import {
 
 const appId = APP_ID || WEB_PACK_APP_ID;
 const appSecret = APP_SECRET || WEB_PACK_APP_SECRET;
-
+const enableJabraCollection = ENABLE_JABRA_COLLECTION === 'enable';
 const siteIds = ['HQ', 'Remote', 'Home'];
 
 const ccpUrl = () => {
@@ -133,8 +133,10 @@ class CSIOHandler {
     const localUserId = agent.getName();
     this.localUserId = localUserId;
     const configParams = {
-      siteID: this.getRandomSiteId()
+      siteID: this.getRandomSiteId(),
+      enableJabraCollection: enableJabraCollection
     };
+    console.log('JabraCollection' + ENABLE_JABRA_COLLECTION)
     if (this.callstatsac) {
       this.callstatsac = undefined;
     }

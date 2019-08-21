@@ -5,5 +5,6 @@
   "HTTP_PORT": "8080",
   "NODE_ENV": "development",
   "CS_JS_SDK_URL": "https://api.callstats.io/static/callstats.min.js",
-  "CS_AC_SHIM_URL": "https://api.callstats.io/static/callstats-amazon-shim.js"
+  "CS_AC_SHIM_URL": "https://api.callstats.io/static/callstats-amazon-connect-shim.js",
+  "ENABLE_JABRA_COLLECTION": "disable"
 }
