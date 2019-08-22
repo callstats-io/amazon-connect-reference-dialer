@@ -15,6 +15,8 @@
       CONNECT_URL = '<%= CONNECT_URL %>'
       APP_ID = '<%= APP_ID %>'
       APP_SECRET = '<%= APP_SECRET %>'
+      CS_VERSION = '<%= CS_VERSION %>'
+      ENABLE_JABRA_COLLECTION = '<%= ENABLE_JABRA_COLLECTION %>'
     </script>
 
     <% if(IS_PRODUCTION) { %>
@@ -46,12 +48,14 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+<script src="https://gnaudio.github.io/jabra-browser-integration/JavaScriptLibrary/jabra.browser.integration-2.0.js"></script>
 
 
 <!--callstats libraries start-->
 <script src="https://api.callstats.io/static/callstats-amazon-connect-ff-pre-shim.js" type="application/javascript"></script>
 <script src="https://api.callstats.io/static/connect-rtc.min.js" type="application/javascript"></script>
 <script src="https://api.callstats.io/static/amazon-connect.js" type="application/javascript"></script>
+<script src="https://api.callstats.io/static/callstats-jabra-shim.js"></script>
 
 
 <script src='<%= CS_JS_SDK_URL %>' type="application/javascript"></script>

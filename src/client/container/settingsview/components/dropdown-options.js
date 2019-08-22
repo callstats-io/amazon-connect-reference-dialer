@@ -1,18 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import lo from 'lodash';
 import styles from './../settings.css';
 
-const truncate = (sentence = '', upto = -1) => {
-  if (upto < 0) {
-    return sentence;
-  }
-  if (sentence.length < upto) {
-    return sentence;
-  }
+import {
+  truncate
+} from '../../../utils/acutils';
 
-  return `${sentence.substring(0, upto - 4)} ...`;
-};
 const DropDownOptions = ({ toggleMenuItem, changeAudioInputDevice, showMenuItem, inputDeviceList, audioInputDevice = {} }) => (
   <div className="col-10 pr-0 mr-0">
     <div className={`btn-group ${styles.btnGroup}`}>
@@ -31,7 +24,7 @@ const DropDownOptions = ({ toggleMenuItem, changeAudioInputDevice, showMenuItem,
         {
           inputDeviceList.map((item, indx) => (
             <a key={`${item.deviceId}-${indx}`} className={`dropdown-item ${styles.dropdownItem}`}
-						   onClick={() => changeAudioInputDevice(item)}>{item.label}</a>
+						   onClick={() => changeAudioInputDevice(item)}>{ truncate(item.label, 40) }</a>
           ))
         }
       </div>
