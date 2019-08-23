@@ -1,6 +1,6 @@
 {
   "name": "amazon-connect-reference-dialer",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Amazon connect reference dialer application by CALLSTATS I/O",
   "main": "src/server/index.js",
   "scripts": {
