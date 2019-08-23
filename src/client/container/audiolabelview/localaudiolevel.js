@@ -26,7 +26,7 @@ class LocalAudiolevel extends React.Component {
   async _fetchMediaInternals (mediaRetryCount = 0) {
     let now = (new Date()).getTime();
     if (now - this.lastRetry < MEDIA_RETRY_INTERVAL_MS) {
-      throw new Error('Already tring to fetch media');
+      throw new Error('Already trying to fetch media');
     }
     let selectedDevice = await mediaManager.getDefaultOrPreferredAudioInputDevice();
     // console.warn('~fetchMedia', 'trying to fetch local media', mediaRetryCount, selectedDevice);
