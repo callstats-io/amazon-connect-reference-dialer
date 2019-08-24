@@ -8,6 +8,8 @@ import {
 import csioHandler from './csioHandler';
 import acManager from './acManager';
 import sessionManage from './sessionManager';
+import voiceActivityMonitor from './voice.activity.monitor';
+import mediaManager from './mediaManager';
 
 // Outbound call = connection.isActive() && connection.isConnecting() && connection.getType() === 'outbound'
 // Incoming call = connection.isActive() && connection.isConnecting() && connection.getType() === 'inbound'
@@ -222,17 +224,23 @@ class EventHandler {
       });
       bus.subscribe(connect.ContactEvents.ENDED, () => {
         currentContact = undefined;
+        voiceActivityMonitor.stop();
       });
       bus.subscribe(connect.ContactEvents.DESTROYED, () => {
         currentContact = undefined;
+        voiceActivityMonitor.stop();
       });
       bus.subscribe(connect.ContactEvents.CONNECTED, e => {
         const remoteStream = csioHandler.getRemoteStream();
         if (remoteStream) {
           this.dispatch(onRemoteStream(remoteStream));
+          mediaManager.setRemoteStream(remoteStream);
         }
         // send active device list
         csioHandler.sendActiveDeviceList();
+
+        // voice activity monitor starts
+        // voiceActivityMonitor.mayBeStart();
       });
     }
   }
