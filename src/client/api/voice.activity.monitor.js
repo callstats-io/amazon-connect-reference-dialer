@@ -2,7 +2,6 @@
 
 import Hark from 'hark';
 import mediaManager from './mediaManager';
-import { sleep } from '../utils/acutils';
 
 const AGENT_SPEAKING = 1 << 1;
 const CUSTOMER_SPEAKING = 1 << 0;
