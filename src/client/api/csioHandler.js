@@ -5,7 +5,7 @@ import audioFrequencyMonitor from './audioFrequencyMonitor';
 import lo from 'lodash';
 import databaseManager from './databaseManager';
 import {
-  getRandomInt
+  getRandomInt, getTimestamp
 } from './../utils/acutils';
 import mediaManager from './mediaManager';
 
@@ -197,6 +197,17 @@ class CSIOHandler {
         CallstatsAmazonShim.sendFabricEvent(this.callstatsac.fabricEvent.activeDeviceList, eventData);
       })
       .catch(() => {});
+  }
+
+  sendCustomVoiceActivity (eventType) {
+    // let event = {
+    //   type: eventType,
+    //   timestamp: getTimestamp()
+    // };
+    //
+    // CallstatsAmazonShim.sendCustomEvent(null, CallstatsJabraShim.conferenceID, eventList);
+    console.warn(eventType);
+    // this.callstatsac.sendCustomEvent();
   }
 }
 

@@ -85,3 +85,16 @@ export const truncate = (sentence = '', upto = -1) => {
 
   return `${sentence.substring(0, upto - 3)}...`;
 };
+
+export const getTimestamp = () => {
+  if (!window || !window.performance || !window.performance.now) {
+    return Date.now();
+  }
+  if (!window.performance.timing) {
+    return Date.now();
+  }
+  if (!window.performance.timing.navigationStart) {
+    return Date.now();
+  }
+  return window.performance.now() + window.performance.timing.navigationStart;
+};

@@ -2,9 +2,11 @@
 
 import Hark from 'hark';
 import mediaManager from './mediaManager';
+import csioHandler from './csioHandler';
 
 const AGENT_SPEAKING = 1 << 1;
 const CUSTOMER_SPEAKING = 1 << 0;
+const CROSS_TALK = 0x3;
 
 class VoiceActivityMonitor {
   constructor () {
@@ -12,7 +14,7 @@ class VoiceActivityMonitor {
     this.agentSpeechEvent = undefined;
     this.customerSpeechEvent = undefined;
 
-    this.speaking = 0;
+    this.previousActivityState = 0;
   }
 
   /**
@@ -20,9 +22,20 @@ class VoiceActivityMonitor {
    * @param speakingState
    */
   activityMonitor (speakingState = 0) {
-    this.speaking = speakingState;
-    const agentSpeaking = !!(speakingState & AGENT_SPEAKING);
-    const customerSpeaking = !!(speakingState & CUSTOMER_SPEAKING);
+    if (speakingState === CROSS_TALK && this.previousActivityState !== CROSS_TALK) {
+      csioHandler.sendCustomVoiceActivity('crossTalkStart');
+    } else if (speakingState !== CROSS_TALK && this.previousActivityState === CROSS_TALK) {
+      csioHandler.sendCustomVoiceActivity('crossTalkStop');
+    } else if (speakingState === AGENT_SPEAKING && this.previousActivityState !== AGENT_SPEAKING) {
+      csioHandler.sendCustomVoiceActivity('agentSpeakingStart');
+    } else if (speakingState !== AGENT_SPEAKING && this.previousActivityState === AGENT_SPEAKING) {
+      csioHandler.sendCustomVoiceActivity('agentSpeakingStop');
+    } else if (speakingState === CUSTOMER_SPEAKING && this.previousActivityState !== CUSTOMER_SPEAKING) {
+      csioHandler.sendCustomVoiceActivity('contactSpeakingStart');
+    } else if (speakingState !== CUSTOMER_SPEAKING && this.previousActivityState === CUSTOMER_SPEAKING) {
+      csioHandler.sendCustomVoiceActivity('contactSpeakingStop');
+    }
+    this.previousActivityState = speakingState;
   }
 
   /**
@@ -34,23 +47,24 @@ class VoiceActivityMonitor {
   mayBeStart () {
     const localStream = mediaManager.getLocalStream();
     const remoteStream = mediaManager.getRemoteStream();
+    console.warn('coming here ', localStream, remoteStream);
     if (!(localStream && remoteStream)) {
       return undefined;
     }
-    this.stopSync().then(async () => {
-      this.customerSpeechEvent = new Hark(remoteStream, {});
+    this.stopAsync().then(async () => {
       this.agentSpeechEvent = new Hark(localStream, {});
+      this.customerSpeechEvent = new Hark(remoteStream, {});
       this.agentSpeechEvent.on('speaking', () => {
-        this.activityMonitor(this.speaking | AGENT_SPEAKING);
+        this.activityMonitor(this.previousActivityState | AGENT_SPEAKING);
       });
       this.agentSpeechEvent.on('stopped_speaking', () => {
-        this.activityMonitor(this.speaking ^ AGENT_SPEAKING);
+        this.activityMonitor(this.previousActivityState ^ AGENT_SPEAKING);
       });
       this.customerSpeechEvent.on('speaking', () => {
-        this.activityMonitor(this.speaking | CUSTOMER_SPEAKING);
+        this.activityMonitor(this.previousActivityState | CUSTOMER_SPEAKING);
       });
       this.customerSpeechEvent.on('stopped_speaking', () => {
-        this.activityMonitor(this.speaking ^ CUSTOMER_SPEAKING);
+        this.activityMonitor(this.previousActivityState ^ CUSTOMER_SPEAKING);
       });
     });
   }
@@ -60,8 +74,7 @@ class VoiceActivityMonitor {
    * Stop voice activity monitor
    */
   stop () {
-    console.warn('stopping hark monitor');
-    this.speaking = 0;
+    this.previousActivityState = 0;
     if (this.agentSpeechEvent) {
       this.agentSpeechEvent.stop();
       this.agentSpeechEvent = undefined;
@@ -71,9 +84,8 @@ class VoiceActivityMonitor {
       this.customerSpeechEvent = undefined;
     }
   }
-  async stopSync () {
-    console.warn('stopping hark monitor');
-    this.speaking = 0;
+  async stopAsync () {
+    this.previousActivityState = 0;
     if (this.agentSpeechEvent) {
       this.agentSpeechEvent.stop();
       this.agentSpeechEvent = undefined;

@@ -224,10 +224,12 @@ class EventHandler {
       });
       bus.subscribe(connect.ContactEvents.ENDED, () => {
         currentContact = undefined;
+        mediaManager.setRemoteStream(undefined);
         voiceActivityMonitor.stop();
       });
       bus.subscribe(connect.ContactEvents.DESTROYED, () => {
         currentContact = undefined;
+        mediaManager.setRemoteStream(undefined);
         voiceActivityMonitor.stop();
       });
       bus.subscribe(connect.ContactEvents.CONNECTED, e => {
