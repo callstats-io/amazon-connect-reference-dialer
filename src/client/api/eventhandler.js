@@ -241,9 +241,6 @@ class EventHandler {
         }
         // send active device list
         csioHandler.sendActiveDeviceList();
-
-        // voice activity monitor starts
-        // voiceActivityMonitor.mayBeStart();
       });
     }
   }
