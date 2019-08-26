@@ -5,7 +5,7 @@ import audioFrequencyMonitor from './audioFrequencyMonitor';
 import lo from 'lodash';
 import databaseManager from './databaseManager';
 import {
-  getRandomInt, getTimestamp
+  getRandomInt
 } from './../utils/acutils';
 import mediaManager from './mediaManager';
 
