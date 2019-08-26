@@ -10,6 +10,8 @@ const CUSTOMER_SPEAKING = 1 << 0;
 const CROSS_TALK = 0x3;
 const MAX_SIZE = 20;
 
+const blackListedDevice = ['Jabra Engage 50'];
+
 class VoiceActivityMonitor {
   constructor () {
     this.name = 'VoiceActivityMonitor';
@@ -18,6 +20,17 @@ class VoiceActivityMonitor {
 
     this.previousActivityState = 0;
     this.eventList = [];
+  }
+
+  async isBlackListedDevice () {
+    const currentlySelectedDevice = await mediaManager.getDefaultOrPreferredAudioInputDevice();
+    if (!currentlySelectedDevice) {
+      return false;
+    }
+    const isBlackListed = blackListedDevice.find(curDevice =>
+      currentlySelectedDevice.label &&
+      currentlySelectedDevice.label.includes(curDevice));
+    return !!isBlackListed;
   }
 
   /**
@@ -74,12 +87,20 @@ class VoiceActivityMonitor {
    * @param {Boolean} isLocal
    */
   mayBeStart () {
+    // Jabra Engage 50
+    // if the currently selected headset if Jabra Engage 50 then donot start monitoring
+
     const localStream = mediaManager.getLocalStream();
     const remoteStream = mediaManager.getRemoteStream();
     if (!(localStream && remoteStream)) {
       return undefined;
     }
     this.stopAsync().then(async () => {
+      const isBlacklisted = this.isBlackListedDevice();
+      if (isBlacklisted) {
+        console.warn('Omit monitoring voice detection for this device since it is done by device');
+        return;
+      }
       this.agentSpeechEvent = new Hark(localStream, {});
       this.customerSpeechEvent = new Hark(remoteStream, {});
       this.agentSpeechEvent.on('speaking', () => {
