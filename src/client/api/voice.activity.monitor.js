@@ -8,7 +8,7 @@ import { getTimestamp } from '../utils/acutils';
 const AGENT_SPEAKING = 1 << 1;
 const CUSTOMER_SPEAKING = 1 << 0;
 const CROSS_TALK = 0x3;
-const MAX_SIZE = 40;
+const MAX_SIZE = 20;
 
 class VoiceActivityMonitor {
   constructor () {
@@ -26,7 +26,6 @@ class VoiceActivityMonitor {
    *
    */
   sendCustomEvent () {
-    console.warn('->', 'sending custom voice activity event', this.eventList);
     csioHandler.sendCustomVoiceActivity(this.eventList);
     this.eventList = [];
   }
@@ -77,7 +76,6 @@ class VoiceActivityMonitor {
   mayBeStart () {
     const localStream = mediaManager.getLocalStream();
     const remoteStream = mediaManager.getRemoteStream();
-    console.warn('coming here ', localStream, remoteStream);
     if (!(localStream && remoteStream)) {
       return undefined;
     }
