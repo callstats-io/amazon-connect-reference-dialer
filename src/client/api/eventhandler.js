@@ -10,6 +10,7 @@ import acManager from './acManager';
 import sessionManage from './sessionManager';
 import voiceActivityMonitor from './voice.activity.monitor';
 import mediaManager from './mediaManager';
+import { noop } from '../utils/acutils';
 
 // Outbound call = connection.isActive() && connection.isConnecting() && connection.getType() === 'outbound'
 // Incoming call = connection.isActive() && connection.isConnecting() && connection.getType() === 'inbound'
@@ -225,12 +226,12 @@ class EventHandler {
       bus.subscribe(connect.ContactEvents.ENDED, () => {
         currentContact = undefined;
         mediaManager.setRemoteStream(undefined);
-        voiceActivityMonitor.stop();
+        voiceActivityMonitor.stopAsync().then(noop).catch(noop);
       });
       bus.subscribe(connect.ContactEvents.DESTROYED, () => {
         currentContact = undefined;
         mediaManager.setRemoteStream(undefined);
-        voiceActivityMonitor.stop();
+        voiceActivityMonitor.stopAsync().then(noop).catch(noop);
       });
       bus.subscribe(connect.ContactEvents.CONNECTED, e => {
         const remoteStream = csioHandler.getRemoteStream();

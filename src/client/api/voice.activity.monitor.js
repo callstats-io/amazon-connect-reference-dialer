@@ -3,10 +3,12 @@
 import Hark from 'hark';
 import mediaManager from './mediaManager';
 import csioHandler from './csioHandler';
+import { getTimestamp } from '../utils/acutils';
 
 const AGENT_SPEAKING = 1 << 1;
 const CUSTOMER_SPEAKING = 1 << 0;
 const CROSS_TALK = 0x3;
+const MAX_SIZE = 40;
 
 class VoiceActivityMonitor {
   constructor () {
@@ -15,6 +17,34 @@ class VoiceActivityMonitor {
     this.customerSpeechEvent = undefined;
 
     this.previousActivityState = 0;
+    this.eventList = [];
+  }
+
+  /**
+   * @private
+   * Send bundled voice activity event to callstats end point
+   *
+   */
+  sendCustomEvent () {
+    console.warn('->', 'sending custom voice activity event', this.eventList);
+    csioHandler.sendCustomVoiceActivity(this.eventList);
+    this.eventList = [];
+  }
+
+  /**
+   * Bundle custom event and send it if it reach threshold
+   * @private
+   * @param eventType
+   */
+  bundleVoiceActivityEvents (eventType = null) {
+    const event = {
+      type: eventType,
+      timestamp: getTimestamp()
+    };
+    this.eventList.push(event);
+    if (this.eventList.length >= MAX_SIZE) {
+      this.sendCustomEvent();
+    }
   }
 
   /**
@@ -23,17 +53,17 @@ class VoiceActivityMonitor {
    */
   activityMonitor (speakingState = 0) {
     if (speakingState === CROSS_TALK && this.previousActivityState !== CROSS_TALK) {
-      csioHandler.sendCustomVoiceActivity('crossTalkStart');
+      this.bundleVoiceActivityEvents('crossTalkStart');
     } else if (speakingState !== CROSS_TALK && this.previousActivityState === CROSS_TALK) {
-      csioHandler.sendCustomVoiceActivity('crossTalkStop');
+      this.bundleVoiceActivityEvents('crossTalkStop');
     } else if (speakingState === AGENT_SPEAKING && this.previousActivityState !== AGENT_SPEAKING) {
-      csioHandler.sendCustomVoiceActivity('agentSpeakingStart');
+      this.bundleVoiceActivityEvents('agentSpeakingStart');
     } else if (speakingState !== AGENT_SPEAKING && this.previousActivityState === AGENT_SPEAKING) {
-      csioHandler.sendCustomVoiceActivity('agentSpeakingStop');
+      this.bundleVoiceActivityEvents('agentSpeakingStop');
     } else if (speakingState === CUSTOMER_SPEAKING && this.previousActivityState !== CUSTOMER_SPEAKING) {
-      csioHandler.sendCustomVoiceActivity('contactSpeakingStart');
+      this.bundleVoiceActivityEvents('contactSpeakingStart');
     } else if (speakingState !== CUSTOMER_SPEAKING && this.previousActivityState === CUSTOMER_SPEAKING) {
-      csioHandler.sendCustomVoiceActivity('contactSpeakingStop');
+      this.bundleVoiceActivityEvents('contactSpeakingStop');
     }
     this.previousActivityState = speakingState;
   }
@@ -73,19 +103,11 @@ class VoiceActivityMonitor {
    * @public
    * Stop voice activity monitor
    */
-  stop () {
-    this.previousActivityState = 0;
-    if (this.agentSpeechEvent) {
-      this.agentSpeechEvent.stop();
-      this.agentSpeechEvent = undefined;
-    }
-    if (this.customerSpeechEvent) {
-      this.customerSpeechEvent.stop();
-      this.customerSpeechEvent = undefined;
-    }
-  }
   async stopAsync () {
     this.previousActivityState = 0;
+    if (this.eventList.length > 0) {
+      this.sendCustomEvent();
+    }
     if (this.agentSpeechEvent) {
       this.agentSpeechEvent.stop();
       this.agentSpeechEvent = undefined;

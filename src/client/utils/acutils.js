@@ -98,3 +98,8 @@ export const getTimestamp = () => {
   }
   return window.performance.now() + window.performance.timing.navigationStart;
 };
+
+// a function that does nothing
+export const noop = () => {
+
+};

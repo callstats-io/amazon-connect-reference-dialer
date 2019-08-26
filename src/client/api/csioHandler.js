@@ -199,15 +199,14 @@ class CSIOHandler {
       .catch(() => {});
   }
 
-  sendCustomVoiceActivity (eventType) {
-    // let event = {
-    //   type: eventType,
-    //   timestamp: getTimestamp()
-    // };
-    //
-    // CallstatsAmazonShim.sendCustomEvent(null, CallstatsJabraShim.conferenceID, eventList);
-    console.warn(eventType);
-    // this.callstatsac.sendCustomEvent();
+  /**
+   * Send custom event to csio endpoint
+   * @param {Array<String>} eventType
+   */
+  sendCustomVoiceActivity (eventType = []) {
+    if (CallstatsAmazonShim && typeof CallstatsAmazonShim.sendCustomEvent === 'function') {
+      CallstatsAmazonShim.sendCustomEvent(eventType);
+    }
   }
 }
 
