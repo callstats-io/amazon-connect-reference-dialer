@@ -231,6 +231,8 @@ class EventHandler {
         if (remoteStream) {
           this.dispatch(onRemoteStream(remoteStream));
         }
+        // send active device list
+        csioHandler.sendActiveDeviceList();
       });
     }
   }

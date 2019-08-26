@@ -7,6 +7,7 @@ import databaseManager from './databaseManager';
 import {
   getRandomInt
 } from './../utils/acutils';
+import mediaManager from './mediaManager';
 
 const appId = APP_ID || WEB_PACK_APP_ID;
 const appSecret = APP_SECRET || WEB_PACK_APP_SECRET;
@@ -136,7 +137,7 @@ class CSIOHandler {
       siteID: this.getRandomSiteId(),
       enableJabraCollection: enableJabraCollection
     };
-    console.log('JabraCollection' + ENABLE_JABRA_COLLECTION)
+    console.log('JabraCollection' + ENABLE_JABRA_COLLECTION);
     if (this.callstatsac) {
       this.callstatsac = undefined;
     }
@@ -185,6 +186,17 @@ class CSIOHandler {
     CallstatsAmazonShim.sendUserFeedback(feedback, msg => {
       console.warn('on submitted rating ', msg);
     });
+  }
+
+  sendActiveDeviceList () {
+    mediaManager.getDefaultOrPreferredAudioInputDevice()
+      .then(activeAudioDevice => {
+        const eventData = {
+          deviceList: [activeAudioDevice]
+        };
+        CallstatsAmazonShim.sendFabricEvent(this.callstatsac.fabricEvent.activeDeviceList, eventData);
+      })
+      .catch(() => {});
   }
 }
 
