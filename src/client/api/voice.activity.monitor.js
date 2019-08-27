@@ -8,7 +8,7 @@ import { getTimestamp } from '../utils/acutils';
 const AGENT_SPEAKING = 1 << 1;
 const CUSTOMER_SPEAKING = 1 << 0;
 const CROSS_TALK = 0x3;
-const MAX_SIZE = 20;
+const MAX_SIZE = 40;
 
 const blackListedDevice = ['Jabra Engage 50'];
 
