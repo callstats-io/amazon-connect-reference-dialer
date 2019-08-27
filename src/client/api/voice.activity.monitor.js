@@ -96,7 +96,7 @@ class VoiceActivityMonitor {
       return undefined;
     }
     this.stopAsync().then(async () => {
-      const isBlacklisted = this.isBlackListedDevice();
+      const isBlacklisted = await this.isBlackListedDevice();
       if (isBlacklisted) {
         console.warn('Omit monitoring voice detection for this device since it is done by device');
         return;
