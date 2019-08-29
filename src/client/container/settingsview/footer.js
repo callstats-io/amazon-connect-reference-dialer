@@ -11,6 +11,7 @@ import ReportACall from '../footer/components/reportcall';
 import DownloadLogs from '../footer/components/downloadlogs';
 import ConnectivityCheck from '../footer/components/connectivitycheck';
 import Language from '../footer/components/language';
+import Version from '../footer/components/version';
 
 import acManager from '../../api/acManager';
 
@@ -41,9 +42,9 @@ const FooterStyle = {
     style: { cursor: 'pointer', color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px' }
   },
   version: {
-    divClass: 'col-12 p-0',
-    pClass: 'text-right',
-    style: { fontSize: '11px', fontStyle: 'italic' }
+    divClass: 'col-6 p-0',
+    linkClass: 'btn text-left disabled',
+    style: { cursor: 'pointer', color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px' }
   }
 };
 
@@ -65,14 +66,11 @@ const Footer = ({ requestReportACallIssue, requestConnectivityCheck }) => (
         style={FooterStyle.connectivityCheck.style}
         onClickHandler={requestConnectivityCheck} />
 
-      <Language divClass={FooterStyle.language.divClass}
-        linkClass={FooterStyle.language.linkClass}
-        style={FooterStyle.language.style}
+      <Version divClass={FooterStyle.version.divClass}
+        linkClass={FooterStyle.version.linkClass}
+        style={FooterStyle.version.style}
         onClickHandler={() => true} />
 
-      <div class={FooterStyle.version.divClass}>
-        <p class={FooterStyle.version.pClass} style={FooterStyle.version.style}>callstats dialer v{window.CS_VERSION}</p>
-      </div>
     </div>
   </div>
 );

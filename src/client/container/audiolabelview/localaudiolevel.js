@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import mediaManager from './../../api/mediaManager';
 import sessionManager from './../../api/sessionManager';
 import AudioFrequencyMonitor from './controller';
+import voiceActivityMonitor from '../../api/voice.activity.monitor';
 
 const style = {
   fill: '#ffffff',
@@ -26,7 +27,7 @@ class LocalAudiolevel extends React.Component {
   async _fetchMediaInternals (mediaRetryCount = 0) {
     let now = (new Date()).getTime();
     if (now - this.lastRetry < MEDIA_RETRY_INTERVAL_MS) {
-      throw new Error('Already tring to fetch media');
+      throw new Error('Already trying to fetch media');
     }
     let selectedDevice = await mediaManager.getDefaultOrPreferredAudioInputDevice();
     // console.warn('~fetchMedia', 'trying to fetch local media', mediaRetryCount, selectedDevice);
@@ -36,12 +37,17 @@ class LocalAudiolevel extends React.Component {
   }
 
   fetchMedia (mediaRetryCount = 0) {
-    this._fetchMediaInternals(mediaRetryCount).then(localStream => this.audioControler.renderStream(localStream)).catch(() => {
+    this._fetchMediaInternals(mediaRetryCount).then(localStream => {
+      mediaManager.setLocalStream(localStream);
+      this.audioControler.renderStream(localStream);
+      voiceActivityMonitor.mayBeStart();
+    }).catch(() => {
       this.intervalId = setInterval(async () => {
         try {
           const localStream = await this._fetchMediaInternals(mediaRetryCount);
           this.clearInterval();
           this.audioControler.renderStream(localStream);
+          voiceActivityMonitor.mayBeStart();
         } catch (err) {
           // console.warn('~fetchMedia', err);
           if (mediaRetryCount < 1) {
