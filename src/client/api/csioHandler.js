@@ -198,6 +198,16 @@ class CSIOHandler {
       })
       .catch(() => {});
   }
+
+  /**
+   * Send custom event to csio endpoint
+   * @param {Array<String>} eventType
+   */
+  sendCustomVoiceActivity (eventType = []) {
+    if (CallstatsAmazonShim && typeof CallstatsAmazonShim.sendCustomEvent === 'function') {
+      CallstatsAmazonShim.sendCustomEvent(eventType);
+    }
+  }
 }
 
 const csioHandler = new CSIOHandler();
