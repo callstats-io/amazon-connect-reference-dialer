@@ -16,9 +16,7 @@ const loginURL = () => {
   const connectURL = databaseManager.getDefaultConnectURL(
     CONNECT_URL || WEB_PACK_CONNECT_URL
   );
-  //return `https://${connectURL}/connect/login?landat=%2Fconnect%2Fccp#/`;
-  //return `https://myapps.microsoft.com/signin/AWS%20Connect%20-%20Test/798edf71-7fd7-4a2e-8a59-bd844a6568e1?relaystate=https://us-east-1.console.aws.amazon.com/connect/federate/b6275df9-01f4-448f-836c-2282d432f55b?destination=%2Fconnect%2Fccp`;
-  return `https://myapps.microsoft.com/signin/AWS%20Connect%20-%20Production/ce0ff594-d48f-4fb9-84cc-ac25d5baf749?relaystate=https://us-east-1.console.aws.amazon.com/connect/federate/b8d1700a-8088-4a26-9271-b531f0c39e03?destination=%2Fconnect%2Fccp`;
+  return `https://${connectURL}/connect/login?landat=%2Fconnect%2Fccp#/`;
 };
 class Body extends Component {
   constructor(props) {
