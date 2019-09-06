@@ -1,21 +1,27 @@
-import React, { Component } from 'react';
-import styles from './login.css';
-import databaseManager from '../../api/databaseManager';
-import sessionManage from '../../api/sessionManager';
+import React, { Component } from "react";
+import styles from "./login.css";
+import databaseManager from "../../api/databaseManager";
+import sessionManage from "../../api/sessionManager";
 
-import CCPInputBox from './ccpinputbox';
+import CCPInputBox from "./ccpinputbox";
 
 const getCCPScope = () => {
-  const ccpScope = databaseManager.getDefaultConnectURL(CONNECT_URL || WEB_PACK_CONNECT_URL);
+  const ccpScope = databaseManager.getDefaultConnectURL(
+    CONNECT_URL || WEB_PACK_CONNECT_URL
+  );
   return ccpScope;
 };
 
 const loginURL = () => {
-  const connectURL = databaseManager.getDefaultConnectURL(CONNECT_URL || WEB_PACK_CONNECT_URL);
-  return `https://${connectURL}/connect/login?landat=%2Fconnect%2Fccp#/`;
+  const connectURL = databaseManager.getDefaultConnectURL(
+    CONNECT_URL || WEB_PACK_CONNECT_URL
+  );
+  //return `https://${connectURL}/connect/login?landat=%2Fconnect%2Fccp#/`;
+  //return `https://myapps.microsoft.com/signin/AWS%20Connect%20-%20Test/798edf71-7fd7-4a2e-8a59-bd844a6568e1?relaystate=https://us-east-1.console.aws.amazon.com/connect/federate/b6275df9-01f4-448f-836c-2282d432f55b?destination=%2Fconnect%2Fccp`;
+  return `https://myapps.microsoft.com/signin/AWS%20Connect%20-%20Production/ce0ff594-d48f-4fb9-84cc-ac25d5baf749?relaystate=https://us-east-1.console.aws.amazon.com/connect/federate/b8d1700a-8088-4a26-9271-b531f0c39e03?destination=%2Fconnect%2Fccp`;
 };
 class Body extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = {
       ccpURL: getCCPScope()
@@ -24,36 +30,45 @@ class Body extends Component {
     this.trySignIn = this.trySignIn.bind(this);
   }
 
-  ccpURLChange (event) {
+  ccpURLChange(event) {
     let { value } = event.target;
     this.setState({
       ccpURL: value
     });
   }
 
-  trySignIn () {
+  trySignIn() {
     // set the current CCP URL as current one
-    databaseManager.setDefaultConnectURL(this.state.ccpURL || '');
+    databaseManager.setDefaultConnectURL(this.state.ccpURL || "");
 
     // fetch the newly set loginIN URL
     let loginWindow = window.open(loginURL());
     sessionManage.setLoginWindow(loginWindow);
   }
 
-  render () {
+  render() {
     return (
       <div className={`card-body ${styles.cardBodyMain}`}>
         <div className="row h-100">
           <div className={`col-12 my-auto`}>
             <div className={`row`}>
               <div className="col-12">
-                <span className={styles.ccpInputBoxText}>Amazon Connect CCP URL</span>
+                <span className={styles.ccpInputBoxText}>
+                  Amazon Connect CCP URL
+                </span>
               </div>
-              <CCPInputBox ccpURL={this.state.ccpURL}
+              <CCPInputBox
+                ccpURL={this.state.ccpURL}
                 ccpURLChange={this.ccpURLChange}
               />
               <div className="col-12 mt-4 text-center">
-                <a className={`btn w-50 ${styles.loginText}`} onClick={this.trySignIn}> Sign in </a>
+                <a
+                  className={`btn w-50 ${styles.loginText}`}
+                  onClick={this.trySignIn}
+                >
+                  {" "}
+                  Sign in{" "}
+                </a>
               </div>
             </div>
           </div>
