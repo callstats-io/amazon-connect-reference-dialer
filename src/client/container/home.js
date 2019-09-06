@@ -1,26 +1,26 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import StateChangeView from './statechangeview/index';
-import AgentView from './agentview/index';
-import SettingPageView from './settingsview/index';
-import ReportCallIssueView from './reportissueview/index';
-import ConnectivityCheckView from './connectivitycheckview/index';
-import DialPadView from './dialerview/index';
-import QuickConnectsView from './quickconnects/index';
-import TransferCallView from './transfercall/index';
-import Login from './login/index';
-import acManager from '../api/acManager';
-import AppStore from '../store';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import StateChangeView from "./statechangeview/index";
+import AgentView from "./agentview/index";
+import SettingPageView from "./settingsview/index";
+import ReportCallIssueView from "./reportissueview/index";
+import ConnectivityCheckView from "./connectivitycheckview/index";
+import DialPadView from "./dialerview/index";
+import QuickConnectsView from "./quickconnects/index";
+import TransferCallView from "./transfercall/index";
+import Login from "./login/index";
+import acManager from "../api/acManager";
+import AppStore from "../store";
 
 const maybeShowThisView = (currentView, ...others) => {
   // current view needs to be pending
-  let isPending = ['pending'].includes(currentView);
+  let isPending = ["pending"].includes(currentView);
   if (!isPending) {
     return false;
   }
   isPending = others.some(viewItem => {
-    return ['pending'].includes(viewItem);
+    return ["pending"].includes(viewItem);
   });
   // none of other view can be in pending state
   if (isPending) {
@@ -31,17 +31,17 @@ const maybeShowThisView = (currentView, ...others) => {
 
 class Home extends Component {
   // eslint-disable-next-line no-useless-constructor
-  constructor (props) {
+  constructor(props) {
     super(props);
   }
 
-  componentDidMount () {
+  componentDidMount() {
     // register ac manager
     acManager.register(AppStore.dispatch);
     // console.warn('-> ', this.state.isLoggedIn);
   }
 
-  render () {
+  render() {
     const initialized = this.props.initialized;
     const requestAgentStateChange = this.props.requestAgentStateChange;
     const requestAgentSettingsChange = this.props.requestAgentSettingsChange;
@@ -51,52 +51,97 @@ class Home extends Component {
     const requestShowQuickConnects = this.props.requestShowQuickConnects;
     const requestShowTransferCall = this.props.requestShowTransferCall;
 
-    return (
-      !initialized
-        ? (<div className={`container`} style={{ width: '320px', height: '480px' }}>
-          <Login showLogin={acManager.getIsLoggedIn() === false}/>
-        </div>)
-        : <div className={`container`} style={{ width: '320px', height: '480px' }}>
-          {
-            maybeShowThisView('pending', requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
-              requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects,
-              requestShowTransferCall) &&
-                        <AgentView/>}
-          {
-            maybeShowThisView(requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
-              requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects,
-              requestShowTransferCall) &&
-                        <StateChangeView/>}
-          {
-            maybeShowThisView(requestAgentSettingsChange, requestAgentStateChange, requestReportCallIssue,
-              requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
-                        <SettingPageView/>}
+    return !initialized ? (
+      <div
+        className={`container float-left m-2`}
+        style={{ width: "320px", height: "480px" }}
+      >
+        <Login showLogin={acManager.getIsLoggedIn() === false} />
+      </div>
+    ) : (
+      <div
+        className={`container float-left m-2`}
+        style={{ width: "320px", height: "480px" }}
+      >
+        {maybeShowThisView(
+          "pending",
+          requestAgentStateChange,
+          requestAgentSettingsChange,
+          requestReportCallIssue,
+          requestConnectivityCheck,
+          requestShowDialPad,
+          requestShowQuickConnects,
+          requestShowTransferCall
+        ) && <AgentView />}
+        {maybeShowThisView(
+          requestAgentStateChange,
+          requestAgentSettingsChange,
+          requestReportCallIssue,
+          requestConnectivityCheck,
+          requestShowDialPad,
+          requestShowQuickConnects,
+          requestShowTransferCall
+        ) && <StateChangeView />}
+        {maybeShowThisView(
+          requestAgentSettingsChange,
+          requestAgentStateChange,
+          requestReportCallIssue,
+          requestConnectivityCheck,
+          requestShowDialPad,
+          requestShowQuickConnects,
+          requestShowTransferCall
+        ) && <SettingPageView />}
 
-          {
-            maybeShowThisView(requestReportCallIssue, requestAgentStateChange, requestAgentSettingsChange,
-              requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
-                        <ReportCallIssueView/>}
+        {maybeShowThisView(
+          requestReportCallIssue,
+          requestAgentStateChange,
+          requestAgentSettingsChange,
+          requestConnectivityCheck,
+          requestShowDialPad,
+          requestShowQuickConnects,
+          requestShowTransferCall
+        ) && <ReportCallIssueView />}
 
-          {
-            maybeShowThisView(requestConnectivityCheck, requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
-              requestShowDialPad, requestShowQuickConnects, requestShowTransferCall) &&
-                        <ConnectivityCheckView/>}
+        {maybeShowThisView(
+          requestConnectivityCheck,
+          requestAgentStateChange,
+          requestAgentSettingsChange,
+          requestReportCallIssue,
+          requestShowDialPad,
+          requestShowQuickConnects,
+          requestShowTransferCall
+        ) && <ConnectivityCheckView />}
 
-          {
-            maybeShowThisView(requestShowDialPad, requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
-              requestConnectivityCheck, requestShowQuickConnects, requestShowTransferCall) &&
-                        <DialPadView/>}
+        {maybeShowThisView(
+          requestShowDialPad,
+          requestAgentStateChange,
+          requestAgentSettingsChange,
+          requestReportCallIssue,
+          requestConnectivityCheck,
+          requestShowQuickConnects,
+          requestShowTransferCall
+        ) && <DialPadView />}
 
-          {
-            maybeShowThisView(requestShowQuickConnects, requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
-              requestConnectivityCheck, requestShowDialPad, requestShowTransferCall) &&
-                        <QuickConnectsView/>}
+        {maybeShowThisView(
+          requestShowQuickConnects,
+          requestAgentStateChange,
+          requestAgentSettingsChange,
+          requestReportCallIssue,
+          requestConnectivityCheck,
+          requestShowDialPad,
+          requestShowTransferCall
+        ) && <QuickConnectsView />}
 
-          {
-            maybeShowThisView(requestShowTransferCall, requestAgentStateChange, requestAgentSettingsChange, requestReportCallIssue,
-              requestConnectivityCheck, requestShowDialPad, requestShowQuickConnects) &&
-                        <TransferCallView/>}
-        </div>
+        {maybeShowThisView(
+          requestShowTransferCall,
+          requestAgentStateChange,
+          requestAgentSettingsChange,
+          requestReportCallIssue,
+          requestConnectivityCheck,
+          requestShowDialPad,
+          requestShowQuickConnects
+        ) && <TransferCallView />}
+      </div>
     );
   }
 }
@@ -113,13 +158,17 @@ Home.propTypes = {
 };
 const mapStateToProps = state => ({
   initialized: state.acReducer.initialized,
-  requestAgentStateChange: state.acReducer.requestAgentStateChange || 'complete',
-  requestAgentSettingsChange: state.acReducer.requestAgentSettingsChange || 'complete',
-  requestReportCallIssue: state.acReducer.requestReportCallIssue || 'complete',
-  requestConnectivityCheck: state.acReducer.requestConnectivityCheck || 'complete',
-  requestShowDialPad: state.acReducer.requestShowDialPad || 'complete',
-  requestShowQuickConnects: state.acReducer.requestShowQuickConnects || 'complete',
-  requestShowTransferCall: state.acReducer.requestShowTransferCall || 'complete'
+  requestAgentStateChange:
+    state.acReducer.requestAgentStateChange || "complete",
+  requestAgentSettingsChange:
+    state.acReducer.requestAgentSettingsChange || "complete",
+  requestReportCallIssue: state.acReducer.requestReportCallIssue || "complete",
+  requestConnectivityCheck:
+    state.acReducer.requestConnectivityCheck || "complete",
+  requestShowDialPad: state.acReducer.requestShowDialPad || "complete",
+  requestShowQuickConnects:
+    state.acReducer.requestShowQuickConnects || "complete",
+  requestShowTransferCall: state.acReducer.requestShowTransferCall || "complete"
 });
 const mapDispatchToProps = dispatch => ({});
 

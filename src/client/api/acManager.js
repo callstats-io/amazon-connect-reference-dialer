@@ -1,20 +1,22 @@
-'use strict';
+"use strict";
 
-import audioManager from './mediaManager';
-import agentHandler from './agentHandler';
-import eventHandler from './eventhandler';
+import audioManager from "./mediaManager";
+import agentHandler from "./agentHandler";
+import eventHandler from "./eventhandler";
 
-import csioHandler from './csioHandler';
-import databaseManager from './databaseManager';
+import csioHandler from "./csioHandler";
+import databaseManager from "./databaseManager";
 
 const ccpUrl = () => {
-  const connectURL = databaseManager.getDefaultConnectURL(CONNECT_URL || WEB_PACK_CONNECT_URL);
+  const connectURL = databaseManager.getDefaultConnectURL(
+    CONNECT_URL || WEB_PACK_CONNECT_URL
+  );
   return `https://${connectURL}/connect/ccp#/`;
 };
 
 class ACManager {
-  constructor () {
-    console.info('ACManager initialized!');
+  constructor() {
+    console.info("ACManager initialized!");
     this.isLoggedIn = false;
     this.isInitialized = false;
     this.dispatch = undefined;
@@ -22,23 +24,23 @@ class ACManager {
     this.onEventHandler = this.onEventHandler.bind(this);
   }
 
-  onAgentInitialize (agent) {
+  onAgentInitialize(agent) {
     audioManager.overWriteGetUserMedia();
     csioHandler.register(this.dispatch, agent);
     agentHandler.register(this.dispatch, agent);
   }
 
-  onEventHandler (connect) {
+  onEventHandler(connect) {
     eventHandler.register(this.dispatch, connect);
   }
 
-  register (dispatch = undefined) {
+  register(dispatch = undefined) {
     this.dispatch = dispatch;
     if (this.isInitialized) {
       return;
     }
     this.isInitialized = true;
-    const containerDiv = document.getElementById('containerDiv');
+    const containerDiv = document.getElementById("containerDiv");
     connect.core.initCCP(containerDiv, {
       ccpUrl: ccpUrl(),
       loginPopup: false,
@@ -46,31 +48,41 @@ class ACManager {
         allowFramedSoftphone: false
       }
     });
+
+    const ringtoneUrl = "/static/ringtone.mp3";
+    const params = {
+      ringtone: {
+        voice: { ringtoneUrl },
+        queue_callback: { ringtoneUrl }
+      }
+    };
+    connect.core.initRingtoneEngines(params);
+
     connect.core.initSoftphoneManager({ allowFramedSoftphone: true });
-    connect.agent((agent) => {
+    connect.agent(agent => {
       this.onAgentInitialize(agent);
     });
     this.onEventHandler(connect);
   }
 
-  downloadACLog () {
+  downloadACLog() {
     if (connect) {
       connect.getLog().download();
     }
   }
 
-  getCurrentContact () {
+  getCurrentContact() {
     return eventHandler.getCurrentContact();
   }
 
-  getCurrentState () {
+  getCurrentState() {
     return eventHandler.getCurrentState();
   }
 
-  setIsLoggedIn (isLoggedIn) {
+  setIsLoggedIn(isLoggedIn) {
     this.isLoggedIn = isLoggedIn;
   }
-  getIsLoggedIn () {
+  getIsLoggedIn() {
     return this.isLoggedIn;
   }
 }
