@@ -20,16 +20,16 @@ import {
   transferCall
 } from './../../../utils/acutils';
 
-import lo from 'lodash';
+import _ from 'lodash';
 import styles from './agentview.css';
 
 /*
-	Card lower body. Mainly the lower part of the card body.
-	It shows
-	1. hold
-	2. mute
-	3. dial number
-	4. quick connect
+Card lower body. Mainly the lower part of the card body.
+It shows
+1. hold
+2. mute
+3. dial number
+4. quick connect
 */
 
 class LowerBody extends Component {
@@ -68,55 +68,58 @@ class LowerBody extends Component {
   render () {
     const { currentState, muted } = this.props;
     const currentStateAsString = sessionManager.getCurrentStateString(currentState, true);
+    const isCallOnHold = isHold(currentStateAsString);
     return (
       <div className="row">
         <div className="col-12">
           {
             showHoldOrMute(currentStateAsString) &&
-                        <div className="row mt-3">
-                          <div className="col-6">
-                            <a className={`btn ${styles.toggleHold}`}
-                              onClick={() => this.toggleHold(currentStateAsString)}>
-                              <img
-                                src={isHold(currentStateAsString) ? resumeIcon : holdIcon}/> &nbsp; {isHold(currentStateAsString) ? 'Resume' : 'Hold'}
-                            </a>
-                          </div>
+            <div className="row mt-3">
+              <div className="col-6">
+                <a id={isCallOnHold ? 'dialer_on_call_resume' : 'dialer_on_call_hold'}
+                  className={`btn ${styles.toggleHold}`}
+                  onClick={() => this.toggleHold(currentStateAsString)}>
+                  <img
+                    src={isCallOnHold ? resumeIcon : holdIcon} /> &nbsp; {isCallOnHold ? 'Resume' : 'Hold'}
+                </a>
+              </div>
 
-                          <div className="col-6">
-                            <a onClick={this.toggleMuteUnmute}
-                              className={`btn pl-0 pr-0 ${styles.toggleMute}`}
-                            > {muted ? <img src={unMuteIcon}/> : <img src={muteIcon}/>}
-                              {muted ? ' Unmute' : ' Mute'}
-                            </a>
-                          </div>
-                        </div>
+              <div className="col-6">
+                <a id={muted ? 'dialer_on_call_unmute' : 'dialer_on_call_mute'}
+                  onClick={this.toggleMuteUnmute}
+                  className={`btn pl-0 pr-0 ${styles.toggleMute}`}
+                > {muted ? <img src={unMuteIcon} /> : <img src={muteIcon} />}
+                  {muted ? ' Unmute' : ' Mute'}
+                </a>
+              </div>
+            </div>
           }
           {
             dialOrQuickConnectOrTransfer(currentStateAsString) &&
-                        <div className="row mt-3">
-                          <div className="col-6">
-                            <a className={`btn ${styles.quickConnectOrTransfer}`}
-                              onClick={() => this.requestDialPad()}>
-                              <img src={dialNumberIcon}/> &nbsp;Dial number </a>
-                          </div>
+            <div className="row mt-3">
+              <div className="col-6">
+                <a id='dialer_index_dial_number' className={`btn ${styles.quickConnectOrTransfer}`}
+                  onClick={() => this.requestDialPad()}>
+                  <img src={dialNumberIcon} /> &nbsp;Dial number </a>
+              </div>
 
-                          <div className="col-6">
-                            {
-                              transferCall(currentStateAsString)
-                                ? <a className={`btn pl-0 pr-0 ${styles.quickConnectOrTransfer}`}
-                                  onClick={() => this.requestTransferCall()}>
-                                  <img src={transferIcon}/> &nbsp;Transfer </a>
-                                : <a className={`btn pl-0 pr-0 ${styles.quickConnectOrTransfer}`}
-                                  onClick={() => this.requestQuickConnect()}>
-                                  <img src={quickConnect}/> &nbsp;Quick connects </a>
+              <div className="col-6">
+                {
+                  transferCall(currentStateAsString)
+                    ? <a id='dialer_index_transfer_call' className={`btn pl-0 pr-0 ${styles.quickConnectOrTransfer}`}
+                      onClick={() => this.requestTransferCall()}>
+                      <img src={transferIcon} /> &nbsp;Transfer </a>
+                    : <a id='dialer_index_quick_connects' className={`btn pl-0 pr-0 ${styles.quickConnectOrTransfer}`}
+                      onClick={() => this.requestQuickConnect()}>
+                      <img src={quickConnect} /> &nbsp;Quick connects </a>
 
-                            }
-                          </div>
+                }
+              </div>
 
-                        </div>
+            </div>
           }
           {
-            isAfterCallWork(currentStateAsString) && <QuickFeedback/>
+            isAfterCallWork(currentStateAsString) && <QuickFeedback />
           }
 
         </div>

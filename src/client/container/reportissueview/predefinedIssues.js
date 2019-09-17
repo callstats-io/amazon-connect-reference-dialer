@@ -18,8 +18,9 @@ const PredefinedIssues = ({ onIssueListSelectionChange, issueList }) => (
               <div className="col-12" key={`issue-link-${item.text}`}>
                 <a className={styles.predefinedIssueList}>
                   <img style={{ cursor: 'pointer' }}
-										 onClick={() => onIssueListSelectionChange(issueIndex, itemIndex)}
-										 src={item.marked ? markTrueIcon : markFalseIcon}/> {item.text} </a>
+                    id={item.id || ''}
+                    onClick={() => onIssueListSelectionChange(issueIndex, itemIndex)}
+                    src={item.marked ? markTrueIcon : markFalseIcon}/> {item.text} </a>
               </div>
             ))
           }

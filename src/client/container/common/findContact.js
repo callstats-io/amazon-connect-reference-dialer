@@ -15,7 +15,7 @@ const FindContact = ({ contactChange, dialNumber, contactValue = '', isContactLi
       </div>
     </div>
     <div className={`col-3 text-right pl-0 mr-0`}>
-      <a className={`btn ${styles.callPhoneDialButton} ${isContactListHover ? 'd-none' : ''}`} onClick={dialNumber}>
+      <a id='dialer_quick_connects_search_dial' className={`btn ${styles.callPhoneDialButton} ${isContactListHover ? 'd-none' : ''}`} onClick={dialNumber}>
         Dial
       </a>
     </div>

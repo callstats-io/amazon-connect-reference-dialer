@@ -5,9 +5,10 @@ import downloadIcon from '../../../res/images/fa-download.svg';
 
 const DownloadLogs = ({ divClass = '', linkClass = '', style = {}, onClickHandler }) => (
   <div className={divClass}>
-    <a className={linkClass}
-		   style={style}
-		   onClick={onClickHandler}
+    <a id='dialer_settings_download_logs'
+      className={linkClass}
+      style={style}
+      onClick={onClickHandler}
     > <img src={downloadIcon}/> Download logs </a>
   </div>
 );

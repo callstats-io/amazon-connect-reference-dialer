@@ -12,6 +12,7 @@ const Footer = ({ requestReportACallIssue }) => (
   <div className={`card-footer ${styles.footerMain}`}>
     <div className="row">
       <ReportACall
+        id='dialer_connect_check_report_issue'
         divClass={'col-6 p-0 text-left'}
         linkClass={'btn'}
         style={{ cursor: 'pointer', color: '#3885de', fontFamily: 'AmazonEmber', fontSize: '14px', borderRadius: '0' }}

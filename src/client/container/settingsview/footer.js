@@ -51,7 +51,8 @@ const FooterStyle = {
 const Footer = ({ requestReportACallIssue, requestConnectivityCheck }) => (
   <div className='card-footer' style={cardFooter}>
     <div className='row'>
-      <ReportACall divClass={FooterStyle.reportCall.divClass}
+      <ReportACall id='dialer_settings_report_issue'
+        divClass={FooterStyle.reportCall.divClass}
         linkClass={FooterStyle.reportCall.linkClass}
         style={FooterStyle.reportCall.style}
         onClickHandler={requestReportACallIssue} />

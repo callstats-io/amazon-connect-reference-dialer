@@ -9,12 +9,12 @@ import {
 const DropDownOptions = ({ toggleMenuItem, changeAudioInputDevice, showMenuItem, inputDeviceList, audioInputDevice = {} }) => (
   <div className="col-10 pr-0 mr-0">
     <div className={`btn-group ${styles.btnGroup}`}>
-      <button className={`btn text-left ${styles.dropDownButton}`}
+      <button id="dialer_settings_input_device" className={`btn text-left ${styles.dropDownButton}`}
         type="button"
         onClick={toggleMenuItem}> {truncate(audioInputDevice.label, 30)}
       </button>
 
-      <button onClick={toggleMenuItem} type="button"
+      <button id="dialer_settings_input_device" onClick={toggleMenuItem} type="button"
         className={`btn dropdown-toggle dropdown-toggle-split ${styles.btnDropDown}`}
         aria-haspopup="true" aria-expanded="false">
         <span className="sr-only">Toggle Dropdown</span>

@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ReportACall = ({ divClass = '', linkClass = '', style = {}, onClickHandler }) => (
+const ReportACall = ({ id = '', divClass = '', linkClass = '', style = {}, onClickHandler }) => (
   <div className={divClass}>
-    <a className={linkClass}
-		   style={style}
-		   onClick={onClickHandler}
-    > Report a call
-			issue </a>
+    <a id={id}
+      className={linkClass}
+      style={style}
+      onClick={onClickHandler}
+    > Report a call issue </a>
   </div>
 );
 
 ReportACall.propTypes = {
+  id: PropTypes.string,
   divClass: PropTypes.string,
   linkClass: PropTypes.string,
   style: PropTypes.object,
