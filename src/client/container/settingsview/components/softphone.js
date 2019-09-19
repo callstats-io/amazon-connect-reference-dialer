@@ -7,8 +7,9 @@ import circleUnmarkIcon from './../../../res/images/fa-circle-unmark.svg';
 import styles from './../settings.css';
 
 const SoftPhone = ({ changeToSoftphone, enabled = false }) => (
-  <div className={`row mt-2 ${styles.cursor}`}
-		 onClick={changeToSoftphone}>
+  <div id='dialer_settings_soft_phone'
+    className={`row mt-2 ${styles.cursor}`}
+    onClick={changeToSoftphone}>
     <div className="col-2">
       <img src={enabled ? circleMarkIcon : circleUnmarkIcon}/></div>
 

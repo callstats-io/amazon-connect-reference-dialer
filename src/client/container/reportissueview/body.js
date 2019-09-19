@@ -25,11 +25,11 @@ const selectedIssueCount = (issueList) => {
 const BodyHeader = ({ closeReportCallIssue }) => (
   <div className="row ">
     <div className="col-10">
-      <span className={styles.cardBodyHeader}>Report a
-				call issue</span>
+      <span className={styles.cardBodyHeader}>Report a call issue</span>
     </div>
     <div className="col-2"
-			 onClick={closeReportCallIssue}>
+      id='dialer_report_issue_close'
+      onClick={closeReportCallIssue}>
       <img src={closeOrDismissIcon} className={styles.cursor}/></div>
   </div>
 );

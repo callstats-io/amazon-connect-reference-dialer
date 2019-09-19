@@ -23,7 +23,7 @@ class EachContact extends React.Component {
           </a>
         </div>
         <div className={`col-3 text-right pr-0`}>
-          <a className={`btn ${this.props.styles.dialButton}`} onClick={() => this.props.dialContact(this.props.currentContact)}>
+          <a id='dialer_quick_connects_list_item_dial' className={`btn ${this.props.styles.dialButton}`} onClick={() => this.props.dialContact(this.props.currentContact)}>
             Dial
           </a>
         </div>

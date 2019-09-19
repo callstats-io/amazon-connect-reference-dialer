@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 const ConnectivityCheck = ({ divClass = '', linkClass = '', style = {}, onClickHandler }) => (
   <div className={divClass}>
-    <a className={linkClass}
-		   style={style}
-		   onClick={onClickHandler}
-    > Connectivity
-			check </a>
+    <a id='dialer_settings_connect_check'
+      className={linkClass}
+      style={style}
+      onClick={onClickHandler}
+    > Connectivity check </a>
   </div>
 );
 

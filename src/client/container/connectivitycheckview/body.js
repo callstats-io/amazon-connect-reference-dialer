@@ -65,7 +65,7 @@ class Body extends Component {
           </div>
           <div className="col-3 p-0 m-0">
             {this.state.inProgress ? <Loading/>
-              : <a className={`btn text-left p-0 m-0 ${styles.reRunButton} ${styles.cursor}`}
+              : <a id='dialer_connect_check_rerun' className={`btn text-left p-0 m-0 ${styles.reRunButton} ${styles.cursor}`}
                 onClick={() => this.doPrecalTest()}>
                 <img className="fa-dial-button" src={rerunIcon}/> Rerun </a>
             }

@@ -28,7 +28,7 @@ class Footer extends Component {
     return (
       <div className={`card-footer ${styles.acFooter}`}>
         <div className={`row ${styles.acFooterChild}`}>
-          <div className="col-12" onClick={this.logout}>
+          <div id='dialer_state_log_out' className="col-12" onClick={this.logout}>
             <a className={`${styles.acLink} ${styles.acPointer}`}>Log out</a>
           </div>
         </div>

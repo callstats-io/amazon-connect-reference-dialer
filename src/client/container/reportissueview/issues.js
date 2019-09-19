@@ -7,7 +7,7 @@ const issueList = [
   {
     name: '',
     items: [
-      { text: 'I need help, contact me', marked: false }
+      { text: 'I need help, contact me', marked: false, id: 'dialer_report_issue_need_help' }
     ]
   },
   {

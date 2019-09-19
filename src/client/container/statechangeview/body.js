@@ -26,7 +26,7 @@ const isCurrentState = (currentAgentState, currentState) => {
 const Body = ({ currentState = {}, requestAgentStateChange }) => (
   <div className={`card-body`}>
     {sessionManage.getAgentStates().map((currentAgentState) => (
-      <div key={`agent-state-${currentAgentState.name}`} className={`row ${styles.acPointer} ${styles.acList}`}
+      <div id={`dialer_state_${currentAgentState.name.replace(/\s/g, '')}`} key={`agent-state-${currentAgentState.name}`} className={`row ${styles.acPointer} ${styles.acList}`}
         onClick={() => requestAgentStateChange(currentAgentState)}>
         <div className="col-2">
           {isCurrentState(currentAgentState, currentState) && <img src={activeIcon}/>}
