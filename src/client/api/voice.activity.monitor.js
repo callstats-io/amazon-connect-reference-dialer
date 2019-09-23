@@ -17,9 +17,14 @@ class VoiceActivityMonitor {
     this.name = 'VoiceActivityMonitor';
     this.agentSpeechEvent = undefined;
     this.customerSpeechEvent = undefined;
+    this.agentVolume = 0;
+    this.customerVolume = 0;
+    this.talkingState = '';
 
     this.previousActivityState = 0;
     this.eventList = [];
+
+    this.getVoiceActivity = this.getVoiceActivity.bind(this);
   }
 
   async isBlackListedDevice () {
@@ -49,6 +54,7 @@ class VoiceActivityMonitor {
    * @param eventType
    */
   bundleVoiceActivityEvents (eventType = null) {
+    this.talkingState = eventType;
     const event = {
       type: eventType,
       timestamp: getTimestamp()
@@ -95,35 +101,47 @@ class VoiceActivityMonitor {
     if (!(localStream && remoteStream)) {
       return undefined;
     }
+
     this.stopAsync().then(async () => {
-      const isBlacklisted = await this.isBlackListedDevice();
-      if (isBlacklisted) {
-        console.warn('Omit monitoring voice detection for this device since it is done by device');
-        return;
-      }
+      // disable black listing for test purpose
+      // const isBlacklisted = await this.isBlackListedDevice();
+      // if (isBlacklisted) {
+      //   console.warn('Omit monitoring voice detection for this device since it is done by device');
+      //   return;
+      // }
       this.agentSpeechEvent = new Hark(localStream, {});
       this.customerSpeechEvent = new Hark(remoteStream, {});
+
+      this.agentSpeechEvent.on('volume_change', (db) => {
+        this.agentVolume = Math.round(db);
+      });
       this.agentSpeechEvent.on('speaking', () => {
-        this.activityMonitor(this.previousActivityState | AGENT_SPEAKING);
+        this.activityMonitor(this.previousActivityState | AGENT_SPEAKING, this.agentVolume, this.customerVolume);
       });
       this.agentSpeechEvent.on('stopped_speaking', () => {
-        this.activityMonitor(this.previousActivityState ^ AGENT_SPEAKING);
+        this.activityMonitor(this.previousActivityState ^ AGENT_SPEAKING, this.agentVolume, this.customerVolume);
+      });
+
+      this.customerSpeechEvent.on('volume_change', (db) => {
+        this.customerVolume = Math.round(db);
       });
       this.customerSpeechEvent.on('speaking', () => {
-        this.activityMonitor(this.previousActivityState | CUSTOMER_SPEAKING);
+        this.activityMonitor(this.previousActivityState | CUSTOMER_SPEAKING, this.agentVolume, this.customerVolume);
       });
       this.customerSpeechEvent.on('stopped_speaking', () => {
-        this.activityMonitor(this.previousActivityState ^ CUSTOMER_SPEAKING);
+        this.activityMonitor(this.previousActivityState ^ CUSTOMER_SPEAKING, this.agentVolume, this.customerVolume);
       });
     });
   }
-
   /**
    * @public
    * Stop voice activity monitor
    */
   async stopAsync () {
     this.previousActivityState = 0;
+    this.agentVolume = 0;
+    this.customerVolume = 0;
+    this.talkingState = '';
     if (this.eventList.length > 0) {
       this.sendCustomEvent();
     }
@@ -135,6 +153,30 @@ class VoiceActivityMonitor {
       this.customerSpeechEvent.stop();
       this.customerSpeechEvent = undefined;
     }
+  }
+
+  /**
+   * @public
+   * Get voice activity
+   * @return {Promise<undefined>|String}
+   */
+  async getVoiceActivity () {
+    // this.activity = {
+    //   signal: 0, // agent audio volume
+    //   rssi: 0, // customer audio volume
+    //   timestamp: 0, // current timestamp
+    //   interface: '', // current speaking state. can be 'agent speaking, customer speaking, or cross talk'
+    //   noise: 0,
+    //   addresses: [] // optional
+    // };
+    return JSON.stringify({
+      signal: this.agentVolume, // agent audio volume
+      rssi: this.customerVolume, // customer audio volume
+      timestamp: getTimestamp(), // current timestamp
+      interface: this.talkingState, // current speaking state. can be 'agent speaking, customer speaking, or cross talk'
+      noise: 0,
+      addresses: [] // optional
+    });
   }
 }
 

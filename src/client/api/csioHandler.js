@@ -1,6 +1,7 @@
 'use strict';
 import networkStrengthMonitor from './networkStrengthMonitor';
 import audioFrequencyMonitor from './audioFrequencyMonitor';
+import voiceActivityMonitor from './voice.activity.monitor';
 
 import lo from 'lodash';
 import databaseManager from './databaseManager';
@@ -145,6 +146,9 @@ class CSIOHandler {
     this.callstatsac = CallstatsAmazonShim.initialize(connect, appId, appSecret, localUserId, configParams, this.onCSIOInitialize, this.onCSIOStats);
     this.callstatsac.on('recommendedConfig', this.onCSIORecommendedConfigCallback.bind(this));
     this.callstatsac.on('preCallTestResults', this.onCSIOPrecalltestCallback.bind(this));
+
+    // attach wifi stats hook - going to use it for sending hark related events
+    this.callstatsac.attachWifiStatsHandler(voiceActivityMonitor.getVoiceActivity);
 
     // add agent monitor
     if (this.agentMonitor && typeof this.agentMonitor.initialize === 'function') {
