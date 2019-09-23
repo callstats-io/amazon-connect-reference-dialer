@@ -22,6 +22,7 @@ class VoiceActivityMonitor {
     this.talkingState = '';
 
     this.previousActivityState = 0;
+    this.changed = false;
     this.eventList = [];
 
     this.getVoiceActivity = this.getVoiceActivity.bind(this);
@@ -54,6 +55,7 @@ class VoiceActivityMonitor {
    * @param eventType
    */
   bundleVoiceActivityEvents (eventType = null) {
+    this.changed = true;
     this.talkingState = eventType;
     const event = {
       type: eventType,
@@ -169,14 +171,17 @@ class VoiceActivityMonitor {
     //   noise: 0,
     //   addresses: [] // optional
     // };
-    return JSON.stringify({
+    const payload = {
       signal: this.agentVolume, // agent audio volume
       rssi: this.customerVolume, // customer audio volume
       timestamp: getTimestamp(), // current timestamp
-      interface: this.talkingState, // current speaking state. can be 'agent speaking, customer speaking, or cross talk'
+      interface: this.changed ? this.talkingState : 'noop', // current speaking state. can be 'agent speaking, customer speaking, or cross talk'
       noise: 0,
       addresses: [] // optional
-    });
+    };
+    this.changed = false;
+    console.warn('~', payload);
+    return JSON.stringify(payload);
   }
 }
 
