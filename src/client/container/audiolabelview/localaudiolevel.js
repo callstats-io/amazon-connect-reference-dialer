@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import mediaManager from './../../api/mediaManager';
 import sessionManager from './../../api/sessionManager';
 import AudioFrequencyMonitor from './controller';
-import voiceActivityMonitor from '../../api/voice.activity.monitor';
 
 const style = {
   fill: '#ffffff',
@@ -40,14 +39,12 @@ class LocalAudiolevel extends React.Component {
     this._fetchMediaInternals(mediaRetryCount).then(localStream => {
       mediaManager.setLocalStream(localStream);
       this.audioControler.renderStream(localStream);
-      voiceActivityMonitor.mayBeStart();
     }).catch(() => {
       this.intervalId = setInterval(async () => {
         try {
           const localStream = await this._fetchMediaInternals(mediaRetryCount);
           this.clearInterval();
           this.audioControler.renderStream(localStream);
-          voiceActivityMonitor.mayBeStart();
         } catch (err) {
           // console.warn('~fetchMedia', err);
           if (mediaRetryCount < 1) {
