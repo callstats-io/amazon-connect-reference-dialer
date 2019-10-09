@@ -1,6 +1,6 @@
 # Step 1: Install callstats.io Custom Dialer
 1. Login to your salesforce account and make sure your session has not timed out. 
-2. Install the unmanaged package: https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2o000000fN59
+2. Install the unmanaged package: https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2o000000fwPi
 3. If there is a conflict in the package then click on “do not install”
    If prompt of acknowledge of Non-Salesforce Application select the checkbox
 4. Select install for all users. 
