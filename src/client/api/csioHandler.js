@@ -137,7 +137,7 @@ class CSIOHandler {
       siteID: this.getRandomSiteId(),
       enableJabraCollection: enableJabraCollection
     };
-    console.log('JabraCollection' + ENABLE_JABRA_COLLECTION);
+
     if (this.callstatsac) {
       this.callstatsac = undefined;
     }
@@ -197,16 +197,6 @@ class CSIOHandler {
         CallstatsAmazonShim.sendFabricEvent(this.callstatsac.fabricEvent.activeDeviceList, eventData);
       })
       .catch(() => {});
-  }
-
-  /**
-   * Send custom event to csio endpoint
-   * @param {Array<String>} eventType
-   */
-  sendCustomVoiceActivity (eventType = []) {
-    if (CallstatsAmazonShim && typeof CallstatsAmazonShim.sendCustomEvent === 'function') {
-      CallstatsAmazonShim.sendCustomEvent(eventType);
-    }
   }
 }
 

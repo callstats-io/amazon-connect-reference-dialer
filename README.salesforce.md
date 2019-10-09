@@ -1,6 +1,6 @@
 # Step 1: Install callstats.io Custom Dialer
 1. Login to your salesforce account and make sure your session has not timed out. 
-2. Install the unmanaged package: https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2o000000duoi
+2. Install the unmanaged package: https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2o000000fN59
 3. If there is a conflict in the package then click on “do not install”
    If prompt of acknowledge of Non-Salesforce Application select the checkbox
 4. Select install for all users. 
@@ -31,8 +31,9 @@
     - CTI Adapter URL - The above custom dialer page URL e.g. `https://callstats.someInstance.visual.force.com/apex/custom_dialer`
 5. In “Connecting settings” fill in your 
     - Amazon Connect CCP URL - Your Amazon Connect CCP URL e.g. callstatsio.awsapps.com
-    - application ID - Your application ID from callstats.io 
-    - application Secret - Your application secret from callstats.io 
+    - AppId - Your application ID from callstats.io 
+    - App Secret - Your application secret from callstats.io 
+    - Jabra Collection - fill in 'enable' to enable collecting your Jabra headset stats(only available for Jabra Engage 50 currently)
 6. Click “Save”
 7. Click on 'Manage Call Center Users' at the bottom of the page 
 8. Click on “Add more users”

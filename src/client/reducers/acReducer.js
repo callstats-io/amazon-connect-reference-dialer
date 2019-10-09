@@ -262,6 +262,9 @@ const acReducer = (state = INITIAL_STATE, action) => {
         remoteStream: action.remoteStream
       };
     case 'onCCPError':
+      if (window.heap) {
+        window.heap.track('Dialer on CCP Error', action.errorMessage);
+      }
       return {
         ...state,
         errorMessage: action.errorMessage

@@ -8,7 +8,6 @@ import {
 import csioHandler from './csioHandler';
 import acManager from './acManager';
 import sessionManage from './sessionManager';
-import voiceActivityMonitor from './voice.activity.monitor';
 import mediaManager from './mediaManager';
 import { noop } from '../utils/acutils';
 
@@ -226,12 +225,10 @@ class EventHandler {
       bus.subscribe(connect.ContactEvents.ENDED, () => {
         currentContact = undefined;
         mediaManager.setRemoteStream(undefined);
-        voiceActivityMonitor.stopAsync().then(noop).catch(noop);
       });
       bus.subscribe(connect.ContactEvents.DESTROYED, () => {
         currentContact = undefined;
         mediaManager.setRemoteStream(undefined);
-        voiceActivityMonitor.stopAsync().then(noop).catch(noop);
       });
       bus.subscribe(connect.ContactEvents.CONNECTED, e => {
         const remoteStream = csioHandler.getRemoteStream();
