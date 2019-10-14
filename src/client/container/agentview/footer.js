@@ -116,12 +116,13 @@ const _showAvailable = (currentState = undefined) => {
   const agentState = getCurrentStateString(currentState);
   return !_showEndCall(currentState) &&
 		!_acceptRejectCall(currentState) &&
+    agentState !== 'Busy' &&
 		agentState !== 'Available';
 };
 
 const _showEndCall = (currentState = undefined) => {
   const agentState = getCurrentStateString(currentState);
-  return ['Connected', 'Joined', 'Outbound Call', 'Outbound call', 'On hold', 'Hold'].includes(agentState);
+  return ['Connected', 'Joined', 'Outbound Call', 'Outbound call', 'On hold', 'Hold', 'Connecting callback', 'Busy'].includes(agentState);
 };
 
 const _acceptRejectCall = (currentState = undefined) => {

@@ -20,7 +20,9 @@ const colorSchema = {
   outboundcall: '#4393CA',
   default: '#666666',
   error: '#ffffff',
-  callbackincoming: '#4393CA'
+  callbackincoming: '#4393CA',
+  callbackmissed: '#F5A623',
+  connectingcallback: '#4393CA'
 };
 
 export const getColorSchema = (agentState) => {

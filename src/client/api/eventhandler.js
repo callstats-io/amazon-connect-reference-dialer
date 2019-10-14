@@ -29,16 +29,20 @@ const isError = (e) => {
   }
 };
 const getAgentState = (e) => {
-  const { agent, newState } = e;
+  const { agent, newState, oldState } = e;
+  let currentState = newState;
   const currentAgentStates = sessionManage.getAgentStates();
   // merge the known state and dynamic agent states
   const agentStates = [ ...knownAgentStates, ...currentAgentStates.map(state => state.name) ];
   if (!agentStates.includes(newState)) {
     return undefined;
   }
+  if (oldState === 'Pending' && newState === 'Default') {
+    currentState = 'Callback missed';
+  }
   const duration = agent.getStateDuration();
   return {
-    state: newState,
+    state: currentState,
     duration: duration,
     agent: agent
   };
@@ -104,7 +108,9 @@ const getConnectionState = (contact = undefined, isPrimary = true) => {
   }
   // console.warn('~', connection.isActive(), connection.isConnected(), connection.isConnecting(), connection.getType(), currentAgent.agent.getState());
   let state;
-  if (isOutbound(connection)) {
+  if (isOutbound(connection) && contact.getType() === 'queue_callback') {
+    state = 'Connecting callback';
+  } else if (isOutbound(connection)) {
     state = 'Outbound call';
   } else if (isInbound(connection)) {
     state = 'Inbound call';
