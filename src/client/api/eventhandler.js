@@ -22,7 +22,7 @@ let currentAgent;
 let currentContact;
 let currentState;
 
-const knownAgentStates = ['Init', 'Available', 'Offline', 'AfterCallWork', 'FailedConnectCustomer', 'FailedConnectAgent', 'Quality Issue', 'AgentHungUp'];
+const knownAgentStates = ['Init', 'Default', 'Pending', 'Available', 'Offline', 'AfterCallWork', 'FailedConnectCustomer', 'FailedConnectAgent', 'Quality Issue', 'AgentHungUp'];
 const isError = (e) => {
   if (e && e.errorType && e.errorMessage) {
     return true;
@@ -85,6 +85,13 @@ const isHold = (connection) => {
   return connection && connection.isActive() && connection.isOnHold();
 };
 
+const isPending = (connection, contact) => {
+  return connection && connection.isActive() && connection.isConnected() &&
+    connection.getType() === 'inbound' &&
+    currentAgent.agent.getState().name === 'Pending' &&
+    contact.getType() === 'queue_callback';
+};
+
 const getStateDuration = (connection) => {
   let duration = connection && connection.getStatusDuration();
   return duration;
@@ -107,6 +114,8 @@ const getConnectionState = (contact = undefined, isPrimary = true) => {
     state = 'Connected';
   } else if (isHold(connection)) {
     state = 'On hold';
+  } else if (contact && isPending(connection, contact)) {
+    state = 'Callback incoming';
   }
 
   let duration = getStateDuration(connection);

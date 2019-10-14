@@ -19,7 +19,8 @@ const colorSchema = {
   failedconnectagent: '#F5A623',
   outboundcall: '#4393CA',
   default: '#666666',
-  error: '#ffffff'
+  error: '#ffffff',
+  callbackincoming: '#4393CA'
 };
 
 export const getColorSchema = (agentState) => {

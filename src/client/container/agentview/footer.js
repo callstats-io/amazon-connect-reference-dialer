@@ -126,7 +126,7 @@ const _showEndCall = (currentState = undefined) => {
 
 const _acceptRejectCall = (currentState = undefined) => {
   const agentState = getCurrentStateString(currentState);
-  return ['Inbound Call', 'Inbound call'].includes(agentState);
+  return ['Inbound Call', 'Inbound call', 'Callback incoming'].includes(agentState);
 };
 
 const Footer = ({ currentState = {} }) => (
