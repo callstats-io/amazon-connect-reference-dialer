@@ -4,7 +4,7 @@ import acManager from '../../../api/acManager';
 import { isAfterCallWork } from '../../../utils/acutils';
 import sessionManage from '../../../api/sessionManager';
 
-// take existing class and add disabled is it is not after call work
+// take existing class and add disabled if it is not after call work
 const getClass = (prvClass = '') => {
   const currentState = acManager.getCurrentState();
   const primaryState = sessionManage.getCurrentStateString(currentState, true);
