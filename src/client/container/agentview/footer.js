@@ -8,6 +8,7 @@ import AvailableOrEnd from '../footer/components/availableOrEnd';
 import sessionManager from '../../api/sessionManager';
 import feedbackHandler from '../../api/feedbackHandler';
 import lo from 'lodash';
+import csioHandler from '../../api/csioHandler';
 
 const AgentViewStyle = {
   accept: {
@@ -93,6 +94,7 @@ const isSingle = (currentState = undefined) => {
 
 const setAvailable = () => {
   if (!feedbackHandler.showFeedbackReports()) {
+    csioHandler.sendFeedbackRating(feedbackHandler.getFeedbackRatings());
     feedbackHandler.updateFeedback(0);
     sessionManager.setAgentAvailable();
     return;
