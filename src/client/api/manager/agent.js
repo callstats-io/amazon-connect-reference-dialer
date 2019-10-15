@@ -1,3 +1,5 @@
+import lo from 'lodash';
+
 export const getQuickConnectionList = (agent = undefined) => {
   return new Promise((resolve, reject) => {
     if (!agent) {
@@ -191,4 +193,11 @@ export const setAgentAvailable = (agent = undefined) => {
       }
     });
   });
+};
+
+export const getCallbackQueue = (agent = undefined) => {
+  if (!agent) {
+    return undefined;
+  }
+  return lo.first(agent.getContacts('queue_callback')) || undefined;
 };

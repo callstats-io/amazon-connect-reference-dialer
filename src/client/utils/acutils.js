@@ -1,3 +1,5 @@
+import sessionManage from '../api/sessionManager';
+
 const toStr = (num) => {
   return (num < 10 ? '0' : '') + parseInt(num);
 };
@@ -43,7 +45,7 @@ export const showHoldOrMute = (currentStateAsString = undefined) => {
 };
 
 export const dialOrQuickConnectOrTransfer = (currentStateAsString = undefined) => {
-  return ['Inbound call', 'Outbound call'].includes(currentStateAsString) === false;
+  return ['Inbound call', 'Outbound call', 'Callback incoming'].includes(currentStateAsString) === false;
 };
 
 export const isAfterCallWork = (currentStateAsString = undefined) => {
@@ -53,6 +55,13 @@ export const isAfterCallWork = (currentStateAsString = undefined) => {
 export const isHold = (currentStateAsString = undefined) => {
   // 'Hold', 'hold', 'On hold'
   return ['On hold', 'Hold', 'hold'].includes(currentStateAsString);
+};
+
+export const isCallbackMissed = (agent = undefined, state = undefined) => {
+  if (!agent) {
+    return false;
+  }
+  return state === 'Default' && sessionManage.getCallbackQueue();
 };
 
 // ['Join', 'Joined', 'Connected'].includes(state);

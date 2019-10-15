@@ -5,11 +5,20 @@ import {
   onStateChange
 } from '../reducers/acReducer';
 
+import {
+  isCallbackMissed
+} from '../utils/acutils';
+
 import csioHandler from './csioHandler';
 import acManager from './acManager';
 import sessionManage from './sessionManager';
 import mediaManager from './mediaManager';
-import { noop } from '../utils/acutils';
+
+// else if (utils.getQueueCallBackContact() != null && agentStatus === lily.AgentErrorStates.DEFAULT) {
+//   self.setCcpState(CCP_UI_STATES.MISSED, CALL_ERRORS[lily.AgentErrorStates.MISSED_QUEUE_CALLBACK]);
+// } else {
+//   self.setCcpErrorState(CALL_ERRORS[agentStatus]);
+// }
 
 // Outbound call = connection.isActive() && connection.isConnecting() && connection.getType() === 'outbound'
 // Incoming call = connection.isActive() && connection.isConnecting() && connection.getType() === 'inbound'
@@ -22,19 +31,23 @@ let currentAgent;
 let currentContact;
 let currentState;
 
-const knownAgentStates = ['Init', 'Available', 'Offline', 'AfterCallWork', 'FailedConnectCustomer', 'FailedConnectAgent', 'Quality Issue', 'AgentHungUp'];
+const knownAgentStates = ['Init', 'Default', 'Available', 'Offline', 'AfterCallWork', 'FailedConnectCustomer', 'FailedConnectAgent', 'Quality Issue', 'AgentHungUp'];
 const isError = (e) => {
   if (e && e.errorType && e.errorMessage) {
     return true;
   }
 };
+
 const getAgentState = (e) => {
-  const { agent, newState } = e;
+  let { agent, newState } = e;
   const currentAgentStates = sessionManage.getAgentStates();
   // merge the known state and dynamic agent states
   const agentStates = [ ...knownAgentStates, ...currentAgentStates.map(state => state.name) ];
   if (!agentStates.includes(newState)) {
     return undefined;
+  }
+  if (isCallbackMissed(agent, newState)) {
+    newState = 'Callback missed';
   }
   const duration = agent.getStateDuration();
   return {
@@ -62,6 +75,18 @@ const isInbound = (connection) => {
   return connection && connection.isActive() && connection.isConnected() &&
         connection.getType() === 'inbound' &&
         currentAgent.agent.getState().name === 'PendingBusy';
+};
+
+const isConnecting = (connection) => {
+  return connection && connection.isActive() && connection.isConnected() === false &&
+    connection.isConnecting() === true && connection.getType() === 'inbound' &&
+    currentAgent.agent.getState().name === 'CallingCustomer';
+};
+
+const isInboundCallback = (connection) => {
+  return connection && connection.isActive() && connection.isConnected() &&
+    connection.getType() === 'inbound' &&
+    currentAgent.agent.getState().name === 'Pending';
 };
 
 const isMissedCall = (connection) => {
@@ -95,7 +120,7 @@ const getConnectionState = (contact = undefined, isPrimary = true) => {
   if (!connection) {
     return undefined;
   }
-  // console.warn('~', connection.isActive(), connection.isConnected(), connection.isConnecting(), connection.getType(), currentAgent.agent.getState());
+  console.warn('~', connection.isActive(), connection.isConnected(), connection.isConnecting(), connection.getType(), currentAgent.agent.getState());
   let state;
   if (isOutbound(connection)) {
     state = 'Outbound call';
@@ -107,6 +132,10 @@ const getConnectionState = (contact = undefined, isPrimary = true) => {
     state = 'Connected';
   } else if (isHold(connection)) {
     state = 'On hold';
+  } else if (isInboundCallback(connection)) {
+    state = 'Callback incoming';
+  } else if (isConnecting(connection)) {
+    state = 'Connecting';
   }
 
   let duration = getStateDuration(connection);
@@ -183,7 +212,7 @@ class EventHandler {
         const connection1 = getConnectionState(e, true);
         const connection2 = getConnectionState(e, false);
         const { primaryConnectionState, thirdPartyConnectionState } = mayBeUpdateToJoined(connection1, connection2);
-        // console.warn('~REFRESH', primaryConnectionState, thirdPartyConnectionState, isMultipartyCall(e));
+        console.warn('~REFRESH', primaryConnectionState, thirdPartyConnectionState, isMultipartyCall(e));
         // if there is a agent side error
         // ignore checking connections
         const parseAgentState = () => {
