@@ -14,12 +14,6 @@ import acManager from './acManager';
 import sessionManage from './sessionManager';
 import mediaManager from './mediaManager';
 
-// else if (utils.getQueueCallBackContact() != null && agentStatus === lily.AgentErrorStates.DEFAULT) {
-//   self.setCcpState(CCP_UI_STATES.MISSED, CALL_ERRORS[lily.AgentErrorStates.MISSED_QUEUE_CALLBACK]);
-// } else {
-//   self.setCcpErrorState(CALL_ERRORS[agentStatus]);
-// }
-
 // Outbound call = connection.isActive() && connection.isConnecting() && connection.getType() === 'outbound'
 // Incoming call = connection.isActive() && connection.isConnecting() && connection.getType() === 'inbound'
 // Connected = connection.isActive() && connection.isConnected() && isMultipartyCall() === false;
