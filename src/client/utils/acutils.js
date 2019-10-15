@@ -45,7 +45,7 @@ export const showHoldOrMute = (currentStateAsString = undefined) => {
 };
 
 export const dialOrQuickConnectOrTransfer = (currentStateAsString = undefined) => {
-  return ['Inbound call', 'Outbound call', 'Callback incoming'].includes(currentStateAsString) === false;
+  return ['Inbound call', 'Outbound call', 'Callback incoming', 'Connecting'].includes(currentStateAsString) === false;
 };
 
 export const isAfterCallWork = (currentStateAsString = undefined) => {
