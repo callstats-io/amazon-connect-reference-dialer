@@ -15,7 +15,8 @@ import {
   changeToDeskphone,
   getDialableCountries,
   setAgentAvailable,
-  getEndpointByPhone
+  getEndpointByPhone,
+  getCallbackQueue
 } from './manager/agent';
 
 import {
@@ -299,6 +300,11 @@ class SessionManager {
 
   getIsLoggedIn () {
     return acManager.getIsLoggedIn();
+  }
+
+  getCallbackQueue () {
+    const agent = agentHandler.getAgent();
+    return getCallbackQueue(agent);
   }
 }
 

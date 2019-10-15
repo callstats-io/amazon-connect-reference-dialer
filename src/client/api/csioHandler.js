@@ -184,7 +184,7 @@ class CSIOHandler {
       overall: Math.max(feedbackRating, 1)
     };
     CallstatsAmazonShim.sendUserFeedback(feedback, msg => {
-      console.warn('on submitted rating ', msg);
+      // console.warn('on submitted rating ', msg);
     });
   }
 

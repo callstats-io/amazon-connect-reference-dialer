@@ -8,6 +8,7 @@ import AvailableOrEnd from '../footer/components/availableOrEnd';
 import sessionManager from '../../api/sessionManager';
 import feedbackHandler from '../../api/feedbackHandler';
 import lo from 'lodash';
+import csioHandler from '../../api/csioHandler';
 
 const AgentViewStyle = {
   accept: {
@@ -93,6 +94,7 @@ const isSingle = (currentState = undefined) => {
 
 const setAvailable = () => {
   if (!feedbackHandler.showFeedbackReports()) {
+    csioHandler.sendFeedbackRating(feedbackHandler.getFeedbackRatings());
     feedbackHandler.updateFeedback(0);
     sessionManager.setAgentAvailable();
     return;
@@ -114,19 +116,21 @@ const acceptCall = () => {
 
 const _showAvailable = (currentState = undefined) => {
   const agentState = getCurrentStateString(currentState);
+  // console.warn('~_showAvailable', currentState, agentState);
   return !_showEndCall(currentState) &&
 		!_acceptRejectCall(currentState) &&
-		agentState !== 'Available';
+		agentState !== 'Available' && agentState !== 'none';
 };
 
 const _showEndCall = (currentState = undefined) => {
   const agentState = getCurrentStateString(currentState);
-  return ['Connected', 'Joined', 'Outbound Call', 'Outbound call', 'On hold', 'Hold'].includes(agentState);
+  // console.warn('~_showEndCall', currentState, agentState);
+  return ['Connected', 'Joined', 'Outbound Call', 'Outbound call', 'On hold', 'Hold', 'Connecting'].includes(agentState);
 };
 
 const _acceptRejectCall = (currentState = undefined) => {
   const agentState = getCurrentStateString(currentState);
-  return ['Inbound Call', 'Inbound call'].includes(agentState);
+  return ['Inbound Call', 'Inbound call', 'Callback incoming'].includes(agentState);
 };
 
 const Footer = ({ currentState = {} }) => (
