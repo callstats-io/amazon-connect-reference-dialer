@@ -116,19 +116,21 @@ const acceptCall = () => {
 
 const _showAvailable = (currentState = undefined) => {
   const agentState = getCurrentStateString(currentState);
+  // console.warn('~_showAvailable', currentState, agentState);
   return !_showEndCall(currentState) &&
 		!_acceptRejectCall(currentState) &&
-		agentState !== 'Available';
+		agentState !== 'Available' && agentState !== 'none';
 };
 
 const _showEndCall = (currentState = undefined) => {
   const agentState = getCurrentStateString(currentState);
-  return ['Connected', 'Joined', 'Outbound Call', 'Outbound call', 'On hold', 'Hold'].includes(agentState);
+  // console.warn('~_showEndCall', currentState, agentState);
+  return ['Connected', 'Joined', 'Outbound Call', 'Outbound call', 'On hold', 'Hold', 'Connecting'].includes(agentState);
 };
 
 const _acceptRejectCall = (currentState = undefined) => {
   const agentState = getCurrentStateString(currentState);
-  return ['Inbound Call', 'Inbound call'].includes(agentState);
+  return ['Inbound Call', 'Inbound call', 'Callback incoming'].includes(agentState);
 };
 
 const Footer = ({ currentState = {} }) => (

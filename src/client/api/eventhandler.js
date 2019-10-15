@@ -5,11 +5,14 @@ import {
   onStateChange
 } from '../reducers/acReducer';
 
+import {
+  isCallbackMissed
+} from '../utils/acutils';
+
 import csioHandler from './csioHandler';
 import acManager from './acManager';
 import sessionManage from './sessionManager';
 import mediaManager from './mediaManager';
-import { noop } from '../utils/acutils';
 
 // Outbound call = connection.isActive() && connection.isConnecting() && connection.getType() === 'outbound'
 // Incoming call = connection.isActive() && connection.isConnecting() && connection.getType() === 'inbound'
@@ -22,14 +25,15 @@ let currentAgent;
 let currentContact;
 let currentState;
 
-const knownAgentStates = ['Init', 'Available', 'Offline', 'AfterCallWork', 'FailedConnectCustomer', 'FailedConnectAgent', 'Quality Issue', 'AgentHungUp'];
+const knownAgentStates = ['Init', 'Default', 'Available', 'Offline', 'AfterCallWork', 'FailedConnectCustomer', 'FailedConnectAgent', 'Quality Issue', 'AgentHungUp'];
 const isError = (e) => {
   if (e && e.errorType && e.errorMessage) {
     return true;
   }
 };
+
 const getAgentState = (e) => {
-  const { agent, newState } = e;
+  let { agent, newState } = e;
   const currentAgentStates = sessionManage.getAgentStates();
   // merge the known state and dynamic agent states
   const agentStates = [ ...knownAgentStates, ...currentAgentStates.map(state => state.name) ];
@@ -37,6 +41,9 @@ const getAgentState = (e) => {
     return undefined;
   }
   const duration = agent.getStateDuration();
+  if (isCallbackMissed(agent, newState)) {
+    newState = 'Callback missed';
+  }
   return {
     state: newState,
     duration: duration,
@@ -62,6 +69,18 @@ const isInbound = (connection) => {
   return connection && connection.isActive() && connection.isConnected() &&
         connection.getType() === 'inbound' &&
         currentAgent.agent.getState().name === 'PendingBusy';
+};
+
+const isConnecting = (connection) => {
+  return connection && connection.isActive() && connection.isConnected() === false &&
+    connection.isConnecting() === true && connection.getType() === 'inbound' &&
+    currentAgent.agent.getState().name === 'CallingCustomer';
+};
+
+const isInboundCallback = (connection) => {
+  return connection && connection.isActive() && connection.isConnected() &&
+    connection.getType() === 'inbound' &&
+    currentAgent.agent.getState().name === 'Pending';
 };
 
 const isMissedCall = (connection) => {
@@ -107,6 +126,10 @@ const getConnectionState = (contact = undefined, isPrimary = true) => {
     state = 'Connected';
   } else if (isHold(connection)) {
     state = 'On hold';
+  } else if (isInboundCallback(connection)) {
+    state = 'Callback incoming';
+  } else if (isConnecting(connection)) {
+    state = 'Connecting';
   }
 
   let duration = getStateDuration(connection);
