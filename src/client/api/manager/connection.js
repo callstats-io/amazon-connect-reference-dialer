@@ -67,7 +67,12 @@ export const getPrimaryConnectionDuration = (currentState = undefined) => {
   let duration = 0;
   // if this is a agent
   if (primaryConnection.agent) {
-    duration = typeof primaryConnection.agent.getStateDuration === 'function' && primaryConnection.agent.getStateDuration();
+    const queueCallbackConnection = lo.first(primaryConnection.agent.getContacts('queue_callback')) || undefined;
+    if (queueCallbackConnection) {
+      duration = typeof queueCallbackConnection.getStatusDuration === 'function' && queueCallbackConnection.getStatusDuration();
+    } else {
+      duration = typeof primaryConnection.agent.getStateDuration === 'function' && primaryConnection.agent.getStateDuration();
+    }
   } else if (primaryConnection.connection) {
     duration = typeof primaryConnection.connection.getStatusDuration === 'function' && primaryConnection.connection.getStatusDuration();
   }

@@ -46,10 +46,10 @@ const getAgentState = (e) => {
   if (!agentStates.includes(newState)) {
     return undefined;
   }
+  const duration = agent.getStateDuration();
   if (isCallbackMissed(agent, newState)) {
     newState = 'Callback missed';
   }
-  const duration = agent.getStateDuration();
   return {
     state: newState,
     duration: duration,
@@ -120,7 +120,7 @@ const getConnectionState = (contact = undefined, isPrimary = true) => {
   if (!connection) {
     return undefined;
   }
-  console.warn('~', connection.isActive(), connection.isConnected(), connection.isConnecting(), connection.getType(), currentAgent.agent.getState());
+  // console.warn('~', connection.isActive(), connection.isConnected(), connection.isConnecting(), connection.getType(), currentAgent.agent.getState());
   let state;
   if (isOutbound(connection)) {
     state = 'Outbound call';
@@ -212,7 +212,7 @@ class EventHandler {
         const connection1 = getConnectionState(e, true);
         const connection2 = getConnectionState(e, false);
         const { primaryConnectionState, thirdPartyConnectionState } = mayBeUpdateToJoined(connection1, connection2);
-        console.warn('~REFRESH', primaryConnectionState, thirdPartyConnectionState, isMultipartyCall(e));
+        // console.warn('~REFRESH', primaryConnectionState, thirdPartyConnectionState, isMultipartyCall(e));
         // if there is a agent side error
         // ignore checking connections
         const parseAgentState = () => {

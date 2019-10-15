@@ -116,7 +116,7 @@ const acceptCall = () => {
 
 const _showAvailable = (currentState = undefined) => {
   const agentState = getCurrentStateString(currentState);
-  console.warn('~_showAvailable', currentState, agentState);
+  // console.warn('~_showAvailable', currentState, agentState);
   return !_showEndCall(currentState) &&
 		!_acceptRejectCall(currentState) &&
 		agentState !== 'Available' && agentState !== 'none';
@@ -124,7 +124,7 @@ const _showAvailable = (currentState = undefined) => {
 
 const _showEndCall = (currentState = undefined) => {
   const agentState = getCurrentStateString(currentState);
-  console.warn('~_showEndCall', currentState, agentState);
+  // console.warn('~_showEndCall', currentState, agentState);
   return ['Connected', 'Joined', 'Outbound Call', 'Outbound call', 'On hold', 'Hold', 'Connecting'].includes(agentState);
 };
 

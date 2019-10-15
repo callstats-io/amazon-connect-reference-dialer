@@ -33,7 +33,7 @@ export const isConferenceConnected = (currentState = '') => {
 };
 
 export const showPhoneNumber = (currentState = '') => {
-  return ['Connected', 'Joined', 'Inbound call', 'Outbound call', 'On hold', 'Hold'].includes(currentState);
+  return ['Connected', 'Joined', 'Inbound call', 'Outbound call', 'On hold', 'Hold', 'Connecting', 'Callback incoming'].includes(currentState);
 };
 
 export const showRemoteAudio = (currentState = '') => {
